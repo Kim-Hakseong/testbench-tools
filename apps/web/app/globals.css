@@ -31,6 +31,15 @@
     color: var(--tb-body);
     font-family: var(--tb-font-sans);
     -webkit-font-smoothing: antialiased;
+    transition: background-color 0.35s ease, color 0.35s ease;
+  }
+
+  /* Focus ring for data inputs — visible in both themes, no drop shadows elsewhere */
+  input:focus-visible,
+  textarea:focus-visible,
+  select:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 3px var(--tb-ring);
   }
 
   h1,
@@ -56,4 +65,14 @@
 html[data-theme="dark"] .tb-icon-sun,
 html[data-theme="light"] .tb-icon-moon {
   display: none;
+}
+
+/* Freshly computed result values flash brand-green, then settle (input-driven). */
+@keyframes tb-flash {
+  from {
+    color: var(--tb-ok);
+  }
+}
+.tb-flash {
+  animation: tb-flash 0.6s ease-out;
 }

@@ -17,7 +17,8 @@ export function ResultCard({
       <div className="min-w-0">
         <div className="text-[11px] uppercase tracking-wide text-mute">{label}</div>
         <div
-          className={`truncate font-mono text-ink ${size === "lg" ? "text-2xl" : "text-sm"}`}
+          key={value}
+          className={`tb-flash truncate font-mono text-ink ${size === "lg" ? "text-2xl" : "text-sm"}`}
         >
           {value}
         </div>

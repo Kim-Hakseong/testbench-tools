@@ -1,33 +1,68 @@
 "use client";
 
-import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { TOOLS } from "@/content/tools-meta";
+import {
+  LOCALE_LABEL,
+  LOCALE_PREFIX,
+  localizedPath,
+  SITE_LOCALES,
+  type SiteLocale,
+} from "@/content/i18n";
 
-// Paths that exist in both locales: hub + live tools with locale "both".
-const PAIRED_PATHS = new Set<string>([
-  "/",
-  ...TOOLS.filter((t) => t.locale === "both" && t.status === "live").map(
+// Tool paths that also exist under /ko/
+const KO_PATHS = new Set<string>(
+  TOOLS.filter((t) => t.locale !== "en" && t.status === "live").map(
     (t) => `/tools/${t.slug}/`,
   ),
-]);
+);
 
-/** EN ↔ KO toggle, shown only on pages that exist in the other locale. */
-export function LangSwitch() {
+/**
+ * Language selector. Remembers the choice (localStorage "lang") so the
+ * first-visit auto-detect on the root path respects it. Navigates to the
+ * same page when it exists in the target locale, otherwise to that
+ * locale's hub.
+ */
+export function LangSwitch({ current }: { current: SiteLocale }) {
+  const router = useRouter();
   const pathname = usePathname() ?? "/";
-  const isKo = pathname === "/ko" || pathname.startsWith("/ko/");
-  const basePath = isKo ? pathname.replace(/^\/ko\/?/, "/") : pathname;
-  const normalized = basePath.endsWith("/") ? basePath : basePath + "/";
-  if (!PAIRED_PATHS.has(normalized)) return null;
 
-  const href = isKo ? normalized : normalized === "/" ? "/ko/" : `/ko${normalized}`;
+  function onChange(next: SiteLocale) {
+    try {
+      // "en" is stored explicitly so the root-path auto-detect respects it
+      localStorage.setItem("lang", next);
+    } catch {
+      // storage unavailable — navigation still works
+    }
+    // strip the current locale prefix to get the base (EN) path
+    let base = pathname;
+    for (const l of SITE_LOCALES) {
+      const prefix = LOCALE_PREFIX[l];
+      if (l !== "en" && (base === prefix || base === prefix.slice(0, -1))) {
+        base = "/";
+        break;
+      }
+      if (l !== "en" && base.startsWith(prefix)) {
+        base = base.slice(prefix.length - 1);
+        break;
+      }
+    }
+    if (!base.endsWith("/")) base += "/";
+    router.push(localizedPath(next, base, KO_PATHS));
+  }
+
   return (
-    <Link
-      href={href}
-      hrefLang={isKo ? "en" : "ko"}
-      className="rounded-btn border border-line-strong px-2.5 py-1 font-mono text-xs text-body transition-colors hover:border-mute"
+    <select
+      value={current}
+      onChange={(e) => onChange(e.target.value as SiteLocale)}
+      aria-label="Language"
+      className="rounded-btn border border-line-strong bg-surface px-2 py-1 font-mono text-xs text-body outline-none transition-colors hover:border-mute"
     >
-      {isKo ? "EN" : "KO"}
-    </Link>
+      {SITE_LOCALES.map((l) => (
+        <option key={l} value={l}>
+          {LOCALE_LABEL[l]}
+        </option>
+      ))}
+    </select>
   );
 }

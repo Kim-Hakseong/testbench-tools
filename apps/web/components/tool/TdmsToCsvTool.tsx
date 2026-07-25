@@ -100,7 +100,7 @@ export function TdmsToCsvTool() {
         <button
           type="button"
           onClick={() => inputRef.current?.click()}
-          className="mt-2 rounded-btn bg-ink px-4 py-2 text-sm font-medium text-canvas transition-opacity hover:opacity-90"
+          className="mt-2 rounded-btn bg-ink px-4 py-2 text-sm font-medium text-canvas transition hover:opacity-90 active:scale-[0.98]"
         >
           Choose file
         </button>
@@ -153,7 +153,7 @@ export function TdmsToCsvTool() {
               type="button"
               onClick={downloadCsv}
               disabled={selected.size === 0}
-              className="rounded-btn bg-ink px-4 py-2 text-sm font-medium text-canvas transition-opacity hover:opacity-90 disabled:opacity-40"
+              className="rounded-btn bg-ink px-4 py-2 text-sm font-medium text-canvas transition hover:opacity-90 active:scale-[0.98] disabled:opacity-40"
             >
               Download CSV ({selected.size} ch)
             </button>

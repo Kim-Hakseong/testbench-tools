@@ -1,7 +1,9 @@
 /* design/tokens.css — TestBench.tools design tokens (DESIGN_VISUAL.md)
- * Dark  = Resend-lineage tokens, hex verbatim from the visual spec.
- * Light = monet.design lineage: near-white canvas, white cards, #e5e5e5-range borders.
- * No drop shadows in either theme — borders carry all elevation.
+ * Dark  = Resend-lineage tokens: true-black canvas + six atmospheric accent
+ *         glows (low-opacity radial washes anchored at section tops — never
+ *         solid accent surfaces).
+ * Light = warm paper lineage (Apollo-style): warm greige canvas, pure-white
+ *         cards, warm ink. Borders carry all elevation — no drop shadows.
  */
 
 :root {
@@ -34,33 +36,108 @@ html[data-theme="dark"] {
   --tb-err: #ff2047;
   --tb-warn: #ffc53d;
 
-  /* One low-opacity radial glow max per section, fading out within ~600px */
-  --tb-glow: radial-gradient(
-    ellipse 640px 320px at 50% 0%,
-    rgba(17, 255, 153, 0.07),
-    transparent 70%
-  );
+  /* Focus ring (inputs / search) */
+  --tb-ring: rgba(17, 255, 153, 0.18);
+
+  /* Atmospheric glows — one radial wash max per section, anchored at the
+     top, fading to black. Six accents (Resend lineage — clearly visible). */
+  --tb-glow-green: radial-gradient(ellipse 75% 70% at 50% -12%, rgba(17, 255, 153, 0.22), transparent 62%);
+  --tb-glow-blue: radial-gradient(ellipse 75% 70% at 50% -12%, rgba(59, 130, 246, 0.28), transparent 62%);
+  --tb-glow-orange: radial-gradient(ellipse 75% 70% at 50% -12%, rgba(249, 115, 22, 0.24), transparent 62%);
+  --tb-glow-red: radial-gradient(ellipse 75% 70% at 50% -12%, rgba(225, 29, 72, 0.22), transparent 62%);
+  --tb-glow-yellow: radial-gradient(ellipse 75% 70% at 50% -12%, rgba(255, 197, 61, 0.18), transparent 62%);
+  --tb-glow-slate: radial-gradient(ellipse 75% 70% at 50% -12%, rgba(100, 116, 139, 0.3), transparent 62%);
+
+  /* Softer variants for hub category sections (several per page) */
+  --tb-wash-green: radial-gradient(ellipse 70% 55% at 50% -8%, rgba(17, 255, 153, 0.09), transparent 58%);
+  --tb-wash-blue: radial-gradient(ellipse 70% 55% at 50% -8%, rgba(59, 130, 246, 0.12), transparent 58%);
+  --tb-wash-orange: radial-gradient(ellipse 70% 55% at 50% -8%, rgba(249, 115, 22, 0.1), transparent 58%);
+  --tb-wash-red: radial-gradient(ellipse 70% 55% at 50% -8%, rgba(225, 29, 72, 0.09), transparent 58%);
+  --tb-wash-yellow: radial-gradient(ellipse 70% 55% at 50% -8%, rgba(255, 197, 61, 0.08), transparent 58%);
+  --tb-wash-slate: radial-gradient(ellipse 70% 55% at 50% -8%, rgba(100, 116, 139, 0.13), transparent 58%);
+
+  /* Category accent inks (icons, counts) */
+  --tb-accent-green: #11ff99;
+  --tb-accent-blue: #60a5fa;
+  --tb-accent-orange: #fb923c;
+  --tb-accent-red: #fb7185;
+  --tb-accent-yellow: #ffc53d;
+  --tb-accent-slate: #94a3b8;
+
+  /* Default glow (generic sections) = brand green */
+  --tb-glow: var(--tb-glow-green);
+
+  /* Hub hero — rose/pink leads on dark */
+  --tb-hero: radial-gradient(ellipse 75% 75% at 50% -12%, rgba(251, 113, 133, 0.26), transparent 62%);
 }
 
 html[data-theme="light"] {
   color-scheme: light;
 
-  --tb-canvas: #fafaf9;
+  /* Warm paper canvas + pure white cards (Apollo lineage) */
+  --tb-canvas: #f1f0ec;
   --tb-surface: #ffffff;
-  --tb-elevated: #ffffff;
-  --tb-well: #f4f4f2;
+  --tb-elevated: #faf9f6;
+  --tb-well: #f5f4ef;
 
-  --tb-border-soft: #ececeb;
-  --tb-border-structural: #d6d6d3;
+  --tb-border-soft: #e6e4dc;
+  --tb-border-structural: #d2d0c6;
 
-  --tb-ink: #111110;
-  --tb-body: rgba(17, 17, 16, 0.82);
-  --tb-mute: #6f6f6d;
+  --tb-ink: #201f1c;
+  --tb-body: rgba(32, 31, 28, 0.82);
+  --tb-mute: #6f6e66;
 
   /* Semantic accents darkened for AA contrast on light */
   --tb-ok: #047a4e;
   --tb-err: #d70027;
   --tb-warn: #9a6700;
 
+  --tb-ring: rgba(4, 122, 78, 0.16);
+
+  /* No atmospheric glows on the paper theme — color comes from accents */
+  --tb-glow-green: none;
+  --tb-glow-blue: none;
+  --tb-glow-orange: none;
+  --tb-glow-red: none;
+  --tb-glow-yellow: none;
+  --tb-glow-slate: none;
+  --tb-wash-green: none;
+  --tb-wash-blue: none;
+  --tb-wash-orange: none;
+  --tb-wash-red: none;
+  --tb-wash-yellow: none;
+  --tb-wash-slate: none;
   --tb-glow: none;
+
+  /* Hub hero on paper — our own take on the references: soft vertical
+     spectrum bands bleeding in from both edges (logic-analyzer channels in
+     rose/orange/yellow/green — no purple) + watercolor clouds behind them.
+     The center column stays clean for the headline and search bar. */
+  --tb-hero:
+    /* left edge bands: rose → yellow */
+    linear-gradient(90deg,
+      rgba(251, 113, 133, 0.26) 0%,
+      rgba(251, 113, 133, 0.14) 5%,
+      rgba(255, 197, 61, 0.14) 10%,
+      rgba(255, 197, 61, 0.05) 16%,
+      transparent 24%),
+    /* right edge bands: orange → rose */
+    linear-gradient(270deg,
+      rgba(249, 115, 22, 0.24) 0%,
+      rgba(249, 115, 22, 0.13) 5%,
+      rgba(251, 113, 133, 0.13) 11%,
+      rgba(251, 113, 133, 0.05) 17%,
+      transparent 25%),
+    /* watercolor clouds */
+    radial-gradient(ellipse 55% 70% at 24% 24%, rgba(255, 197, 61, 0.16), transparent 60%),
+    radial-gradient(ellipse 50% 75% at 78% 72%, rgba(251, 113, 133, 0.13), transparent 58%),
+    radial-gradient(ellipse 60% 55% at 55% 0%, rgba(17, 255, 153, 0.09), transparent 55%);
+
+  /* Category accent inks — darkened for AA contrast on paper */
+  --tb-accent-green: #047a4e;
+  --tb-accent-blue: #1d4ed8;
+  --tb-accent-orange: #c2410c;
+  --tb-accent-red: #be123c;
+  --tb-accent-yellow: #9a6700;
+  --tb-accent-slate: #475569;
 }

@@ -10,6 +10,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const urls: MetadataRoute.Sitemap = [
     { url: `${SITE}/`, priority: 1 },
     { url: `${SITE}/ko/`, priority: 0.8 },
+    { url: `${SITE}/ja/`, priority: 0.8 },
+    { url: `${SITE}/de/`, priority: 0.8 },
+    { url: `${SITE}/zh/`, priority: 0.8 },
     { url: `${SITE}/apps/`, priority: 0.6 },
     { url: `${SITE}/about/`, priority: 0.3 },
     { url: `${SITE}/contact/`, priority: 0.3 },

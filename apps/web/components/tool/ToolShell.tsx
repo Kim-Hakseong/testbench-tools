@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { CATEGORIES, TOOLS } from "@/content/tools-meta";
+import { CATEGORY_ACCENT, CATEGORY_GLOW } from "@/lib/category-style";
 
 type ShellLocale = "en" | "ko";
 
@@ -27,7 +28,7 @@ export function ToolShell({
   return (
     <article
       className="border-b border-line-soft"
-      style={{ backgroundImage: "var(--tb-glow)" }}
+      style={{ backgroundImage: CATEGORY_GLOW[tool.category] }}
     >
       <div className="mx-auto max-w-4xl px-4 pb-16 pt-8 sm:px-6">
         <nav aria-label="Breadcrumb" className="font-mono text-xs text-mute">
@@ -35,7 +36,9 @@ export function ToolShell({
             {ko ? "툴" : "Tools"}
           </Link>
           <span className="mx-1.5">/</span>
-          <span>{ko ? category.koName : category.name}</span>
+          <span style={{ color: CATEGORY_ACCENT[tool.category] }}>
+            {ko ? category.koName : category.name}
+          </span>
         </nav>
         <h1 className="mt-4 text-4xl sm:text-5xl">{name}</h1>
         <p className="mt-3 max-w-2xl text-[15px] text-mute">{description}</p>
@@ -81,9 +84,9 @@ export function RelatedTools({ slugs, locale = "en" }: { slugs: string[]; locale
               <p className="mt-1.5 text-[13px] leading-snug text-mute">{description}</p>
             </>
           );
-          const cls = "block rounded-card border border-line-soft bg-surface p-4 transition-colors";
+          const cls = "block rounded-card border border-line-soft bg-surface p-4 transition-all duration-200";
           return tool.status === "live" ? (
-            <Link key={tool.slug} href={href} className={`${cls} hover:border-line-strong`}>
+            <Link key={tool.slug} href={href} className={`${cls} hover:-translate-y-0.5 hover:border-line-strong`}>
               {inner}
             </Link>
           ) : (

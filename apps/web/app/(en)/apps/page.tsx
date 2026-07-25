@@ -23,7 +23,7 @@ export default function AppsPage() {
           <Link
             key={app.slug}
             href={`/apps/${app.slug}/`}
-            className="block rounded-card border border-line-soft bg-surface p-5 transition-colors hover:border-line-strong"
+            className="block rounded-card border border-line-soft bg-surface p-5 transition-all duration-200 hover:-translate-y-0.5 hover:border-line-strong"
           >
             <div className="flex items-start justify-between gap-2">
               <h2 className="tb-display text-2xl">{app.name}</h2>

@@ -236,7 +236,7 @@ export function CrcIdentifierTool() {
               type="button"
               onClick={startSearch}
               disabled={samples.length === 0}
-              className="rounded-btn bg-ink px-3 py-1.5 text-sm font-medium text-canvas transition-opacity hover:opacity-90 disabled:opacity-40"
+              className="rounded-btn bg-ink px-3 py-1.5 text-sm font-medium text-canvas transition hover:opacity-90 active:scale-[0.98] disabled:opacity-40"
             >
               Search all polynomials
             </button>
