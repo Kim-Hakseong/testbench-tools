@@ -1,0 +1,66 @@
+/* design/tokens.css — TestBench.tools design tokens (DESIGN_VISUAL.md)
+ * Dark  = Resend-lineage tokens, hex verbatim from the visual spec.
+ * Light = monet.design lineage: near-white canvas, white cards, #e5e5e5-range borders.
+ * No drop shadows in either theme — borders carry all elevation.
+ */
+
+:root {
+  /* Typography (both themes) */
+  --tb-font-serif: "Instrument Serif", Georgia, serif;
+  --tb-font-sans: "Geist", -apple-system, "Segoe UI", Helvetica, Arial, sans-serif;
+  --tb-font-mono: "Geist Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+
+  /* Radius vocabulary: 8px buttons/inputs, 12px cards/wells, full pills. Nothing larger. */
+  --tb-radius-btn: 8px;
+  --tb-radius-card: 12px;
+}
+
+html[data-theme="dark"] {
+  color-scheme: dark;
+
+  --tb-canvas: #000000;
+  --tb-surface: #0a0a0c;
+  --tb-elevated: #101012;
+  --tb-well: #06060a;
+
+  --tb-border-soft: rgba(255, 255, 255, 0.06);
+  --tb-border-structural: rgba(255, 255, 255, 0.14);
+
+  --tb-ink: #fcfdff;
+  --tb-body: rgba(252, 253, 255, 0.86);
+  --tb-mute: #a1a4a5;
+
+  --tb-ok: #11ff99;
+  --tb-err: #ff2047;
+  --tb-warn: #ffc53d;
+
+  /* One low-opacity radial glow max per section, fading out within ~600px */
+  --tb-glow: radial-gradient(
+    ellipse 640px 320px at 50% 0%,
+    rgba(17, 255, 153, 0.07),
+    transparent 70%
+  );
+}
+
+html[data-theme="light"] {
+  color-scheme: light;
+
+  --tb-canvas: #fafaf9;
+  --tb-surface: #ffffff;
+  --tb-elevated: #ffffff;
+  --tb-well: #f4f4f2;
+
+  --tb-border-soft: #ececeb;
+  --tb-border-structural: #d6d6d3;
+
+  --tb-ink: #111110;
+  --tb-body: rgba(17, 17, 16, 0.82);
+  --tb-mute: #6f6f6d;
+
+  /* Semantic accents darkened for AA contrast on light */
+  --tb-ok: #047a4e;
+  --tb-err: #d70027;
+  --tb-warn: #9a6700;
+
+  --tb-glow: none;
+}

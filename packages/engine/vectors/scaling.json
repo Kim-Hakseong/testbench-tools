@@ -1,0 +1,30 @@
+{
+  "$comment": "DESIGN.md §9.6 golden vectors — DO NOT MODIFY.",
+  "currentLoop": {
+    "range": [0, 200],
+    "cases": [
+      { "mA": 12, "value": 100.0 },
+      { "mA": 4, "value": 0 },
+      { "mA": 20, "value": 200 }
+    ],
+    "openLoop": { "mA": 3.7, "status": "open-loop" }
+  },
+  "s7Preset": { "raw": 13824, "engMin": 0, "engMax": 100, "value": 50.0 },
+  "adc": {
+    "bits": 12,
+    "vref": 3.3,
+    "cases": [
+      { "count": 4095, "voltage": 3.3, "tolerance": 1e-4 },
+      { "count": 2048, "voltage": 1.650403, "tolerance": 1e-5 }
+    ],
+    "lsbMillivolts": 0.805861,
+    "lsbTolerance": 1e-5
+  },
+  "pt100": {
+    "r0": 100,
+    "resistanceAt100C": 138.5055,
+    "resistanceTolerance": 1e-3,
+    "inverse": { "r": 108.5, "tempC": 21.8189, "tolerance": 1e-3 },
+    "roundtripTolerance": 1e-5
+  }
+}

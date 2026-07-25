@@ -1,0 +1,15 @@
+{
+  "$comment": "DESIGN.md §9.3 golden vectors — DO NOT MODIFY.",
+  "float": {
+    "value": 3.1415927,
+    "tolerance": 1e-6,
+    "registers": {
+      "ABCD": ["0x4049", "0x0FDB"],
+      "CDAB": ["0x0FDB", "0x4049"],
+      "BADC": ["0x4940", "0xDB0F"],
+      "DCBA": ["0xDB0F", "0x4940"]
+    }
+  },
+  "signed16": { "raw": "0xFFF6", "value": -10 },
+  "hexAscii": { "hex": "48 69", "ascii": "Hi" }
+}

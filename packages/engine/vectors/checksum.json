@@ -1,0 +1,20 @@
+{
+  "$comment": "DESIGN.md §9.1 golden vectors — DO NOT MODIFY. Input '123456789' unless noted.",
+  "check123456789": {
+    "CRC-8": "0xF4",
+    "CRC-16/MODBUS": "0x4B37",
+    "CRC-16/CCITT-FALSE": "0x29B1",
+    "CRC-32": "0xCBF43926",
+    "XOR8": "0x31",
+    "SUM8": "0xDD"
+  },
+  "customCrc8": {
+    "params": { "width": 8, "poly": "0xD5", "init": "0xFF", "refin": false, "refout": false, "xorout": "0x00" },
+    "check": "0x7C"
+  },
+  "modbusFrame": {
+    "bytes": "01 03 00 00 00 0A",
+    "crc": "0xCDC5",
+    "crcLeBytes": "C5 CD"
+  }
+}

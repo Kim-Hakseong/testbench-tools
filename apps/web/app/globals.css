@@ -1,0 +1,59 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Self-hosted fonts (latin subsets). No external font requests. */
+@font-face {
+  font-family: "Instrument Serif";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/instrument-serif-latin.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Geist";
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url("/fonts/geist-latin-var.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Geist Mono";
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url("/fonts/geist-mono-latin-var.woff2") format("woff2");
+}
+
+@layer base {
+  body {
+    background-color: var(--tb-canvas);
+    color: var(--tb-body);
+    font-family: var(--tb-font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1,
+  .tb-display {
+    font-family: var(--tb-font-serif);
+    line-height: 1;
+    letter-spacing: -0.01em;
+    color: var(--tb-ink);
+    font-weight: 400;
+  }
+
+  code,
+  pre,
+  kbd,
+  samp {
+    font-family: var(--tb-font-mono);
+    font-variant-ligatures: none;
+  }
+}
+
+/* Theme toggle icon visibility is driven by the html[data-theme] attribute
+   so the toggle needs no client-side theme state (no hydration mismatch). */
+html[data-theme="dark"] .tb-icon-sun,
+html[data-theme="light"] .tb-icon-moon {
+  display: none;
+}

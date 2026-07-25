@@ -1,0 +1,20 @@
+{
+  "apps": [
+    {
+      "slug": "tdms-converter",
+      "name": "TDMS Converter",
+      "description": "Batch-convert NI TDMS files to CSV on your desktop.",
+      "platforms": ["windows"],
+      "url": "",
+      "free": true
+    },
+    {
+      "slug": "frameterm",
+      "name": "FrameTerm",
+      "description": "Serial terminal built for frame-level protocol work.",
+      "platforms": ["windows"],
+      "url": "",
+      "free": true
+    }
+  ]
+}

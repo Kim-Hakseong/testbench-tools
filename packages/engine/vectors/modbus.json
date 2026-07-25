@@ -1,0 +1,31 @@
+{
+  "$comment": "DESIGN.md §9.2 golden vectors — DO NOT MODIFY.",
+  "rtuOk": {
+    "hex": "11 03 00 6B 00 03 76 87",
+    "unit": "0x11",
+    "function": 3,
+    "address": "0x006B",
+    "quantity": 3
+  },
+  "rtuCrcFail": {
+    "hex": "11 03 00 6B 00 03 76 88",
+    "expectedCrc": "0x8776"
+  },
+  "exception": {
+    "hex": "01 83 02 C0 F1",
+    "code": 2,
+    "name": "Illegal Data Address"
+  },
+  "tcp": {
+    "hex": "00 01 00 00 00 06 11 03 00 6B 00 03",
+    "transaction": 1,
+    "unit": "0x11",
+    "function": 3,
+    "address": "0x006B",
+    "quantity": 3
+  },
+  "sniff": {
+    "rtu": "11 03 00 6B 00 03 76 87",
+    "tcp": "00 01 00 00 00 06 11 03 00 6B 00 03"
+  }
+}

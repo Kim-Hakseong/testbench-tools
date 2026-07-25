@@ -1,0 +1,12 @@
+{
+  "$comment": "DESIGN.md §9.7 golden vector definition — DO NOT MODIFY. The test writer generates a spec-conformant TDMS binary from this recipe; the parser must reproduce it exactly, regardless of chunk slicing.",
+  "group": "group1",
+  "samplesPerChannel": 100,
+  "segments": 2,
+  "channels": {
+    "ch1": { "dtype": "f64", "first": 0, "step": 0.5 },
+    "ch2": { "dtype": "f64", "first": 1000, "step": -1 }
+  },
+  "channelProperties": { "unit": "V", "gain": 1.5 },
+  "fileProperties": { "title": "roundtrip" }
+}
