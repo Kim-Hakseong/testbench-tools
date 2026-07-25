@@ -44,17 +44,35 @@ rm -rf node_modules apps/web/.next apps/web/out && pnpm store prune
   decoder/builder stays blocked until `spec/xgt-reference.md` is filled with
   manual example frames.
 
-## Deployment (human steps)
+## Deployment (human steps) — Cloudflare Pages
 
-1. **Vercel**: import the repo. Framework preset: Next.js.
-   Build command `pnpm build`, output directory `apps/web/out`,
-   install command `pnpm install`. Every page is static — no functions.
+The site is a pure static export (~3 MB, no server functions), so it fits
+Cloudflare Pages' free tier: **unlimited bandwidth, commercial use allowed**.
+Hosting cost stays zero no matter how much traffic grows.
+
+> Why not Vercel? Vercel's free (Hobby) plan forbids commercial use — running
+> ads would require Pro ($20/mo). Vercel's real limit here isn't bandwidth
+> (100 GB/mo free) but that ToS clause. Cloudflare Pages has no such
+> restriction, which makes it the better fit for an ad-supported static site.
+
+1. **Cloudflare Pages**: Dashboard → Workers & Pages → Create → Pages →
+   Connect to Git → select this repo, then:
+   - Build command: `pnpm build`
+   - Build output directory: `apps/web/out`
+   - Environment: no variables needed (Pages detects pnpm via the lockfile;
+     if the build image needs a Node pin, set `NODE_VERSION` = `20`)
+   Every push to `main` auto-deploys. Preview deployments per branch are free.
 2. **Domain**: register `testbench.tools` at Porkbun with auto-renew ON.
-   Point it at Vercel (CNAME `cname.vercel-dns.com` or Vercel nameservers) and
-   set it as the production domain.
-3. **Contact mail**: enable domain email forwarding (Porkbun) for
-   `contact@testbench.tools` → personal inbox. No personal names anywhere on
-   the site (asset-separation rule).
+   Two options — no conflict either way (registrar and hosting are
+   independent; custom domains are a free feature with automatic HTTPS):
+   - *Simplest*: move DNS to Cloudflare (free plan), then Pages → Custom
+     domains → add `testbench.tools`. DNS + hosting + cert live in one place.
+   - *Keep Porkbun DNS*: add a CNAME for the domain pointing at the
+     `<project>.pages.dev` hostname shown in the Pages dashboard.
+3. **Contact mail**: enable domain email forwarding for
+   `contact@testbench.tools` → personal inbox (Cloudflare Email Routing or
+   Porkbun forwarding — both free). No personal names anywhere on the site
+   (asset-separation rule).
 
 ## Enabling ads (human steps)
 
