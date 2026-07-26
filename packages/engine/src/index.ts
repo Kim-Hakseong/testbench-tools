@@ -12,3 +12,5 @@ export * from "./rtd";
 export * from "./tdms";
 export * from "./bits";
 export * from "./nmea";
+export * from "./analog";
+export * from "./eseries";

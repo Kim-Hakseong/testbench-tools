@@ -236,3 +236,61 @@ export function decodeModbus(bytes: Uint8Array, protocol?: ModbusProtocol): Modb
   const p = protocol ?? sniff(bytes);
   return p === "tcp" ? decodeTcp(bytes) : decodeRtu(bytes);
 }
+
+// ---------------------------------------------------------------------------
+// Modbus address notation conversion (data-model 0/1/3/4xxxx ↔ protocol 0-based)
+// ---------------------------------------------------------------------------
+export type ModbusEntity = "coil" | "discrete-input" | "input-register" | "holding-register";
+
+export const ENTITY_PREFIX: Record<ModbusEntity, number> = {
+  coil: 0,
+  "discrete-input": 1,
+  "input-register": 3,
+  "holding-register": 4,
+};
+
+export const ENTITY_LABEL: Record<ModbusEntity, string> = {
+  coil: "Coil (read/write bit)",
+  "discrete-input": "Discrete input (read-only bit)",
+  "input-register": "Input register (read-only 16-bit)",
+  "holding-register": "Holding register (read/write 16-bit)",
+};
+
+export interface ModbusAddressViews {
+  entity: ModbusEntity;
+  /** 0-based address as it travels on the wire. */
+  protocol: number;
+  /** 1-based address (protocol + 1). */
+  oneBased: number;
+  /** 5-digit data-model notation, e.g. 40001 (max offset 9998). */
+  fiveDigit: string | null;
+  /** 6-digit data-model notation, e.g. 400001 (max offset 65535). */
+  sixDigit: string;
+}
+
+/** All notations for an entity + 0-based protocol address (0…65535). */
+export function modbusAddressViews(entity: ModbusEntity, protocol: number): ModbusAddressViews | null {
+  if (!Number.isInteger(protocol) || protocol < 0 || protocol > 65535) return null;
+  const prefix = ENTITY_PREFIX[entity];
+  return {
+    entity,
+    protocol,
+    oneBased: protocol + 1,
+    fiveDigit: protocol <= 9998 ? String(prefix * 10000 + protocol + 1) : null,
+    sixDigit: String(prefix * 100000 + protocol + 1),
+  };
+}
+
+/** Parse a data-model style address ("40001", "400001", "30011") into entity + protocol address. */
+export function parseDataModelAddress(text: string): ModbusAddressViews | null {
+  const t = text.trim();
+  if (!/^\d{5,6}$/.test(t)) return null;
+  const prefix = Number(t[0]);
+  const entity = (Object.keys(ENTITY_PREFIX) as ModbusEntity[]).find(
+    (e) => ENTITY_PREFIX[e] === prefix,
+  );
+  if (!entity) return null;
+  const offset = Number(t.slice(1));
+  if (offset < 1) return null;
+  return modbusAddressViews(entity, offset - 1);
+}
