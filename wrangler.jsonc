@@ -1,0 +1,11 @@
+// Cloudflare Workers static-assets config: `wrangler deploy` publishes the
+// Next.js static export as pure assets (no Worker script). Asset-only
+// requests are free and unmetered on the free plan.
+{
+  "name": "testbench-tools",
+  "compatibility_date": "2026-07-26",
+  "assets": {
+    "directory": "apps/web/out",
+    "not_found_handling": "404-page"
+  }
+}
