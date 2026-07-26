@@ -10,3 +10,5 @@ export * from "./identify";
 export * from "./scaling";
 export * from "./rtd";
 export * from "./tdms";
+export * from "./bits";
+export * from "./nmea";

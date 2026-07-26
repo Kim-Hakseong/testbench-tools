@@ -51,10 +51,10 @@ export const TOOLS: ToolMeta[] = [
   { slug: "crc-16-modbus", name: "CRC-16 Modbus Calculator", description: "Compute CRC-16/MODBUS over hex or ASCII input, with LE/BE byte order.", category: "checksum-crc", p0: true, locale: "en", status: "live", tags: ["crc", "modbus", "checksum", "rtu"] },
   { slug: "crc-32", name: "CRC-32 Calculator", description: "Standard CRC-32 (ISO-HDLC) checksum for hex bytes or text.", category: "checksum-crc", p0: true, locale: "en", status: "live", tags: ["crc", "crc32", "checksum"] },
   { slug: "crc-16-ccitt", name: "CRC-16 CCITT Calculator", description: "CRC-16/CCITT-FALSE and related variants, selectable parameters.", category: "checksum-crc", p0: true, locale: "en", status: "live", tags: ["crc", "ccitt", "xmodem", "checksum"] },
-  { slug: "crc-8", name: "CRC-8 Calculator", description: "CRC-8 with selectable polynomial and init variants.", category: "checksum-crc", p0: false, locale: "en", status: "soon", tags: ["crc", "crc8", "checksum"] },
+  { slug: "crc-8", name: "CRC-8 Calculator", description: "CRC-8 with selectable polynomial and init variants.", category: "checksum-crc", p0: false, locale: "en", status: "live", tags: ["crc", "crc8", "checksum"] },
   { slug: "custom-crc", name: "Custom CRC Calculator", description: "Fully parameterized CRC: width, poly, init, reflect, xorout.", category: "checksum-crc", p0: true, locale: "en", status: "live", tags: ["crc", "custom", "polynomial"] },
   { slug: "crc-identifier", name: "CRC Identifier", description: "Reverse-search which CRC algorithm produced your checksum.", category: "checksum-crc", p0: true, locale: "en", status: "live", tags: ["crc", "identify", "reverse", "unknown"] },
-  { slug: "nmea-checksum", name: "NMEA Checksum Calculator", description: "XOR checksum for NMEA 0183 sentences, validate or generate.", category: "checksum-crc", p0: false, locale: "en", status: "soon", tags: ["nmea", "gps", "checksum", "xor"] },
+  { slug: "nmea-checksum", name: "NMEA Checksum Calculator", description: "XOR checksum for NMEA 0183 sentences, validate or generate.", category: "checksum-crc", p0: false, locale: "en", status: "live", tags: ["nmea", "gps", "checksum", "xor"] },
 
   // 2) Protocol Decoders
   { slug: "modbus-frame-decoder", name: "Modbus Frame Decoder", description: "Decode Modbus RTU/TCP frames: unit, function, registers, CRC check.", category: "protocol-decoders", p0: true, locale: "en", status: "live", tags: ["modbus", "rtu", "tcp", "decoder", "frame"] },
@@ -67,9 +67,9 @@ export const TOOLS: ToolMeta[] = [
   { slug: "hex-to-ascii", name: "Hex to ASCII Converter", description: "Convert hex byte strings to readable ASCII text.", category: "data-converters", p0: true, locale: "en", status: "live", tags: ["hex", "ascii", "text", "bytes"] },
   { slug: "ascii-to-hex", name: "ASCII to Hex Converter", description: "Convert ASCII text to hex byte strings.", category: "data-converters", p0: true, locale: "en", status: "live", tags: ["ascii", "hex", "text", "bytes"], hubHidden: true },
   { slug: "number-base-converter", name: "Number Base Converter", description: "Convert between binary, octal, decimal and hexadecimal.", category: "data-converters", p0: true, locale: "en", status: "live", tags: ["binary", "hex", "decimal", "base"] },
-  { slug: "twos-complement", name: "Two's Complement Converter", description: "Signed integer ↔ raw hex at 8/16/32-bit widths.", category: "data-converters", p0: false, locale: "en", status: "soon", tags: ["twos complement", "signed", "hex"] },
-  { slug: "endianness-converter", name: "Endianness Converter", description: "Swap byte order of hex values: 16/32/64-bit, word swap.", category: "data-converters", p0: false, locale: "en", status: "soon", tags: ["endian", "byte order", "swap", "hex"] },
-  { slug: "q-format", name: "Fixed-Point Q-Format Converter", description: "Convert real numbers ↔ fixed-point Qm.n representation.", category: "data-converters", p0: false, locale: "en", status: "soon", tags: ["fixed point", "q format", "dsp"] },
+  { slug: "twos-complement", name: "Two's Complement Converter", description: "Signed integer ↔ raw hex at 8/16/32-bit widths.", category: "data-converters", p0: false, locale: "en", status: "live", tags: ["twos complement", "signed", "hex"] },
+  { slug: "endianness-converter", name: "Endianness Converter", description: "Swap byte order of hex values: 16/32/64-bit, word swap.", category: "data-converters", p0: false, locale: "en", status: "live", tags: ["endian", "byte order", "swap", "hex"] },
+  { slug: "q-format", name: "Fixed-Point Q-Format Converter", description: "Convert real numbers ↔ fixed-point Qm.n representation.", category: "data-converters", p0: false, locale: "en", status: "live", tags: ["fixed point", "q format", "dsp"] },
 
   // 4) PLC & Industrial
   { slug: "plc-analog-scaling", name: "PLC Analog Scaling Calculator", koName: "PLC 아날로그 스케일링 계산기", koDescription: "Raw 카운트 ↔ 공학 단위 변환. 검증된 벤더 프리셋(S7) 지원.", description: "Raw counts ↔ engineering units with verified vendor presets.", category: "plc-industrial", p0: true, locale: "both", status: "live", tags: ["plc", "analog", "scaling", "raw", "s7"] },
