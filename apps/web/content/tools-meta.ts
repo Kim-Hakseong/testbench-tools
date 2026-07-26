@@ -91,12 +91,12 @@ export const TOOLS: ToolMeta[] = [
   { slug: "db-dbm", name: "dB · dBm Calculator", description: "Convert power ratios, dB, dBm and voltage levels.", category: "sensor-signal", p0: false, locale: "en", status: "live", tags: ["db", "dbm", "power", "ratio"] },
 
   // 6) Embedded & MCU
-  { slug: "can-bit-timing", name: "CAN Bit Timing Calculator", description: "Derive prescaler and segment values for a target CAN bitrate.", category: "embedded-mcu", p0: false, locale: "en", status: "soon", tags: ["can", "bit timing", "prescaler", "sample point"] },
-  { slug: "i2c-pullup", name: "I2C Pull-up Calculator", description: "Pull-up resistor bounds from bus capacitance and speed mode.", category: "embedded-mcu", p0: false, locale: "en", status: "soon", tags: ["i2c", "pullup", "resistor", "bus"] },
-  { slug: "stm32-timer", name: "STM32 Timer Calculator", description: "Prescaler/period combinations for a target timer frequency.", category: "embedded-mcu", p0: false, locale: "en", status: "soon", tags: ["stm32", "timer", "prescaler", "pwm"] },
-  { slug: "uart-baud-error", name: "UART Baud Rate Error Calculator", description: "Actual baud and error % from clock and divider settings.", category: "embedded-mcu", p0: false, locale: "en", status: "soon", tags: ["uart", "baud", "error", "clock"] },
-  { slug: "struct-padding", name: "Struct Padding Visualizer", description: "Visualize C struct member offsets, padding and total size.", category: "embedded-mcu", p0: false, locale: "en", status: "soon", tags: ["struct", "padding", "alignment", "c"] },
-  { slug: "bit-field-extractor", name: "Bit Field Extractor", description: "Extract and label bit fields from register values.", category: "embedded-mcu", p0: false, locale: "en", status: "soon", tags: ["bit field", "register", "mask", "shift"] },
+  { slug: "can-bit-timing", name: "CAN Bit Timing Calculator", description: "Derive prescaler and segment values for a target CAN bitrate.", category: "embedded-mcu", p0: false, locale: "en", status: "live", tags: ["can", "bit timing", "prescaler", "sample point"] },
+  { slug: "i2c-pullup", name: "I2C Pull-up Calculator", description: "Pull-up resistor bounds from bus capacitance and speed mode.", category: "embedded-mcu", p0: false, locale: "en", status: "live", tags: ["i2c", "pullup", "resistor", "bus"] },
+  { slug: "stm32-timer", name: "STM32 Timer Calculator", description: "Prescaler/period combinations for a target timer frequency.", category: "embedded-mcu", p0: false, locale: "en", status: "live", tags: ["stm32", "timer", "prescaler", "pwm"] },
+  { slug: "uart-baud-error", name: "UART Baud Rate Error Calculator", description: "Actual baud and error % from clock and divider settings.", category: "embedded-mcu", p0: false, locale: "en", status: "live", tags: ["uart", "baud", "error", "clock"] },
+  { slug: "struct-padding", name: "Struct Padding Visualizer", description: "Visualize C struct member offsets, padding and total size.", category: "embedded-mcu", p0: false, locale: "en", status: "live", tags: ["struct", "padding", "alignment", "c"] },
+  { slug: "bit-field-extractor", name: "Bit Field Extractor", description: "Extract and label bit fields from register values.", category: "embedded-mcu", p0: false, locale: "en", status: "live", tags: ["bit field", "register", "mask", "shift"] },
 
   // 7) File Tools
   { slug: "tdms-to-csv", name: "TDMS to CSV Converter", description: "Convert NI TDMS files to CSV in your browser — no upload.", category: "file-tools", p0: true, locale: "en", status: "live", tags: ["tdms", "csv", "labview", "ni", "convert"] },
