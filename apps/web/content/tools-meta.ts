@@ -58,8 +58,8 @@ export const TOOLS: ToolMeta[] = [
 
   // 2) Protocol Decoders
   { slug: "modbus-frame-decoder", name: "Modbus Frame Decoder", description: "Decode Modbus RTU/TCP frames: unit, function, registers, CRC check.", category: "protocol-decoders", p0: true, locale: "en", status: "live", tags: ["modbus", "rtu", "tcp", "decoder", "frame"] },
-  { slug: "nmea-0183-decoder", name: "NMEA 0183 Decoder", description: "Parse NMEA 0183 sentences into labeled fields with checksum check.", category: "protocol-decoders", p0: false, locale: "en", status: "soon", tags: ["nmea", "gps", "decoder"] },
-  { slug: "can-frame-decoder", name: "CAN Frame Decoder", description: "Break down CAN 2.0 frames: ID, DLC, data bytes, flags.", category: "protocol-decoders", p0: false, locale: "en", status: "soon", tags: ["can", "canbus", "decoder", "frame"] },
+  { slug: "nmea-0183-decoder", name: "NMEA 0183 Decoder", description: "Parse NMEA 0183 sentences into labeled fields with checksum check.", category: "protocol-decoders", p0: false, locale: "en", status: "live", tags: ["nmea", "gps", "decoder"] },
+  { slug: "can-frame-decoder", name: "CAN Frame Decoder", description: "Break down CAN 2.0 frames: ID, DLC, data bytes, flags.", category: "protocol-decoders", p0: false, locale: "en", status: "live", tags: ["can", "canbus", "decoder", "frame"] },
   { slug: "mc-protocol-decoder", name: "Mitsubishi MC Protocol Decoder", description: "Decode Mitsubishi MC protocol frames into command and device fields.", category: "protocol-decoders", p0: false, locale: "en", status: "soon", tags: ["mitsubishi", "mc", "plc", "decoder"] },
 
   // 3) Data Converters
@@ -100,10 +100,10 @@ export const TOOLS: ToolMeta[] = [
 
   // 7) File Tools
   { slug: "tdms-to-csv", name: "TDMS to CSV Converter", description: "Convert NI TDMS files to CSV in your browser — no upload.", category: "file-tools", p0: true, locale: "en", status: "live", tags: ["tdms", "csv", "labview", "ni", "convert"] },
-  { slug: "tdms-viewer", name: "TDMS Viewer", description: "Inspect TDMS group/channel tree and properties in the browser.", category: "file-tools", p0: false, locale: "en", status: "soon", tags: ["tdms", "viewer", "labview", "ni"] },
-  { slug: "csv-waveform-plotter", name: "CSV Waveform Plotter", description: "Plot waveform columns from CSV files, fully client-side.", category: "file-tools", p0: false, locale: "en", status: "soon", tags: ["csv", "plot", "waveform", "chart"] },
-  { slug: "hex-file-viewer", name: "Hex File Viewer", description: "View any file as a hex dump with ASCII column.", category: "file-tools", p0: false, locale: "en", status: "soon", tags: ["hex", "viewer", "dump", "binary"] },
-  { slug: "hex-srec-bin", name: "Intel HEX · S-Record ↔ BIN Converter", description: "Convert firmware images between Intel HEX, S-Record and raw binary.", category: "file-tools", p0: false, locale: "en", status: "soon", tags: ["intel hex", "srec", "bin", "firmware"] },
+  { slug: "tdms-viewer", name: "TDMS Viewer", description: "Inspect TDMS group/channel tree and properties in the browser.", category: "file-tools", p0: false, locale: "en", status: "live", tags: ["tdms", "viewer", "labview", "ni"] },
+  { slug: "csv-waveform-plotter", name: "CSV Waveform Plotter", description: "Plot waveform columns from CSV files, fully client-side.", category: "file-tools", p0: false, locale: "en", status: "live", tags: ["csv", "plot", "waveform", "chart"] },
+  { slug: "hex-file-viewer", name: "Hex File Viewer", description: "View any file as a hex dump with ASCII column.", category: "file-tools", p0: false, locale: "en", status: "live", tags: ["hex", "viewer", "dump", "binary"] },
+  { slug: "hex-srec-bin", name: "Intel HEX · S-Record ↔ BIN Converter", description: "Convert firmware images between Intel HEX, S-Record and raw binary.", category: "file-tools", p0: false, locale: "en", status: "live", tags: ["intel hex", "srec", "bin", "firmware"] },
 ];
 
 // 41 public tools = all except the two ko-only XGT tools and secondary URLs.

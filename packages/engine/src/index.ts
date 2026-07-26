@@ -16,3 +16,5 @@ export * from "./analog";
 export * from "./eseries";
 export * from "./mcu";
 export * from "./cstruct";
+export * from "./firmware";
+export * from "./filetools";
