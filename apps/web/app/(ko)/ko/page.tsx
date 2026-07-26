@@ -3,7 +3,7 @@ import { HubPage } from "@/components/HubPage";
 import { hubAlternates } from "@/lib/i18n";
 
 export const metadata: Metadata = {
-  title: "계측·산업 엔지니어를 위한 벤치 툴",
+  title: "엔지니어의 계산, 브라우저에서 바로 끝 — 무료 툴 41종",
   description:
     "CRC 계산기, 프레임 디코더, PLC 스케일링, 센서 계산, 파일 변환 — 무료, 즉시, 100% 클라이언트 사이드. 데이터는 브라우저 밖으로 나가지 않습니다.",
   alternates: hubAlternates("ko"),

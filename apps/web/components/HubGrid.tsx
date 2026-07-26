@@ -103,7 +103,11 @@ export function HubGrid({ locale = "en" }: { locale?: SiteLocale }) {
         style={{ backgroundImage: "var(--tb-hero)" }}
       >
         <div className="mx-auto max-w-6xl px-4 pb-10 pt-14 sm:px-6">
-          <h1 className="text-4xl sm:text-5xl">{t.title}</h1>
+          <span className="inline-flex items-center gap-2 rounded-full border border-line-strong bg-surface px-3 py-1 font-mono text-xs text-body">
+            <span className="inline-block h-1.5 w-1.5 rounded-full bg-ok" aria-hidden="true" />
+            {t.badge}
+          </span>
+          <h1 className="mt-5 text-4xl sm:text-5xl">{t.title}</h1>
           <p className="mt-3 max-w-2xl text-[15px] text-mute">{t.subtitle}</p>
           <div className="mt-7 max-w-2xl">
             <input

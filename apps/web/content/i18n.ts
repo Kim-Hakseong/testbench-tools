@@ -43,31 +43,31 @@ export interface ChromeStrings {
 
 export const CHROME: Record<SiteLocale, ChromeStrings> = {
   en: {
-    badge: "100% in-browser",
+    badge: "Free · 100% in-browser",
     footer: "All calculations run 100% in your browser. No uploads, no accounts.",
     navApps: "Desktop Apps",
     navAbout: "About",
   },
   ko: {
-    badge: "100% 브라우저 내 계산",
+    badge: "무료 · 100% 브라우저 내",
     footer: "모든 계산은 브라우저 안에서 실행됩니다. 업로드도, 계정도 없습니다.",
     navApps: "데스크톱 앱",
     navAbout: "소개",
   },
   ja: {
-    badge: "100% ブラウザ内で完結",
+    badge: "無料 · 100%ブラウザ内",
     footer: "すべての計算はブラウザ内で実行されます。アップロードもアカウントも不要です。",
     navApps: "デスクトップアプリ",
     navAbout: "概要",
   },
   de: {
-    badge: "100 % im Browser",
+    badge: "Kostenlos · 100 % im Browser",
     footer: "Alle Berechnungen laufen vollständig in Ihrem Browser. Keine Uploads, keine Konten.",
     navApps: "Desktop-Apps",
     navAbout: "Über",
   },
   zh: {
-    badge: "100% 浏览器本地运行",
+    badge: "免费 · 100% 本地运行",
     footer: "所有计算都在您的浏览器中完成。无上传，无需账号。",
     navApps: "桌面应用",
     navAbout: "关于",
@@ -78,6 +78,8 @@ export const CHROME: Record<SiteLocale, ChromeStrings> = {
 // Hub strings
 // ---------------------------------------------------------------------------
 export interface HubStrings {
+  /** Pill badge above the headline — the free/no-signup promise. */
+  badge: string;
   title: string;
   subtitle: string;
   searchPlaceholder: string;
@@ -94,12 +96,13 @@ export interface HubStrings {
 
 export const HUB: Record<SiteLocale, HubStrings> = {
   en: {
-    title: "Bench tools for T&M and industrial engineers",
+    badge: "100% free · no sign-up · in-browser",
+    title: "Every bench calculation, one tab away",
     subtitle:
-      "CRC calculators, frame decoders, PLC scaling, sensor math and file converters — free, instant, and 100% client-side.",
+      "41 free tools for test & measurement, embedded and industrial engineers — CRC, Modbus frames, PLC scaling, sensor math, file converters. No sign-up, nothing leaves your browser.",
     searchPlaceholder: "Search 41 tools — try “crc”, “modbus”, “pt100”…",
     popular: "Popular:",
-    stats: "41 tools · 8 categories · 100% in-browser · Free",
+    stats: "100% free · 41 tools · 8 categories · in-browser",
     noMatch: "No tools match",
     soon: "Soon",
     enChip: "EN",
@@ -109,12 +112,13 @@ export const HUB: Record<SiteLocale, HubStrings> = {
     download: "Download",
   },
   ko: {
-    title: "계측·산업 엔지니어를 위한 벤치 툴",
+    badge: "100% 무료 · 가입 없음 · 브라우저에서 바로",
+    title: "엔지니어의 계산, 브라우저에서 바로 끝",
     subtitle:
-      "CRC 계산기, 프레임 디코더, PLC 스케일링, 센서 계산, 파일 변환 — 무료, 즉시, 100% 클라이언트 사이드.",
+      "계측·임베디드·산업자동화 엔지니어용 무료 툴 41종 — CRC, Modbus 프레임, PLC 스케일링, 센서 계산, 파일 변환. 가입 없이, 데이터는 브라우저 밖으로 나가지 않습니다.",
     searchPlaceholder: "41개 툴 검색 — “crc”, “modbus”, “pt100”…",
     popular: "인기:",
-    stats: "툴 41종 · 8개 카테고리 · 100% 브라우저 내 계산 · 무료",
+    stats: "100% 무료 · 툴 41종 · 8개 카테고리 · 브라우저 내 계산",
     noMatch: "일치하는 툴이 없습니다:",
     soon: "준비 중",
     enChip: "EN",
@@ -124,12 +128,13 @@ export const HUB: Record<SiteLocale, HubStrings> = {
     download: "다운로드",
   },
   ja: {
-    title: "計測・産業エンジニアのためのベンチツール",
+    badge: "100%無料 · 登録不要 · ブラウザ内で完結",
+    title: "ベンチの計算は、このタブひとつで",
     subtitle:
-      "CRC計算、フレームデコード、PLCスケーリング、センサー計算、ファイル変換 — 無料・即時・100%クライアントサイド。",
+      "計測・組み込み・産業オートメーションエンジニアのための無料ツール41種 — CRC、Modbusフレーム、PLCスケーリング、センサー計算、ファイル変換。登録不要、データはブラウザの外に出ません。",
     searchPlaceholder: "41個のツールを検索 — 「crc」「modbus」「pt100」…",
     popular: "人気:",
-    stats: "ツール41種 · 8カテゴリ · 100%ブラウザ内 · 無料",
+    stats: "100%無料 · ツール41種 · 8カテゴリ · ブラウザ内",
     noMatch: "一致するツールがありません:",
     soon: "近日公開",
     enChip: "EN",
@@ -139,12 +144,13 @@ export const HUB: Record<SiteLocale, HubStrings> = {
     download: "ダウンロード",
   },
   de: {
-    title: "Bench-Tools für Mess- und Industrietechnik",
+    badge: "100 % kostenlos · ohne Anmeldung · im Browser",
+    title: "Jede Bench-Berechnung, einen Tab entfernt",
     subtitle:
-      "CRC-Rechner, Frame-Decoder, SPS-Skalierung, Sensor-Mathematik und Dateikonverter — kostenlos, sofort, 100 % clientseitig.",
+      "41 kostenlose Tools für Mess-, Embedded- und Automatisierungstechnik — CRC, Modbus-Frames, SPS-Skalierung, Sensor-Mathematik, Dateikonverter. Ohne Anmeldung, nichts verlässt Ihren Browser.",
     searchPlaceholder: "41 Tools durchsuchen — z. B. „crc“, „modbus“, „pt100“ …",
     popular: "Beliebt:",
-    stats: "41 Tools · 8 Kategorien · 100 % im Browser · Kostenlos",
+    stats: "100 % kostenlos · 41 Tools · 8 Kategorien · im Browser",
     noMatch: "Keine Tools gefunden für",
     soon: "Bald",
     enChip: "EN",
@@ -154,12 +160,13 @@ export const HUB: Record<SiteLocale, HubStrings> = {
     download: "Herunterladen",
   },
   zh: {
-    title: "面向测试测量与工业工程师的工具台",
+    badge: "100% 免费 · 无需注册 · 浏览器本地运行",
+    title: "工程计算，一个标签页搞定",
     subtitle:
-      "CRC 计算、报文解码、PLC 标定换算、传感器计算与文件转换 — 免费、即时、100% 浏览器本地运行。",
+      "面向测试测量、嵌入式与工业自动化工程师的 41 个免费工具 — CRC、Modbus 报文、PLC 换算、传感器计算、文件转换。无需注册，数据不离开浏览器。",
     searchPlaceholder: "搜索 41 个工具 — 试试 “crc”、“modbus”、“pt100”…",
     popular: "热门:",
-    stats: "41 个工具 · 8 个分类 · 100% 浏览器本地 · 免费",
+    stats: "100% 免费 · 41 个工具 · 8 个分类 · 浏览器本地",
     noMatch: "没有匹配的工具:",
     soon: "即将上线",
     enChip: "EN",
