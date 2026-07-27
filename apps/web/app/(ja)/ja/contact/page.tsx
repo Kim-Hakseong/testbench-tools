@@ -4,11 +4,11 @@ import { CONTACT } from "@/content/i18n";
 import { sharedAlternates } from "@/lib/i18n";
 
 export const metadata: Metadata = {
-  title: CONTACT.en.metaTitle,
-  description: CONTACT.en.metaDesc,
-  alternates: sharedAlternates("contact", "en"),
+  title: CONTACT.ja.metaTitle,
+  description: CONTACT.ja.metaDesc,
+  alternates: sharedAlternates("contact", "ja"),
 };
 
 export default function Page() {
-  return <ContactBody locale="en" />;
+  return <ContactBody locale="ja" />;
 }

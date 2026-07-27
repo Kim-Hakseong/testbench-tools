@@ -2,7 +2,7 @@ import Link from "next/link";
 import "../design/tokens.css";
 import "../app/globals.css";
 import ads from "@/content/ads.json";
-import { CHROME, HTML_LANG, LOCALE_PREFIX, type SiteLocale } from "@/content/i18n";
+import { ABOUT, CHROME, CONTACT, HTML_LANG, LOCALE_PREFIX, PRIVACY, type SiteLocale } from "@/content/i18n";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { LangSwitch } from "@/components/LangSwitch";
 
@@ -19,6 +19,7 @@ const langInit = `(function(){try{var p=location.pathname;if(p!=="/"&&p!=="/inde
 /** Shared document shell — each locale's root layout wraps pages with this. */
 export function RootShell({ lang, children }: { lang: SiteLocale; children: React.ReactNode }) {
   const t = CHROME[lang];
+  const p = LOCALE_PREFIX[lang]; // "/" or "/ko/" — keeps chrome links in-locale
   const loadEthical = ads.provider === "ethicalads" && ads.ethicalads.publisher !== "";
   const loadAdsense = ads.provider === "adsense" && ads.adsense.client !== "";
 
@@ -50,10 +51,10 @@ export function RootShell({ lang, children }: { lang: SiteLocale; children: Reac
             </Link>
             <div className="flex items-center gap-3">
               <nav className="hidden items-center gap-4 md:flex" aria-label="Site">
-                <Link href="/apps/" className="text-sm text-mute transition-colors hover:text-body">
+                <Link href={`${p}apps/`} className="text-sm text-mute transition-colors hover:text-body">
                   {t.navApps}
                 </Link>
-                <Link href="/about/" className="text-sm text-mute transition-colors hover:text-body">
+                <Link href={`${p}about/`} className="text-sm text-mute transition-colors hover:text-body">
                   {t.navAbout}
                 </Link>
               </nav>
@@ -69,9 +70,9 @@ export function RootShell({ lang, children }: { lang: SiteLocale; children: Reac
             <p>© {new Date().getFullYear()} TestBench.tools</p>
             <p>{t.footer}</p>
             <nav className="flex gap-4" aria-label="Legal">
-              <Link href="/about/" className="transition-colors hover:text-body">About</Link>
-              <Link href="/contact/" className="transition-colors hover:text-body">Contact</Link>
-              <Link href="/privacy/" className="transition-colors hover:text-body">Privacy</Link>
+              <Link href={`${p}about/`} className="transition-colors hover:text-body">{ABOUT[lang].metaTitle}</Link>
+              <Link href={`${p}contact/`} className="transition-colors hover:text-body">{CONTACT[lang].metaTitle}</Link>
+              <Link href={`${p}privacy/`} className="transition-colors hover:text-body">{PRIVACY[lang].metaTitle}</Link>
             </nav>
           </div>
         </footer>

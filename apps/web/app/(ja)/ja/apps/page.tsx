@@ -4,11 +4,11 @@ import { APPS_PAGE } from "@/content/i18n";
 import { sharedAlternates } from "@/lib/i18n";
 
 export const metadata: Metadata = {
-  title: APPS_PAGE.en.metaTitle,
-  description: APPS_PAGE.en.metaDesc,
-  alternates: sharedAlternates("apps", "en"),
+  title: APPS_PAGE.ja.metaTitle,
+  description: APPS_PAGE.ja.metaDesc,
+  alternates: sharedAlternates("apps", "ja"),
 };
 
 export default function Page() {
-  return <AppsBody locale="en" />;
+  return <AppsBody locale="ja" />;
 }

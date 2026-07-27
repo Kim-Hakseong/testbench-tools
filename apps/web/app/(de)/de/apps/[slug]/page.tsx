@@ -13,14 +13,14 @@ export function generateStaticParams() {
 export function generateMetadata({ params }: Props): Metadata {
   const app = links.apps.find((a) => a.slug === params.slug);
   if (!app) return {};
-  const d = APP_DETAIL.en.apps[app.slug];
+  const d = APP_DETAIL.de.apps[app.slug];
   return {
     title: app.name,
     description: d?.tagline ?? app.description,
-    alternates: sharedAlternates(`apps/${params.slug}`, "en"),
+    alternates: sharedAlternates(`apps/${params.slug}`, "de"),
   };
 }
 
 export default function Page({ params }: Props) {
-  return <AppDetailBody locale="en" slug={params.slug} />;
+  return <AppDetailBody locale="de" slug={params.slug} />;
 }

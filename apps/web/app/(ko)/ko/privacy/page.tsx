@@ -4,11 +4,11 @@ import { PRIVACY } from "@/content/i18n";
 import { sharedAlternates } from "@/lib/i18n";
 
 export const metadata: Metadata = {
-  title: PRIVACY.en.metaTitle,
-  description: PRIVACY.en.metaDesc,
-  alternates: sharedAlternates("privacy", "en"),
+  title: PRIVACY.ko.metaTitle,
+  description: PRIVACY.ko.metaDesc,
+  alternates: sharedAlternates("privacy", "ko"),
 };
 
 export default function Page() {
-  return <PrivacyBody locale="en" />;
+  return <PrivacyBody locale="ko" />;
 }

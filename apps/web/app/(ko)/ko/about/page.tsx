@@ -4,11 +4,11 @@ import { ABOUT } from "@/content/i18n";
 import { sharedAlternates } from "@/lib/i18n";
 
 export const metadata: Metadata = {
-  title: ABOUT.en.metaTitle,
-  description: ABOUT.en.metaDesc,
-  alternates: sharedAlternates("about", "en"),
+  title: ABOUT.ko.metaTitle,
+  description: ABOUT.ko.metaDesc,
+  alternates: sharedAlternates("about", "ko"),
 };
 
 export default function Page() {
-  return <AboutBody locale="en" />;
+  return <AboutBody locale="ko" />;
 }

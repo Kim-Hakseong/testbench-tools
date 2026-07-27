@@ -113,7 +113,7 @@ export const HUB: Record<SiteLocale, HubStrings> = {
   },
   ko: {
     badge: "100% 무료 · 가입 없음 · 브라우저에서 바로",
-    title: "엔지니어의 계산, 브라우저에서 바로 끝",
+    title: "엔지니어의 계산, 브라우저에서 바로",
     subtitle:
       "계측·임베디드·산업자동화 엔지니어용 무료 툴 41종 — CRC, Modbus 프레임, PLC 스케일링, 센서 계산, 파일 변환. 가입 없이, 데이터는 브라우저 밖으로 나가지 않습니다.",
     searchPlaceholder: "41개 툴 검색 — “crc”, “modbus”, “pt100”…",
@@ -432,6 +432,486 @@ export const APP_DESC: Record<SiteLocale, Record<string, string>> = {
   zh: {
     "tdms-converter": "在桌面批量将 NI TDMS 测量文件转换为 CSV。",
     frameterm: "面向帧级协议调试的串口终端。",
+  },
+};
+
+// ---------------------------------------------------------------------------
+// Shared "chrome" pages (Apps, About, Contact, Privacy) — localized per locale
+// so the top-nav tabs keep the user's language.
+// ---------------------------------------------------------------------------
+
+export interface AboutStrings {
+  metaTitle: string;
+  metaDesc: string;
+  h1: string;
+  intro: string;
+  principlesLead: string;
+  principles: { title: string; body: string }[];
+  free: string;
+  contactBefore: string;
+  contactLink: string;
+  contactAfter: string;
+}
+
+export const ABOUT: Record<SiteLocale, AboutStrings> = {
+  en: {
+    metaTitle: "About",
+    metaDesc:
+      "TestBench.tools is a free collection of browser-based micro-tools for test & measurement, embedded and industrial automation engineers.",
+    h1: "About TestBench.tools",
+    intro:
+      "TestBench.tools is a collection of small, fast, free tools for the people who sit between hardware and software: test & measurement engineers, embedded developers and industrial automation folks. CRC calculators, protocol frame decoders, PLC scaling math, sensor equations, measurement file converters — the ten-minute annoyances of bench work, each turned into a page that answers instantly.",
+    principlesLead: "Three principles drive every tool here:",
+    principles: [
+      { title: "Instant.", body: "No sign-up, no configuration ceremony. Each page loads with a worked example already computed and updates as you type." },
+      { title: "Client-side.", body: "Every calculation and file conversion runs in your browser. Your frames, registers and measurement files never leave your machine — important when the data belongs to a customer or a lab." },
+      { title: "Verified.", body: "The calculation engines are covered by an automated test suite pinned to published check values and golden vectors. If a tool page states a number, a test asserts it." },
+    ],
+    free: "The site is free and supported by minimal advertising. There are no accounts, no paywalls and no upload servers.",
+    contactBefore: "Found a bug, a wrong constant, or a tool you wish existed? ",
+    contactLink: "Get in touch",
+    contactAfter: ".",
+  },
+  ko: {
+    metaTitle: "소개",
+    metaDesc:
+      "TestBench.tools는 계측·임베디드·산업자동화 엔지니어를 위한 무료 브라우저 마이크로툴 모음입니다.",
+    h1: "TestBench.tools 소개",
+    intro:
+      "TestBench.tools는 하드웨어와 소프트웨어 사이에서 일하는 사람들 — 계측 엔지니어, 임베디드 개발자, 산업자동화 담당자 — 를 위한 작고 빠른 무료 툴 모음입니다. CRC 계산기, 프로토콜 프레임 디코더, PLC 스케일링, 센서 계산식, 측정 파일 변환기까지. 현장에서 10분씩 잡아먹던 성가신 계산들을 각각 즉시 답하는 페이지로 만들었습니다.",
+    principlesLead: "모든 툴은 세 가지 원칙을 따릅니다:",
+    principles: [
+      { title: "즉시.", body: "가입도, 복잡한 설정도 없습니다. 각 페이지는 예제가 이미 계산된 상태로 열리고, 입력하는 대로 결과가 갱신됩니다." },
+      { title: "클라이언트 사이드.", body: "모든 계산과 파일 변환은 브라우저 안에서 실행됩니다. 프레임·레지스터·측정 파일은 절대 기기 밖으로 나가지 않습니다 — 고객이나 연구소의 데이터일 때 특히 중요합니다." },
+      { title: "검증됨.", body: "계산 엔진은 공표된 체크값과 골든 벡터에 고정된 자동 테스트로 검증됩니다. 툴 페이지에 적힌 숫자는 반드시 테스트가 보증합니다." },
+    ],
+    free: "이 사이트는 무료이며 최소한의 광고로 운영됩니다. 계정도, 유료 장벽도, 업로드 서버도 없습니다.",
+    contactBefore: "버그, 잘못된 상수, 또는 있었으면 하는 툴이 있나요? ",
+    contactLink: "알려주세요",
+    contactAfter: ".",
+  },
+  ja: {
+    metaTitle: "概要",
+    metaDesc:
+      "TestBench.toolsは、計測・組み込み・産業オートメーションエンジニアのための無料ブラウザツール集です。",
+    h1: "TestBench.tools について",
+    intro:
+      "TestBench.toolsは、ハードとソフトの間で働く人たち — 計測エンジニア、組み込み開発者、産業オートメーション担当者 — のための小さく速い無料ツール集です。CRC計算、プロトコルフレームのデコード、PLCスケーリング、センサー計算式、計測ファイル変換まで。現場で10分かかっていた面倒な計算を、それぞれ即答するページにしました。",
+    principlesLead: "すべてのツールは3つの原則に従います:",
+    principles: [
+      { title: "即時。", body: "登録も、面倒な設定もありません。各ページは計算済みの例とともに開き、入力するそばから結果が更新されます。" },
+      { title: "クライアントサイド。", body: "すべての計算とファイル変換はブラウザ内で実行されます。フレーム・レジスタ・計測ファイルは端末の外に出ません — 顧客やラボのデータなら特に重要です。" },
+      { title: "検証済み。", body: "計算エンジンは公表されたチェック値とゴールデンベクタに固定された自動テストで検証されています。ツールページに書かれた数値は必ずテストが保証します。" },
+    ],
+    free: "このサイトは無料で、最小限の広告で運営されています。アカウントも、有料の壁も、アップロードサーバーもありません。",
+    contactBefore: "バグ、誤った定数、あるいは欲しいツールはありますか？ ",
+    contactLink: "ご連絡ください",
+    contactAfter: "。",
+  },
+  de: {
+    metaTitle: "Über",
+    metaDesc:
+      "TestBench.tools ist eine kostenlose Sammlung browserbasierter Mikro-Tools für Mess-, Embedded- und Automatisierungstechnik.",
+    h1: "Über TestBench.tools",
+    intro:
+      "TestBench.tools ist eine Sammlung kleiner, schneller, kostenloser Tools für alle zwischen Hardware und Software: Messtechniker, Embedded-Entwickler und Automatisierer. CRC-Rechner, Protokoll-Decoder, SPS-Skalierung, Sensorgleichungen, Messdatei-Konverter — die Zehn-Minuten-Ärgernisse der Bench-Arbeit, jedes zu einer Seite gemacht, die sofort antwortet.",
+    principlesLead: "Drei Prinzipien leiten jedes Tool hier:",
+    principles: [
+      { title: "Sofort.", body: "Keine Anmeldung, kein Konfigurationsaufwand. Jede Seite lädt mit einem bereits berechneten Beispiel und aktualisiert sich beim Tippen." },
+      { title: "Clientseitig.", body: "Jede Berechnung und Dateikonvertierung läuft in Ihrem Browser. Frames, Register und Messdateien verlassen Ihr Gerät nie — wichtig, wenn die Daten einem Kunden oder Labor gehören." },
+      { title: "Verifiziert.", body: "Die Rechen-Engines sind durch eine automatisierte Testsuite abgedeckt, die an veröffentlichte Prüfwerte und Golden Vectors gebunden ist. Steht eine Zahl auf einer Tool-Seite, sichert ein Test sie zu." },
+    ],
+    free: "Die Seite ist kostenlos und wird durch minimale Werbung finanziert. Es gibt keine Konten, keine Paywalls und keine Upload-Server.",
+    contactBefore: "Einen Fehler, eine falsche Konstante oder ein fehlendes Tool gefunden? ",
+    contactLink: "Melden Sie sich",
+    contactAfter: ".",
+  },
+  zh: {
+    metaTitle: "关于",
+    metaDesc:
+      "TestBench.tools 是面向测试测量、嵌入式与工业自动化工程师的免费浏览器微工具合集。",
+    h1: "关于 TestBench.tools",
+    intro:
+      "TestBench.tools 是为身处硬件与软件之间的人 —— 测试测量工程师、嵌入式开发者、工业自动化人员 —— 打造的小巧、快速、免费的工具合集。CRC 计算、协议报文解码、PLC 换算、传感器公式、测量文件转换：把现场那些耗上十分钟的琐碎计算，各自做成一个即时给出答案的页面。",
+    principlesLead: "每个工具都遵循三条原则：",
+    principles: [
+      { title: "即时。", body: "无需注册，无需繁琐配置。每个页面打开时已算好一个示例，并随输入实时更新。" },
+      { title: "本地运行。", body: "所有计算与文件转换都在你的浏览器中完成。报文、寄存器、测量文件绝不离开你的设备 —— 当数据属于客户或实验室时尤为重要。" },
+      { title: "经过验证。", body: "计算引擎由自动化测试覆盖，并锁定到公开的校验值与黄金向量。工具页上写出的数字，都有测试为其背书。" },
+    ],
+    free: "本站免费，靠极少量广告维持。没有账号、没有付费墙、没有上传服务器。",
+    contactBefore: "发现了 bug、错误的常数，或希望增加某个工具？ ",
+    contactLink: "联系我们",
+    contactAfter: "。",
+  },
+};
+
+export interface ContactStrings {
+  metaTitle: string;
+  metaDesc: string;
+  h1: string;
+  lead: string;
+  priority: string;
+}
+
+export const CONTACT: Record<SiteLocale, ContactStrings> = {
+  en: {
+    metaTitle: "Contact",
+    metaDesc: "Contact TestBench.tools — bug reports, corrections and tool requests.",
+    h1: "Contact",
+    lead: "Bug reports, incorrect constants, feature requests, or anything else — email works best:",
+    priority:
+      "Reports of wrong values get priority. If a calculator disagrees with your instrument or datasheet, include the input, the expected value and its source — the fix usually ships with a new regression test.",
+  },
+  ko: {
+    metaTitle: "문의",
+    metaDesc: "TestBench.tools 문의 — 버그 신고, 오류 수정, 툴 요청.",
+    h1: "문의",
+    lead: "버그 신고, 잘못된 상수, 기능 요청 등 무엇이든 — 이메일이 가장 좋습니다:",
+    priority:
+      "값이 틀렸다는 신고를 최우선으로 처리합니다. 계산기가 계측기나 데이터시트와 다르면 입력값·기대값·출처를 함께 보내주세요 — 대부분 새 회귀 테스트와 함께 수정됩니다.",
+  },
+  ja: {
+    metaTitle: "お問い合わせ",
+    metaDesc: "TestBench.tools へのお問い合わせ — バグ報告、修正、ツール要望。",
+    h1: "お問い合わせ",
+    lead: "バグ報告、誤った定数、機能要望など、何でも — メールが最適です:",
+    priority:
+      "値の誤りの報告を最優先で対応します。計算機が測定器やデータシートと合わない場合は、入力値・期待値・出典を添えてください — 多くは新しい回帰テストとともに修正されます。",
+  },
+  de: {
+    metaTitle: "Kontakt",
+    metaDesc: "Kontakt zu TestBench.tools — Fehlerberichte, Korrekturen und Tool-Wünsche.",
+    h1: "Kontakt",
+    lead: "Fehlerberichte, falsche Konstanten, Feature-Wünsche oder alles andere — E-Mail funktioniert am besten:",
+    priority:
+      "Meldungen falscher Werte haben Vorrang. Wenn ein Rechner Ihrem Gerät oder Datenblatt widerspricht, fügen Sie Eingabe, erwarteten Wert und Quelle bei — die Korrektur kommt meist mit einem neuen Regressionstest.",
+  },
+  zh: {
+    metaTitle: "联系",
+    metaDesc: "联系 TestBench.tools —— bug 反馈、勘误与工具需求。",
+    h1: "联系",
+    lead: "bug 反馈、错误常数、功能需求或其他任何事 —— 邮件最方便：",
+    priority:
+      "数值错误的反馈优先处理。若某个计算器与你的仪器或数据手册不一致，请附上输入值、期望值及其出处 —— 修复通常会连同一条新的回归测试一起发布。",
+  },
+};
+
+export interface PrivacyStrings {
+  metaTitle: string;
+  metaDesc: string;
+  h1: string;
+  updated: string;
+  sections: { heading: string; body: string }[];
+  contactHeading: string;
+  contactBefore: string;
+}
+
+const PRIVACY_UPDATED = "2026-07-25";
+
+export const PRIVACY: Record<SiteLocale, PrivacyStrings> = {
+  en: {
+    metaTitle: "Privacy",
+    metaDesc: "TestBench.tools privacy policy: client-side calculations, no accounts, no upload servers.",
+    h1: "Privacy",
+    updated: `Last updated: ${PRIVACY_UPDATED}`,
+    sections: [
+      { heading: "Your data stays with you", body: "Every calculator, decoder and file converter on this site runs entirely in your browser. Values you type and files you open are processed locally by JavaScript and are never transmitted to us or to any server. There are no upload endpoints, no accounts and no databases behind this site — it is served as static files." },
+      { heading: "What is stored locally", body: "Two items of localStorage: your dark/light theme preference and your language choice. Both stay in your browser and are not readable by us. No other client-side storage is used by the site itself." },
+      { heading: "Analytics", body: "We run no analytics and no tracking scripts of our own." },
+      { heading: "Advertising", body: "The site is ad-supported. When advertising is active, we prefer EthicalAds, a network that serves contextual ads without cookies, tracking or personal-data collection. If Google AdSense units are ever enabled, a consent dialog compliant with Google's requirements will be shown first, and Google's own privacy policy applies. Ad scripts are the only third-party requests this site makes." },
+    ],
+    contactHeading: "Contact",
+    contactBefore: "Privacy questions: ",
+  },
+  ko: {
+    metaTitle: "개인정보",
+    metaDesc: "TestBench.tools 개인정보 방침: 브라우저 내 계산, 계정 없음, 업로드 서버 없음.",
+    h1: "개인정보",
+    updated: `최종 수정: ${PRIVACY_UPDATED}`,
+    sections: [
+      { heading: "데이터는 당신에게 머뭅니다", body: "이 사이트의 모든 계산기·디코더·파일 변환기는 전적으로 브라우저 안에서 실행됩니다. 입력한 값과 연 파일은 JavaScript가 로컬에서 처리하며, 저희나 어떤 서버로도 전송되지 않습니다. 업로드 엔드포인트도, 계정도, 데이터베이스도 없습니다 — 정적 파일로 제공됩니다." },
+      { heading: "로컬에 저장되는 것", body: "localStorage 두 항목: 다크/라이트 테마 설정과 언어 선택. 둘 다 브라우저에 남으며 저희는 읽을 수 없습니다. 사이트 자체는 그 외 어떤 클라이언트 저장소도 사용하지 않습니다." },
+      { heading: "분석", body: "저희는 어떤 분석·추적 스크립트도 운영하지 않습니다." },
+      { heading: "광고", body: "이 사이트는 광고로 운영됩니다. 광고가 활성화될 때는 쿠키·추적·개인정보 수집 없이 문맥 광고를 제공하는 EthicalAds를 우선합니다. Google AdSense를 사용하게 될 경우, Google 요건에 맞는 동의 창을 먼저 표시하며 Google의 개인정보 방침이 적용됩니다. 광고 스크립트가 이 사이트가 하는 유일한 서드파티 요청입니다." },
+    ],
+    contactHeading: "문의",
+    contactBefore: "개인정보 관련 문의: ",
+  },
+  ja: {
+    metaTitle: "プライバシー",
+    metaDesc: "TestBench.tools プライバシーポリシー: ブラウザ内で計算、アカウントなし、アップロードサーバーなし。",
+    h1: "プライバシー",
+    updated: `最終更新: ${PRIVACY_UPDATED}`,
+    sections: [
+      { heading: "データはあなたの手元に", body: "本サイトのすべての計算機・デコーダ・ファイル変換はブラウザ内で完結します。入力した値や開いたファイルはJavaScriptがローカルで処理し、当方やいかなるサーバーにも送信されません。アップロード先も、アカウントも、データベースもありません — 静的ファイルとして配信されています。" },
+      { heading: "ローカルに保存されるもの", body: "localStorageの2項目: ダーク/ライトのテーマ設定と言語の選択。どちらもブラウザ内に留まり、当方は読み取れません。サイト自体はそれ以外のクライアント側ストレージを使用しません。" },
+      { heading: "アナリティクス", body: "当方独自のアナリティクスやトラッキングスクリプトは一切運用していません。" },
+      { heading: "広告", body: "本サイトは広告で運営されています。広告が有効な場合は、Cookie・トラッキング・個人データ収集なしで文脈広告を配信するEthicalAdsを優先します。Google AdSenseを使用する場合は、Googleの要件に準拠した同意ダイアログを先に表示し、Googleのプライバシーポリシーが適用されます。広告スクリプトが本サイトの行う唯一の第三者リクエストです。" },
+    ],
+    contactHeading: "お問い合わせ",
+    contactBefore: "プライバシーに関するお問い合わせ: ",
+  },
+  de: {
+    metaTitle: "Datenschutz",
+    metaDesc: "Datenschutz von TestBench.tools: clientseitige Berechnungen, keine Konten, keine Upload-Server.",
+    h1: "Datenschutz",
+    updated: `Zuletzt aktualisiert: ${PRIVACY_UPDATED}`,
+    sections: [
+      { heading: "Ihre Daten bleiben bei Ihnen", body: "Jeder Rechner, Decoder und Dateikonverter auf dieser Seite läuft vollständig in Ihrem Browser. Eingegebene Werte und geöffnete Dateien werden lokal von JavaScript verarbeitet und niemals an uns oder einen Server übertragen. Es gibt keine Upload-Endpunkte, keine Konten und keine Datenbanken — die Seite wird als statische Dateien ausgeliefert." },
+      { heading: "Was lokal gespeichert wird", body: "Zwei localStorage-Einträge: Ihre Hell/Dunkel-Themenwahl und Ihre Sprachwahl. Beide bleiben in Ihrem Browser und sind für uns nicht lesbar. Weitere clientseitige Speicherung nutzt die Seite selbst nicht." },
+      { heading: "Analyse", body: "Wir betreiben keine eigene Analyse und keine Tracking-Skripte." },
+      { heading: "Werbung", body: "Die Seite ist werbefinanziert. Bei aktiver Werbung bevorzugen wir EthicalAds, ein Netzwerk, das kontextbezogene Anzeigen ohne Cookies, Tracking oder Erhebung personenbezogener Daten ausliefert. Falls Google-AdSense-Einheiten aktiviert werden, erscheint zuerst ein Google-konformer Einwilligungsdialog, und Googles eigene Datenschutzerklärung gilt. Werbeskripte sind die einzigen Drittanbieter-Anfragen dieser Seite." },
+    ],
+    contactHeading: "Kontakt",
+    contactBefore: "Datenschutzfragen: ",
+  },
+  zh: {
+    metaTitle: "隐私",
+    metaDesc: "TestBench.tools 隐私政策：本地计算、无账号、无上传服务器。",
+    h1: "隐私",
+    updated: `最后更新：${PRIVACY_UPDATED}`,
+    sections: [
+      { heading: "数据始终在你手中", body: "本站的每一个计算器、解码器和文件转换器都完全在你的浏览器中运行。你输入的值和打开的文件由 JavaScript 在本地处理，绝不会传输给我们或任何服务器。本站没有上传端点、没有账号、没有数据库 —— 以静态文件形式提供。" },
+      { heading: "本地存储的内容", body: "两项 localStorage：你的深/浅色主题偏好和语言选择。二者都保留在你的浏览器中，我们无法读取。站点本身不使用其他任何客户端存储。" },
+      { heading: "分析统计", body: "我们不运行任何自有的分析或跟踪脚本。" },
+      { heading: "广告", body: "本站依靠广告维持。启用广告时，我们优先选择 EthicalAds —— 一个不使用 Cookie、不跟踪、不收集个人数据的上下文广告网络。若启用 Google AdSense，会先显示符合 Google 要求的同意对话框，并适用 Google 自身的隐私政策。广告脚本是本站唯一的第三方请求。" },
+    ],
+    contactHeading: "联系",
+    contactBefore: "隐私相关问题：",
+  },
+};
+
+export interface AppsStrings {
+  metaTitle: string;
+  metaDesc: string;
+  h1: string;
+  intro: string;
+  comingSoon: string;
+  download: string;
+  freeSuffix: string;
+  footerNote: string;
+}
+
+export const APPS_PAGE: Record<SiteLocale, AppsStrings> = {
+  en: {
+    metaTitle: "Desktop Apps — free companions for heavier workloads",
+    metaDesc: "Free desktop applications from TestBench.tools: batch TDMS conversion and frame-level serial work, for jobs too heavy for a browser tab.",
+    h1: "Desktop Apps",
+    intro: "The web tools on this site handle everyday conversions instantly. For heavier, offline workloads — multi-gigabyte files, batch jobs, live serial ports — these free desktop companions take over.",
+    comingSoon: "Coming soon",
+    download: "Download",
+    freeSuffix: "· free",
+    footerNote: "Both apps are free, like everything on this site. Release notifications will appear here when downloads open.",
+  },
+  ko: {
+    metaTitle: "데스크톱 앱 — 무거운 작업을 위한 무료 동반 앱",
+    metaDesc: "TestBench.tools의 무료 데스크톱 앱: TDMS 일괄 변환, 프레임 단위 시리얼 작업 등 브라우저 탭에 버거운 작업을 위한 앱.",
+    h1: "데스크톱 앱",
+    intro: "이 사이트의 웹 툴은 일상적인 변환을 즉시 처리합니다. 수 기가바이트 파일, 일괄 작업, 실시간 시리얼 포트처럼 더 무겁고 오프라인이 필요한 작업은 이 무료 데스크톱 앱이 맡습니다.",
+    comingSoon: "출시 예정",
+    download: "다운로드",
+    freeSuffix: "· 무료",
+    footerNote: "두 앱 모두 이 사이트의 모든 것과 마찬가지로 무료입니다. 다운로드가 열리면 여기에 안내가 표시됩니다.",
+  },
+  ja: {
+    metaTitle: "デスクトップアプリ — 重い作業向けの無料コンパニオン",
+    metaDesc: "TestBench.toolsの無料デスクトップアプリ: TDMS一括変換やフレームレベルのシリアル作業など、ブラウザタブには重すぎる作業向け。",
+    h1: "デスクトップアプリ",
+    intro: "本サイトのウェブツールは日常的な変換を即座に処理します。数ギガバイトのファイル、バッチ処理、リアルタイムのシリアルポートといった重くオフラインが必要な作業は、この無料デスクトップアプリが引き受けます。",
+    comingSoon: "近日公開",
+    download: "ダウンロード",
+    freeSuffix: "· 無料",
+    footerNote: "どちらのアプリも、本サイトのすべてと同じく無料です。ダウンロード開始時にはここでお知らせします。",
+  },
+  de: {
+    metaTitle: "Desktop-Apps — kostenlose Begleiter für größere Aufgaben",
+    metaDesc: "Kostenlose Desktop-Apps von TestBench.tools: TDMS-Stapelkonvertierung und Serienarbeit auf Frame-Ebene, für Aufgaben zu groß für einen Browser-Tab.",
+    h1: "Desktop-Apps",
+    intro: "Die Web-Tools dieser Seite erledigen alltägliche Konvertierungen sofort. Für größere, Offline-Aufgaben — Multi-Gigabyte-Dateien, Batch-Jobs, Live-Schnittstellen — übernehmen diese kostenlosen Desktop-Begleiter.",
+    comingSoon: "Demnächst",
+    download: "Herunterladen",
+    freeSuffix: "· kostenlos",
+    footerNote: "Beide Apps sind kostenlos, wie alles auf dieser Seite. Sobald Downloads verfügbar sind, erscheint hier ein Hinweis.",
+  },
+  zh: {
+    metaTitle: "桌面应用 —— 面向大工作量的免费伴侣",
+    metaDesc: "TestBench.tools 的免费桌面应用：TDMS 批量转换与帧级串口调试，处理浏览器标签页难以胜任的任务。",
+    h1: "桌面应用",
+    intro: "本站的网页工具可即时完成日常转换。对于更重、需要离线的工作 —— 数 GB 文件、批量任务、实时串口 —— 交给这些免费的桌面伴侣。",
+    comingSoon: "即将推出",
+    download: "下载",
+    freeSuffix: "· 免费",
+    footerNote: "两款应用都免费，一如本站的一切。下载开放时会在此处提示。",
+  },
+};
+
+export interface AppDetailStrings {
+  breadcrumb: string;
+  comingSoonPrefix: string;
+  downloadPrefix: string;
+  downloadSuffix: string;
+  plannedScope: string;
+  whatItDoes: string;
+  needNow: string;
+  apps: Record<string, { tagline: string; features: string[]; counterpartLabel: string }>;
+}
+
+export const APP_DETAIL: Record<SiteLocale, AppDetailStrings> = {
+  en: {
+    breadcrumb: "Desktop Apps",
+    comingSoonPrefix: "Coming soon — ",
+    downloadPrefix: "Download for ",
+    downloadSuffix: " — free",
+    plannedScope: "Planned scope",
+    whatItDoes: "What it does",
+    needNow: "Need it right now, in the browser? ",
+    apps: {
+      "tdms-converter": {
+        tagline: "Batch-convert NI TDMS measurement files to CSV on your desktop.",
+        features: [
+          "Convert many TDMS files in one run (folder batch)",
+          "Handles files larger than browser memory allows",
+          "Channel selection and CSV column layout options",
+          "Runs fully offline — measurement data never leaves the machine",
+        ],
+        counterpartLabel: "TDMS to CSV web tool",
+      },
+      frameterm: {
+        tagline: "A serial terminal built for frame-level protocol work.",
+        features: [
+          "Hex-first send/receive view for binary protocols",
+          "Frame delimiting and timestamping",
+          "CRC checking on received frames",
+          "Runs fully offline on your bench PC",
+        ],
+        counterpartLabel: "Modbus Frame Decoder web tool",
+      },
+    },
+  },
+  ko: {
+    breadcrumb: "데스크톱 앱",
+    comingSoonPrefix: "출시 예정 — ",
+    downloadPrefix: "다운로드: ",
+    downloadSuffix: " — 무료",
+    plannedScope: "계획된 범위",
+    whatItDoes: "기능",
+    needNow: "지금 브라우저에서 바로 필요하신가요? ",
+    apps: {
+      "tdms-converter": {
+        tagline: "NI TDMS 측정 파일을 데스크톱에서 일괄 CSV 변환.",
+        features: [
+          "여러 TDMS 파일을 한 번에 변환 (폴더 일괄)",
+          "브라우저 메모리 한계를 넘는 큰 파일 처리",
+          "채널 선택과 CSV 컬럼 레이아웃 옵션",
+          "완전 오프라인 실행 — 측정 데이터가 기기 밖으로 나가지 않음",
+        ],
+        counterpartLabel: "TDMS to CSV 웹 툴",
+      },
+      frameterm: {
+        tagline: "프레임 단위 프로토콜 작업을 위한 시리얼 터미널.",
+        features: [
+          "바이너리 프로토콜용 HEX 우선 송수신 뷰",
+          "프레임 구분과 타임스탬프",
+          "수신 프레임 CRC 검사",
+          "벤치 PC에서 완전 오프라인 실행",
+        ],
+        counterpartLabel: "Modbus Frame Decoder 웹 툴",
+      },
+    },
+  },
+  ja: {
+    breadcrumb: "デスクトップアプリ",
+    comingSoonPrefix: "近日公開 — ",
+    downloadPrefix: "ダウンロード: ",
+    downloadSuffix: " — 無料",
+    plannedScope: "予定している範囲",
+    whatItDoes: "できること",
+    needNow: "今すぐブラウザで使いたいですか？ ",
+    apps: {
+      "tdms-converter": {
+        tagline: "NI TDMS計測ファイルをデスクトップで一括CSV変換。",
+        features: [
+          "複数のTDMSファイルを一度に変換（フォルダ一括）",
+          "ブラウザのメモリ上限を超える大きなファイルにも対応",
+          "チャンネル選択とCSV列レイアウトのオプション",
+          "完全オフライン実行 — 計測データは端末外に出ません",
+        ],
+        counterpartLabel: "TDMS to CSV ウェブツール",
+      },
+      frameterm: {
+        tagline: "フレームレベルのプロトコル作業向けシリアルターミナル。",
+        features: [
+          "バイナリプロトコル向けのHEX優先の送受信ビュー",
+          "フレーム区切りとタイムスタンプ",
+          "受信フレームのCRCチェック",
+          "ベンチPCで完全オフライン実行",
+        ],
+        counterpartLabel: "Modbus Frame Decoder ウェブツール",
+      },
+    },
+  },
+  de: {
+    breadcrumb: "Desktop-Apps",
+    comingSoonPrefix: "Demnächst — ",
+    downloadPrefix: "Herunterladen für ",
+    downloadSuffix: " — kostenlos",
+    plannedScope: "Geplanter Umfang",
+    whatItDoes: "Was es tut",
+    needNow: "Sofort im Browser gebraucht? ",
+    apps: {
+      "tdms-converter": {
+        tagline: "NI-TDMS-Messdateien am Desktop stapelweise nach CSV konvertieren.",
+        features: [
+          "Viele TDMS-Dateien in einem Lauf konvertieren (Ordner-Batch)",
+          "Verarbeitet Dateien größer als der Browser-Speicher erlaubt",
+          "Kanalauswahl und CSV-Spaltenlayout-Optionen",
+          "Läuft komplett offline — Messdaten verlassen das Gerät nie",
+        ],
+        counterpartLabel: "TDMS-zu-CSV Web-Tool",
+      },
+      frameterm: {
+        tagline: "Ein serielles Terminal für Protokollarbeit auf Frame-Ebene.",
+        features: [
+          "Hex-orientierte Sende-/Empfangsansicht für Binärprotokolle",
+          "Frame-Abgrenzung und Zeitstempel",
+          "CRC-Prüfung empfangener Frames",
+          "Läuft komplett offline auf Ihrem Bench-PC",
+        ],
+        counterpartLabel: "Modbus-Frame-Decoder Web-Tool",
+      },
+    },
+  },
+  zh: {
+    breadcrumb: "桌面应用",
+    comingSoonPrefix: "即将推出 —— ",
+    downloadPrefix: "下载（",
+    downloadSuffix: "）—— 免费",
+    plannedScope: "计划范围",
+    whatItDoes: "功能",
+    needNow: "现在就想在浏览器里用？ ",
+    apps: {
+      "tdms-converter": {
+        tagline: "在桌面批量将 NI TDMS 测量文件转换为 CSV。",
+        features: [
+          "一次转换多个 TDMS 文件（文件夹批处理）",
+          "可处理超出浏览器内存的大文件",
+          "通道选择与 CSV 列布局选项",
+          "完全离线运行 —— 测量数据绝不离开本机",
+        ],
+        counterpartLabel: "TDMS to CSV 网页工具",
+      },
+      frameterm: {
+        tagline: "为帧级协议调试打造的串口终端。",
+        features: [
+          "面向二进制协议的十六进制优先收发视图",
+          "帧分隔与时间戳",
+          "接收帧的 CRC 校验",
+          "在你的工作台 PC 上完全离线运行",
+        ],
+        counterpartLabel: "Modbus 报文解码 网页工具",
+      },
+    },
   },
 };
 

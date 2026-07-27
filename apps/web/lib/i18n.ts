@@ -36,3 +36,22 @@ export function koOnlyAlternates(slug: string): Metadata["alternates"] {
   const ko = `/ko/tools/${slug}/`;
   return { canonical: ko, languages: { ko, "x-default": ko } };
 }
+
+/**
+ * hreflang for a shared chrome page that exists in every locale (about,
+ * contact, privacy, apps). `page` is the path segment, e.g. "about".
+ */
+export function sharedAlternates(page: string, locale: SiteLocale): Metadata["alternates"] {
+  const url = (l: SiteLocale) => `${LOCALE_PREFIX[l]}${page}/`;
+  return {
+    canonical: url(locale),
+    languages: {
+      en: url("en"),
+      ko: url("ko"),
+      ja: url("ja"),
+      de: url("de"),
+      "zh-CN": url("zh"),
+      "x-default": url("en"),
+    },
+  };
+}
