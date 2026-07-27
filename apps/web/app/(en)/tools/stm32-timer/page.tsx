@@ -7,6 +7,7 @@ import { RelatedTools, ToolShell } from "@/components/tool/ToolShell";
 import { JsonLd, toolJsonLd } from "@/lib/jsonld";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "/tools/stm32-timer/" },
   title: "STM32 Timer Calculator — PSC/ARR pairs for a target frequency",
   description:
     "Free online STM32-style timer calculator: prescaler and auto-reload (PSC/ARR) pairs for your clock and target frequency, ranked by error. 100% in your browser.",

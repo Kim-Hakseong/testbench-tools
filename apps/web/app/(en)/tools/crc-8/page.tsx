@@ -7,6 +7,7 @@ import { RelatedTools, ToolShell } from "@/components/tool/ToolShell";
 import { JsonLd, toolJsonLd } from "@/lib/jsonld";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "/tools/crc-8/" },
   title: "CRC-8 Calculator — standard and MAXIM/Dallas variants",
   description:
     "Free online CRC-8 calculator for hex or ASCII data: plain CRC-8 (poly 0x07) and CRC-8/MAXIM (Dallas 1-Wire, poly 0x31). 100% in your browser.",

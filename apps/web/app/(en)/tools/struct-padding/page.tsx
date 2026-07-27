@@ -7,6 +7,7 @@ import { RelatedTools, ToolShell } from "@/components/tool/ToolShell";
 import { JsonLd, toolJsonLd } from "@/lib/jsonld";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "/tools/struct-padding/" },
   title: "Struct Padding Visualizer — offsets, padding, sizeof",
   description:
     "Free online C struct layout visualizer: paste members and see offsets, padding bytes and total sizeof for 32/64-bit natural alignment, with a byte map. 100% in your browser.",

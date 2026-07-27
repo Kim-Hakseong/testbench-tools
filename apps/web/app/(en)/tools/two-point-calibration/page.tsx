@@ -7,6 +7,7 @@ import { RelatedTools, ToolShell } from "@/components/tool/ToolShell";
 import { JsonLd, toolJsonLd } from "@/lib/jsonld";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "/tools/two-point-calibration/" },
   title: "2-Point Calibration Calculator — slope & offset from two readings",
   description:
     "Free online two-point calibration calculator: enter two reference readings and get slope, offset and the correction equation, with live apply/invert. 100% in your browser.",

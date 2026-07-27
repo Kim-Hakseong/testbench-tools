@@ -7,6 +7,7 @@ import { RelatedTools, ToolShell } from "@/components/tool/ToolShell";
 import { JsonLd, toolJsonLd } from "@/lib/jsonld";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "/tools/hex-file-viewer/" },
   title: "Hex File Viewer — inspect any file as a hex dump",
   description:
     "Free online hex viewer: drop any file and read it as a classic hex dump with offsets and ASCII column, loaded incrementally. No upload, 100% in your browser.",

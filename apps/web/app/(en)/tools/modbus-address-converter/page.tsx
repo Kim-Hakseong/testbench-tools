@@ -7,6 +7,7 @@ import { RelatedTools, ToolShell } from "@/components/tool/ToolShell";
 import { JsonLd, toolJsonLd } from "@/lib/jsonld";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "/tools/modbus-address-converter/" },
   title: "Modbus Address Converter — 40001 ↔ 0-based ↔ 1-based",
   description:
     "Free online Modbus address converter between data-model notation (40001, 30001…), 1-based and 0-based protocol addresses, for all four entity types. 100% in your browser.",

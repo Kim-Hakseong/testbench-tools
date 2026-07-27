@@ -7,6 +7,7 @@ import { RelatedTools, ToolShell } from "@/components/tool/ToolShell";
 import { JsonLd, toolJsonLd } from "@/lib/jsonld";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "/tools/nmea-checksum/" },
   title: "NMEA Checksum Calculator — validate & generate 0183 sentences",
   description:
     "Free online NMEA 0183 checksum tool: paste a sentence to validate its checksum, or type a body to generate the complete $…*HH sentence. 100% in your browser.",

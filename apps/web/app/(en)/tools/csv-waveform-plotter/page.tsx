@@ -7,6 +7,7 @@ import { RelatedTools, ToolShell } from "@/components/tool/ToolShell";
 import { JsonLd, toolJsonLd } from "@/lib/jsonld";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "/tools/csv-waveform-plotter/" },
   title: "CSV Waveform Plotter — quick-look charts in the browser",
   description:
     "Free online CSV waveform plotter: drop a CSV, pick channels, and see the traces on a scope-style canvas — auto delimiter and header detection, no upload.",

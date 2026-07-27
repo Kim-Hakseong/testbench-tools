@@ -7,6 +7,7 @@ import { RelatedTools, ToolShell } from "@/components/tool/ToolShell";
 import { JsonLd, toolJsonLd } from "@/lib/jsonld";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "/tools/bit-field-extractor/" },
   title: "Bit Field Extractor — decode register fields visually",
   description:
     "Free online bit field extractor: enter a register value up to 64-bit, define named fields by LSB and width, and read each field's value on a colored bit strip. 100% in your browser.",

@@ -7,6 +7,7 @@ import { RelatedTools, ToolShell } from "@/components/tool/ToolShell";
 import { JsonLd, toolJsonLd } from "@/lib/jsonld";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "/tools/db-dbm/" },
   title: "dB · dBm Calculator — ratios, absolute power, Vrms",
   description:
     "Free online dB and dBm calculator: power/voltage ratios ↔ dB, dBm ↔ watts, and the RMS voltage at 50/75/600 Ω. 100% in your browser.",

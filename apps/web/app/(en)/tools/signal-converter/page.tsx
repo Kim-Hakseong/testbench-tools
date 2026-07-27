@@ -7,6 +7,7 @@ import { RelatedTools, ToolShell } from "@/components/tool/ToolShell";
 import { JsonLd, toolJsonLd } from "@/lib/jsonld";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "/tools/signal-converter/" },
   title: "Signal Converter — 4-20mA ↔ 1-5V ↔ 0-10V ↔ 3-15psi",
   description:
     "Free online process signal converter between standard instrumentation spans: 4-20mA, 0-20mA, 1-5V, 0-5V, 0-10V and 3-15psi. 100% in your browser.",

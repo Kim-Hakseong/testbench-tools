@@ -7,6 +7,7 @@ import { RelatedTools, ToolShell } from "@/components/tool/ToolShell";
 import { JsonLd, toolJsonLd } from "@/lib/jsonld";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "/tools/rms-peak/" },
   title: "RMS ↔ Peak Converter — sine wave levels",
   description:
     "Free online RMS, peak and peak-to-peak converter for sine waves, including rectified average. Enter any one level and read the rest. 100% in your browser.",

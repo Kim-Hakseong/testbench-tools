@@ -7,6 +7,7 @@ import { RelatedTools, ToolShell } from "@/components/tool/ToolShell";
 import { JsonLd, toolJsonLd } from "@/lib/jsonld";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "/tools/q-format/" },
   title: "Fixed-Point Q-Format Converter — Qm.n ↔ real value",
   description:
     "Free online fixed-point converter: real values ↔ signed Qm.n (Q15, Q31, Q7.8 …) with range, resolution and quantization error. 100% in your browser.",

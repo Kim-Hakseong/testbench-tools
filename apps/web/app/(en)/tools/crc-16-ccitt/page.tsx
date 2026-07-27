@@ -7,6 +7,7 @@ import { RelatedTools, ToolShell } from "@/components/tool/ToolShell";
 import { JsonLd, toolJsonLd } from "@/lib/jsonld";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "/tools/crc-16-ccitt/" },
   title: "CRC-16 CCITT Calculator — CCITT-FALSE, XMODEM, KERMIT, IBM-SDLC",
   description:
     "Free online CRC-16 CCITT calculator with selectable variants (CCITT-FALSE, XMODEM, KERMIT, IBM-SDLC) — all based on polynomial 0x1021. Runs 100% in your browser.",

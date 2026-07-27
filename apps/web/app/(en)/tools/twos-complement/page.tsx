@@ -7,6 +7,7 @@ import { RelatedTools, ToolShell } from "@/components/tool/ToolShell";
 import { JsonLd, toolJsonLd } from "@/lib/jsonld";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "/tools/twos-complement/" },
   title: "Two's Complement Converter — signed ↔ hex, 8/16/32-bit",
   description:
     "Free online two's complement converter: signed decimal ↔ raw hex at 8, 16 and 32-bit widths, with unsigned and binary views. 100% in your browser.",

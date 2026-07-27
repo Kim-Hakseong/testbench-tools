@@ -7,6 +7,7 @@ import { RelatedTools, ToolShell } from "@/components/tool/ToolShell";
 import { JsonLd, toolJsonLd } from "@/lib/jsonld";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "/tools/crc-identifier/" },
   title: "CRC Identifier — find which CRC algorithm produced a checksum",
   description:
     "Free online CRC identifier: enter data with its known checksum and find the matching CRC algorithm — catalog lookup plus exhaustive parameter search in a Web Worker. 100% in your browser.",

@@ -7,6 +7,7 @@ import { RelatedTools, ToolShell } from "@/components/tool/ToolShell";
 import { JsonLd, toolJsonLd } from "@/lib/jsonld";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "/tools/i2c-pullup/" },
   title: "I2C Pull-up Calculator — resistor bounds from bus capacitance",
   description:
     "Free online I2C pull-up resistor calculator: minimum and maximum values from VDD, bus capacitance and speed mode, using the I2C specification formulas. 100% in your browser.",

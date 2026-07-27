@@ -7,6 +7,7 @@ import { RelatedTools, ToolShell } from "@/components/tool/ToolShell";
 import { JsonLd, toolJsonLd } from "@/lib/jsonld";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "/tools/nmea-0183-decoder/" },
   title: "NMEA 0183 Decoder — labeled fields, checksum check",
   description:
     "Free online NMEA 0183 decoder: paste a sentence and get labeled fields for GGA, RMC, GLL, VTG, GSA and generic parsing for the rest, with checksum verdict. 100% in your browser.",

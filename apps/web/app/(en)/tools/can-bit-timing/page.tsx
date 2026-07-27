@@ -7,6 +7,7 @@ import { RelatedTools, ToolShell } from "@/components/tool/ToolShell";
 import { JsonLd, toolJsonLd } from "@/lib/jsonld";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "/tools/can-bit-timing/" },
   title: "CAN Bit Timing Calculator — prescaler, segments, sample point",
   description:
     "Free online CAN bit timing calculator: prescaler, SEG1/SEG2 and sample point candidates for your clock and bitrate, ranked by error. 100% in your browser.",

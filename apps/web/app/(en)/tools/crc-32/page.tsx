@@ -7,6 +7,7 @@ import { RelatedTools, ToolShell } from "@/components/tool/ToolShell";
 import { JsonLd, toolJsonLd } from "@/lib/jsonld";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "/tools/crc-32/" },
   title: "CRC-32 Calculator — online, instant",
   description:
     "Free online CRC-32 (ISO-HDLC) calculator for hex bytes or ASCII text. Instant results with byte-order views. Runs 100% in your browser.",

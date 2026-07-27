@@ -7,6 +7,7 @@ import { RelatedTools, ToolShell } from "@/components/tool/ToolShell";
 import { JsonLd, toolJsonLd } from "@/lib/jsonld";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "/tools/loop-burden/" },
   title: "Loop Burden Calculator — 4-20mA voltage budget check",
   description:
     "Free online 4-20mA loop burden calculator: check that your supply voltage covers sense resistor, wiring and the transmitter's minimum voltage at 20mA. 100% in your browser.",

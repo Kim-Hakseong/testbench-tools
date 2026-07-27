@@ -7,6 +7,7 @@ import { RelatedTools, ToolShell } from "@/components/tool/ToolShell";
 import { JsonLd, toolJsonLd } from "@/lib/jsonld";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "/tools/crc-16-modbus/" },
   title: "CRC-16 Modbus Calculator — online, instant",
   description:
     "Free online CRC-16/MODBUS calculator for hex or ASCII data. Live result with little-endian byte order for Modbus RTU frames. 100% in your browser.",

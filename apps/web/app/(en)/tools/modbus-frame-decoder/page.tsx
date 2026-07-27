@@ -7,6 +7,7 @@ import { RelatedTools, ToolShell } from "@/components/tool/ToolShell";
 import { JsonLd, toolJsonLd } from "@/lib/jsonld";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "/tools/modbus-frame-decoder/" },
   title: "Modbus Frame Decoder — RTU & TCP, online",
   description:
     "Free online Modbus frame decoder for RTU and TCP. Paste hex bytes to see unit, function, addresses and data fields with CRC verification. 100% in your browser.",

@@ -7,6 +7,7 @@ import { RelatedTools, ToolShell } from "@/components/tool/ToolShell";
 import { JsonLd, toolJsonLd } from "@/lib/jsonld";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "/tools/ieee-754-float/" },
   title: "IEEE 754 Float Converter — Modbus word orders ABCD/CDAB/BADC/DCBA",
   description:
     "Free online IEEE 754 float ↔ Modbus register converter covering all four word orders (ABCD, CDAB, BADC, DCBA). Find the right byte order for your PLC. 100% in your browser.",

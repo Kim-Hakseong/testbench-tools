@@ -7,6 +7,7 @@ import { RelatedTools, ToolShell } from "@/components/tool/ToolShell";
 import { JsonLd, toolJsonLd } from "@/lib/jsonld";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "/tools/uart-baud-error/" },
   title: "UART Baud Rate Error Calculator — divisor & error %",
   description:
     "Free online UART baud rate error calculator: integer divisor, actual baud and error percentage for your clock, with a table of common baud rates. 100% in your browser.",

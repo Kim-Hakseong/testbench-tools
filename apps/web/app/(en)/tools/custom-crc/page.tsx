@@ -7,6 +7,7 @@ import { RelatedTools, ToolShell } from "@/components/tool/ToolShell";
 import { JsonLd, toolJsonLd } from "@/lib/jsonld";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "/tools/custom-crc/" },
   title: "Custom CRC Calculator — any width, poly, init, reflect, xorout",
   description:
     "Free online parameterized CRC calculator: set width (1–32), polynomial, init, RefIn/RefOut and XorOut to match any CRC model. Runs 100% in your browser.",

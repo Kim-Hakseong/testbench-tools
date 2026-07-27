@@ -7,6 +7,7 @@ import { RelatedTools, ToolShell } from "@/components/tool/ToolShell";
 import { JsonLd, toolJsonLd } from "@/lib/jsonld";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "/tools/endianness-converter/" },
   title: "Endianness Converter — byte swap 16/32/64-bit, word swap",
   description:
     "Free online endianness converter: full byte reversal, 16-bit byte swap and 32-bit word swap for any hex value. See every reordering at once. 100% in your browser.",

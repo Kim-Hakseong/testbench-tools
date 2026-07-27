@@ -8,6 +8,7 @@ import { RelatedTools, ToolShell } from "@/components/tool/ToolShell";
 import { JsonLd, toolJsonLd } from "@/lib/jsonld";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "/tools/ascii-to-hex/" },
   title: "ASCII to Hex Converter — online, instant",
   description:
     "Free online ASCII to hex converter. Type text and get spaced uppercase hex bytes instantly — ready to paste into a serial terminal or test script. 100% in your browser.",

@@ -7,6 +7,7 @@ import { RelatedTools, ToolShell } from "@/components/tool/ToolShell";
 import { JsonLd, toolJsonLd } from "@/lib/jsonld";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "/tools/can-frame-decoder/" },
   title: "CAN Frame Decoder — ID, DLC, data breakdown",
   description:
     "Free online CAN 2.0 frame breakdown: identifier in hex/binary/decimal for 11- and 29-bit frames, DLC and data bytes, with range validation. 100% in your browser.",

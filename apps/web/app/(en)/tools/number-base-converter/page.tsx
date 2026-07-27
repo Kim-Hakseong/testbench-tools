@@ -7,6 +7,7 @@ import { RelatedTools, ToolShell } from "@/components/tool/ToolShell";
 import { JsonLd, toolJsonLd } from "@/lib/jsonld";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "/tools/number-base-converter/" },
   title: "Number Base Converter — binary, octal, decimal, hex",
   description:
     "Free online number base converter with four synced fields: edit binary, octal, decimal or hexadecimal and the others update live. Arbitrary size, 100% in your browser.",

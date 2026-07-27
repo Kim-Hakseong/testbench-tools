@@ -7,6 +7,7 @@ import { RelatedTools, ToolShell } from "@/components/tool/ToolShell";
 import { JsonLd, toolJsonLd } from "@/lib/jsonld";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "/tools/hex-srec-bin/" },
   title: "Intel HEX · S-Record ↔ BIN Converter — firmware images",
   description:
     "Free online firmware image converter: Intel HEX or Motorola S-Record to raw binary and back, with checksum validation and segment map. 100% in your browser.",

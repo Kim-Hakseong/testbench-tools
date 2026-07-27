@@ -7,6 +7,7 @@ import { RelatedTools, ToolShell } from "@/components/tool/ToolShell";
 import { JsonLd, toolJsonLd } from "@/lib/jsonld";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "/tools/tdms-to-csv/" },
   title: "TDMS to CSV Converter — in your browser, no upload",
   description:
     "Free online NI TDMS to CSV converter. Drag in a .tdms file, pick channels and download CSV — parsed by streaming in your browser, nothing is uploaded.",

@@ -7,6 +7,7 @@ import { RelatedTools, ToolShell } from "@/components/tool/ToolShell";
 import { JsonLd, toolJsonLd } from "@/lib/jsonld";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "/tools/tdms-viewer/" },
   title: "TDMS Viewer — inspect groups, channels and properties",
   description:
     "Free online NI TDMS viewer: drop a .tdms file and browse its group/channel tree, properties and first samples — parsed by streaming in your browser, no upload.",
