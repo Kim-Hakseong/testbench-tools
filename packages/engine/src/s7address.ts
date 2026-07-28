@@ -190,7 +190,9 @@ export function parseS7Address(input: string): S7ParseResult {
   // Global area: %MW100 / %M10.3 / IB0 / E0.0
   const global = /^%?([IEQAM])([BWD])?(\d+)(?:\.(\d+))?$/.exec(text);
   if (global) {
-    const area = AREA_LETTERS[global[1]];
+    // Group 1 is mandatory in the pattern, so it is always present; the
+    // fallback keeps the index type honest for the compiler.
+    const area = AREA_LETTERS[global[1] ?? ""]!;
     const widthLetter = global[2] as S7Width | undefined;
     const byteOffset = Number(global[3]);
     const bit = global[4];

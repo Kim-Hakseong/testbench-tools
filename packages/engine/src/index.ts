@@ -23,3 +23,4 @@ export * from "./s7address";
 export * from "./melsec";
 export * from "./abslc";
 export * from "./lsxgt";
+export * from "./xgt";
