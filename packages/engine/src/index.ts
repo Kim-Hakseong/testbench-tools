@@ -19,3 +19,4 @@ export * from "./cstruct";
 export * from "./firmware";
 export * from "./filetools";
 export * from "./mil1553";
+export * from "./s7address";

@@ -1,0 +1,110 @@
+{
+  "$comment": "Siemens S7 address-notation golden vectors. Every value follows from the documented S7 addressing model (an address names a byte offset in an area plus an access width: X=bit, B=1 byte, W=2 bytes, D=4 bytes; bits are 0-7). No vendor-specific magic numbers are involved — these are the arithmetic consequences of that model. DO NOT MODIFY.",
+  "parse": [
+    {
+      "input": "%MW100",
+      "canonical": "%MW100",
+      "area": "M",
+      "width": "W",
+      "byteOffset": 100,
+      "bytes": [100, 101],
+      "firstBit": 800
+    },
+    {
+      "input": "%M10.3",
+      "canonical": "%M10.3",
+      "area": "M",
+      "width": "X",
+      "byteOffset": 10,
+      "bitOffset": 3,
+      "bytes": [10],
+      "firstBit": 83
+    },
+    {
+      "input": "%MD100",
+      "canonical": "%MD100",
+      "area": "M",
+      "width": "D",
+      "byteOffset": 100,
+      "bytes": [100, 101, 102, 103],
+      "firstBit": 800
+    },
+    {
+      "input": "%IB0",
+      "canonical": "%IB0",
+      "area": "I",
+      "width": "B",
+      "byteOffset": 0,
+      "bytes": [0],
+      "firstBit": 0
+    },
+    {
+      "input": "e0.0",
+      "canonical": "%I0.0",
+      "area": "I",
+      "width": "X",
+      "byteOffset": 0,
+      "bitOffset": 0,
+      "bytes": [0],
+      "firstBit": 0
+    },
+    {
+      "input": "A1.7",
+      "canonical": "%Q1.7",
+      "area": "Q",
+      "width": "X",
+      "byteOffset": 1,
+      "bitOffset": 7,
+      "bytes": [1],
+      "firstBit": 15
+    },
+    {
+      "input": "DB1.DBW20",
+      "canonical": "DB1.DBW20",
+      "area": "DB",
+      "dbNumber": 1,
+      "width": "W",
+      "byteOffset": 20,
+      "bytes": [20, 21],
+      "firstBit": 160
+    },
+    {
+      "input": "db10.dbx4.5",
+      "canonical": "DB10.DBX4.5",
+      "area": "DB",
+      "dbNumber": 10,
+      "width": "X",
+      "byteOffset": 4,
+      "bitOffset": 5,
+      "bytes": [4],
+      "firstBit": 37
+    }
+  ],
+  "rejects": [
+    { "input": "%M10.8", "why": "bit must be 0-7" },
+    { "input": "%MW10.2", "why": "word is not a bit access" },
+    { "input": "%M10", "why": "ambiguous without a width or bit" },
+    { "input": "DB1.DBX10", "why": "bit access needs a bit number" },
+    { "input": "", "why": "empty" },
+    { "input": "%ZW10", "why": "unknown area" }
+  ],
+  "overlap": [
+    { "a": "%MW100", "b": "%MW101", "overlaps": true, "$why": "both cover byte 101" },
+    { "a": "%MW100", "b": "%MW102", "overlaps": false, "$why": "100-101 vs 102-103" },
+    { "a": "%MD100", "b": "%MW102", "overlaps": true, "$why": "100-103 covers 102-103" },
+    { "a": "%MW100", "b": "%MB101", "overlaps": true, "$why": "byte 101 is inside the word" },
+    { "a": "%M100.0", "b": "%MW100", "overlaps": true, "$why": "bit lives in byte 100" },
+    { "a": "%M100.0", "b": "%M100.1", "overlaps": false, "$why": "distinct bits" },
+    { "a": "%M100.0", "b": "%M100.0", "overlaps": true, "$why": "same bit" },
+    { "a": "%MW100", "b": "%IW100", "overlaps": false, "$why": "different areas" },
+    { "a": "DB1.DBW20", "b": "DB2.DBW20", "overlaps": false, "$why": "different data blocks" },
+    { "a": "DB1.DBW20", "b": "DB1.DBW21", "overlaps": true, "$why": "same block, byte 21 shared" }
+  ],
+  "allocate": {
+    "$comment": "Non-overlapping layout: words step by 2, double words by 4.",
+    "words": { "area": "M", "width": "W", "start": 100, "count": 4, "expect": ["%MW100", "%MW102", "%MW104", "%MW106"] },
+    "dwords": { "area": "M", "width": "D", "start": 200, "count": 3, "expect": ["%MD200", "%MD204", "%MD208"] },
+    "bytes": { "area": "M", "width": "B", "start": 0, "count": 3, "expect": ["%MB0", "%MB1", "%MB2"] },
+    "bits": { "area": "M", "width": "X", "start": 10, "count": 10, "expect": ["%M10.0", "%M10.1", "%M10.2", "%M10.3", "%M10.4", "%M10.5", "%M10.6", "%M10.7", "%M11.0", "%M11.1"] }
+  }
+}
