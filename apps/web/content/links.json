@@ -15,7 +15,7 @@
       "name": "FrameTerm",
       "description": "Serial terminal built for frame-level protocol work.",
       "platforms": ["Windows"],
-      "url": "https://github.com/Kim-Hakseong/testbench-frameterm/releases/download/v0.1.0/FrameTerm-v0.1.0-win-x64.exe",
+      "url": "https://github.com/Kim-Hakseong/testbench-frameterm/releases/download/v0.2.0/FrameTerm-v0.2.0-win-x64.exe",
       "repo": "https://github.com/Kim-Hakseong/testbench-frameterm",
       "screenshot": "/apps/frameterm.png",
       "free": true
