@@ -1,0 +1,166 @@
+{
+  "$comment": "Mitsubishi MC protocol (MELSEC Communication Protocol) 3E frame golden vectors. Sources: MELSEC Communication Protocol Reference Manual SH(NA)-080008-AB (2022-05); SLMP Reference Manual SH(NA)-080956ENG-M (2025-05); Q Corresponding Ethernet Interface Module User's Manual (Basic) SH(NA)-080009-X. Complete ASCII frames are the sample-program frames printed in the E71 manual. Data sections are the request/response data examples printed with the batch read/write commands, quoted from the command byte onward. Entries carrying a \"$derived\" note are NOT quoted frames — no manual prints a complete response frame end to end, so any full response here is assembled from the manuals' stated field rules and labelled as such. DO NOT MODIFY.",
+
+  "host": {
+    "$comment": "Host-station access route. Binary bytes are network No., PC No., I/O No. (little-endian), station No.",
+    "networkNo": 0,
+    "pcNo": 255,
+    "ioNo": 1023,
+    "stationNo": 0,
+    "binary": "00 FF FF 03 00",
+    "ascii": "00FF03FF00"
+  },
+
+  "fieldEncoding": {
+    "$comment": "The manuals' own worked examples of how one value is written in each mode.",
+    "dataLength24": { "value": 24, "binary": "18 00", "ascii": "0018" },
+    "monitoringTimer10H": { "value": 16, "binary": "10 00", "ascii": "0010" },
+    "command0401": { "value": 1025, "binary": "01 04", "ascii": "0401" },
+    "ioNo03FF": { "value": 1023, "binary": "FF 03", "ascii": "03FF" }
+  },
+
+  "deviceNumbers": {
+    "$comment": "Head device No. encoding. M is written in decimal, X in hexadecimal, so the same digits mean different points.",
+    "m1234": { "device": "M1234", "radix": "decimal", "number": 1234, "binary": "D2 04 00", "ascii": "001234" },
+    "x1234": {
+      "device": "X1234",
+      "radix": "hexadecimal",
+      "number": 4660,
+      "binary": "34 12 00",
+      "ascii": "001234",
+      "$derived": "The manual prints only the binary form for X1234; the ASCII form follows from the rule that the head device No. is written in the device's own notation, padded to 6 digits."
+    }
+  },
+
+  "asciiFrames": {
+    "$comment": "Complete on-the-wire ASCII request frames from the E71 manual's sample program. Host station access route, CPU monitoring timer 000AH.",
+    "readD0to4": {
+      "frame": "500000FF03FF000018000A04010000D*0000000005",
+      "networkNo": 0,
+      "pcNo": 255,
+      "ioNo": 1023,
+      "stationNo": 0,
+      "requestDataLength": 24,
+      "monitoringTimer": 10,
+      "command": 1025,
+      "subcommand": 0,
+      "device": "D0",
+      "points": 5
+    },
+    "writeD0to4": {
+      "frame": "500000FF03FF00002C000A14010000D*0000000005112233445566778899AA",
+      "requestDataLength": 44,
+      "monitoringTimer": 10,
+      "command": 5121,
+      "subcommand": 0,
+      "device": "D0",
+      "points": 5,
+      "words": [4386, 13124, 21862, 30600, 39338]
+    },
+    "writeD0to4ControlCpu": {
+      "$comment": "Same write addressed to the control-system CPU: request destination module I/O No. 03D0H.",
+      "frame": "500000FF03D000002C000A14010000D*0000000005112233445566778899AA",
+      "ioNo": 976
+    }
+  },
+
+  "dataSections": {
+    "$comment": "Request/response data quoted from the command byte onward (no header). MELSEC-Q/L subcommands: word units 0000H, bit units 0001H.",
+    "readTn100Word": {
+      "device": "TN100",
+      "unit": "word",
+      "points": 3,
+      "binaryRequest": "01 04 00 00 64 00 00 C2 03 00",
+      "asciiRequest": "04010000TN0001000003",
+      "binaryResponseData": "34 12 02 00 EF 1D",
+      "asciiResponseData": "123400021DEF",
+      "words": [4660, 2, 7663]
+    },
+    "readM100Word": {
+      "$comment": "M100-M131 read in word units: 32 points is 2 words.",
+      "device": "M100",
+      "unit": "word",
+      "points": 2,
+      "binaryRequest": "01 04 00 00 64 00 00 90 02 00",
+      "binaryResponseData": "34 12 02 00",
+      "words": [4660, 2]
+    },
+    "readM100Bit": {
+      "device": "M100",
+      "unit": "bit",
+      "points": 8,
+      "binaryRequest": "01 04 01 00 64 00 00 90 08 00",
+      "asciiRequest": "04010001M*0001000008",
+      "binaryResponseData": "00 01 00 11",
+      "asciiResponseData": "00010011",
+      "bits": [0, 0, 0, 1, 0, 0, 1, 1]
+    },
+    "writeD100Word": {
+      "device": "D100",
+      "unit": "word",
+      "points": 3,
+      "words": [6549, 4610, 4400],
+      "binaryRequest": "01 14 00 00 64 00 00 A8 03 00 95 19 02 12 30 11",
+      "asciiRequest": "14010000D*0001000003199512021130"
+    },
+    "writeM100Bit": {
+      "device": "M100",
+      "unit": "bit",
+      "points": 8,
+      "bits": [1, 1, 0, 0, 1, 1, 0, 0],
+      "binaryRequest": "01 14 01 00 64 00 00 90 08 00 11 00 11 00",
+      "asciiRequest": "14010001M*000100000811001100"
+    }
+  },
+
+  "commands": {
+    "batchRead": 1025,
+    "batchWrite": 5121
+  },
+
+  "subcommands": {
+    "$comment": "Word/bit unit selection. MELSEC-Q/L uses 0000H/0001H; MELSEC iQ-R uses 0002H/0003H.",
+    "qlWord": 0,
+    "qlBit": 1,
+    "iqrWord": 2,
+    "iqrBit": 3
+  },
+
+  "pointLimits": {
+    "$comment": "Batch read/write point limits per access unit.",
+    "word": 960,
+    "bitAscii": 3584,
+    "bitBinary": 7168
+  },
+
+  "response": {
+    "$comment": "Response header layout. The end code is the only completion information this engine interprets: 0000H is normal completion, and the manuals redirect to the module manual for every other code, so no meaning table is shipped.",
+    "subheaderBinary": "D0 00",
+    "subheaderAscii": "D000",
+    "endCodeAsciiCharOffset": 18,
+    "normalEndCode": 0,
+    "normalRead": {
+      "$derived": "Assembled from the documented response header layout plus the quoted response data of readTn100Word. No manual prints a complete response frame end to end.",
+      "binary": "D0 00 00 FF FF 03 00 08 00 00 00 34 12 02 00 EF 1D",
+      "ascii": "D00000FF03FF0000100000123400021DEF",
+      "responseDataLengthBinary": 8,
+      "responseDataLengthAscii": 16,
+      "endCode": 0,
+      "words": [4660, 2, 7663]
+    },
+    "abnormal": {
+      "$derived": "Assembled from the documented abnormal-completion layout: end code followed by error information (access route 5 bytes, command 2, subcommand 2). The end code value is illustrative only.",
+      "binary": "D0 00 00 FF FF 03 00 0B 00 51 C0 00 FF FF 03 00 01 04 00 00",
+      "ascii": "D00000FF03FF000016C05100FF03FF0004010000",
+      "endCode": 49233,
+      "errorInformation": {
+        "networkNo": 0,
+        "pcNo": 255,
+        "ioNo": 1023,
+        "stationNo": 0,
+        "command": 1025,
+        "subcommand": 0
+      }
+    }
+  }
+}

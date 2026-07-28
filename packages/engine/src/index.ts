@@ -24,3 +24,4 @@ export * from "./melsec";
 export * from "./abslc";
 export * from "./lsxgt";
 export * from "./xgt";
+export * from "./mcprotocol";
