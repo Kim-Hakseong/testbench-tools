@@ -12,6 +12,8 @@
 | Siemens S7 (S7-300/400/1200/1500) | 주소 = 영역 + 바이트 오프셋 + 접근 폭. X=비트(0–7), B=1바이트, W=2바이트, D=4바이트. 워드/더블워드는 빅엔디안. `%M10.3` = 바이트 10의 비트 3. `DBx.DBWy` = 데이터블록 x의 바이트 y~y+1. | 주소 모델 자체의 산술 — 벤더별 매직 넘버 없음. 겹침·절대 비트 인덱스는 전부 이 정의에서 유도됨. | ✅ 구현됨 (`s7address.ts`, `vectors/s7address.json`) |
 | Mitsubishi MELSEC iQ-R (R시리즈 CPU) | 디바이스 번호 표기: **X, Y = 16진**. M·L·F·V·S·T·ST·C·LC·D·SM·SD = 10진. B·SB·W·SW = 16진. | **MELSEC iQ-R CPU Module User's Manual (Application), SH-081264ENG, 22.1 Device List** — "Notation" 열에 디바이스별 진법이 명시됨. | ✅ 구현됨 (`melsec.ts`) |
 | Mitsubishi MELSEC iQ-F / FX5 | 디바이스 번호 표기: **X, Y = 8진**. M·L·F·S·T·ST·C·LC·D·SM·SD·R·Z = 10진. B·SB·W·SW = 16진. | **MELSEC iQ-F FX5 User's Manual (Application), JY997D55401AD, 4.1 List of Devices** — "Notation" 열에 디바이스별 진법이 명시됨. | ✅ 구현됨 (`melsec.ts`) |
+| Rockwell / Allen-Bradley SLC 500 | 데이터 테이블 `<타입><파일번호>:<엘리먼트>[/<비트>]`. 엘리먼트 0–255, 엘리먼트 1개 = 16비트 워드, 비트 0–15. I/O는 슬롯 기준 `I:<슬롯>.<워드>/<비트>` (워드는 슬롯 점수가 16 초과일 때 필요). 예약 파일 0–8 = O·I·S·B·T·C·R·N·F, 9–255는 사용자 지정(B/T/C/R/N/F/ST/A). | **SLC 500 Instruction Set Reference Manual, Rockwell Automation 1747-RM001G-EN-P (2008-11), Processor Files** — 구분자·범위·I/O 형식·기본 파일 배정이 본문과 예제(`N7:2`, `N7:2/8`, `I:2.1/3`, `O:5.1`)에 명시됨. | ✅ 구현됨 (`abslc.ts`) |
+| LS ELECTRIC XGT (XGK / XGB) | **비트 디바이스**(P·M·K·F·L·S, T/C 접점)는 점 없이 쓰고 **마지막 자리가 16진 비트**, 앞부분은 10진 워드 (`P2047F` = 워드 2047·비트 15). **워드 디바이스**(D·R·U·Z, T/C 현재값)는 점으로 비트 지정하며 **워드 번호는 10진, 비트 번호는 16진** (`D0011.A` = 워드 11·비트 10). | **LS ELECTRIC, XGK/XGB Instructions and Programming V2.2 — §2.2** ("the lowest place should be marked in hexadecimal", "Word device number is displayed in decimal and bit number in hexadecimal") **및 §2.3 Device Area**(비트/워드 디바이스 분류, 입력 범위 표). | ✅ 구현됨 (`lsxgt.ts`) |
 
 > iQ-R와 FX5의 X/Y 진법이 서로 다르다(16진 vs 8진)는 점이 두 매뉴얼의 디바이스 목록
 > 표에서 각각 확인된다. 통설이 아니라 벤더 1차 문서의 "Notation" 열이 근거다.
@@ -29,9 +31,8 @@ S7 항목이 게이트를 통과하는 이유: 구현된 값이 "이 벤더는 2
 | 벤더/계열 | 확인이 필요한 것 | 출처 | 상태 |
 |---|---|---|---|
 | Mitsubishi MELSEC — Q / L 계열 | iQ-R과 같은지 계열별 확인 필요 (iQ-R·FX5만 확인됨) | (미기재) 해당 계열 매뉴얼 확인 후 기재 | ⛔ 구현 금지 |
-| Rockwell / Allen-Bradley — SLC 500, PLC-5 | 파일 표기 `N7:0`, `B3:0/5`, `F8:2`의 파일 타입 번호·요소·비트 문법과 기본 파일 배정 | (미기재) 〃 | ⛔ 구현 금지 |
-| Rockwell / Allen-Bradley — Logix (ControlLogix/CompactLogix) | 태그 기반이라 주소 변환 개념이 성립하는지 자체를 먼저 판단 | (미기재) 〃 | ⛔ 구현 금지 |
-| LS ELECTRIC XGT / XGB | `%MW`, `%IW` 등 IEC 표기와 자체 디바이스 표기의 대응, 워드/비트 접근 규칙 | (미기재) 〃 | ⛔ 구현 금지 |
+| Rockwell / Allen-Bradley — Logix (ControlLogix/CompactLogix) | 태그 기반이라 숫자 주소 변환 대상이 아님 — 툴에서 제외한다고 페이지에 명시함 | 해당 없음 | ⛔ 구현 대상 아님 |
+| Rockwell / Allen-Bradley — PLC-5 | SLC 500과 파일 표기가 같은지 별도 확인 필요 (SLC 500만 확인됨) | (미기재) PLC-5 매뉴얼 확인 후 기재 | ⛔ 구현 금지 |
 
 ### 기재할 때 필요한 항목
 

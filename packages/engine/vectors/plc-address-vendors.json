@@ -1,0 +1,76 @@
+{
+  "$comment": "Allen-Bradley SLC 500 and LS ELECTRIC XGT address-notation golden vectors. AB: SLC 500 Instruction Set Reference Manual, publication 1747-RM001G-EN-P (Nov 2008), Processor Files — element 0-255, 16 bits per element, bit 0-15, I/O written slot.word/bit, default files 0-8. LS: XGK/XGB Instructions and Programming V2.2, 2.2 (bit devices carry the bit as the lowest digit in hexadecimal; word-device bits are dotted and hexadecimal) and 2.3 Device Area. See spec/plc-address-notation.md. DO NOT MODIFY.",
+  "ab": {
+    "defaultFiles": [
+      { "number": 0, "type": "O", "name": "Output" },
+      { "number": 1, "type": "I", "name": "Input" },
+      { "number": 2, "type": "S", "name": "Status" },
+      { "number": 3, "type": "B", "name": "Bit" },
+      { "number": 4, "type": "T", "name": "Timer" },
+      { "number": 5, "type": "C", "name": "Counter" },
+      { "number": 6, "type": "R", "name": "Control" },
+      { "number": 7, "type": "N", "name": "Integer" },
+      { "number": 8, "type": "F", "name": "Floating point" }
+    ],
+    "parse": [
+      { "input": "N7:2", "kind": "data", "type": "N", "file": 7, "element": 2, "canonical": "N7:2" },
+      { "input": "N7:2/8", "kind": "data", "type": "N", "file": 7, "element": 2, "bit": 8, "canonical": "N7:2/8" },
+      { "input": "N10:36", "kind": "data", "type": "N", "file": 10, "element": 36, "canonical": "N10:36" },
+      { "input": "b3:0/5", "kind": "data", "type": "B", "file": 3, "element": 0, "bit": 5, "canonical": "B3:0/5" },
+      { "input": "F8:2", "kind": "data", "type": "F", "file": 8, "element": 2, "canonical": "F8:2" },
+      { "input": "I:2.1/3", "kind": "io", "type": "I", "slot": 2, "word": 1, "bit": 3, "canonical": "I:2.1/3" },
+      { "input": "O:5", "kind": "io", "type": "O", "slot": 5, "word": 0, "canonical": "O:5.0" },
+      { "input": "O:5.1", "kind": "io", "type": "O", "slot": 5, "word": 1, "canonical": "O:5.1" },
+      { "input": "I:8", "kind": "io", "type": "I", "slot": 8, "word": 0, "canonical": "I:8.0" }
+    ],
+    "flatBits": [
+      { "input": "B3:0/5", "flat": 5 },
+      { "input": "B3:1/0", "flat": 16 },
+      { "input": "B3:2/3", "flat": 35 }
+    ],
+    "shorthand": [
+      { "input": "B3/16", "element": 1, "bit": 0 },
+      { "input": "B3/5", "element": 0, "bit": 5 },
+      { "input": "B3/35", "element": 2, "bit": 3 }
+    ],
+    "rejects": [
+      { "input": "N7:2/16", "why": "an element holds 16 bits, so bit is 0-15" },
+      { "input": "N7:256", "why": "element is 0-255" },
+      { "input": "N3:0", "why": "file 3 is the Bit file, not integer" },
+      { "input": "B7:0", "why": "file 7 is the Integer file" },
+      { "input": "", "why": "empty" },
+      { "input": "ZZ:1", "why": "not a file type" }
+    ]
+  },
+  "ls": {
+    "parse": [
+      { "input": "P00000", "symbol": "P", "kind": "bit", "word": 0, "bit": 0, "canonical": "P00000" },
+      { "input": "P00001", "symbol": "P", "kind": "bit", "word": 0, "bit": 1, "canonical": "P00001" },
+      { "input": "P0000F", "symbol": "P", "kind": "bit", "word": 0, "bit": 15, "canonical": "P0000F" },
+      { "input": "P2047F", "symbol": "P", "kind": "bit", "word": 2047, "bit": 15, "canonical": "P2047F" },
+      { "input": "M00000", "symbol": "M", "kind": "bit", "word": 0, "bit": 0, "canonical": "M00000" },
+      { "input": "K00105", "symbol": "K", "kind": "bit", "word": 10, "bit": 5, "canonical": "K00105" },
+      { "input": "D0010.1", "symbol": "D", "kind": "word", "word": 10, "bit": 1, "canonical": "D0010.1" },
+      { "input": "D0011.A", "symbol": "D", "kind": "word", "word": 11, "bit": 10, "canonical": "D0011.A" },
+      { "input": "d0100", "symbol": "D", "kind": "word", "word": 100, "canonical": "D0100" }
+    ],
+    "flatBits": [
+      { "input": "P00000", "flat": 0 },
+      { "input": "P0000F", "flat": 15 },
+      { "input": "P00010", "flat": 16 },
+      { "input": "D0010.1", "flat": 161 }
+    ],
+    "nextBits": {
+      "$comment": "Consecutive bits roll into the next word after F.",
+      "input": "P0000D",
+      "count": 5,
+      "expect": ["P0000D", "P0000E", "P0000F", "P00010", "P00011"]
+    },
+    "rejects": [
+      { "input": "P0000.1", "why": "bit devices do not use a dot" },
+      { "input": "Q00000", "why": "not an XGK device area" },
+      { "input": "D001G", "why": "word device number is decimal" },
+      { "input": "", "why": "empty" }
+    ]
+  }
+}
