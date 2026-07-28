@@ -10,19 +10,19 @@ import { JsonLd, toolJsonLd } from "@/lib/jsonld";
 export const metadata: Metadata = {
   title: "PLC Analog Scaling Calculator — raw counts ↔ engineering units",
   description:
-    "Free online PLC analog scaling calculator: convert raw ADC counts to engineering units and back, with the verified Siemens S7 0–27648 preset or a custom raw range. 100% in your browser.",
+    "Free online PLC analog scaling calculator: convert raw ADC counts to engineering units and back, with manual-verified presets for Siemens S7, Mitsubishi R60AD4, AB SLC 1746-NI4 and LS XGF-AD4S. 100% in your browser.",
   alternates: toolAlternates("plc-analog-scaling", "en"),
-  openGraph: { title: "PLC Analog Scaling Calculator — raw counts ↔ engineering units", description: "Free online PLC analog scaling calculator: convert raw ADC counts to engineering units and back, with the verified Siemens S7 0–27648 preset or a custom raw range. 100% in your browser.", type: "website" },
+  openGraph: { title: "PLC Analog Scaling Calculator — raw counts ↔ engineering units", description: "Free online PLC analog scaling calculator: convert raw ADC counts to engineering units and back, with manual-verified presets for Siemens S7, Mitsubishi R60AD4, AB SLC 1746-NI4 and LS XGF-AD4S. 100% in your browser.", type: "website" },
 };
 
 const FAQS: FaqItem[] = [
   {
     q: "What is the Siemens S7 raw range?",
-    a: "S7 analog input modules deliver 0 to 27648 counts for a nominal 0–100 % input signal. Raw 13824 — exactly half of 27648 — therefore scales to 50.0 on a 0–100 range. That preset is the only vendor range shipped here, because it is the only one recorded with a source in this project's verification file.",
+    a: "S7 analog input modules deliver 0 to 27648 counts for a nominal 0–100 % input signal. Raw 13824 — exactly half of 27648 — therefore scales to 50.0 on a 0–100 range.",
   },
   {
-    q: "Why are Allen-Bradley and Mitsubishi presets missing?",
-    a: "This site implements vendor constants only after they are recorded with a manual reference in its spec file (a correctness gate). Until then, use the Custom raw range option — the math is identical once you know your module's counts.",
+    q: "Why is a preset named after a module rather than a vendor?",
+    a: "Because a raw range belongs to a module and an input range, not to a maker. Mitsubishi's R60AD4 gives 0 to 32000 on a normal 4–20mA range but −8000 to 32000 in extended mode; the SLC 1746-NI4 gives 3277 to 16384 on 4–20mA; and the LS XGF-AD4S lets you pick signed, percentile or precise output per channel, each with its own range. A single number per vendor would be wrong more often than right.",
   },
   {
     q: "What formula does the scaling use?",
@@ -64,7 +64,7 @@ export default function Page() {
 
         <AnswerBox>
           This tool converts raw PLC analog counts into engineering units and
-          back. Pick the verified Siemens S7 preset (0…27648) or enter any
+          back. Pick a verified module preset or enter any
           custom raw range, set your engineering range, and the conversion —
           with percent of span — updates live in both directions.
         </AnswerBox>
@@ -81,10 +81,11 @@ export default function Page() {
             tag.
           </p>
           <p>
-            Vendor presets in this tool are deliberately conservative: a raw
+            Vendor presets here are gated: a raw
             range ships only once its manual reference is recorded in the
-            project's spec gate. Today that is Siemens S7 (0…27648); other
-            vendors are available through the custom range fields.
+            project's spec gate, each citing the module manual it came from. Modules
+            that have not been checked are absent rather than guessed — use the
+            custom range fields for those.
           </p>
         </Section>
 
@@ -103,7 +104,11 @@ export default function Page() {
         <Section title="Parameters">
           <ParamsTable
             rows={[
-              { name: "Siemens S7", value: "0 … 27648", note: "verified preset (spec-gated)" },
+              { name: "Siemens S7", value: "0 … 27648", note: "rated analogue range" },
+              { name: "Mitsubishi R60AD4", value: "0 … 32000", note: "0–10V / 4–20mA · SH-081232ENG" },
+              { name: "Mitsubishi R60AD4 extended", value: "−8000 … 32000", note: "4–20mA extended mode" },
+              { name: "AB SLC 1746-NI4", value: "3277 … 16384", note: "4–20mA input · 1746-UM005B-EN-P" },
+              { name: "LS XGF-AD4S precise", value: "4000 … 20000", note: "4–20mA · XGF-AD4S V1.4" },
               { name: "Allen-Bradley", value: "—", note: "pending manual verification" },
               { name: "Mitsubishi", value: "—", note: "pending manual verification" },
               { name: "LS ELECTRIC", value: "—", note: "pending manual verification" },

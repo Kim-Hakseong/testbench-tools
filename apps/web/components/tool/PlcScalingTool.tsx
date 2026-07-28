@@ -76,8 +76,13 @@ export function PlcScalingTool() {
             onChange={(e) => (e.target.value === "custom" ? setPresetId("custom") : selectPreset(e.target.value))}
             className={`${fieldCls} border-line-strong`}
           >
-            {ANALOG_PRESETS.map((p) => (
-              <option key={p.id} value={p.id}>{p.label}</option>
+            {/* Grouped by maker: a raw range belongs to a module, not a vendor. */}
+            {[...new Set(ANALOG_PRESETS.map((p) => p.vendor))].map((vendor) => (
+              <optgroup key={vendor} label={vendor}>
+                {ANALOG_PRESETS.filter((p) => p.vendor === vendor).map((p) => (
+                  <option key={p.id} value={p.id}>{p.label}</option>
+                ))}
+              </optgroup>
             ))}
             <option value="custom">Custom raw range…</option>
           </select>

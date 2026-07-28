@@ -47,11 +47,18 @@ export function scaleCurrent(mA: number, outMin: number, outMax: number): Curren
 // ---------------------------------------------------------------------------
 // PLC analog vendor presets — ONLY entries backed by spec/vendor-analog-ranges.md
 // may appear here (vendor-constant gate).
-// AB / Mitsubishi / LS: [미정] — not in spec/, must not be implemented.
+//
+// A raw range belongs to a MODULE and an input range, not to a vendor: the same
+// maker ships modules that differ, and some let you pick the output format per
+// channel. Presets are therefore one row per module + range (+ format).
 // ---------------------------------------------------------------------------
 export interface AnalogPreset {
   id: string;
   label: string;
+  /** Maker, for grouping in a picker. */
+  vendor: string;
+  /** Module the range belongs to, or the family when the maker states it that way. */
+  module: string;
   rawMin: number;
   rawMax: number;
   /** Provenance inside this repo. */
@@ -59,11 +66,119 @@ export interface AnalogPreset {
 }
 
 export const ANALOG_PRESETS: AnalogPreset[] = [
+  // Siemens — rated analogue range.
   {
     id: "s7",
     label: "Siemens S7 (0…27648)",
+    vendor: "Siemens",
+    module: "S7 analogue",
     rawMin: 0,
     rawMax: 27648,
+    source: "spec/vendor-analog-ranges.md",
+  },
+
+  // Mitsubishi R60AD4 — SH-081232ENG performance specifications.
+  {
+    id: "r60ad4-normal",
+    label: "Mitsubishi R60AD4 · 0–10V / 4–20mA (0…32000)",
+    vendor: "Mitsubishi",
+    module: "MELSEC iQ-R R60AD4",
+    rawMin: 0,
+    rawMax: 32000,
+    source: "spec/vendor-analog-ranges.md",
+  },
+  {
+    id: "r60ad4-extended",
+    label: "Mitsubishi R60AD4 · 4–20mA extended (−8000…32000)",
+    vendor: "Mitsubishi",
+    module: "MELSEC iQ-R R60AD4",
+    rawMin: -8000,
+    rawMax: 32000,
+    source: "spec/vendor-analog-ranges.md",
+  },
+  {
+    id: "r60ad4-bipolar",
+    label: "Mitsubishi R60AD4 · −10–10V (−32000…32000)",
+    vendor: "Mitsubishi",
+    module: "MELSEC iQ-R R60AD4",
+    rawMin: -32000,
+    rawMax: 32000,
+    source: "spec/vendor-analog-ranges.md",
+  },
+
+  // Allen-Bradley SLC 500 analogue INPUT — 1746-UM005B-EN-P integer representation.
+  {
+    id: "slc-ni4-4-20ma",
+    label: "AB SLC 1746-NI4 · 4–20mA (3277…16384)",
+    vendor: "Allen-Bradley",
+    module: "SLC 500 1746-NI4 input",
+    rawMin: 3277,
+    rawMax: 16384,
+    source: "spec/vendor-analog-ranges.md",
+  },
+  {
+    id: "slc-ni4-0-20ma",
+    label: "AB SLC 1746-NI4 · 0–20mA (0…16384)",
+    vendor: "Allen-Bradley",
+    module: "SLC 500 1746-NI4 input",
+    rawMin: 0,
+    rawMax: 16384,
+    source: "spec/vendor-analog-ranges.md",
+  },
+  {
+    id: "slc-ni4-0-10v",
+    label: "AB SLC 1746-NI4 · 0–10V (0…32767)",
+    vendor: "Allen-Bradley",
+    module: "SLC 500 1746-NI4 input",
+    rawMin: 0,
+    rawMax: 32767,
+    source: "spec/vendor-analog-ranges.md",
+  },
+  {
+    id: "slc-ni4-bipolar",
+    label: "AB SLC 1746-NI4 · −10–10V (−32768…32767)",
+    vendor: "Allen-Bradley",
+    module: "SLC 500 1746-NI4 input",
+    rawMin: -32768,
+    rawMax: 32767,
+    source: "spec/vendor-analog-ranges.md",
+  },
+
+  // LS XGF-AD4S — output format is chosen per channel.
+  {
+    id: "xgf-ad4s-signed",
+    label: "LS XGF-AD4S · Signed value (−32000…32000)",
+    vendor: "LS ELECTRIC",
+    module: "XGF-AD4S",
+    rawMin: -32000,
+    rawMax: 32000,
+    source: "spec/vendor-analog-ranges.md",
+  },
+  {
+    id: "xgf-ad4s-percentile",
+    label: "LS XGF-AD4S · Percentile value (0…10000)",
+    vendor: "LS ELECTRIC",
+    module: "XGF-AD4S",
+    rawMin: 0,
+    rawMax: 10000,
+    source: "spec/vendor-analog-ranges.md",
+  },
+  {
+    id: "xgf-ad4s-precise-4-20ma",
+    label: "LS XGF-AD4S · Precise, 4–20mA (4000…20000)",
+    vendor: "LS ELECTRIC",
+    module: "XGF-AD4S",
+    rawMin: 4000,
+    rawMax: 20000,
+    source: "spec/vendor-analog-ranges.md",
+  },
+  {
+    id: "xgf-ad4s-precise-0-10v",
+    label: "LS XGF-AD4S · Precise, 0–10V (0…10000)",
+    vendor: "LS ELECTRIC",
+    module: "XGF-AD4S",
+    rawMin: 0,
+    rawMax: 10000,
     source: "spec/vendor-analog-ranges.md",
   },
 ];

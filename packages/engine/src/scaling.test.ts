@@ -39,10 +39,44 @@ describe("§9.6 S7 preset scaling", () => {
     expect(scale(v.raw, s7.rawMin, s7.rawMax, v.engMin, v.engMax)).toBeCloseTo(v.value, 9);
   });
 
-  it("catalog contains ONLY spec/-backed presets (S7)", () => {
-    // Vendor-constant gate: AB / Mitsubishi / LS must not appear until spec/ records them.
-    expect(ANALOG_PRESETS.map((p) => p.id)).toEqual(["s7"]);
-    expect(ANALOG_PRESETS[0]!.source).toBe("spec/vendor-analog-ranges.md");
+  it("every preset is spec/-backed and names its module", () => {
+    // Vendor-constant gate: a preset may exist only where spec/ records the
+    // range with a source. Ranges belong to a module, so each must name one.
+    expect(ANALOG_PRESETS.length).toBeGreaterThan(0);
+    for (const preset of ANALOG_PRESETS) {
+      expect(preset.source).toBe("spec/vendor-analog-ranges.md");
+      expect(preset.vendor.length).toBeGreaterThan(0);
+      expect(preset.module.length).toBeGreaterThan(0);
+      expect(preset.rawMax).toBeGreaterThan(preset.rawMin);
+    }
+  });
+
+  it("preset ids are unique", () => {
+    const ids = ANALOG_PRESETS.map((p) => p.id);
+    expect(new Set(ids).size).toBe(ids.length);
+  });
+
+  it("carries the ranges spec/ records for each vendor", () => {
+    const byId = new Map(ANALOG_PRESETS.map((p) => [p.id, p]));
+    // Siemens rated range.
+    expect([byId.get("s7")!.rawMin, byId.get("s7")!.rawMax]).toEqual([0, 27648]);
+    // Mitsubishi R60AD4 — SH-081232ENG.
+    expect([byId.get("r60ad4-normal")!.rawMin, byId.get("r60ad4-normal")!.rawMax]).toEqual([0, 32000]);
+    expect([byId.get("r60ad4-extended")!.rawMin, byId.get("r60ad4-extended")!.rawMax]).toEqual([-8000, 32000]);
+    // AB SLC 1746-NI4 4-20mA — 1746-UM005B-EN-P.
+    expect([byId.get("slc-ni4-4-20ma")!.rawMin, byId.get("slc-ni4-4-20ma")!.rawMax]).toEqual([3277, 16384]);
+    // LS XGF-AD4S precise 4-20mA — XGF-AD4S V1.4.
+    expect([byId.get("xgf-ad4s-precise-4-20ma")!.rawMin, byId.get("xgf-ad4s-precise-4-20ma")!.rawMax]).toEqual([4000, 20000]);
+  });
+
+  it("scales through a vendor preset end to end", () => {
+    // AB 4-20mA: the bottom of the raw range is the bottom of the span.
+    const ab = ANALOG_PRESETS.find((p) => p.id === "slc-ni4-4-20ma")!;
+    expect(scale(ab.rawMin, ab.rawMin, ab.rawMax, 0, 100)).toBeCloseTo(0, 9);
+    expect(scale(ab.rawMax, ab.rawMin, ab.rawMax, 0, 100)).toBeCloseTo(100, 9);
+    // Mitsubishi mid-scale.
+    const mit = ANALOG_PRESETS.find((p) => p.id === "r60ad4-normal")!;
+    expect(scale(16000, mit.rawMin, mit.rawMax, 0, 100)).toBeCloseTo(50, 9);
   });
 });
 
