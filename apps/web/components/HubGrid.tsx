@@ -3,7 +3,7 @@
 import { useMemo, useState } from "react";
 import Link from "next/link";
 import { PUBLIC_TOOL_COUNT, CATEGORIES, TOOLS, type ToolMeta } from "@/content/tools-meta";
-import { CARD_DESC, CATEGORY_NAMES, HUB, type SiteLocale } from "@/content/i18n";
+import { CARD_DESC, CATEGORY_NAMES, HUB, LOCALE_PREFIX, type SiteLocale } from "@/content/i18n";
 import { CategoryIcon } from "@/components/CategoryIcon";
 import { CATEGORY_ACCENT, CATEGORY_WASH } from "@/lib/category-style";
 
@@ -132,6 +132,28 @@ export function HubGrid({ locale = "en" }: { locale?: SiteLocale }) {
               ))}
             </div>
           </div>
+          {/* The desktop apps are the only thing here you take away with you,
+              and a header link alone was too easy to walk past. */}
+          <Link
+            href={`${LOCALE_PREFIX[locale]}apps/`}
+            className="mt-7 inline-flex items-center gap-2 rounded-btn border border-line-strong bg-surface px-4 py-2.5 text-sm font-medium text-ink transition-all hover:-translate-y-0.5 hover:border-mute active:translate-y-0"
+          >
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              aria-hidden="true"
+              className="h-[18px] w-[18px]"
+            >
+              <rect x="3" y="4" width="18" height="12" rx="1.5" />
+              <path d="M8 20h8M12 16v4" />
+            </svg>
+            {t.appsTitle}
+          </Link>
+
           <p className="mt-8 font-mono text-xs text-mute">{t.stats}</p>
         </div>
       </section>
