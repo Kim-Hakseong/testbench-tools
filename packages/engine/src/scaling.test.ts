@@ -40,7 +40,7 @@ describe("§9.6 S7 preset scaling", () => {
   });
 
   it("catalog contains ONLY spec/-backed presets (S7)", () => {
-    // CLAUDE.md §5-3: AB / Mitsubishi / LS must not appear until spec/ records them.
+    // Vendor-constant gate: AB / Mitsubishi / LS must not appear until spec/ records them.
     expect(ANALOG_PRESETS.map((p) => p.id)).toEqual(["s7"]);
     expect(ANALOG_PRESETS[0]!.source).toBe("spec/vendor-analog-ranges.md");
   });

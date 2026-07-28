@@ -1,7 +1,7 @@
 import ads from "@/content/ads.json";
 
 /**
- * Single ad slot component (CLAUDE.md §6). Placement is fixed by the page:
+ * Single ad slot component. Placement is fixed by the page:
  * ① below the results area, ② mid-way through the explainer content —
  * never inside the tool input/result region, max 2 per page.
  *

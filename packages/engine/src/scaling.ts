@@ -46,7 +46,7 @@ export function scaleCurrent(mA: number, outMin: number, outMax: number): Curren
 
 // ---------------------------------------------------------------------------
 // PLC analog vendor presets — ONLY entries backed by spec/vendor-analog-ranges.md
-// may appear here (CLAUDE.md §5-3 vendor-constant gate).
+// may appear here (vendor-constant gate).
 // AB / Mitsubishi / LS: [미정] — not in spec/, must not be implemented.
 // ---------------------------------------------------------------------------
 export interface AnalogPreset {
