@@ -16,7 +16,7 @@ apps/web/            Next.js 14 App Router, static export (output: 'export')
   workers/           Web Workers (CRC deep search)
 packages/engine/     pure-TS calculation engines + vitest golden-vector tests
   vectors/           golden vectors (DESIGN §9 — DO NOT EDIT)
-spec/                human-verified vendor constants gate (CLAUDE.md §5-3)
+spec/                human-verified vendor constants, with sources (release gate)
 ```
 
 ## Development
@@ -29,7 +29,7 @@ pnpm -r test        # engine golden-vector suite (must stay green)
 pnpm build          # static export → apps/web/out/
 ```
 
-Disk cleanup when done (CLAUDE.md §7):
+Disk cleanup when done:
 
 ```sh
 rm -rf node_modules apps/web/.next apps/web/out && pnpm store prune
