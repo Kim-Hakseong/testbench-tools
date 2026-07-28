@@ -6,6 +6,7 @@ import { ABOUT, CHROME, CONTACT, HTML_LANG, LOCALE_PREFIX, PRIVACY, type SiteLoc
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { LangSwitch } from "@/components/LangSwitch";
 import { GitHubIcon } from "@/components/GitHubIcon";
+import { JsonLd, siteJsonLd } from "@/lib/jsonld";
 
 const REPO_URL = "https://github.com/Kim-Hakseong/testbench-tools";
 
@@ -29,6 +30,7 @@ export function RootShell({ lang, children }: { lang: SiteLocale; children: Reac
   return (
     <html lang={HTML_LANG[lang]} suppressHydrationWarning>
       <head>
+        <JsonLd data={siteJsonLd()} />
         <script dangerouslySetInnerHTML={{ __html: themeInit }} />
         {lang === "en" && <script dangerouslySetInnerHTML={{ __html: langInit }} />}
         {/* Self-hosted fonts drive the LCP headline — preload all three. */}

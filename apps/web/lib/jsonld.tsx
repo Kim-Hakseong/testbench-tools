@@ -2,6 +2,30 @@ import type { FaqItem } from "@/components/tool/AeoBlocks";
 
 const SITE = "https://testbench.tools";
 
+// Brand-scoped public repositories — used as schema.org sameAs so search and
+// AI engines resolve the site and its open source to a single entity. Kept as
+// the brand-named repos (not a personal profile) so the asset stays portable.
+export const GITHUB_REPOS = [
+  "https://github.com/Kim-Hakseong/testbench-tools",
+  "https://github.com/Kim-Hakseong/testbench-frameterm",
+];
+
+/** Site-wide Organization node — carries sameAs to the GitHub repositories. */
+export function siteJsonLd(): object[] {
+  return [
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      name: "TestBench.tools",
+      url: SITE,
+      logo: `${SITE}/icon.svg`,
+      description:
+        "Free, 100% client-side micro-tools for test & measurement, embedded and industrial-automation engineers.",
+      sameAs: GITHUB_REPOS,
+    },
+  ];
+}
+
 /** SoftwareApplication + FAQPage JSON-LD for a tool page (PRD §4). */
 export function toolJsonLd(opts: {
   name: string;
