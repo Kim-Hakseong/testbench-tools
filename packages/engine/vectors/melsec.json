@@ -1,0 +1,90 @@
+{
+  "$comment": "Mitsubishi MELSEC device-notation golden vectors. Every radix is taken from the vendor device list: iQ-R = MELSEC iQ-R CPU Module User's Manual (Application) SH-081264ENG, 22.1 Device List; FX5 = MELSEC iQ-F FX5 User's Manual (Application) JY997D55401AD, 4.1 List of Devices. See spec/plc-address-notation.md. DO NOT MODIFY.",
+  "radix": {
+    "iq-r": {
+      "X": "hexadecimal",
+      "Y": "hexadecimal",
+      "M": "decimal",
+      "D": "decimal",
+      "B": "hexadecimal",
+      "W": "hexadecimal",
+      "SB": "hexadecimal",
+      "SW": "hexadecimal",
+      "L": "decimal",
+      "T": "decimal",
+      "C": "decimal",
+      "SM": "decimal",
+      "SD": "decimal"
+    },
+    "fx5": {
+      "X": "octal",
+      "Y": "octal",
+      "M": "decimal",
+      "D": "decimal",
+      "B": "hexadecimal",
+      "W": "hexadecimal",
+      "SB": "hexadecimal",
+      "SW": "hexadecimal",
+      "L": "decimal",
+      "T": "decimal",
+      "C": "decimal",
+      "SM": "decimal",
+      "SD": "decimal"
+    }
+  },
+  "parse": [
+    { "series": "fx5", "input": "X0", "symbol": "X", "radix": "octal", "index": 0 },
+    { "series": "fx5", "input": "X7", "symbol": "X", "radix": "octal", "index": 7 },
+    { "series": "fx5", "input": "X10", "symbol": "X", "radix": "octal", "index": 8 },
+    { "series": "fx5", "input": "X20", "symbol": "X", "radix": "octal", "index": 16 },
+    { "series": "fx5", "input": "Y17", "symbol": "Y", "radix": "octal", "index": 15 },
+    { "series": "fx5", "input": "D100", "symbol": "D", "radix": "decimal", "index": 100 },
+    { "series": "fx5", "input": "M8000", "symbol": "M", "radix": "decimal", "index": 8000 },
+    { "series": "fx5", "input": "W1F", "symbol": "W", "radix": "hexadecimal", "index": 31 },
+    { "series": "iq-r", "input": "X20", "symbol": "X", "radix": "hexadecimal", "index": 32 },
+    { "series": "iq-r", "input": "X1F", "symbol": "X", "radix": "hexadecimal", "index": 31 },
+    { "series": "iq-r", "input": "Y10", "symbol": "Y", "radix": "hexadecimal", "index": 16 },
+    { "series": "iq-r", "input": "D100", "symbol": "D", "radix": "decimal", "index": 100 },
+    { "series": "iq-r", "input": "b1a", "symbol": "B", "radix": "hexadecimal", "index": 26 },
+    { "series": "iq-r", "input": " st50 ", "symbol": "ST", "radix": "decimal", "index": 50 }
+  ],
+  "rejects": [
+    { "series": "fx5", "input": "X8", "why": "octal has no digit 8" },
+    { "series": "fx5", "input": "X9", "why": "octal has no digit 9" },
+    { "series": "fx5", "input": "X1F", "why": "octal has no digit F" },
+    { "series": "iq-r", "input": "X1G", "why": "hexadecimal has no digit G" },
+    { "series": "iq-r", "input": "D1F", "why": "D is decimal on this series" },
+    { "series": "iq-r", "input": "X", "why": "no device number" },
+    { "series": "iq-r", "input": "QQ10", "why": "not a device symbol" },
+    { "series": "fx5", "input": "", "why": "empty" }
+  ],
+  "crossSeries": [
+    {
+      "$why": "The same text means different points on the two series.",
+      "symbol": "X",
+      "text": "X20",
+      "fx5Index": 16,
+      "iqrIndex": 32
+    },
+    {
+      "$why": "The same physical point is written differently.",
+      "symbol": "X",
+      "index": 16,
+      "fx5Text": "X20",
+      "iqrText": "X10"
+    },
+    {
+      "$why": "Decimal devices are unaffected by the series.",
+      "symbol": "D",
+      "index": 100,
+      "fx5Text": "D100",
+      "iqrText": "D100"
+    }
+  ],
+  "next": {
+    "$comment": "Consecutive points still skip the digits the radix does not have.",
+    "fx5X": { "series": "fx5", "input": "X6", "count": 6, "expect": ["X6", "X7", "X10", "X11", "X12", "X13"] },
+    "iqrX": { "series": "iq-r", "input": "XE", "count": 5, "expect": ["XE", "XF", "X10", "X11", "X12"] },
+    "d": { "series": "fx5", "input": "D8", "count": 4, "expect": ["D8", "D9", "D10", "D11"] }
+  }
+}

@@ -10,6 +10,12 @@
 | 벤더/계열 | 규칙 | 근거 | 상태 |
 |---|---|---|---|
 | Siemens S7 (S7-300/400/1200/1500) | 주소 = 영역 + 바이트 오프셋 + 접근 폭. X=비트(0–7), B=1바이트, W=2바이트, D=4바이트. 워드/더블워드는 빅엔디안. `%M10.3` = 바이트 10의 비트 3. `DBx.DBWy` = 데이터블록 x의 바이트 y~y+1. | 주소 모델 자체의 산술 — 벤더별 매직 넘버 없음. 겹침·절대 비트 인덱스는 전부 이 정의에서 유도됨. | ✅ 구현됨 (`s7address.ts`, `vectors/s7address.json`) |
+| Mitsubishi MELSEC iQ-R (R시리즈 CPU) | 디바이스 번호 표기: **X, Y = 16진**. M·L·F·V·S·T·ST·C·LC·D·SM·SD = 10진. B·SB·W·SW = 16진. | **MELSEC iQ-R CPU Module User's Manual (Application), SH-081264ENG, 22.1 Device List** — "Notation" 열에 디바이스별 진법이 명시됨. | ✅ 구현됨 (`melsec.ts`) |
+| Mitsubishi MELSEC iQ-F / FX5 | 디바이스 번호 표기: **X, Y = 8진**. M·L·F·S·T·ST·C·LC·D·SM·SD·R·Z = 10진. B·SB·W·SW = 16진. | **MELSEC iQ-F FX5 User's Manual (Application), JY997D55401AD, 4.1 List of Devices** — "Notation" 열에 디바이스별 진법이 명시됨. | ✅ 구현됨 (`melsec.ts`) |
+
+> iQ-R와 FX5의 X/Y 진법이 서로 다르다(16진 vs 8진)는 점이 두 매뉴얼의 디바이스 목록
+> 표에서 각각 확인된다. 통설이 아니라 벤더 1차 문서의 "Notation" 열이 근거다.
+> 그래서 툴은 계열을 반드시 먼저 고르게 하고, 계열별 진법으로만 해석한다.
 
 S7 항목이 게이트를 통과하는 이유: 구현된 값이 "이 벤더는 27648" 같은 **외부 상수가
 아니라**, 문서화된 주소 모델에서 바로 나오는 **산술**이기 때문이다. 폭이 2바이트라는
@@ -22,8 +28,7 @@ S7 항목이 게이트를 통과하는 이유: 구현된 값이 "이 벤더는 2
 
 | 벤더/계열 | 확인이 필요한 것 | 출처 | 상태 |
 |---|---|---|---|
-| Mitsubishi MELSEC — FX 계열 | X/Y 디바이스 번호의 **진법**(8진/10진/16진), D·M·T·C의 진법, 유효 범위 | (미기재) 프로그래밍 매뉴얼 확인 후 기재 | ⛔ 구현 금지 |
-| Mitsubishi MELSEC — Q / L / iQ-R 계열 | 〃 (FX와 다를 수 있음 — 계열별로 별도 확인 필요) | (미기재) 〃 | ⛔ 구현 금지 |
+| Mitsubishi MELSEC — Q / L 계열 | iQ-R과 같은지 계열별 확인 필요 (iQ-R·FX5만 확인됨) | (미기재) 해당 계열 매뉴얼 확인 후 기재 | ⛔ 구현 금지 |
 | Rockwell / Allen-Bradley — SLC 500, PLC-5 | 파일 표기 `N7:0`, `B3:0/5`, `F8:2`의 파일 타입 번호·요소·비트 문법과 기본 파일 배정 | (미기재) 〃 | ⛔ 구현 금지 |
 | Rockwell / Allen-Bradley — Logix (ControlLogix/CompactLogix) | 태그 기반이라 주소 변환 개념이 성립하는지 자체를 먼저 판단 | (미기재) 〃 | ⛔ 구현 금지 |
 | LS ELECTRIC XGT / XGB | `%MW`, `%IW` 등 IEC 표기와 자체 디바이스 표기의 대응, 워드/비트 접근 규칙 | (미기재) 〃 | ⛔ 구현 금지 |
