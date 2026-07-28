@@ -68,11 +68,11 @@ export function RootShell({ lang, children }: { lang: SiteLocale; children: Reac
                 href={REPO_URL}
                 target="_blank"
                 rel="noopener"
-                aria-label="TestBench.tools source on GitHub"
                 title="TestBench.tools on GitHub"
-                className="text-mute transition-colors hover:text-body"
+                className="inline-flex items-center gap-1.5 rounded-btn border border-line-strong bg-surface px-2 py-1 font-mono text-xs text-body transition-colors hover:border-mute"
               >
-                <GitHubIcon className="h-5 w-5" />
+                <GitHubIcon className="h-4 w-4" />
+                GitHub
               </a>
               <LangSwitch current={lang} />
               <ThemeToggle />

@@ -49,7 +49,7 @@ export const CHROME: Record<SiteLocale, ChromeStrings> = {
     navAbout: "About",
   },
   ko: {
-    badge: "무료 · 100% 브라우저 내",
+    badge: "무료 · 100% 브라우저",
     footer: "모든 계산은 브라우저 안에서 실행됩니다. 업로드도, 계정도 없습니다.",
     navApps: "데스크톱 앱",
     navAbout: "소개",
