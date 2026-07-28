@@ -17,15 +17,37 @@ export function HeaderNav({ routeLang }: { routeLang: SiteLocale }) {
 
   return (
     <>
+      {/* Desktop Apps leads to downloadable products, so it carries an icon and
+          full-strength ink. About stays quiet, and the badge is a statement
+          rather than a destination — it reads as one only when it looks like
+          the links beside it. */}
       <nav className="hidden items-center gap-4 md:flex" aria-label="Site">
-        <Link href={`${p}apps/`} className="text-sm text-mute transition-colors hover:text-body">
+        <Link
+          href={`${p}apps/`}
+          className="group inline-flex items-center gap-1.5 text-sm font-medium text-ink transition-colors hover:text-mute"
+        >
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            aria-hidden="true"
+            className="h-4 w-4"
+          >
+            <rect x="3" y="4" width="18" height="12" rx="1.5" />
+            <path d="M8 20h8M12 16v4" />
+          </svg>
           {t.navApps}
         </Link>
         <Link href={`${p}about/`} className="text-sm text-mute transition-colors hover:text-body">
           {t.navAbout}
         </Link>
       </nav>
-      <span className="hidden font-mono text-xs text-mute sm:inline">{t.badge}</span>
+      <span className="hidden font-mono text-[11px] text-mute/70 sm:inline" aria-hidden="true">
+        {t.badge}
+      </span>
       <LangSwitch current={lang} />
     </>
   );
