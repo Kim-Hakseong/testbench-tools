@@ -8,6 +8,8 @@ const SITE = "https://testbench.tools";
 export const GITHUB_REPOS = [
   "https://github.com/Kim-Hakseong/testbench-tools",
   "https://github.com/Kim-Hakseong/testbench-frameterm",
+  "https://github.com/Kim-Hakseong/testbench-modbus-workbench",
+  "https://github.com/Kim-Hakseong/testbench-tdms-converter",
 ];
 
 /** Site-wide Organization node — carries sameAs to the GitHub repositories. */

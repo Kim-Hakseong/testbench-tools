@@ -449,27 +449,27 @@ export const CARD_DESC: Partial<Record<SiteLocale, Record<string, string>>> = {
 // Desktop app card descriptions
 export const APP_DESC: Record<SiteLocale, Record<string, string>> = {
   en: {
-    "tdms-converter": "Batch-convert NI TDMS measurement files to CSV on your desktop.",
+    "tdms-converter": "Desktop viewer and CSV converter for NI TDMS measurement files.",
     frameterm: "Serial terminal built for frame-level protocol work.",
     "modbus-workbench": "Modbus RTU/TCP master with polling, writes and a built-in simulator.",
   },
   ko: {
-    "tdms-converter": "NI TDMS 측정 파일을 데스크톱에서 일괄 CSV 변환.",
+    "tdms-converter": "NI TDMS 측정 파일용 데스크톱 뷰어 겸 CSV 변환기.",
     frameterm: "프레임 단위 프로토콜 작업용 시리얼 터미널.",
     "modbus-workbench": "폴링·쓰기·내장 시뮬레이터를 갖춘 Modbus RTU/TCP 마스터.",
   },
   ja: {
-    "tdms-converter": "NI TDMS計測ファイルをデスクトップで一括CSV変換。",
+    "tdms-converter": "NI TDMS計測ファイル用のデスクトップビューア兼CSV変換ツール。",
     frameterm: "フレームレベルのプロトコル作業向けシリアルターミナル。",
     "modbus-workbench": "ポーリング・書き込み・内蔵シミュレータを備えた Modbus RTU/TCP マスター。",
   },
   de: {
-    "tdms-converter": "NI-TDMS-Messdateien am Desktop stapelweise nach CSV konvertieren.",
+    "tdms-converter": "Desktop-Viewer und CSV-Konverter für NI-TDMS-Messdateien.",
     frameterm: "Serielles Terminal für Protokollarbeit auf Frame-Ebene.",
     "modbus-workbench": "Modbus-RTU/TCP-Master mit Abfragen, Schreibzugriffen und internem Simulator.",
   },
   zh: {
-    "tdms-converter": "在桌面批量将 NI TDMS 测量文件转换为 CSV。",
+    "tdms-converter": "面向 NI TDMS 测量文件的桌面查看器与 CSV 转换工具。",
     frameterm: "面向帧级协议调试的串口终端。",
     "modbus-workbench": "带轮询、写入与内置模拟器的 Modbus RTU/TCP 主站。",
   },
@@ -814,12 +814,13 @@ export const APP_DETAIL: Record<SiteLocale, AppDetailStrings> = {
     needNow: "Need it right now, in the browser? ",
     apps: {
       "tdms-converter": {
-        tagline: "Batch-convert NI TDMS measurement files to CSV on your desktop.",
+        tagline: "Open, inspect and convert NI TDMS measurement files on your desktop.",
         features: [
-          "Convert many TDMS files in one run (folder batch)",
-          "Handles files larger than browser memory allows",
-          "Channel selection and CSV column layout options",
-          "Runs fully offline — measurement data never leaves the machine",
+          "Browse groups, channels and the properties attached at every level",
+          "Export CSV, or CSV that keeps the properties a plain export discards",
+          "Streams segment by segment, so files larger than memory still open",
+          "Reads a file killed mid-write, keeping everything before the broken tail",
+          "Runs fully offline; five UI languages",
         ],
         counterpartLabel: "TDMS to CSV web tool",
       },
@@ -856,12 +857,13 @@ export const APP_DETAIL: Record<SiteLocale, AppDetailStrings> = {
     needNow: "지금 브라우저에서 바로 필요하신가요? ",
     apps: {
       "tdms-converter": {
-        tagline: "NI TDMS 측정 파일을 데스크톱에서 일괄 CSV 변환.",
+        tagline: "NI TDMS 측정 파일을 데스크톱에서 열고 살펴보고 변환.",
         features: [
-          "여러 TDMS 파일을 한 번에 변환 (폴더 일괄)",
-          "브라우저 메모리 한계를 넘는 큰 파일 처리",
-          "채널 선택과 CSV 컬럼 레이아웃 옵션",
-          "완전 오프라인 실행 — 측정 데이터가 기기 밖으로 나가지 않음",
+          "그룹·채널과 각 계층에 붙은 속성을 트리로 탐색",
+          "CSV 내보내기, 그리고 일반 CSV가 버리는 속성을 보존하는 변형",
+          "세그먼트 단위 스트리밍 — 메모리보다 큰 파일도 열림",
+          "쓰기 도중 종료된 파일도 손상된 꼬리 앞까지 읽어냄",
+          "완전 오프라인 실행, UI 5개 언어",
         ],
         counterpartLabel: "TDMS to CSV 웹 툴",
       },
