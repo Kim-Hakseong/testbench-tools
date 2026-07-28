@@ -449,27 +449,27 @@ export const CARD_DESC: Partial<Record<SiteLocale, Record<string, string>>> = {
 // Desktop app card descriptions
 export const APP_DESC: Record<SiteLocale, Record<string, string>> = {
   en: {
-    "tdms-converter": "Desktop viewer and CSV converter for TDMS measurement files.",
+    "tdms-converter": "Desktop viewer and CSV converter for NI TDMS measurement files.",
     frameterm: "Serial terminal built for frame-level protocol work.",
     "modbus-workbench": "Modbus RTU/TCP master with polling, writes and a built-in simulator.",
   },
   ko: {
-    "tdms-converter": "TDMS 측정 파일용 데스크톱 뷰어 겸 CSV 변환기.",
+    "tdms-converter": "NI TDMS 측정 파일용 데스크톱 뷰어 겸 CSV 변환기.",
     frameterm: "프레임 단위 프로토콜 작업용 시리얼 터미널.",
     "modbus-workbench": "폴링·쓰기·내장 시뮬레이터를 갖춘 Modbus RTU/TCP 마스터.",
   },
   ja: {
-    "tdms-converter": "TDMS計測ファイル用のデスクトップビューア兼CSV変換ツール。",
+    "tdms-converter": "NI TDMS計測ファイル用のデスクトップビューア兼CSV変換ツール。",
     frameterm: "フレームレベルのプロトコル作業向けシリアルターミナル。",
     "modbus-workbench": "ポーリング・書き込み・内蔵シミュレータを備えた Modbus RTU/TCP マスター。",
   },
   de: {
-    "tdms-converter": "Desktop-Viewer und CSV-Konverter für TDMS-Messdateien.",
+    "tdms-converter": "Desktop-Viewer und CSV-Konverter für NI-TDMS-Messdateien.",
     frameterm: "Serielles Terminal für Protokollarbeit auf Frame-Ebene.",
     "modbus-workbench": "Modbus-RTU/TCP-Master mit Abfragen, Schreibzugriffen und internem Simulator.",
   },
   zh: {
-    "tdms-converter": "面向 TDMS 测量文件的桌面查看器与 CSV 转换工具。",
+    "tdms-converter": "面向 NI TDMS 测量文件的桌面查看器与 CSV 转换工具。",
     frameterm: "面向帧级协议调试的串口终端。",
     "modbus-workbench": "带轮询、写入与内置模拟器的 Modbus RTU/TCP 主站。",
   },
@@ -491,6 +491,8 @@ export interface AboutStrings {
   contactBefore: string;
   contactLink: string;
   contactAfter: string;
+  /** Trademark notice — the site names other companies' products descriptively. */
+  trademarks: string;
 }
 
 export const ABOUT: Record<SiteLocale, AboutStrings> = {
@@ -511,6 +513,8 @@ export const ABOUT: Record<SiteLocale, AboutStrings> = {
     contactBefore: "Found a bug, a wrong constant, or a tool you wish existed? ",
     contactLink: "Get in touch",
     contactAfter: ".",
+    trademarks:
+      "TDMS, MELSEC, SIMATIC, Allen-Bradley, Modbus, XGT and other product names are trademarks of their respective owners, used here only to describe the formats and protocols these tools work with. TestBench.tools is independent and is not affiliated with, endorsed by or sponsored by any of them.",
   },
   ko: {
     metaTitle: "소개",
@@ -529,6 +533,8 @@ export const ABOUT: Record<SiteLocale, AboutStrings> = {
     contactBefore: "버그, 잘못된 상수, 또는 있었으면 하는 툴이 있나요? ",
     contactLink: "알려주세요",
     contactAfter: ".",
+    trademarks:
+      "TDMS, MELSEC, SIMATIC, Allen-Bradley, Modbus, XGT 등 제품명은 각 소유자의 상표이며, 이 툴이 다루는 포맷·프로토콜을 설명하기 위해서만 사용합니다. TestBench.tools는 독립적으로 운영되며 이들 기업과 제휴·보증·후원 관계가 없습니다.",
   },
   ja: {
     metaTitle: "概要",
@@ -547,6 +553,8 @@ export const ABOUT: Record<SiteLocale, AboutStrings> = {
     contactBefore: "バグ、誤った定数、あるいは欲しいツールはありますか？ ",
     contactLink: "ご連絡ください",
     contactAfter: "。",
+    trademarks:
+      "TDMS、MELSEC、SIMATIC、Allen-Bradley、Modbus、XGT などの製品名は各所有者の商標であり、本ツールが扱うフォーマットやプロトコルを説明する目的でのみ使用しています。TestBench.tools は独立しており、これらの企業と提携・推奨・後援の関係はありません。",
   },
   de: {
     metaTitle: "Über",
@@ -565,6 +573,8 @@ export const ABOUT: Record<SiteLocale, AboutStrings> = {
     contactBefore: "Einen Fehler, eine falsche Konstante oder ein fehlendes Tool gefunden? ",
     contactLink: "Melden Sie sich",
     contactAfter: ".",
+    trademarks:
+      "TDMS, MELSEC, SIMATIC, Allen-Bradley, Modbus, XGT und weitere Produktnamen sind Marken ihrer jeweiligen Inhaber und werden hier ausschließlich zur Beschreibung der Formate und Protokolle verwendet, mit denen diese Tools arbeiten. TestBench.tools ist unabhängig und steht in keiner Verbindung zu diesen Unternehmen, wird von ihnen weder unterstützt noch gesponsert.",
   },
   zh: {
     metaTitle: "关于",
@@ -583,6 +593,8 @@ export const ABOUT: Record<SiteLocale, AboutStrings> = {
     contactBefore: "发现了 bug、错误的常数，或希望增加某个工具？ ",
     contactLink: "联系我们",
     contactAfter: "。",
+    trademarks:
+      "TDMS、MELSEC、SIMATIC、Allen-Bradley、Modbus、XGT 等产品名称均为各自所有者的商标，此处仅用于说明本站工具所处理的格式与协议。TestBench.tools 独立运营，与上述公司无隶属、认可或赞助关系。",
   },
 };
 
@@ -814,7 +826,7 @@ export const APP_DETAIL: Record<SiteLocale, AppDetailStrings> = {
     needNow: "Need it right now, in the browser? ",
     apps: {
       "tdms-converter": {
-        tagline: "Open, inspect and convert TDMS measurement files on your desktop.",
+        tagline: "Open, inspect and convert NI TDMS measurement files on your desktop.",
         features: [
           "Browse groups, channels and the properties attached at every level",
           "Export CSV, or CSV that keeps the properties a plain export discards",
@@ -857,7 +869,7 @@ export const APP_DETAIL: Record<SiteLocale, AppDetailStrings> = {
     needNow: "지금 브라우저에서 바로 필요하신가요? ",
     apps: {
       "tdms-converter": {
-        tagline: "TDMS 측정 파일을 데스크톱에서 열고 살펴보고 변환.",
+        tagline: "NI TDMS 측정 파일을 데스크톱에서 열고 살펴보고 변환.",
         features: [
           "그룹·채널과 각 계층에 붙은 속성을 트리로 탐색",
           "CSV 내보내기, 그리고 일반 CSV가 버리는 속성을 보존하는 변형",
@@ -900,7 +912,7 @@ export const APP_DETAIL: Record<SiteLocale, AppDetailStrings> = {
     needNow: "今すぐブラウザで使いたいですか？ ",
     apps: {
       "tdms-converter": {
-        tagline: "TDMS計測ファイルをデスクトップで開き、確認し、変換。",
+        tagline: "NI TDMS計測ファイルをデスクトップで一括CSV変換。",
         features: [
           "複数のTDMSファイルを一度に変換（フォルダ一括）",
           "ブラウザのメモリ上限を超える大きなファイルにも対応",
@@ -942,7 +954,7 @@ export const APP_DETAIL: Record<SiteLocale, AppDetailStrings> = {
     needNow: "Sofort im Browser gebraucht? ",
     apps: {
       "tdms-converter": {
-        tagline: "TDMS-Messdateien am Desktop öffnen, prüfen und konvertieren.",
+        tagline: "NI-TDMS-Messdateien am Desktop stapelweise nach CSV konvertieren.",
         features: [
           "Viele TDMS-Dateien in einem Lauf konvertieren (Ordner-Batch)",
           "Verarbeitet Dateien größer als der Browser-Speicher erlaubt",
@@ -984,7 +996,7 @@ export const APP_DETAIL: Record<SiteLocale, AppDetailStrings> = {
     needNow: "现在就想在浏览器里用？ ",
     apps: {
       "tdms-converter": {
-        tagline: "在桌面打开、查看并转换 TDMS 测量文件。",
+        tagline: "在桌面批量将 NI TDMS 测量文件转换为 CSV。",
         features: [
           "一次转换多个 TDMS 文件（文件夹批处理）",
           "可处理超出浏览器内存的大文件",

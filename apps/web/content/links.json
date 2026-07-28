@@ -27,7 +27,7 @@
     {
       "slug": "tdms-converter",
       "name": "TDMS Converter",
-      "description": "Desktop viewer and CSV converter for TDMS measurement files.",
+      "description": "Desktop viewer and CSV converter for NI TDMS measurement files.",
       "platforms": [
         "Windows"
       ],

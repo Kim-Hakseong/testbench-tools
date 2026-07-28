@@ -28,6 +28,13 @@ export function AboutBody({ locale }: { locale: SiteLocale }) {
           {t.contactAfter}
         </p>
       </div>
+
+      {/* These tools describe other companies' formats and protocols by name,
+          which is what makes them findable — so say plainly whose marks they
+          are and that this site is not connected to them. */}
+      <p className="mt-10 border-t border-line-soft pt-6 text-xs leading-relaxed text-mute">
+        {t.trademarks}
+      </p>
     </div>
   );
 }
