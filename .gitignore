@@ -4,3 +4,13 @@ out/
 .DS_Store
 *.tsbuildinfo
 .claude/
+
+# Internal build/spec docs — kept locally, not published
+CLAUDE.md
+DESIGN.md
+DESIGN_PROMPT.md
+DESIGN_VISUAL.md
+PRD.md
+PROMPT_ralph.md
+RALPH_LOG.md
+README_KIT.md
