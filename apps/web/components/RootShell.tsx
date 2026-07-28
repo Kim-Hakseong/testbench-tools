@@ -2,9 +2,9 @@ import Link from "next/link";
 import "../design/tokens.css";
 import "../app/globals.css";
 import ads from "@/content/ads.json";
-import { ABOUT, CHROME, CONTACT, HTML_LANG, LOCALE_PREFIX, PRIVACY, type SiteLocale } from "@/content/i18n";
+import { HTML_LANG, type SiteLocale } from "@/content/i18n";
 import { ThemeToggle } from "@/components/ThemeToggle";
-import { LangSwitch } from "@/components/LangSwitch";
+import { FooterNav, HeaderNav, HomeLink } from "@/components/ChromeNav";
 import { GitHubIcon } from "@/components/GitHubIcon";
 import { JsonLd, siteJsonLd } from "@/lib/jsonld";
 
@@ -22,8 +22,6 @@ const langInit = `(function(){try{var p=location.pathname;if(p!=="/"&&p!=="/inde
 
 /** Shared document shell — each locale's root layout wraps pages with this. */
 export function RootShell({ lang, children }: { lang: SiteLocale; children: React.ReactNode }) {
-  const t = CHROME[lang];
-  const p = LOCALE_PREFIX[lang]; // "/" or "/ko/" — keeps chrome links in-locale
   const loadEthical = ads.provider === "ethicalads" && ads.ethicalads.publisher !== "";
   const loadAdsense = ads.provider === "adsense" && ads.adsense.client !== "";
 
@@ -51,19 +49,9 @@ export function RootShell({ lang, children }: { lang: SiteLocale; children: Reac
       <body>
         <header className="border-b border-line-soft">
           <div className="mx-auto flex h-14 max-w-6xl items-center justify-between px-4 sm:px-6">
-            <Link href={LOCALE_PREFIX[lang]} className="tb-display text-xl text-ink">
-              TestBench<span className="text-mute">.tools</span>
-            </Link>
+            <HomeLink routeLang={lang} />
             <div className="flex items-center gap-3">
-              <nav className="hidden items-center gap-4 md:flex" aria-label="Site">
-                <Link href={`${p}apps/`} className="text-sm text-mute transition-colors hover:text-body">
-                  {t.navApps}
-                </Link>
-                <Link href={`${p}about/`} className="text-sm text-mute transition-colors hover:text-body">
-                  {t.navAbout}
-                </Link>
-              </nav>
-              <span className="hidden font-mono text-xs text-mute sm:inline">{t.badge}</span>
+              <HeaderNav routeLang={lang} />
               <a
                 href={REPO_URL}
                 target="_blank"
@@ -74,7 +62,6 @@ export function RootShell({ lang, children }: { lang: SiteLocale; children: Reac
                 <GitHubIcon className="h-4 w-4" />
                 GitHub
               </a>
-              <LangSwitch current={lang} />
               <ThemeToggle />
             </div>
           </div>
@@ -83,12 +70,7 @@ export function RootShell({ lang, children }: { lang: SiteLocale; children: Reac
         <footer className="mt-20 border-t border-line-soft">
           <div className="mx-auto flex max-w-6xl flex-col gap-3 px-4 py-8 text-sm text-mute sm:flex-row sm:items-center sm:justify-between sm:px-6">
             <p>© {new Date().getFullYear()} TestBench.tools</p>
-            <p>{t.footer}</p>
-            <nav className="flex gap-4" aria-label="Legal">
-              <Link href={`${p}about/`} className="transition-colors hover:text-body">{ABOUT[lang].metaTitle}</Link>
-              <Link href={`${p}contact/`} className="transition-colors hover:text-body">{CONTACT[lang].metaTitle}</Link>
-              <Link href={`${p}privacy/`} className="transition-colors hover:text-body">{PRIVACY[lang].metaTitle}</Link>
-            </nav>
+            <FooterNav routeLang={lang} />
           </div>
         </footer>
       </body>

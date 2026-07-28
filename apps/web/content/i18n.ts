@@ -23,6 +23,20 @@ export const LOCALE_LABEL: Record<SiteLocale, string> = {
   zh: "简体中文",
 };
 
+/**
+ * Which language the chrome should speak.
+ *
+ * A localized route always wins — its body really is in that language. English
+ * routes are the fallback most tool pages live on, so a visitor who chose
+ * another language would otherwise lose it, and every nav link with it. There,
+ * and only there, the stored choice takes over.
+ */
+export function chromeLang(routeLang: SiteLocale, stored: string | null): SiteLocale {
+  if (routeLang !== "en") return routeLang;
+  if (!stored || stored === "en") return "en";
+  return (SITE_LOCALES as string[]).includes(stored) ? (stored as SiteLocale) : "en";
+}
+
 export const HTML_LANG: Record<SiteLocale, string> = {
   en: "en",
   ko: "ko",
