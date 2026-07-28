@@ -9,11 +9,13 @@ import {
   xgtNextBits,
 } from "@testbench/engine";
 import { ResultCard } from "@/components/tool/ResultCard";
+import { useToolText } from "@/components/tool/useToolText";
 
 const fieldCls =
   "mt-1.5 w-full rounded-btn border bg-well px-3 py-2 font-mono text-sm text-ink outline-none transition-colors focus:border-mute";
 
 export function XgtAddressTool() {
+  const t = useToolText();
   const [text, setText] = useState("P00105");
   const [debounced, setDebounced] = useState(text);
 
@@ -53,7 +55,7 @@ export function XgtAddressTool() {
           </div>
 
           <div className="rounded-btn border border-line-soft bg-elevated p-3">
-            <div className="text-[11px] uppercase tracking-wide text-mute">Device areas</div>
+            <div className="text-[11px] uppercase tracking-wide text-mute">{t("Device areas")}</div>
             <p className="mt-1.5 font-mono text-xs leading-relaxed text-body">
               {XGT_DEVICES.filter((d) => d.kind === "bit").map((d) => d.symbol).join(" ")} — bit devices
             </p>
@@ -70,14 +72,14 @@ export function XgtAddressTool() {
         <div className="space-y-2.5">
           {address && (
             <>
-              <ResultCard label="Canonical" value={formatXgtAddress(address)} size="lg" />
+              <ResultCard label={t("Canonical")} value={formatXgtAddress(address)} size="lg" />
               <ResultCard
-                label="Device"
+                label={t("Device")}
                 value={`${address.device.symbol} — ${address.device.name} (${address.device.kind} device)`}
               />
-              <ResultCard label="Word number (decimal)" value={String(address.word)} />
+              <ResultCard label={t("Word number (decimal)")} value={String(address.word)} />
               <ResultCard
-                label="Bit"
+                label={t("Bit")}
                 value={
                   address.bit === undefined
                     ? "— whole word"
@@ -85,10 +87,10 @@ export function XgtAddressTool() {
                 }
               />
               <ResultCard
-                label="Bit from start of area"
+                label={t("Bit from start of area")}
                 value={address.bit === undefined ? "— needs a bit" : String(xgtFlatBitIndex(address))}
               />
-              <ResultCard label="Word address" value={formatXgtAddress({ device: address.device, word: address.word })} />
+              <ResultCard label={t("Word address")} value={formatXgtAddress({ device: address.device, word: address.word })} />
             </>
           )}
         </div>

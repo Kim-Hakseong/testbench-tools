@@ -15,6 +15,7 @@ import {
   type S7Width,
 } from "@testbench/engine";
 import { ResultCard } from "@/components/tool/ResultCard";
+import { useToolText } from "@/components/tool/useToolText";
 
 const fieldCls =
   "mt-1.5 w-full rounded-btn border bg-well px-3 py-2 font-mono text-sm text-ink outline-none transition-colors focus:border-mute";
@@ -45,6 +46,7 @@ function describe(address: S7Address): string {
 }
 
 export function S7AddressTool() {
+  const t = useToolText();
   const [text, setText] = useState("%MW100");
   const [other, setOther] = useState("%MW101");
   const [count, setCount] = useState("4");
@@ -107,7 +109,7 @@ export function S7AddressTool() {
 
           <div>
             <label htmlFor="s7-other" className="text-xs font-medium uppercase tracking-wide text-mute">
-              Compare with (overlap check)
+              {t("Compare with (overlap check)")}
             </label>
             <input
               id="s7-other"
@@ -154,15 +156,15 @@ export function S7AddressTool() {
         <div className="space-y-2.5">
           {address && (
             <>
-              <ResultCard label="Canonical" value={formatS7(address)} size="lg" />
-              <ResultCard label="Area" value={AREA_LABEL[address.area] ?? address.area} />
-              <ResultCard label="Access width" value={`${WIDTH_LABEL[address.width]} · ${widthBytes(address.width)} byte(s)`} />
-              <ResultCard label="Covers" value={describe(address)} />
+              <ResultCard label={t("Canonical")} value={formatS7(address)} size="lg" />
+              <ResultCard label={t("Area")} value={AREA_LABEL[address.area] ?? address.area} />
+              <ResultCard label={t("Access width")} value={`${WIDTH_LABEL[address.width]} · ${widthBytes(address.width)} byte(s)`} />
+              <ResultCard label={t("Covers")} value={describe(address)} />
               <ResultCard
-                label={address.width === "X" ? "Absolute bit index" : "First bit index"}
+                label={t(address.width === "X" ? "Absolute bit index" : "First bit index")}
                 value={String(absoluteBitIndex(address))}
               />
-              <ResultCard label="Bytes used" value={coveredBytes(address).join(", ")} />
+              <ResultCard label={t("Bytes used")} value={coveredBytes(address).join(", ")} />
             </>
           )}
         </div>

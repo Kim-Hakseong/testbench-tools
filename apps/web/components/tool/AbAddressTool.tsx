@@ -10,11 +10,13 @@ import {
   parseAbAddress,
 } from "@testbench/engine";
 import { ResultCard } from "@/components/tool/ResultCard";
+import { useToolText } from "@/components/tool/useToolText";
 
 const fieldCls =
   "mt-1.5 w-full rounded-btn border bg-well px-3 py-2 font-mono text-sm text-ink outline-none transition-colors focus:border-mute";
 
 export function AbAddressTool() {
+  const t = useToolText();
   const [text, setText] = useState("N7:2/8");
   const [debounced, setDebounced] = useState(text);
 
@@ -49,7 +51,7 @@ export function AbAddressTool() {
           </div>
 
           <div className="rounded-btn border border-line-soft bg-elevated p-3">
-            <div className="text-[11px] uppercase tracking-wide text-mute">Reserved files</div>
+            <div className="text-[11px] uppercase tracking-wide text-mute">{t("Reserved files")}</div>
             <p className="mt-1.5 font-mono text-xs leading-relaxed text-body">
               {AB_DEFAULT_FILES.map((f) => `${f.type}${f.number} ${f.name}`).join("  ·  ")}
             </p>
@@ -60,23 +62,23 @@ export function AbAddressTool() {
         <div className="space-y-2.5">
           {address && (
             <>
-              <ResultCard label="Canonical" value={formatAbAddress(address)} size="lg" />
+              <ResultCard label={t("Canonical")} value={formatAbAddress(address)} size="lg" />
               {address.kind === "data" ? (
                 <>
                   <ResultCard
-                    label="File"
+                    label={t("File")}
                     value={`${address.type}${address.file} — ${AB_TYPE_NAME[address.type]}${
                       abDefaultFile(address.file) ? " (reserved)" : " (user-assigned)"
                     }`}
                   />
-                  <ResultCard label="Element" value={`${address.element} — one 16-bit word`} />
+                  <ResultCard label={t("Element")} value={`${address.element} — one 16-bit word`} />
                   <ResultCard
-                    label="Bit"
+                    label={t("Bit")}
                     value={address.bit === undefined ? "— whole word" : String(address.bit)}
                   />
-                  <ResultCard label="Bit from start of file" value={String(abFlatBitIndex(address))} />
+                  <ResultCard label={t("Bit from start of file")} value={String(abFlatBitIndex(address))} />
                   <ResultCard
-                    label="Bit-only shorthand"
+                    label={t("Bit-only shorthand")}
                     value={
                       address.bit === undefined
                         ? "— needs a bit"
@@ -86,15 +88,15 @@ export function AbAddressTool() {
                 </>
               ) : (
                 <>
-                  <ResultCard label="Direction" value={address.type === "I" ? "Input" : "Output"} />
-                  <ResultCard label="Slot" value={String(address.slot)} />
-                  <ResultCard label="Word in slot" value={String(address.word)} />
+                  <ResultCard label={t("Direction")} value={address.type === "I" ? "Input" : "Output"} />
+                  <ResultCard label={t("Slot")} value={String(address.slot)} />
+                  <ResultCard label={t("Word in slot")} value={String(address.word)} />
                   <ResultCard
-                    label="Bit (terminal)"
+                    label={t("Bit (terminal)")}
                     value={address.bit === undefined ? "— whole word" : String(address.bit)}
                   />
                   <ResultCard
-                    label="Terminal number in slot"
+                    label={t("Terminal number in slot")}
                     value={
                       address.bit === undefined
                         ? "— needs a bit"

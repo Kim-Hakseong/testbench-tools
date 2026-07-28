@@ -1,0 +1,142 @@
+{
+  "$comment": "LS ELECTRIC XGT Cnet dedicated-protocol golden vectors. Frame layout, command set, command types, data-area layouts and the error-code table are from 'Cnet I/F Module, XGT Series (XGL-C22A/C22B/CH2A/CH2B/C42A/C42B) User's Manual', LS ELECTRIC, V3.3 2023.05, Ch.7. The BCC rule — present only when the command letter is lowercase; value is the unsigned 8-bit sum of every byte from the header byte through the tail byte, BOTH INCLUSIVE, rendered as two ASCII hex characters — and the worked example in 'manualBcc' are from the 'XGB Cnet I/F User's Manual' V2.0. Only 'manualBcc' has its BCC value printed in a manual; every other entry reproduces a manual example frame BODY verbatim and its 'bcc' is DERIVED by applying that same published arithmetic (marked with $derived). 'nakResponse' is not a manual example at all: it is CONSTRUCTED from the documented NAK layout and the published error table. The manuals carry transcription typos (a '%M000' name whose printed length field says 6, '%TW000' written for '%MW000', and h03 printed for EOT in one table); the corrected forms are used here. DO NOT MODIFY.",
+  "control": {
+    "$note": "Control characters, ASCII. Requests are ENQ..EOT; responses are ACK/NAK..ETX.",
+    "ENQ": 5,
+    "EOT": 4,
+    "ACK": 6,
+    "NAK": 21,
+    "ETX": 3
+  },
+  "manualBcc": {
+    "$note": "The one BCC value printed in the manuals. Individual read (RSS), station 20, one block, %MW100. The manual's own arithmetic: H05+H32+H30+H72+H53+H53+H30+H31+H30+H36+H25+H4D+H57+H31+H30+H30+H04 = H03A4, so BCC = 'A4' (ASCII 41 34).",
+    "body": "20rSS0106%MW100",
+    "station": "20",
+    "command": "r",
+    "commandType": "SS",
+    "blockCount": 1,
+    "variables": ["%MW100"],
+    "sum": "0x03A4",
+    "bcc": "A4",
+    "wireBytes": [
+      "05", "32", "30", "72", "53", "53", "30", "31", "30", "36",
+      "25", "4D", "57", "31", "30", "30", "04", "41", "34"
+    ]
+  },
+  "readIndividualRequest": {
+    "$note": "RSS, station 01, two blocks: read %MW020 and %PW001.",
+    "$derived": "bcc",
+    "body": "01rSS0206%MW02006%PW001",
+    "station": "01",
+    "blockCount": 2,
+    "variables": ["%MW020", "%PW001"],
+    "bcc": "68"
+  },
+  "readIndividualAck": {
+    "$note": "ACK to the frame above: two blocks, each 2 bytes (one word) of data.",
+    "$derived": "bcc",
+    "body": "01rSS02021234025678",
+    "station": "01",
+    "blockCount": 2,
+    "blocks": [
+      { "byteCount": 2, "data": "1234" },
+      { "byteCount": 2, "data": "5678" }
+    ],
+    "bcc": "4C"
+  },
+  "writeIndividualRequest": {
+    "$note": "WSS, station 01, write H00FF to %MW230.",
+    "$derived": "bcc",
+    "body": "01wSS0106%MW23000FF",
+    "station": "01",
+    "blockCount": 1,
+    "blocks": [{ "name": "%MW230", "data": "00FF" }],
+    "bcc": "98"
+  },
+  "writeIndividualAck": {
+    "$note": "ACK to a write: station, command and command type only — no data area.",
+    "$derived": "bcc",
+    "body": "01wSS",
+    "station": "01",
+    "bcc": "87"
+  },
+  "writeContinuousRequest": {
+    "$note": "WSB, station 01, write HAA15 to %DW000 (D area, word type — 1 word = 4 data characters).",
+    "$derived": "bcc",
+    "body": "01wSB06%DW00001AA15",
+    "station": "01",
+    "name": "%DW000",
+    "count": 1,
+    "data": "AA15",
+    "bcc": "75"
+  },
+  "readContinuousRequest": {
+    "$note": "RSB, station 0A, read 2 words from %MW000. No block-count field on a continuous request.",
+    "$derived": "bcc",
+    "body": "0ArSB06%MW00002",
+    "station": "0A",
+    "name": "%MW000",
+    "count": 2,
+    "bcc": "A2"
+  },
+  "readContinuousAck": {
+    "$note": "ACK to the frame above, with the block-count field ('01') present: 4 bytes of data.",
+    "$derived": "bcc",
+    "body": "0ArSB010412345678",
+    "station": "0A",
+    "blockCount": 1,
+    "byteCount": 4,
+    "data": "12345678",
+    "bcc": "EA"
+  },
+  "readContinuousAckNoBlockField": {
+    "$note": "The same response as printed in a manual example that omits the block-count field. Both forms must decode.",
+    "$derived": "bcc",
+    "body": "0ArSB0412345678",
+    "byteCount": 4,
+    "data": "12345678",
+    "bcc": "89"
+  },
+  "monitorRegisterRequest": {
+    "$note": "Monitor register (x), station 01, registration number 01, registering RSS for one block %MW000. The registered command keeps its own letter case; the BCC rule follows the OUTER letter (x).",
+    "$derived": "bcc",
+    "body": "01x01RSS0106%MW000",
+    "station": "01",
+    "registrationNumber": 1,
+    "registeredCommand": "RSS",
+    "variables": ["%MW000"],
+    "bcc": "5B"
+  },
+  "monitorExecuteRequest": {
+    "$note": "Monitor execute (y), station 01, registration number 01. No data area.",
+    "$derived": "bcc",
+    "body": "01y01",
+    "station": "01",
+    "registrationNumber": 1,
+    "bcc": "44"
+  },
+  "nakResponse": {
+    "$note": "NOT a manual example — CONSTRUCTED from the documented NAK layout (NAK | station | command | type | 4-character error code | ETX | BCC) and error code 0011 from the published table.",
+    "$derived": "body,bcc",
+    "body": "01rSS0011",
+    "station": "01",
+    "errorCode": "0011",
+    "bcc": "53"
+  },
+  "errorCodes": {
+    "$note": "Error codes returned in a NAK response, 4 ASCII characters.",
+    "0003": "block number excess (more than 16 blocks)",
+    "0004": "variable size error (over 12 characters)",
+    "0007": "data type error (not X/B/W/D/L)",
+    "0011": "data error",
+    "0090": "monitor execution error (registration number not registered)",
+    "0190": "monitor execution error (registration number out of range)",
+    "0290": "monitor registration error (registration number out of range)",
+    "1132": "device memory error",
+    "1232": "data size error (over 60 words)",
+    "1234": "spare frame error",
+    "1332": "data type mismatch (blocks must share one data type)",
+    "1432": "data value error",
+    "7132": "variable request area excess"
+  }
+}

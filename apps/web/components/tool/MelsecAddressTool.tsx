@@ -11,6 +11,7 @@ import {
   type MelsecSeries,
 } from "@testbench/engine";
 import { ResultCard } from "@/components/tool/ResultCard";
+import { useToolText } from "@/components/tool/useToolText";
 
 const fieldCls =
   "mt-1.5 w-full rounded-btn border bg-well px-3 py-2 font-mono text-sm text-ink outline-none transition-colors focus:border-mute";
@@ -22,6 +23,7 @@ const RADIX_LABEL: Record<string, string> = {
 };
 
 export function MelsecAddressTool() {
+  const t = useToolText();
   const [series, setSeries] = useState<MelsecSeries>("fx5");
   const [text, setText] = useState("X20");
   const [debounced, setDebounced] = useState(text);
@@ -55,8 +57,8 @@ export function MelsecAddressTool() {
       <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
         <div className="space-y-3">
           <div>
-            <span className="text-xs font-medium uppercase tracking-wide text-mute">CPU series</span>
-            <div className="mt-1.5 flex rounded-btn border border-line-strong p-0.5" role="tablist" aria-label="CPU series">
+            <span className="text-xs font-medium uppercase tracking-wide text-mute">{t("CPU series")}</span>
+            <div className="mt-1.5 flex rounded-btn border border-line-strong p-0.5" role="tablist" aria-label={t("CPU series")}>
               {MELSEC_SERIES.map((s) => (
                 <button
                   key={s.id}
@@ -99,19 +101,19 @@ export function MelsecAddressTool() {
         <div className="space-y-2.5">
           {address && (
             <>
-              <ResultCard label="Device number (decimal)" value={String(address.index)} size="lg" />
-              <ResultCard label="Device" value={address.symbol} />
-              <ResultCard label="Written in" value={RADIX_LABEL[address.radix] ?? address.radix} />
+              <ResultCard label={t("Device number (decimal)")} value={String(address.index)} size="lg" />
+              <ResultCard label={t("Device")} value={address.symbol} />
+              <ResultCard label={t("Written in")} value={RADIX_LABEL[address.radix] ?? address.radix} />
               <ResultCard
                 label={`Same point on ${otherLabel}`}
                 value={converted && converted.ok ? converted.text : "— not on that series"}
               />
               <ResultCard
-                label="Binary"
+                label={t("Binary")}
                 value={address.index.toString(2)}
               />
               <ResultCard
-                label="Base"
+                label={t("Base")}
                 value={`${radixBase(address.radix)} — digits ${
                   address.radix === "octal" ? "0-7" : address.radix === "decimal" ? "0-9" : "0-9 A-F"
                 }`}
