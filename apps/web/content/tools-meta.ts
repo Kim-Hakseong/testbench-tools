@@ -27,6 +27,7 @@ export type CategoryId =
   | "plc-industrial"
   | "sensor-signal"
   | "embedded-mcu"
+  | "avionics-databus"
   | "file-tools";
 
 export interface CategoryMeta {
@@ -43,6 +44,7 @@ export const CATEGORIES: CategoryMeta[] = [
   { id: "plc-industrial", name: "PLC & Industrial", koName: "PLC & 산업" },
   { id: "sensor-signal", name: "Sensor & Signal", koName: "센서 & 신호" },
   { id: "embedded-mcu", name: "Embedded & MCU", koName: "임베디드 & MCU" },
+  { id: "avionics-databus", name: "Avionics & Data Bus", koName: "항공전자 & 데이터 버스" },
   { id: "file-tools", name: "File Tools", koName: "파일 툴" },
 ];
 
@@ -98,7 +100,13 @@ export const TOOLS: ToolMeta[] = [
   { slug: "struct-padding", name: "Struct Padding Visualizer", description: "Visualize C struct member offsets, padding and total size.", category: "embedded-mcu", p0: false, locale: "en", status: "live", tags: ["struct", "padding", "alignment", "c"] },
   { slug: "bit-field-extractor", name: "Bit Field Extractor", description: "Extract and label bit fields from register values.", category: "embedded-mcu", p0: false, locale: "en", status: "live", tags: ["bit field", "register", "mask", "shift"] },
 
-  // 7) File Tools
+  // 7) Avionics & Data Bus (MIL-STD-1553B — public standard)
+  { slug: "mil-1553-command-word", name: "MIL-STD-1553B Command Word Decoder", description: "Decode and build 1553B command words: RT address, T/R, subaddress, word count, mode codes.", category: "avionics-databus", p0: false, locale: "en", status: "live", tags: ["1553", "milstd1553", "avionics", "command word", "military bus"] },
+  { slug: "mil-1553-status-word", name: "MIL-STD-1553B Status Word Decoder", description: "Decode 1553B status words: RT address and every status flag bit.", category: "avionics-databus", p0: false, locale: "en", status: "live", tags: ["1553", "milstd1553", "avionics", "status word", "military bus"] },
+  { slug: "mil-1553-mode-codes", name: "MIL-STD-1553B Mode Code Reference", description: "Look up 1553B mode codes by T/R bit and code, with data-word rules.", category: "avionics-databus", p0: false, locale: "en", status: "live", tags: ["1553", "milstd1553", "avionics", "mode code", "reference"] },
+  { slug: "mil-1553-message-decoder", name: "MIL-STD-1553B Message Decoder", description: "Lay out a full 1553B transaction: command, data words and status, with parity checks.", category: "avionics-databus", p0: false, locale: "en", status: "live", tags: ["1553", "milstd1553", "avionics", "message", "transaction"] },
+
+  // 8) File Tools
   { slug: "tdms-to-csv", name: "TDMS to CSV Converter", description: "Convert NI TDMS files to CSV in your browser — no upload.", category: "file-tools", p0: true, locale: "en", status: "live", tags: ["tdms", "csv", "labview", "ni", "convert"] },
   { slug: "tdms-viewer", name: "TDMS Viewer", description: "Inspect TDMS group/channel tree and properties in the browser.", category: "file-tools", p0: false, locale: "en", status: "live", tags: ["tdms", "viewer", "labview", "ni"] },
   { slug: "csv-waveform-plotter", name: "CSV Waveform Plotter", description: "Plot waveform columns from CSV files, fully client-side.", category: "file-tools", p0: false, locale: "en", status: "live", tags: ["csv", "plot", "waveform", "chart"] },

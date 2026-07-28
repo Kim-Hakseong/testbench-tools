@@ -1,0 +1,41 @@
+{
+  "$comment": "MIL-STD-1553B golden vectors. Field layouts and mode-code assignments are from the public MIL-STD-1553B standard. Words are the 16-bit content (hex); parity is the odd-parity bit computed over those 16 bits. DO NOT MODIFY.",
+  "commandData": {
+    "hex": "0x183E",
+    "rtAddress": 3,
+    "transmit": false,
+    "subaddress": 1,
+    "isModeCommand": false,
+    "wordCount": 30,
+    "parity": 0
+  },
+  "commandMode": {
+    "hex": "0x2C02",
+    "rtAddress": 5,
+    "transmit": true,
+    "subaddress": 0,
+    "isModeCommand": true,
+    "modeCode": 2,
+    "modeName": "Transmit Status Word",
+    "parity": 1
+  },
+  "statusClean": {
+    "hex": "0x1800",
+    "rtAddress": 3,
+    "anyFlag": false,
+    "parity": 1
+  },
+  "statusBusy": {
+    "hex": "0x1808",
+    "rtAddress": 3,
+    "busy": true,
+    "parity": 0
+  },
+  "message": {
+    "$note": "BC → RT: RT5 receive subaddress 1, word count 2",
+    "words": ["0x2822", "0x1234", "0x5678", "0x2800"],
+    "type": "BC → RT (receive)",
+    "expectedCount": 4,
+    "roles": ["command", "data", "data", "status"]
+  }
+}

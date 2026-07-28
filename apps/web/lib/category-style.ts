@@ -12,6 +12,7 @@ export const CATEGORY_GLOW: Record<CategoryId, string> = {
   "plc-industrial": "var(--tb-glow-orange)",
   "sensor-signal": "var(--tb-glow-yellow)",
   "embedded-mcu": "var(--tb-glow-red)",
+  "avionics-databus": "var(--tb-glow-cyan)",
   "file-tools": "var(--tb-glow-blue)",
 };
 
@@ -23,6 +24,7 @@ export const CATEGORY_WASH: Record<CategoryId, string> = {
   "plc-industrial": "var(--tb-wash-orange)",
   "sensor-signal": "var(--tb-wash-yellow)",
   "embedded-mcu": "var(--tb-wash-red)",
+  "avionics-databus": "var(--tb-wash-cyan)",
   "file-tools": "var(--tb-wash-blue)",
 };
 
@@ -34,5 +36,6 @@ export const CATEGORY_ACCENT: Record<CategoryId, string> = {
   "plc-industrial": "var(--tb-accent-orange)",
   "sensor-signal": "var(--tb-accent-yellow)",
   "embedded-mcu": "var(--tb-accent-red)",
+  "avionics-databus": "var(--tb-accent-cyan)",
   "file-tools": "var(--tb-accent-blue)",
 };

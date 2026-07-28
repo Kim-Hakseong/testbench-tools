@@ -39,6 +39,15 @@ const PATHS: Record<CategoryId, React.ReactNode> = {
       <path d="M9 7V4m6 3V4M9 20v-3m6 3v-3M7 9H4m3 6H4m16-6h-3m3 6h-3" />
     </>
   ),
+  // dual-redundant data bus with terminals
+  "avionics-databus": (
+    <>
+      <path d="M3 7h18M3 10h18" />
+      <path d="M8 10v3M16 10v3" />
+      <rect x="6" y="13" width="4" height="5" rx="0.5" />
+      <rect x="14" y="13" width="4" height="5" rx="0.5" />
+    </>
+  ),
   // document with binary
   "file-tools": (
     <>

@@ -47,6 +47,7 @@ html[data-theme="dark"] {
   --tb-glow-red: radial-gradient(ellipse 75% 70% at 50% -12%, rgba(225, 29, 72, 0.22), transparent 62%);
   --tb-glow-yellow: radial-gradient(ellipse 75% 70% at 50% -12%, rgba(255, 197, 61, 0.18), transparent 62%);
   --tb-glow-slate: radial-gradient(ellipse 75% 70% at 50% -12%, rgba(100, 116, 139, 0.3), transparent 62%);
+  --tb-glow-cyan: radial-gradient(ellipse 75% 70% at 50% -12%, rgba(34, 211, 238, 0.24), transparent 62%);
 
   /* Softer variants for hub category sections (several per page) */
   --tb-wash-green: radial-gradient(ellipse 70% 55% at 50% -8%, rgba(17, 255, 153, 0.09), transparent 58%);
@@ -55,6 +56,7 @@ html[data-theme="dark"] {
   --tb-wash-red: radial-gradient(ellipse 70% 55% at 50% -8%, rgba(225, 29, 72, 0.09), transparent 58%);
   --tb-wash-yellow: radial-gradient(ellipse 70% 55% at 50% -8%, rgba(255, 197, 61, 0.08), transparent 58%);
   --tb-wash-slate: radial-gradient(ellipse 70% 55% at 50% -8%, rgba(100, 116, 139, 0.13), transparent 58%);
+  --tb-wash-cyan: radial-gradient(ellipse 70% 55% at 50% -8%, rgba(34, 211, 238, 0.1), transparent 58%);
 
   /* Category accent inks (icons, counts) */
   --tb-accent-green: #11ff99;
@@ -63,6 +65,7 @@ html[data-theme="dark"] {
   --tb-accent-red: #fb7185;
   --tb-accent-yellow: #ffc53d;
   --tb-accent-slate: #94a3b8;
+  --tb-accent-cyan: #22d3ee;
 
   /* Default glow (generic sections) = brand green */
   --tb-glow: var(--tb-glow-green);
@@ -101,12 +104,14 @@ html[data-theme="light"] {
   --tb-glow-red: none;
   --tb-glow-yellow: none;
   --tb-glow-slate: none;
+  --tb-glow-cyan: none;
   --tb-wash-green: none;
   --tb-wash-blue: none;
   --tb-wash-orange: none;
   --tb-wash-red: none;
   --tb-wash-yellow: none;
   --tb-wash-slate: none;
+  --tb-wash-cyan: none;
   --tb-glow: none;
 
   /* Hub hero on paper — our own take on the references: soft vertical
@@ -140,4 +145,5 @@ html[data-theme="light"] {
   --tb-accent-red: #be123c;
   --tb-accent-yellow: #9a6700;
   --tb-accent-slate: #475569;
+  --tb-accent-cyan: #0e7490;
 }
