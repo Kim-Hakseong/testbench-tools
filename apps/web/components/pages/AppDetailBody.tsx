@@ -1,7 +1,8 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import links from "@/content/links.json";
-import { APP_DETAIL, LOCALE_PREFIX, type SiteLocale } from "@/content/i18n";
+import { GitHubIcon } from "@/components/GitHubIcon";
+import { APP_DETAIL, APPS_PAGE, LOCALE_PREFIX, type SiteLocale } from "@/content/i18n";
 
 // Web-tool counterpart per app (English-only tool pages).
 const COUNTERPART: Record<string, string> = {
@@ -29,7 +30,7 @@ export function AppDetailBody({ locale, slug }: { locale: SiteLocale; slug: stri
       <h1 className="mt-4 text-4xl sm:text-5xl">{app.name}</h1>
       <p className="mt-3 max-w-2xl text-[15px] text-mute">{detail?.tagline ?? app.description}</p>
 
-      <div className="mt-6">
+      <div className="mt-6 flex flex-wrap items-center gap-3">
         {app.url === "" ? (
           <span className="inline-block rounded-btn border border-line-strong px-4 py-2 font-mono text-sm text-mute">
             {t.comingSoonPrefix}
@@ -45,7 +46,30 @@ export function AppDetailBody({ locale, slug }: { locale: SiteLocale; slug: stri
             {t.downloadSuffix}
           </a>
         )}
+        {app.repo && (
+          <a
+            href={app.repo}
+            target="_blank"
+            rel="noopener"
+            className="inline-flex items-center gap-2 rounded-btn border border-line-strong px-4 py-2 text-sm text-body transition-colors hover:border-mute hover:text-ink"
+          >
+            <GitHubIcon className="h-[18px] w-[18px]" />
+            {APPS_PAGE[locale].sourceLabel}
+          </a>
+        )}
       </div>
+
+      {app.screenshot && (
+        <div className="mt-8 overflow-hidden rounded-card border border-line-soft">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={app.screenshot}
+            alt={`${app.name} — desktop app screenshot`}
+            className="w-full bg-canvas"
+            loading="lazy"
+          />
+        </div>
+      )}
 
       {detail && (
         <section className="mt-10">

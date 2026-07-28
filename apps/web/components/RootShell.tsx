@@ -5,6 +5,9 @@ import ads from "@/content/ads.json";
 import { ABOUT, CHROME, CONTACT, HTML_LANG, LOCALE_PREFIX, PRIVACY, type SiteLocale } from "@/content/i18n";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { LangSwitch } from "@/components/LangSwitch";
+import { GitHubIcon } from "@/components/GitHubIcon";
+
+const REPO_URL = "https://github.com/Kim-Hakseong/testbench-tools";
 
 // Applies the theme before first paint (FOUC guard): localStorage first,
 // then prefers-color-scheme. Must stay inline and synchronous.
@@ -59,6 +62,16 @@ export function RootShell({ lang, children }: { lang: SiteLocale; children: Reac
                 </Link>
               </nav>
               <span className="hidden font-mono text-xs text-mute sm:inline">{t.badge}</span>
+              <a
+                href={REPO_URL}
+                target="_blank"
+                rel="noopener"
+                aria-label="TestBench.tools source on GitHub"
+                title="TestBench.tools on GitHub"
+                className="text-mute transition-colors hover:text-body"
+              >
+                <GitHubIcon className="h-5 w-5" />
+              </a>
               <LangSwitch current={lang} />
               <ThemeToggle />
             </div>

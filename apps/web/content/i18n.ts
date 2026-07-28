@@ -710,6 +710,7 @@ export interface AppsStrings {
   intro: string;
   comingSoon: string;
   download: string;
+  sourceLabel: string;
   freeSuffix: string;
   footerNote: string;
 }
@@ -722,6 +723,7 @@ export const APPS_PAGE: Record<SiteLocale, AppsStrings> = {
     intro: "The web tools on this site handle everyday conversions instantly. For heavier, offline workloads — multi-gigabyte files, batch jobs, live serial ports — these free desktop companions take over.",
     comingSoon: "Coming soon",
     download: "Download",
+    sourceLabel: "View source on GitHub",
     freeSuffix: "· free",
     footerNote: "Both apps are free, like everything on this site. Release notifications will appear here when downloads open.",
   },
@@ -732,6 +734,7 @@ export const APPS_PAGE: Record<SiteLocale, AppsStrings> = {
     intro: "이 사이트의 웹 툴은 일상적인 변환을 즉시 처리합니다. 수 기가바이트 파일, 일괄 작업, 실시간 시리얼 포트처럼 더 무겁고 오프라인이 필요한 작업은 이 무료 데스크톱 앱이 맡습니다.",
     comingSoon: "출시 예정",
     download: "다운로드",
+    sourceLabel: "GitHub에서 소스 보기",
     freeSuffix: "· 무료",
     footerNote: "두 앱 모두 이 사이트의 모든 것과 마찬가지로 무료입니다. 다운로드가 열리면 여기에 안내가 표시됩니다.",
   },
@@ -742,6 +745,7 @@ export const APPS_PAGE: Record<SiteLocale, AppsStrings> = {
     intro: "本サイトのウェブツールは日常的な変換を即座に処理します。数ギガバイトのファイル、バッチ処理、リアルタイムのシリアルポートといった重くオフラインが必要な作業は、この無料デスクトップアプリが引き受けます。",
     comingSoon: "近日公開",
     download: "ダウンロード",
+    sourceLabel: "GitHubでソースを見る",
     freeSuffix: "· 無料",
     footerNote: "どちらのアプリも、本サイトのすべてと同じく無料です。ダウンロード開始時にはここでお知らせします。",
   },
@@ -752,6 +756,7 @@ export const APPS_PAGE: Record<SiteLocale, AppsStrings> = {
     intro: "Die Web-Tools dieser Seite erledigen alltägliche Konvertierungen sofort. Für größere, Offline-Aufgaben — Multi-Gigabyte-Dateien, Batch-Jobs, Live-Schnittstellen — übernehmen diese kostenlosen Desktop-Begleiter.",
     comingSoon: "Demnächst",
     download: "Herunterladen",
+    sourceLabel: "Quellcode auf GitHub",
     freeSuffix: "· kostenlos",
     footerNote: "Beide Apps sind kostenlos, wie alles auf dieser Seite. Sobald Downloads verfügbar sind, erscheint hier ein Hinweis.",
   },
@@ -762,6 +767,7 @@ export const APPS_PAGE: Record<SiteLocale, AppsStrings> = {
     intro: "本站的网页工具可即时完成日常转换。对于更重、需要离线的工作 —— 数 GB 文件、批量任务、实时串口 —— 交给这些免费的桌面伴侣。",
     comingSoon: "即将推出",
     download: "下载",
+    sourceLabel: "在 GitHub 查看源码",
     freeSuffix: "· 免费",
     footerNote: "两款应用都免费，一如本站的一切。下载开放时会在此处提示。",
   },

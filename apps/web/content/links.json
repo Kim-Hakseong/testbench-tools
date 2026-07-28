@@ -4,16 +4,20 @@
       "slug": "tdms-converter",
       "name": "TDMS Converter",
       "description": "Batch-convert NI TDMS files to CSV on your desktop.",
-      "platforms": ["windows"],
+      "platforms": ["Windows"],
       "url": "",
+      "repo": "",
+      "screenshot": "",
       "free": true
     },
     {
       "slug": "frameterm",
       "name": "FrameTerm",
       "description": "Serial terminal built for frame-level protocol work.",
-      "platforms": ["windows"],
-      "url": "",
+      "platforms": ["Windows"],
+      "url": "https://github.com/Kim-Hakseong/testbench-frameterm/releases/download/v0.1.0/FrameTerm-v0.1.0-win-x64.exe",
+      "repo": "https://github.com/Kim-Hakseong/testbench-frameterm",
+      "screenshot": "/apps/frameterm.png",
       "free": true
     }
   ]
