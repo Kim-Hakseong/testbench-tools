@@ -1,16 +1,6 @@
 {
   "apps": [
     {
-      "slug": "tdms-converter",
-      "name": "TDMS Converter",
-      "description": "Batch-convert NI TDMS files to CSV on your desktop.",
-      "platforms": ["Windows"],
-      "url": "",
-      "repo": "",
-      "screenshot": "",
-      "free": true
-    },
-    {
       "slug": "frameterm",
       "name": "FrameTerm",
       "description": "Serial terminal built for frame-level protocol work.",
@@ -18,6 +8,26 @@
       "url": "https://github.com/Kim-Hakseong/testbench-frameterm/releases/download/v0.2.0/FrameTerm-v0.2.0-win-x64.exe",
       "repo": "https://github.com/Kim-Hakseong/testbench-frameterm",
       "screenshot": "/apps/frameterm.png",
+      "free": true
+    },
+    {
+      "slug": "modbus-workbench",
+      "name": "Modbus Workbench",
+      "description": "Modbus RTU/TCP master with polling, writes and a built-in simulator.",
+      "platforms": ["Windows"],
+      "url": "https://github.com/Kim-Hakseong/testbench-modbus-workbench/releases/download/v1.7.0/ModbusWorkbench-v1.7.0-win-x64.exe",
+      "repo": "https://github.com/Kim-Hakseong/testbench-modbus-workbench",
+      "screenshot": "/apps/modbus-workbench.png",
+      "free": true
+    },
+    {
+      "slug": "tdms-converter",
+      "name": "TDMS Converter",
+      "description": "Batch-convert NI TDMS files to CSV on your desktop.",
+      "platforms": ["Windows"],
+      "url": "",
+      "repo": "",
+      "screenshot": "",
       "free": true
     }
   ]

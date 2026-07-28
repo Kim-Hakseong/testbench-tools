@@ -437,22 +437,27 @@ export const APP_DESC: Record<SiteLocale, Record<string, string>> = {
   en: {
     "tdms-converter": "Batch-convert NI TDMS measurement files to CSV on your desktop.",
     frameterm: "Serial terminal built for frame-level protocol work.",
+    "modbus-workbench": "Modbus RTU/TCP master with polling, writes and a built-in simulator.",
   },
   ko: {
     "tdms-converter": "NI TDMS 측정 파일을 데스크톱에서 일괄 CSV 변환.",
     frameterm: "프레임 단위 프로토콜 작업용 시리얼 터미널.",
+    "modbus-workbench": "폴링·쓰기·내장 시뮬레이터를 갖춘 Modbus RTU/TCP 마스터.",
   },
   ja: {
     "tdms-converter": "NI TDMS計測ファイルをデスクトップで一括CSV変換。",
     frameterm: "フレームレベルのプロトコル作業向けシリアルターミナル。",
+    "modbus-workbench": "ポーリング・書き込み・内蔵シミュレータを備えた Modbus RTU/TCP マスター。",
   },
   de: {
     "tdms-converter": "NI-TDMS-Messdateien am Desktop stapelweise nach CSV konvertieren.",
     frameterm: "Serielles Terminal für Protokollarbeit auf Frame-Ebene.",
+    "modbus-workbench": "Modbus-RTU/TCP-Master mit Abfragen, Schreibzugriffen und internem Simulator.",
   },
   zh: {
     "tdms-converter": "在桌面批量将 NI TDMS 测量文件转换为 CSV。",
     frameterm: "面向帧级协议调试的串口终端。",
+    "modbus-workbench": "带轮询、写入与内置模拟器的 Modbus RTU/TCP 主站。",
   },
 };
 
@@ -725,7 +730,7 @@ export const APPS_PAGE: Record<SiteLocale, AppsStrings> = {
     download: "Download",
     sourceLabel: "View source on GitHub",
     freeSuffix: "· free",
-    footerNote: "Both apps are free, like everything on this site. Release notifications will appear here when downloads open.",
+    footerNote: "Every app here is free, like everything else on this site. New releases are announced on this page.",
   },
   ko: {
     metaTitle: "데스크톱 앱 — 무거운 작업을 위한 무료 동반 앱",
@@ -736,7 +741,7 @@ export const APPS_PAGE: Record<SiteLocale, AppsStrings> = {
     download: "다운로드",
     sourceLabel: "GitHub에서 소스 보기",
     freeSuffix: "· 무료",
-    footerNote: "두 앱 모두 이 사이트의 모든 것과 마찬가지로 무료입니다. 다운로드가 열리면 여기에 안내가 표시됩니다.",
+    footerNote: "여기 있는 앱은 이 사이트의 모든 것과 마찬가지로 무료입니다. 새 릴리스는 이 페이지에서 안내합니다.",
   },
   ja: {
     metaTitle: "デスクトップアプリ — 重い作業向けの無料コンパニオン",
@@ -747,7 +752,7 @@ export const APPS_PAGE: Record<SiteLocale, AppsStrings> = {
     download: "ダウンロード",
     sourceLabel: "GitHubでソースを見る",
     freeSuffix: "· 無料",
-    footerNote: "どちらのアプリも、本サイトのすべてと同じく無料です。ダウンロード開始時にはここでお知らせします。",
+    footerNote: "ここにあるアプリは、本サイトのすべてと同じく無料です。新しいリリースはこのページでお知らせします。",
   },
   de: {
     metaTitle: "Desktop-Apps — kostenlose Begleiter für größere Aufgaben",
@@ -758,7 +763,7 @@ export const APPS_PAGE: Record<SiteLocale, AppsStrings> = {
     download: "Herunterladen",
     sourceLabel: "Quellcode auf GitHub",
     freeSuffix: "· kostenlos",
-    footerNote: "Beide Apps sind kostenlos, wie alles auf dieser Seite. Sobald Downloads verfügbar sind, erscheint hier ein Hinweis.",
+    footerNote: "Jede App hier ist kostenlos, wie alles auf dieser Seite. Neue Versionen werden auf dieser Seite angekündigt.",
   },
   zh: {
     metaTitle: "桌面应用 —— 面向大工作量的免费伴侣",
@@ -769,7 +774,7 @@ export const APPS_PAGE: Record<SiteLocale, AppsStrings> = {
     download: "下载",
     sourceLabel: "在 GitHub 查看源码",
     freeSuffix: "· 免费",
-    footerNote: "两款应用都免费，一如本站的一切。下载开放时会在此处提示。",
+    footerNote: "这里的应用都免费，一如本站的一切。新版本会在本页公布。",
   },
 };
 
@@ -814,6 +819,17 @@ export const APP_DETAIL: Record<SiteLocale, AppDetailStrings> = {
         ],
         counterpartLabel: "Modbus Frame Decoder web tool",
       },
+      "modbus-workbench": {
+        tagline: "A Modbus RTU/TCP master for polling, writing and diagnosing devices.",
+        features: [
+          "Poll FC01–04 on several tabs at once, each with its own interval",
+          "Write FC05/06/15/16, prefilled straight from the grid",
+          "Traffic log of raw TX/RX frames with timestamps, savable as .txt",
+          "Built-in slave simulator — test with no hardware attached",
+          "Runs fully offline; five UI languages",
+        ],
+        counterpartLabel: "Modbus Frame Decoder web tool",
+      },
     },
   },
   ko: {
@@ -842,6 +858,17 @@ export const APP_DETAIL: Record<SiteLocale, AppDetailStrings> = {
           "프레임 구분과 타임스탬프",
           "수신 프레임 CRC 검사",
           "벤치 PC에서 완전 오프라인 실행",
+        ],
+        counterpartLabel: "Modbus Frame Decoder 웹 툴",
+      },
+      "modbus-workbench": {
+        tagline: "장비 폴링·쓰기·진단을 위한 Modbus RTU/TCP 마스터.",
+        features: [
+          "FC01~04를 여러 탭에서 동시 폴링, 탭마다 독립 주기",
+          "FC05/06/15/16 쓰기 — 그리드에서 바로 프리필",
+          "타임스탬프가 붙은 raw TX/RX 프레임 트래픽 로그, .txt 저장",
+          "내장 슬레이브 시뮬레이터 — 장비 없이 테스트",
+          "완전 오프라인 실행, UI 5개 언어 지원",
         ],
         counterpartLabel: "Modbus Frame Decoder 웹 툴",
       },
@@ -876,6 +903,17 @@ export const APP_DETAIL: Record<SiteLocale, AppDetailStrings> = {
         ],
         counterpartLabel: "Modbus Frame Decoder ウェブツール",
       },
+      "modbus-workbench": {
+        tagline: "機器のポーリング・書き込み・診断のための Modbus RTU/TCP マスター。",
+        features: [
+          "FC01〜04 を複数タブで同時ポーリング、タブごとに独立した周期",
+          "FC05/06/15/16 の書き込み — グリッドから直接プリフィル",
+          "タイムスタンプ付き raw TX/RX フレームの通信ログ、.txt 保存",
+          "内蔵スレーブシミュレータ — 実機なしでテスト",
+          "完全オフライン動作、UI は 5 言語",
+        ],
+        counterpartLabel: "Modbus Frame Decoder ウェブツール",
+      },
     },
   },
   de: {
@@ -907,6 +945,17 @@ export const APP_DETAIL: Record<SiteLocale, AppDetailStrings> = {
         ],
         counterpartLabel: "Modbus-Frame-Decoder Web-Tool",
       },
+      "modbus-workbench": {
+        tagline: "Ein Modbus-RTU/TCP-Master zum Abfragen, Schreiben und Diagnostizieren von Geräten.",
+        features: [
+          "FC01–04 in mehreren Registerkarten gleichzeitig, jede mit eigenem Intervall",
+          "FC05/06/15/16 schreiben, direkt aus dem Grid vorausgefüllt",
+          "Datenverkehr als rohe TX/RX-Frames mit Zeitstempel, als .txt speicherbar",
+          "Interner Slave-Simulator — Testen ohne angeschlossene Hardware",
+          "Läuft vollständig offline; fünf Oberflächensprachen",
+        ],
+        counterpartLabel: "Modbus-Frame-Decoder Web-Tool",
+      },
     },
   },
   zh: {
@@ -935,6 +984,17 @@ export const APP_DETAIL: Record<SiteLocale, AppDetailStrings> = {
           "帧分隔与时间戳",
           "接收帧的 CRC 校验",
           "在你的工作台 PC 上完全离线运行",
+        ],
+        counterpartLabel: "Modbus 报文解码 网页工具",
+      },
+      "modbus-workbench": {
+        tagline: "用于轮询、写入与诊断设备的 Modbus RTU/TCP 主站。",
+        features: [
+          "FC01–04 多标签同时轮询，每个标签独立周期",
+          "写入 FC05/06/15/16，可从表格直接预填",
+          "带时间戳的 TX/RX 原始报文日志，可保存为 .txt",
+          "内置从站模拟器 —— 无需硬件即可测试",
+          "完全离线运行；界面支持五种语言",
         ],
         counterpartLabel: "Modbus 报文解码 网页工具",
       },

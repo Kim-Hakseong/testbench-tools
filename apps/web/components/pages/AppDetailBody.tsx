@@ -8,6 +8,7 @@ import { APP_DETAIL, APPS_PAGE, LOCALE_PREFIX, type SiteLocale } from "@/content
 const COUNTERPART: Record<string, string> = {
   "tdms-converter": "/tools/tdms-to-csv/",
   frameterm: "/tools/modbus-frame-decoder/",
+  "modbus-workbench": "/tools/modbus-frame-decoder/",
 };
 
 export function AppDetailBody({ locale, slug }: { locale: SiteLocale; slug: string }) {
