@@ -36,15 +36,16 @@ export interface CategoryMeta {
   koName: string;
 }
 
-// Order = PRD §3 order.
+// Order = PRD §3 order, with the avionics bus tools raised to sit next to the
+// other protocol work rather than trailing the list.
 export const CATEGORIES: CategoryMeta[] = [
   { id: "checksum-crc", name: "Checksum & CRC", koName: "체크섬 & CRC" },
   { id: "protocol-decoders", name: "Protocol Decoders", koName: "프로토콜 디코더" },
+  { id: "avionics-databus", name: "Avionics & Data Bus", koName: "항공전자 & 데이터 버스" },
   { id: "data-converters", name: "Data Converters", koName: "데이터 변환" },
   { id: "plc-industrial", name: "PLC & Industrial", koName: "PLC & 산업" },
   { id: "sensor-signal", name: "Sensor & Signal", koName: "센서 & 신호" },
   { id: "embedded-mcu", name: "Embedded & MCU", koName: "임베디드 & MCU" },
-  { id: "avionics-databus", name: "Avionics & Data Bus", koName: "항공전자 & 데이터 버스" },
   { id: "file-tools", name: "File Tools", koName: "파일 툴" },
 ];
 
