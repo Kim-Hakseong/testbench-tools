@@ -1,7 +1,7 @@
 // Site-wide locale dictionaries. English is the root; ko/ja/de/zh get fully
 // translated hubs. Tool pages exist in en (all) and ko (PLC/sensor set) —
 // other locales link to the English tool pages for now.
-import type { CategoryId } from "@/content/tools-meta";
+import { PUBLIC_TOOL_COUNT, type CategoryId } from "@/content/tools-meta";
 
 export type SiteLocale = "en" | "ko" | "ja" | "de" | "zh";
 
@@ -113,10 +113,10 @@ export const HUB: Record<SiteLocale, HubStrings> = {
     badge: "100% free · no sign-up · in-browser",
     title: "Every bench calculation, one tab away",
     subtitle:
-      "55 free tools for test & measurement, embedded and industrial engineers — CRC, Modbus frames, PLC scaling, sensor math, file converters. No sign-up, nothing leaves your browser.",
-    searchPlaceholder: "Search 55 tools — try “crc”, “modbus”, “pt100”…",
+      `${PUBLIC_TOOL_COUNT} free tools for test & measurement, embedded and industrial engineers — CRC, Modbus frames, PLC scaling, sensor math, file converters. No sign-up, nothing leaves your browser.`,
+    searchPlaceholder: `Search ${PUBLIC_TOOL_COUNT} tools — try “crc”, “modbus”, “pt100”…`,
     popular: "Popular:",
-    stats: "100% free · 55 tools · 8 categories · in-browser",
+    stats: `100% free · ${PUBLIC_TOOL_COUNT} tools · 8 categories · in-browser`,
     noMatch: "No tools match",
     soon: "Soon",
     enChip: "EN",
@@ -129,10 +129,10 @@ export const HUB: Record<SiteLocale, HubStrings> = {
     badge: "100% 무료 · 가입 없음 · 브라우저에서 바로",
     title: "엔지니어의 계산, 브라우저에서 바로",
     subtitle:
-      "계측·임베디드·산업자동화 엔지니어용 무료 툴 55종 — CRC, Modbus 프레임, PLC 스케일링, 센서 계산, 파일 변환. 가입 없이, 데이터는 브라우저 밖으로 나가지 않습니다.",
-    searchPlaceholder: "55개 툴 검색 — “crc”, “modbus”, “pt100”…",
+      `계측·임베디드·산업자동화 엔지니어용 무료 툴 ${PUBLIC_TOOL_COUNT}종 — CRC, Modbus 프레임, PLC 스케일링, 센서 계산, 파일 변환. 가입 없이, 데이터는 브라우저 밖으로 나가지 않습니다.`,
+    searchPlaceholder: `${PUBLIC_TOOL_COUNT}개 툴 검색 — “crc”, “modbus”, “pt100”…`,
     popular: "인기:",
-    stats: "100% 무료 · 툴 55종 · 8개 카테고리 · 브라우저 내 계산",
+    stats: `100% 무료 · 툴 ${PUBLIC_TOOL_COUNT}종 · 8개 카테고리 · 브라우저 내 계산`,
     noMatch: "일치하는 툴이 없습니다:",
     soon: "준비 중",
     enChip: "EN",
@@ -145,10 +145,10 @@ export const HUB: Record<SiteLocale, HubStrings> = {
     badge: "100%無料 · 登録不要 · ブラウザ内で完結",
     title: "ベンチの計算は、このタブひとつで",
     subtitle:
-      "計測・組み込み・産業オートメーションエンジニアのための無料ツール55種 — CRC、Modbusフレーム、PLCスケーリング、センサー計算、ファイル変換。登録不要、データはブラウザの外に出ません。",
-    searchPlaceholder: "55個のツールを検索 — 「crc」「modbus」「pt100」…",
+      `計測・組み込み・産業オートメーションエンジニアのための無料ツール${PUBLIC_TOOL_COUNT}種 — CRC、Modbusフレーム、PLCスケーリング、センサー計算、ファイル変換。登録不要、データはブラウザの外に出ません。`,
+    searchPlaceholder: `${PUBLIC_TOOL_COUNT}個のツールを検索 — 「crc」「modbus」「pt100」…`,
     popular: "人気:",
-    stats: "100%無料 · ツール55種 · 8カテゴリ · ブラウザ内",
+    stats: `100%無料 · ツール${PUBLIC_TOOL_COUNT}種 · 8カテゴリ · ブラウザ内`,
     noMatch: "一致するツールがありません:",
     soon: "近日公開",
     enChip: "EN",
@@ -161,10 +161,10 @@ export const HUB: Record<SiteLocale, HubStrings> = {
     badge: "100 % kostenlos · ohne Anmeldung · im Browser",
     title: "Jede Bench-Berechnung, einen Tab entfernt",
     subtitle:
-      "55 kostenlose Tools für Mess-, Embedded- und Automatisierungstechnik — CRC, Modbus-Frames, SPS-Skalierung, Sensor-Mathematik, Dateikonverter. Ohne Anmeldung, nichts verlässt Ihren Browser.",
-    searchPlaceholder: "55 Tools durchsuchen — z. B. „crc“, „modbus“, „pt100“ …",
+      `${PUBLIC_TOOL_COUNT} kostenlose Tools für Mess-, Embedded- und Automatisierungstechnik — CRC, Modbus-Frames, SPS-Skalierung, Sensor-Mathematik, Dateikonverter. Ohne Anmeldung, nichts verlässt Ihren Browser.`,
+    searchPlaceholder: `${PUBLIC_TOOL_COUNT} Tools durchsuchen — z. B. „crc“, „modbus“, „pt100“ …`,
     popular: "Beliebt:",
-    stats: "100 % kostenlos · 55 Tools · 8 Kategorien · im Browser",
+    stats: `100 % kostenlos · ${PUBLIC_TOOL_COUNT} Tools · 8 Kategorien · im Browser`,
     noMatch: "Keine Tools gefunden für",
     soon: "Bald",
     enChip: "EN",
@@ -177,10 +177,10 @@ export const HUB: Record<SiteLocale, HubStrings> = {
     badge: "100% 免费 · 无需注册 · 浏览器本地运行",
     title: "工程计算，一个标签页搞定",
     subtitle:
-      "面向测试测量、嵌入式与工业自动化工程师的 49 个免费工具 — CRC、Modbus 报文、PLC 换算、传感器计算、文件转换。无需注册，数据不离开浏览器。",
-    searchPlaceholder: "搜索 49 个工具 — 试试 “crc”、“modbus”、“pt100”…",
+      `面向测试测量、嵌入式与工业自动化工程师的 ${PUBLIC_TOOL_COUNT} 个免费工具 — CRC、Modbus 报文、PLC 换算、传感器计算、文件转换。无需注册，数据不离开浏览器。`,
+    searchPlaceholder: `搜索 ${PUBLIC_TOOL_COUNT} 个工具 — 试试 “crc”、“modbus”、“pt100”…`,
     popular: "热门:",
-    stats: "100% 免费 · 49 个工具 · 8 个分类 · 浏览器本地",
+    stats: `100% 免费 · ${PUBLIC_TOOL_COUNT} 个工具 · 8 个分类 · 浏览器本地`,
     noMatch: "没有匹配的工具:",
     soon: "即将上线",
     enChip: "EN",
