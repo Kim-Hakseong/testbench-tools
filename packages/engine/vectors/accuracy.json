@@ -1,0 +1,270 @@
+{
+  "$comment": "Golden vectors for measurement accuracy — DO NOT MODIFY. Every figure is hand-computed from the term definitions in accuracy.ts, not captured from the implementation. Specification shapes are the generic forms manufacturers print; no vendor's numbers are asserted here.",
+
+  "tolerance": 1e-12,
+
+  "percentOfReadingPlusPercentOfRange": {
+    "$note": "Bench DMM shape: ±(0.0035 % of reading + 0.0005 % of range), 4.7 V on the 10 V range. reading term = 0.0035/100 × 4.7 = 0.0001645; range term = 0.0005/100 × 10 = 0.00005.",
+    "reading": 4.7,
+    "range": 10,
+    "spec": { "percentOfReading": 0.0035, "percentOfRange": 0.0005 },
+    "readingTerm": 0.0001645,
+    "rangeTerm": 0.00005,
+    "uncertainty": 0.0002145,
+    "min": 4.6997855,
+    "max": 4.7002145,
+    "percentOfReading": 0.004563829787234043,
+    "ppmOfReading": 45.63829787234043,
+    "percentOfRange": 0.002145,
+    "readingPercentOfRange": 47,
+    "crossoverReading": 1.4285714285714286,
+    "fixedExceedsReading": false,
+    "dominantId": "reading"
+  },
+
+  "smallValueOnLargeRange": {
+    "$note": "Same instrument, same range, 0.1 V instead of 4.7 V. The range term does not move, so it becomes 93.5 % of the budget and the error as a percentage of reading is 11.7× worse.",
+    "reading": 0.1,
+    "range": 10,
+    "spec": { "percentOfReading": 0.0035, "percentOfRange": 0.0005 },
+    "readingTerm": 0.0000035,
+    "rangeTerm": 0.00005,
+    "uncertainty": 0.0000535,
+    "percentOfReading": 0.0535,
+    "rangeTermFraction": 0.9345794392523364,
+    "fixedExceedsReading": true,
+    "dominantId": "range",
+    "crossoverReading": 1.4285714285714286,
+    "readingPercentOfRange": 1
+  },
+
+  "rangeChoiceComparison": {
+    "$note": "The point of the tool: 0.1 V measured on the 10 V range versus the 1 V range, one spec. 1 V range → reading term 0.0000035 + range term 0.000005 = 0.0000085, i.e. 0.0085 % of reading.",
+    "reading": 0.1,
+    "spec": { "percentOfReading": 0.0035, "percentOfRange": 0.0005 },
+    "wideRange": { "range": 10, "uncertainty": 0.0000535, "percentOfReading": 0.0535 },
+    "narrowRange": { "range": 1, "uncertainty": 0.0000085, "percentOfReading": 0.0085 },
+    "improvementFactor": 6.294117647058823
+  },
+
+  "percentPlusCounts": {
+    "$note": "Handheld shape: ±(0.05 % + 3 counts) on a 6000-count meter, 4.700 V on the 6 V range. One count = 6/6000 = 0.001 V, so the counts term is 0.003 V — larger than the 0.00235 V reading term. The two terms are equal exactly at full scale.",
+    "reading": 4.7,
+    "range": 6,
+    "spec": { "percentOfReading": 0.05, "counts": 3 },
+    "countBasis": { "kind": "countsFullScale", "countsFullScale": 6000 },
+    "countSize": 0.001,
+    "readingTerm": 0.00235,
+    "countsTerm": 0.003,
+    "uncertainty": 0.00535,
+    "min": 4.69465,
+    "max": 4.70535,
+    "percentOfReading": 0.11382978723404256,
+    "crossoverReading": 6,
+    "fixedExceedsReading": true,
+    "dominantId": "counts"
+  },
+
+  "digitsBasis": {
+    "$note": "±(0.0035 % of reading + 2 digits) on a 5½-digit meter, 10 V range. Five full digits resolve the nominal range into 10^5 steps, so one count is 10/100000 = 0.0001 V (100 µV) and the display can over-range to 199 999 counts.",
+    "reading": 4.7,
+    "range": 10,
+    "spec": { "percentOfReading": 0.0035, "counts": 2 },
+    "countBasis": { "kind": "digits", "digits": 5.5 },
+    "countSize": 0.0001,
+    "maxCounts": 199999,
+    "readingTerm": 0.0001645,
+    "countsTerm": 0.0002,
+    "uncertainty": 0.0003645,
+    "crossoverReading": 5.714285714285714,
+    "fixedExceedsReading": true
+  },
+
+  "ppmEqualsPercent": {
+    "$note": "±(35 ppm of reading + 5 ppm of range) is the same specification as ±(0.0035 % of reading + 0.0005 % of range). 1 ppm = 1e-4 %.",
+    "reading": 4.7,
+    "range": 10,
+    "spec": { "ppmOfReading": 35, "ppmOfRange": 5 },
+    "uncertainty": 0.0002145,
+    "equivalentPercent": { "percentOfReading": 0.0035, "percentOfRange": 0.0005 }
+  },
+
+  "offsetOnly": {
+    "$note": "A bare fixed floor, e.g. '±50 mV' on a 10 V range. No reading term, so there is no crossover.",
+    "reading": 1,
+    "range": 10,
+    "spec": { "offset": 0.05 },
+    "uncertainty": 0.05,
+    "min": 0.95,
+    "max": 1.05,
+    "percentOfReading": 5,
+    "percentOfRange": 0.5,
+    "crossoverReading": null,
+    "dominantId": "offset"
+  },
+
+  "negativeReading": {
+    "$note": "The reading term uses |reading|; the interval brackets the signed reading.",
+    "reading": -4.7,
+    "range": 10,
+    "spec": { "percentOfReading": 0.0035, "percentOfRange": 0.0005 },
+    "uncertainty": 0.0002145,
+    "min": -4.7002145,
+    "max": -4.6997855,
+    "percentOfReading": 0.004563829787234043,
+    "readingPercentOfRange": 47
+  },
+
+  "zeroReading": {
+    "$note": "At exactly zero the range term is the whole budget and 'percent of reading' does not exist.",
+    "reading": 0,
+    "range": 10,
+    "spec": { "percentOfReading": 0.0035, "percentOfRange": 0.0005 },
+    "uncertainty": 0.00005,
+    "min": -0.00005,
+    "max": 0.00005,
+    "percentOfReading": null,
+    "ppmOfReading": null,
+    "readingPercentOfRange": 0,
+    "dominantId": "range"
+  },
+
+  "overRange": {
+    "$note": "A reading past full scale is arithmetically fine but the published spec no longer applies, so it is flagged.",
+    "reading": 12,
+    "range": 10,
+    "spec": { "percentOfReading": 0.0035, "percentOfRange": 0.0005 },
+    "uncertainty": 0.00047,
+    "readingExceedsRange": true,
+    "readingPercentOfRange": 120
+  },
+
+  "sumNotRss": {
+    "$note": "A published expression is a limit of error and its terms add. RSS of the same two terms would understate the manufacturer's own guarantee — recorded here so the choice cannot be changed silently.",
+    "readingTerm": 0.0001645,
+    "rangeTerm": 0.00005,
+    "linearSum": 0.0002145,
+    "rss": 0.00017193094544031333
+  },
+
+  "countSizeCases": [
+    { "range": 6, "basis": { "kind": "countsFullScale", "countsFullScale": 6000 }, "size": 0.001 },
+    { "range": 60, "basis": { "kind": "countsFullScale", "countsFullScale": 6000 }, "size": 0.01 },
+    { "range": 1000, "basis": { "kind": "countsFullScale", "countsFullScale": 20000 }, "size": 0.05 },
+    { "range": 10, "basis": { "kind": "digits", "digits": 3.5 }, "size": 0.01 },
+    { "range": 10, "basis": { "kind": "digits", "digits": 4.5 }, "size": 0.001 },
+    { "range": 10, "basis": { "kind": "digits", "digits": 5.5 }, "size": 0.0001 },
+    { "range": 10, "basis": { "kind": "digits", "digits": 6.5 }, "size": 0.00001 },
+    { "range": 10, "basis": { "kind": "resolution", "resolution": 0.001 }, "size": 0.001 }
+  ],
+
+  "halfDigitCounts": [
+    { "digits": 3.5, "maxCounts": 1999 },
+    { "digits": 4.5, "maxCounts": 19999 },
+    { "digits": 5.5, "maxCounts": 199999 },
+    { "digits": 6.5, "maxCounts": 1999999 },
+    { "digits": 4, "maxCounts": 9999 }
+  ],
+
+  "presets": {
+    "$comment": "Second, independent transcription of the tables recorded in spec/instrument-accuracy.md. The engine's INSTRUMENT_PRESETS must match this row for row — the point is that the value has to be typed correctly twice, from the same verbatim extract, before it can ship. DC voltage, 1-year column, nominal ranges, volts throughout. DO NOT MODIFY without re-reading the source document named in each entry.",
+
+    "keysight-34461a-dcv": {
+      "document": "Keysight 5991-1983EN, June 20, 2022",
+      "unit": "V",
+      "rows": [
+        { "label": "100 mV", "range": 0.1, "percentOfReading": 0.005, "percentOfRange": 0.0035 },
+        { "label": "1 V", "range": 1, "percentOfReading": 0.004, "percentOfRange": 0.0007 },
+        { "label": "10 V", "range": 10, "percentOfReading": 0.0035, "percentOfRange": 0.0005 },
+        { "label": "100 V", "range": 100, "percentOfReading": 0.0045, "percentOfRange": 0.0006 },
+        { "label": "1000 V", "range": 1000, "percentOfReading": 0.0045, "percentOfRange": 0.001 }
+      ]
+    },
+
+    "keysight-34401a-dcv": {
+      "document": "Keysight 5968-0162EN, July 8, 2022",
+      "unit": "V",
+      "rows": [
+        { "label": "100.0000 mV", "range": 0.1, "percentOfReading": 0.005, "percentOfRange": 0.0035 },
+        { "label": "1.000000 V", "range": 1, "percentOfReading": 0.004, "percentOfRange": 0.0007 },
+        { "label": "10.00000 V", "range": 10, "percentOfReading": 0.0035, "percentOfRange": 0.0005 },
+        { "label": "100.0000 V", "range": 100, "percentOfReading": 0.0045, "percentOfRange": 0.0006 },
+        { "label": "1000.000 V", "range": 1000, "percentOfReading": 0.0045, "percentOfRange": 0.001 }
+      ]
+    },
+
+    "keithley-dmm6500-dcv": {
+      "document": "Keithley SPEC-DMM6500 Rev. A, April 2018",
+      "unit": "V",
+      "rows": [
+        { "label": "100 mV", "range": 0.1, "percentOfReading": 0.003, "percentOfRange": 0.0035 },
+        { "label": "1 V", "range": 1, "percentOfReading": 0.0025, "percentOfRange": 0.0006 },
+        { "label": "10 V", "range": 10, "percentOfReading": 0.0025, "percentOfRange": 0.0005 },
+        { "label": "100 V", "range": 100, "percentOfReading": 0.004, "percentOfRange": 0.0006 },
+        { "label": "1000 V", "range": 1000, "percentOfReading": 0.004, "percentOfRange": 0.0006 }
+      ]
+    },
+
+    "siglent-sdm3055-dcv": {
+      "document": "Siglent SDM3055 DataSheet-2021.05",
+      "unit": "V",
+      "$note": "The 20 V row prints 0.004 where both neighbours print 0.003. Transcribed as printed.",
+      "rows": [
+        { "label": "200 mV", "range": 0.2, "percentOfReading": 0.015, "percentOfRange": 0.004 },
+        { "label": "2 V", "range": 2, "percentOfReading": 0.015, "percentOfRange": 0.003 },
+        { "label": "20 V", "range": 20, "percentOfReading": 0.015, "percentOfRange": 0.004 },
+        { "label": "200 V", "range": 200, "percentOfReading": 0.015, "percentOfRange": 0.003 },
+        { "label": "1000 V", "range": 1000, "percentOfReading": 0.015, "percentOfRange": 0.003 }
+      ]
+    },
+
+    "fluke-87v-dcv": {
+      "document": "Fluke 80 Series V Users Manual, May 2004 Rev.2, 11/08 — 'Model 87' column",
+      "unit": "V",
+      "rows": [
+        { "label": "600.0 mV", "range": 0.6, "percentOfReading": 0.1, "counts": 1, "resolution": 0.0001 },
+        { "label": "6.000 V", "range": 6, "percentOfReading": 0.05, "counts": 1, "resolution": 0.001 },
+        { "label": "60.00 V", "range": 60, "percentOfReading": 0.05, "counts": 1, "resolution": 0.01 },
+        { "label": "600.0 V", "range": 600, "percentOfReading": 0.05, "counts": 1, "resolution": 0.1 },
+        { "label": "1000 V", "range": 1000, "percentOfReading": 0.05, "counts": 1, "resolution": 1 }
+      ]
+    },
+
+    "fluke-289-dcv": {
+      "document": "Fluke 287/289 Users Manual, June 2007 Rev. 2, 3/09",
+      "unit": "V",
+      "rows": [
+        { "label": "50 mV", "range": 0.05, "percentOfReading": 0.05, "counts": 20, "resolution": 0.000001 },
+        { "label": "500 mV", "range": 0.5, "percentOfReading": 0.025, "counts": 2, "resolution": 0.00001 },
+        { "label": "5 V", "range": 5, "percentOfReading": 0.025, "counts": 2, "resolution": 0.0001 },
+        { "label": "50 V", "range": 50, "percentOfReading": 0.025, "counts": 2, "resolution": 0.001 },
+        { "label": "500 V", "range": 500, "percentOfReading": 0.03, "counts": 2, "resolution": 0.01 },
+        { "label": "1000 V", "range": 1000, "percentOfReading": 0.03, "counts": 2, "resolution": 0.1 }
+      ]
+    }
+  },
+
+  "presetWorkedValues": {
+    "$comment": "4.7 V measured on each instrument's most appropriate range, hand-computed. Six real instruments spanning a 20× range of uncertainty on the same measurement.",
+    "reading": 4.7,
+    "cases": [
+      { "preset": "keysight-34461a-dcv", "rangeLabel": "10 V", "uncertainty": 0.0002145, "percentOfReading": 0.004563829787234043 },
+      { "preset": "keysight-34401a-dcv", "rangeLabel": "10.00000 V", "uncertainty": 0.0002145, "percentOfReading": 0.004563829787234043 },
+      { "preset": "keithley-dmm6500-dcv", "rangeLabel": "10 V", "uncertainty": 0.0001675, "percentOfReading": 0.003563829787234043 },
+      { "preset": "siglent-sdm3055-dcv", "rangeLabel": "20 V", "uncertainty": 0.001505, "percentOfReading": 0.03202127659574468 },
+      { "preset": "fluke-289-dcv", "rangeLabel": "5 V", "uncertainty": 0.001375, "percentOfReading": 0.029255319148936170 },
+      { "preset": "fluke-87v-dcv", "rangeLabel": "6.000 V", "uncertainty": 0.00335, "percentOfReading": 0.07127659574468085 }
+    ]
+  },
+
+  "formatting": [
+    {
+      "spec": { "percentOfReading": 0.0035, "percentOfRange": 0.0005 },
+      "text": "±(0.0035 % of reading + 0.0005 % of range)"
+    },
+    { "spec": { "percentOfReading": 0.05, "counts": 3 }, "text": "±(0.05 % of reading + 3 counts)" },
+    { "spec": { "ppmOfReading": 35, "ppmOfRange": 5 }, "text": "±(35 ppm of reading + 5 ppm of range)" },
+    { "spec": { "percentOfReading": 0.1 }, "text": "±0.1 % of reading" },
+    { "spec": {}, "text": "±0" }
+  ]
+}
