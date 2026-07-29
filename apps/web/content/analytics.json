@@ -1,0 +1,5 @@
+{
+  "$comment": "Cookieless page-view counting. Empty token means the script is never loaded and no request is made — same off-by-default rule as ads.json. Cloudflare dashboard → Web Analytics → add testbench.tools → copy the beacon token.",
+  "provider": "none",
+  "cloudflare": { "token": "" }
+}

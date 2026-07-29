@@ -659,7 +659,7 @@ export interface PrivacyStrings {
   contactBefore: string;
 }
 
-const PRIVACY_UPDATED = "2026-07-25";
+const PRIVACY_UPDATED = "2026-07-29";
 
 export const PRIVACY: Record<SiteLocale, PrivacyStrings> = {
   en: {
@@ -670,8 +670,8 @@ export const PRIVACY: Record<SiteLocale, PrivacyStrings> = {
     sections: [
       { heading: "Your data stays with you", body: "Every calculator, decoder and file converter on this site runs entirely in your browser. Values you type and files you open are processed locally by JavaScript and are never transmitted to us or to any server. There are no upload endpoints, no accounts and no databases behind this site — it is served as static files." },
       { heading: "What is stored locally", body: "Two items of localStorage: your dark/light theme preference and your language choice. Both stay in your browser and are not readable by us. No other client-side storage is used by the site itself." },
-      { heading: "Analytics", body: "We run no analytics and no tracking scripts of our own." },
-      { heading: "Advertising", body: "The site is ad-supported. When advertising is active, we prefer EthicalAds, a network that serves contextual ads without cookies, tracking or personal-data collection. If Google AdSense units are ever enabled, a consent dialog compliant with Google's requirements will be shown first, and Google's own privacy policy applies. Ad scripts are the only third-party requests this site makes." },
+      { heading: "Analytics", body: "When analytics is enabled we use Cloudflare Web Analytics, which counts page views without cookies, without localStorage and without building a profile that follows you across sites. It records the page, the referring site and coarse device and country information, in aggregate only — we cannot identify you from it, and nothing you type into a calculator is ever part of it. This is how we learn which tools are worth maintaining." },
+      { heading: "Advertising", body: "The site is ad-supported. When advertising is active, we prefer EthicalAds, a network that serves contextual ads without cookies, tracking or personal-data collection. If Google AdSense units are ever enabled, a consent dialog compliant with Google's requirements will be shown first, and Google's own privacy policy applies. Ad scripts and the analytics beacon are the only third-party requests this site makes." },
     ],
     contactHeading: "Contact",
     contactBefore: "Privacy questions: ",
@@ -684,8 +684,8 @@ export const PRIVACY: Record<SiteLocale, PrivacyStrings> = {
     sections: [
       { heading: "데이터는 당신에게 머뭅니다", body: "이 사이트의 모든 계산기·디코더·파일 변환기는 전적으로 브라우저 안에서 실행됩니다. 입력한 값과 연 파일은 JavaScript가 로컬에서 처리하며, 저희나 어떤 서버로도 전송되지 않습니다. 업로드 엔드포인트도, 계정도, 데이터베이스도 없습니다 — 정적 파일로 제공됩니다." },
       { heading: "로컬에 저장되는 것", body: "localStorage 두 항목: 다크/라이트 테마 설정과 언어 선택. 둘 다 브라우저에 남으며 저희는 읽을 수 없습니다. 사이트 자체는 그 외 어떤 클라이언트 저장소도 사용하지 않습니다." },
-      { heading: "분석", body: "저희는 어떤 분석·추적 스크립트도 운영하지 않습니다." },
-      { heading: "광고", body: "이 사이트는 광고로 운영됩니다. 광고가 활성화될 때는 쿠키·추적·개인정보 수집 없이 문맥 광고를 제공하는 EthicalAds를 우선합니다. Google AdSense를 사용하게 될 경우, Google 요건에 맞는 동의 창을 먼저 표시하며 Google의 개인정보 방침이 적용됩니다. 광고 스크립트가 이 사이트가 하는 유일한 서드파티 요청입니다." },
+      { heading: "분석", body: "분석이 활성화될 때는 Cloudflare Web Analytics를 사용합니다. 쿠키도 localStorage도 쓰지 않고, 사이트를 넘나들며 따라다니는 프로필도 만들지 않습니다. 페이지 주소, 유입 사이트, 대략적인 기기·국가 정보를 집계 형태로만 기록합니다 — 이것으로 개인을 식별할 수 없으며, 계산기에 입력한 값은 전혀 포함되지 않습니다. 어떤 툴을 계속 유지할 가치가 있는지 이걸로 판단합니다." },
+      { heading: "광고", body: "이 사이트는 광고로 운영됩니다. 광고가 활성화될 때는 쿠키·추적·개인정보 수집 없이 문맥 광고를 제공하는 EthicalAds를 우선합니다. Google AdSense를 사용하게 될 경우, Google 요건에 맞는 동의 창을 먼저 표시하며 Google의 개인정보 방침이 적용됩니다. 광고 스크립트와 분석 비콘이 이 사이트가 하는 유일한 서드파티 요청입니다." },
     ],
     contactHeading: "문의",
     contactBefore: "개인정보 관련 문의: ",
@@ -698,8 +698,8 @@ export const PRIVACY: Record<SiteLocale, PrivacyStrings> = {
     sections: [
       { heading: "データはあなたの手元に", body: "本サイトのすべての計算機・デコーダ・ファイル変換はブラウザ内で完結します。入力した値や開いたファイルはJavaScriptがローカルで処理し、当方やいかなるサーバーにも送信されません。アップロード先も、アカウントも、データベースもありません — 静的ファイルとして配信されています。" },
       { heading: "ローカルに保存されるもの", body: "localStorageの2項目: ダーク/ライトのテーマ設定と言語の選択。どちらもブラウザ内に留まり、当方は読み取れません。サイト自体はそれ以外のクライアント側ストレージを使用しません。" },
-      { heading: "アナリティクス", body: "当方独自のアナリティクスやトラッキングスクリプトは一切運用していません。" },
-      { heading: "広告", body: "本サイトは広告で運営されています。広告が有効な場合は、Cookie・トラッキング・個人データ収集なしで文脈広告を配信するEthicalAdsを優先します。Google AdSenseを使用する場合は、Googleの要件に準拠した同意ダイアログを先に表示し、Googleのプライバシーポリシーが適用されます。広告スクリプトが本サイトの行う唯一の第三者リクエストです。" },
+      { heading: "アナリティクス", body: "アナリティクスを有効にする場合は Cloudflare Web Analytics を使用します。Cookie も localStorage も使わず、サイトをまたいで追跡するプロファイルも作成しません。ページ、参照元サイト、大まかな端末・国の情報を集計値としてのみ記録します — これで個人を特定することはできず、計算機に入力した値が含まれることもありません。どのツールを維持する価値があるかを、これで判断します。" },
+      { heading: "広告", body: "本サイトは広告で運営されています。広告が有効な場合は、Cookie・トラッキング・個人データ収集なしで文脈広告を配信するEthicalAdsを優先します。Google AdSenseを使用する場合は、Googleの要件に準拠した同意ダイアログを先に表示し、Googleのプライバシーポリシーが適用されます。広告スクリプトと分析ビーコンが、本サイトの行う唯一の第三者リクエストです。" },
     ],
     contactHeading: "お問い合わせ",
     contactBefore: "プライバシーに関するお問い合わせ: ",
@@ -712,8 +712,8 @@ export const PRIVACY: Record<SiteLocale, PrivacyStrings> = {
     sections: [
       { heading: "Ihre Daten bleiben bei Ihnen", body: "Jeder Rechner, Decoder und Dateikonverter auf dieser Seite läuft vollständig in Ihrem Browser. Eingegebene Werte und geöffnete Dateien werden lokal von JavaScript verarbeitet und niemals an uns oder einen Server übertragen. Es gibt keine Upload-Endpunkte, keine Konten und keine Datenbanken — die Seite wird als statische Dateien ausgeliefert." },
       { heading: "Was lokal gespeichert wird", body: "Zwei localStorage-Einträge: Ihre Hell/Dunkel-Themenwahl und Ihre Sprachwahl. Beide bleiben in Ihrem Browser und sind für uns nicht lesbar. Weitere clientseitige Speicherung nutzt die Seite selbst nicht." },
-      { heading: "Analyse", body: "Wir betreiben keine eigene Analyse und keine Tracking-Skripte." },
-      { heading: "Werbung", body: "Die Seite ist werbefinanziert. Bei aktiver Werbung bevorzugen wir EthicalAds, ein Netzwerk, das kontextbezogene Anzeigen ohne Cookies, Tracking oder Erhebung personenbezogener Daten ausliefert. Falls Google-AdSense-Einheiten aktiviert werden, erscheint zuerst ein Google-konformer Einwilligungsdialog, und Googles eigene Datenschutzerklärung gilt. Werbeskripte sind die einzigen Drittanbieter-Anfragen dieser Seite." },
+      { heading: "Analyse", body: "Wenn die Analyse aktiviert ist, verwenden wir Cloudflare Web Analytics. Es zählt Seitenaufrufe ohne Cookies, ohne localStorage und ohne ein Profil aufzubauen, das Ihnen über Websites hinweg folgt. Erfasst werden Seite, verweisende Website sowie grobe Geräte- und Länderangaben, ausschließlich aggregiert — wir können Sie daraus nicht identifizieren, und was Sie in einen Rechner eingeben, ist niemals Teil davon. So erfahren wir, welche Tools es wert sind, gepflegt zu werden." },
+      { heading: "Werbung", body: "Die Seite ist werbefinanziert. Bei aktiver Werbung bevorzugen wir EthicalAds, ein Netzwerk, das kontextbezogene Anzeigen ohne Cookies, Tracking oder Erhebung personenbezogener Daten ausliefert. Falls Google-AdSense-Einheiten aktiviert werden, erscheint zuerst ein Google-konformer Einwilligungsdialog, und Googles eigene Datenschutzerklärung gilt. Werbeskripte und das Analyse-Beacon sind die einzigen Drittanbieter-Anfragen dieser Seite." },
     ],
     contactHeading: "Kontakt",
     contactBefore: "Datenschutzfragen: ",
@@ -726,8 +726,8 @@ export const PRIVACY: Record<SiteLocale, PrivacyStrings> = {
     sections: [
       { heading: "数据始终在你手中", body: "本站的每一个计算器、解码器和文件转换器都完全在你的浏览器中运行。你输入的值和打开的文件由 JavaScript 在本地处理，绝不会传输给我们或任何服务器。本站没有上传端点、没有账号、没有数据库 —— 以静态文件形式提供。" },
       { heading: "本地存储的内容", body: "两项 localStorage：你的深/浅色主题偏好和语言选择。二者都保留在你的浏览器中，我们无法读取。站点本身不使用其他任何客户端存储。" },
-      { heading: "分析统计", body: "我们不运行任何自有的分析或跟踪脚本。" },
-      { heading: "广告", body: "本站依靠广告维持。启用广告时，我们优先选择 EthicalAds —— 一个不使用 Cookie、不跟踪、不收集个人数据的上下文广告网络。若启用 Google AdSense，会先显示符合 Google 要求的同意对话框，并适用 Google 自身的隐私政策。广告脚本是本站唯一的第三方请求。" },
+      { heading: "分析统计", body: "启用分析时，我们使用 Cloudflare Web Analytics。它不使用 Cookie，也不使用 localStorage，更不会建立跨站点跟踪你的画像。它仅以聚合形式记录页面、来源站点以及粗略的设备与国家信息 —— 我们无法据此识别你个人，你在计算器中输入的任何内容都不会包含在内。我们据此判断哪些工具值得继续维护。" },
+      { heading: "广告", body: "本站依靠广告维持。启用广告时，我们优先选择 EthicalAds —— 一个不使用 Cookie、不跟踪、不收集个人数据的上下文广告网络。若启用 Google AdSense，会先显示符合 Google 要求的同意对话框，并适用 Google 自身的隐私政策。广告脚本与分析信标是本站唯一的第三方请求。" },
     ],
     contactHeading: "联系",
     contactBefore: "隐私相关问题：",

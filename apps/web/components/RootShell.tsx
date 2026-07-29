@@ -2,6 +2,7 @@ import Link from "next/link";
 import "../design/tokens.css";
 import "../app/globals.css";
 import ads from "@/content/ads.json";
+import analytics from "@/content/analytics.json";
 import site from "@/content/site.json";
 import { HTML_LANG, type SiteLocale } from "@/content/i18n";
 import { ThemeToggle } from "@/components/ThemeToggle";
@@ -25,6 +26,11 @@ const langInit = `(function(){try{var p=location.pathname;if(p!=="/"&&p!=="/inde
 export function RootShell({ lang, children }: { lang: SiteLocale; children: React.ReactNode }) {
   const loadEthical = ads.provider === "ethicalads" && ads.ethicalads.publisher !== "";
   const loadAdsense = ads.provider === "adsense" && ads.adsense.client !== "";
+  // Page-view counting only, and only once a token exists. Cloudflare Web
+  // Analytics sets no cookies and builds no cross-site profile, so it needs no
+  // consent dialog — the same reason EthicalAds is preferred over AdSense.
+  const loadAnalytics =
+    analytics.provider === "cloudflare" && analytics.cloudflare.token !== "";
 
   return (
     <html lang={HTML_LANG[lang]} suppressHydrationWarning>
@@ -56,6 +62,13 @@ export function RootShell({ lang, children }: { lang: SiteLocale; children: Reac
             async
             src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${ads.adsense.client}`}
             crossOrigin="anonymous"
+          />
+        )}
+        {loadAnalytics && (
+          <script
+            defer
+            src="https://static.cloudflareinsights.com/beacon.min.js"
+            data-cf-beacon={JSON.stringify({ token: analytics.cloudflare.token })}
           />
         )}
       </head>
