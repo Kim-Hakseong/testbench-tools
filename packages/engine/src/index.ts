@@ -26,3 +26,4 @@ export * from "./lsxgt";
 export * from "./xgt";
 export * from "./mcprotocol";
 export * from "./arinc429";
+export * from "./thermocouple";

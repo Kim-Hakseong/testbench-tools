@@ -1,0 +1,256 @@
+{
+  "$comment": "ITS-90 thermocouple golden vectors. Voltages marked $quoted are read from the reference tables of NIST Monograph 175, 'Temperature-Electromotive Force Reference Functions and Tables for the Letter-Designated Thermocouple Types Based on the ITS-90' (Burns, Scroger, Strouse, Croarkin, Guthrie; NIST Monograph 175, April 1993), tables 2.3.3 (B), 3.3.3 (R), 4.3.3 (S), 5.3.3 (E), 6.3.3 (J), 7.3.3 (K), 8.3.3 (N) and 9.3.3 (T), all with reference junctions at 0 degrees C. Subrange boundaries and inverse-function error bands marked $quoted are read from the NIST ITS-90 Thermocouple Database (NIST Standard Reference Database 60) file allcoeff.tab. Entries marked $derived are computed by this module from those NIST inputs. Table voltages are in microvolts; engine voltages are in millivolts. DO NOT MODIFY.",
+
+  "directTables": {
+    "$quoted": "NIST Monograph 175 reference tables, thermoelectric voltage E(t90) in microvolts, reference junctions at 0 degrees C.",
+    "$note": "toleranceUv covers the rounding of the printed table value. Most tables print to 0.01-0.1 uV; the type J table prints to 1 uV above 760 degrees C, so those points carry their own coarser tolerance.",
+    "toleranceUv": 0.06,
+    "types": {
+      "K": {
+        "table": "7.3.3",
+        "points": [
+          [-270, -6457.74],
+          [-200, -5891.4],
+          [-100, -3553.63],
+          [0, 0],
+          [25, 1000.2],
+          [100, 4096.2],
+          [200, 8138.5],
+          [300, 12208.6],
+          [400, 16397.1],
+          [500, 20644.3],
+          [600, 24905.5],
+          [800, 33275.4],
+          [1000, 41275.6],
+          [1300, 52410.3],
+          [1372, 54886.4]
+        ]
+      },
+      "J": {
+        "table": "6.3.3",
+        "points": [
+          [-100, -4632.52],
+          [0, 0],
+          [100, 5268.9],
+          [200, 10778.7],
+          [400, 21848.1],
+          [600, 33102.4],
+          [700, 39131.8],
+          [760, 42918.6]
+        ],
+        "pointsRoundedToMicrovolt": {
+          "toleranceUv": 0.5,
+          "points": [
+            [800, 45494],
+            [1000, 57953],
+            [1200, 69553]
+          ]
+        }
+      },
+      "T": {
+        "table": "9.3.3",
+        "points": [
+          [-200, -5602.96],
+          [-100, -3378.58],
+          [-50, -1819.04],
+          [0, 0],
+          [50, 2035.7],
+          [100, 4278.5],
+          [200, 9288.1],
+          [300, 14861.9],
+          [400, 20872.0]
+        ]
+      },
+      "E": {
+        "table": "5.3.3",
+        "points": [
+          [-200, -8824.58],
+          [-100, -5237.18],
+          [0, 0],
+          [100, 6318.9],
+          [200, 13421.3],
+          [500, 37005.4],
+          [800, 61017.4],
+          [1000, 76372.8]
+        ]
+      },
+      "N": {
+        "table": "8.3.3",
+        "points": [
+          [-270, -4345.14],
+          [-200, -3990.38],
+          [-100, -2406.81],
+          [0, 0],
+          [100, 2774.1],
+          [300, 9341.2],
+          [600, 20613.1],
+          [1000, 36255.5],
+          [1300, 47512.8]
+        ]
+      },
+      "R": {
+        "table": "3.3.3",
+        "points": [
+          [0, 0],
+          [100, 647.4],
+          [500, 4471.26],
+          [1000, 10505.96],
+          [1064, 11361.32],
+          [1400, 16040.1],
+          [1664, 19731.98],
+          [1768, 21101.48]
+        ]
+      },
+      "S": {
+        "table": "4.3.3",
+        "points": [
+          [0, 0],
+          [100, 645.91],
+          [500, 4233.29],
+          [1000, 9587.1],
+          [1064, 10332.09],
+          [1400, 14372.6],
+          [1664, 17530.1],
+          [1768, 18692.51]
+        ]
+      },
+      "B": {
+        "table": "2.3.3",
+        "points": [
+          [0, 0],
+          [100, 33.2],
+          [500, 1241.85],
+          [1000, 4834.34],
+          [1500, 10099.06],
+          [1820, 13820.28]
+        ]
+      }
+    }
+  },
+
+  "typeKExponential": {
+    "$quoted": "NIST Monograph 175 table 7.3.1 and allcoeff.tab. Above 0 degrees C the type K reference function is E = sum(c_i t^i) + a0 exp(a1 (t - a2)^2). a0 is stated in the Monograph in microvolts (1.185976E+02 uV = 0.1185976 mV).",
+    "a0Mv": 0.1185976,
+    "a1": -0.0001183432,
+    "a2": 126.9686,
+    "$derived": "At t = a2 the exponential contributes exactly a0. At 100 degrees C it contributes about 108.8 uV, so dropping it would report roughly 3987 uV instead of the tabulated 4096.2 uV - a plausible-looking value about 2.7 degrees C low.",
+    "contributionAt100C_uv": 108.82,
+    "contributionToleranceUv": 0.05,
+    "polynomialOnlyAt100C_uv": 3987.41,
+    "polynomialOnlyToleranceUv": 0.05
+  },
+
+  "inverseSubranges": {
+    "$quoted": "NIST ITS-90 Thermocouple Database (SRD 60), allcoeff.tab, 'coefficients of approximate inverse functions' blocks. Voltage bounds in mV, temperature bounds and error bands in degrees C.",
+    "types": {
+      "K": [
+        { "mv": [-5.891, 0.0], "celsius": [-200, 0], "errorC": [-0.02, 0.04] },
+        { "mv": [0.0, 20.644], "celsius": [0, 500], "errorC": [-0.05, 0.04] },
+        { "mv": [20.644, 54.886], "celsius": [500, 1372], "errorC": [-0.05, 0.06] }
+      ],
+      "J": [
+        { "mv": [-8.095, 0.0], "celsius": [-210, 0], "errorC": [-0.05, 0.03] },
+        { "mv": [0.0, 42.919], "celsius": [0, 760], "errorC": [-0.04, 0.04] },
+        { "mv": [42.919, 69.553], "celsius": [760, 1200], "errorC": [-0.04, 0.03] }
+      ],
+      "T": [
+        { "mv": [-5.603, 0.0], "celsius": [-200, 0], "errorC": [-0.02, 0.04] },
+        { "mv": [0.0, 20.872], "celsius": [0, 400], "errorC": [-0.03, 0.03] }
+      ],
+      "E": [
+        { "mv": [-8.825, 0.0], "celsius": [-200, 0], "errorC": [-0.01, 0.03] },
+        { "mv": [0.0, 76.373], "celsius": [0, 1000], "errorC": [-0.02, 0.02] }
+      ],
+      "N": [
+        { "mv": [-3.99, 0.0], "celsius": [-200, 0], "errorC": [-0.02, 0.03] },
+        { "mv": [0.0, 20.613], "celsius": [0, 600], "errorC": [-0.02, 0.03] },
+        { "mv": [20.613, 47.513], "celsius": [600, 1300], "errorC": [-0.04, 0.02] }
+      ],
+      "R": [
+        { "mv": [-0.226, 1.923], "celsius": [-50, 250], "errorC": [-0.02, 0.02] },
+        { "mv": [1.923, 13.228], "celsius": [250, 1200], "errorC": [-0.005, 0.005] },
+        { "mv": [11.361, 19.739], "celsius": [1064, 1664.5], "errorC": [-0.0005, 0.001] },
+        { "mv": [19.739, 21.103], "celsius": [1664.5, 1768.1], "errorC": [-0.001, 0.002] }
+      ],
+      "S": [
+        { "mv": [-0.235, 1.874], "celsius": [-50, 250], "errorC": [-0.02, 0.02] },
+        { "mv": [1.874, 11.95], "celsius": [250, 1200], "errorC": [-0.01, 0.01] },
+        { "mv": [10.332, 17.536], "celsius": [1064, 1664.5], "errorC": [-0.0002, 0.0002] },
+        { "mv": [17.536, 18.693], "celsius": [1664.5, 1768.1], "errorC": [-0.002, 0.002] }
+      ],
+      "B": [
+        { "mv": [0.291, 2.431], "celsius": [250, 700], "errorC": [-0.02, 0.03] },
+        { "mv": [2.431, 13.82], "celsius": [700, 1820], "errorC": [-0.01, 0.02] }
+      ]
+    }
+  },
+
+  "inverseRoundTrip": {
+    "$derived": "Sweep each inverse subrange, take t -> E from the exact reference function, feed E back through the approximate inverse and compare. The residual must land inside the band NIST publishes for that subrange. The inverse is a fit, so exact equality must never be asserted.",
+    "$note": "slackC absorbs the finite sweep step and the two-decimal rounding of NIST's published bands.",
+    "steps": 400,
+    "slackC": 0.005
+  },
+
+  "outOfRange": {
+    "$derived": "Limits restated from the NIST subrange tables above; the engine must refuse rather than extrapolate.",
+    "voltage": [
+      { "type": "K", "celsius": -270.1 },
+      { "type": "K", "celsius": 1372.1 },
+      { "type": "J", "celsius": -210.1 },
+      { "type": "J", "celsius": 1200.1 },
+      { "type": "T", "celsius": -270.1 },
+      { "type": "T", "celsius": 400.1 },
+      { "type": "E", "celsius": -270.1 },
+      { "type": "E", "celsius": 1000.1 },
+      { "type": "N", "celsius": 1300.1 },
+      { "type": "R", "celsius": -50.1 },
+      { "type": "S", "celsius": 1768.2 },
+      { "type": "B", "celsius": -0.1 }
+    ],
+    "temperature": [
+      { "type": "K", "mv": -5.9 },
+      { "type": "K", "mv": 54.9 },
+      { "type": "J", "mv": -8.1 },
+      { "type": "J", "mv": 69.6 },
+      { "type": "T", "mv": -5.61 },
+      { "type": "T", "mv": 20.88 },
+      { "type": "E", "mv": -8.83 },
+      { "type": "E", "mv": 76.38 },
+      { "type": "N", "mv": 47.52 },
+      { "type": "R", "mv": 21.11 },
+      { "type": "S", "mv": 18.7 },
+      { "type": "B", "mv": 0.29 }
+    ],
+    "$noteTypeB": "0.29 mV is below type B's inverse floor of 0.291 mV. NIST publishes no inverse below 250 degrees C for type B because E(t) dips negative and doubles back near 21 degrees C, so a voltage there matches two temperatures."
+  },
+
+  "publishedBoundRounding": {
+    "$derived": "NIST prints the inverse voltage bounds rounded to 0.001 mV, so at a type's outer edge the printed bound can sit a fraction of a microvolt inside the reference function's own value at the same temperature. The engine selects on the exact endpoint voltage where it is wider, so a thermocouple at its rated limit is not refused. The gap is always sub-microvolt - if it were larger, the bound would not be a rounding.",
+    "maxGapMv": 0.001,
+    "cases": [
+      { "type": "K", "celsius": 1372, "publishedMv": 54.886 },
+      { "type": "K", "celsius": -200, "publishedMv": -5.891 },
+      { "type": "T", "celsius": 400, "publishedMv": 20.872 },
+      { "type": "J", "celsius": 1200, "publishedMv": 69.553 },
+      { "type": "N", "celsius": 1300, "publishedMv": 47.513 },
+      { "type": "R", "celsius": 1768.1, "publishedMv": 21.103 },
+      { "type": "S", "celsius": 1768.1, "publishedMv": 18.693 },
+      { "type": "B", "celsius": 1820, "publishedMv": 13.82 }
+    ]
+  },
+
+  "coldJunction": {
+    "$quoted": "Both anchor voltages are type K values from NIST Monograph 175 table 7.3.3: E(25 C) = 1000.2 uV, E(300 C) = 12208.6 uV.",
+    "type": "K",
+    "hotJunctionC": 300,
+    "coldJunctionC": 25,
+    "coldJunctionUv": 1000.2,
+    "hotJunctionUv": 12208.6,
+    "$derived": "A meter whose cold junction sits at 25 C reads the difference, 12208.6 - 1000.2 = 11208.4 uV. Adding the cold-junction emf back and inverting must return the hot junction, 300 C, within the inverse band plus the rounding of the two quoted table values.",
+    "measuredMv": 11.2084,
+    "toleranceC": 0.1,
+    "$noteNaive": "Reading 11.2084 mV straight off a 0 C table gives 275.80 C; adding the cold-junction temperature to that instead of its voltage lands on 300.80 C, 0.80 C high. Type K is nearly linear over this span, which is exactly why the shortcut survives a bench check and then shows up as a calibration offset. The test asserts the shortcut misses 300 C by more than 0.5 C so the failure mode stays visible.",
+    "naiveAddTemperatureMinErrorC": 0.5
+  }
+}
