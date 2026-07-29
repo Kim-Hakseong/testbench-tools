@@ -514,7 +514,7 @@ export const ABOUT: Record<SiteLocale, AboutStrings> = {
     contactLink: "Get in touch",
     contactAfter: ".",
     trademarks:
-      "TDMS, MELSEC, SIMATIC, Allen-Bradley, Modbus, XGT and other product names are trademarks of their respective owners, used here only to describe the formats and protocols these tools work with. TestBench.tools is independent and is not affiliated with, endorsed by or sponsored by any of them.",
+      "TDMS, MELSEC, SIMATIC, Allen-Bradley, Modbus, XGT, Keysight, Fluke, Keithley, Siglent, Vishay and other product names are trademarks of their respective owners, used here only to identify the formats, protocols, modules and instruments these tools work with. Published specification and characteristic data is reproduced from the manufacturer documents cited on the tool page that uses it. TestBench.tools is independent and is not affiliated with, endorsed by or sponsored by any of them.",
   },
   ko: {
     metaTitle: "소개",
@@ -534,7 +534,7 @@ export const ABOUT: Record<SiteLocale, AboutStrings> = {
     contactLink: "알려주세요",
     contactAfter: ".",
     trademarks:
-      "TDMS, MELSEC, SIMATIC, Allen-Bradley, Modbus, XGT 등 제품명은 각 소유자의 상표이며, 이 툴이 다루는 포맷·프로토콜을 설명하기 위해서만 사용합니다. TestBench.tools는 독립적으로 운영되며 이들 기업과 제휴·보증·후원 관계가 없습니다.",
+      "TDMS, MELSEC, SIMATIC, Allen-Bradley, Modbus, XGT, Keysight, Fluke, Keithley, Siglent, Vishay 등 제품명은 각 소유자의 상표이며, 이 툴이 다루는 포맷·프로토콜·모듈·계측기를 지칭하기 위해서만 사용합니다. 사양·특성 데이터는 이를 사용하는 툴 페이지에 명시된 제조사 문서에서 인용했습니다. TestBench.tools는 독립적으로 운영되며 이들 기업과 제휴·보증·후원 관계가 없습니다.",
   },
   ja: {
     metaTitle: "概要",
@@ -554,7 +554,7 @@ export const ABOUT: Record<SiteLocale, AboutStrings> = {
     contactLink: "ご連絡ください",
     contactAfter: "。",
     trademarks:
-      "TDMS、MELSEC、SIMATIC、Allen-Bradley、Modbus、XGT などの製品名は各所有者の商標であり、本ツールが扱うフォーマットやプロトコルを説明する目的でのみ使用しています。TestBench.tools は独立しており、これらの企業と提携・推奨・後援の関係はありません。",
+      "TDMS、MELSEC、SIMATIC、Allen-Bradley、Modbus、XGT、Keysight、Fluke、Keithley、Siglent、Vishay などの製品名は各所有者の商標であり、本ツールが扱うフォーマット・プロトコル・モジュール・計測器を指し示す目的でのみ使用しています。仕様・特性データは、それを使用するツールページに明記した製造元の文書から引用しています。TestBench.tools は独立しており、これらの企業と提携・推奨・後援の関係はありません。",
   },
   de: {
     metaTitle: "Über",
@@ -574,7 +574,7 @@ export const ABOUT: Record<SiteLocale, AboutStrings> = {
     contactLink: "Melden Sie sich",
     contactAfter: ".",
     trademarks:
-      "TDMS, MELSEC, SIMATIC, Allen-Bradley, Modbus, XGT und weitere Produktnamen sind Marken ihrer jeweiligen Inhaber und werden hier ausschließlich zur Beschreibung der Formate und Protokolle verwendet, mit denen diese Tools arbeiten. TestBench.tools ist unabhängig und steht in keiner Verbindung zu diesen Unternehmen, wird von ihnen weder unterstützt noch gesponsert.",
+      "TDMS, MELSEC, SIMATIC, Allen-Bradley, Modbus, XGT, Keysight, Fluke, Keithley, Siglent, Vishay und weitere Produktnamen sind Marken ihrer jeweiligen Inhaber und werden hier ausschließlich zur Bezeichnung der Formate, Protokolle, Module und Messgeräte verwendet, mit denen diese Tools arbeiten. Spezifikations- und Kennwertdaten sind den Herstellerdokumenten entnommen, die auf der jeweiligen Tool-Seite angegeben sind. TestBench.tools ist unabhängig und steht in keiner Verbindung zu diesen Unternehmen, wird von ihnen weder unterstützt noch gesponsert.",
   },
   zh: {
     metaTitle: "关于",
@@ -594,7 +594,7 @@ export const ABOUT: Record<SiteLocale, AboutStrings> = {
     contactLink: "联系我们",
     contactAfter: "。",
     trademarks:
-      "TDMS、MELSEC、SIMATIC、Allen-Bradley、Modbus、XGT 等产品名称均为各自所有者的商标，此处仅用于说明本站工具所处理的格式与协议。TestBench.tools 独立运营，与上述公司无隶属、认可或赞助关系。",
+      "TDMS、MELSEC、SIMATIC、Allen-Bradley、Modbus、XGT、Keysight、Fluke、Keithley、Siglent、Vishay 等产品名称均为各自所有者的商标，此处仅用于指代本站工具所处理的格式、协议、模块与仪器。规格与特性数据引自相应工具页面所标注的厂商文档。TestBench.tools 独立运营，与上述公司无隶属、认可或赞助关系。",
   },
 };
 

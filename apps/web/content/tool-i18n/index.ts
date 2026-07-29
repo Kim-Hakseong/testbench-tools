@@ -9,8 +9,10 @@ import { BATCH_A } from "./batch-a";
 import { BATCH_B } from "./batch-b";
 import { BATCH_C } from "./batch-c";
 import { BATCH_D } from "./batch-d";
+import { BATCH_E } from "./batch-e";
+import { BATCH_F } from "./batch-f";
 
-const SOURCES = [SHARED, BATCH_A, BATCH_B, BATCH_C, BATCH_D];
+const SOURCES = [SHARED, BATCH_A, BATCH_B, BATCH_C, BATCH_D, BATCH_E, BATCH_F];
 
 const MERGED: Record<SiteLocale, ToolDict> = Object.fromEntries(
   SITE_LOCALES.map((locale) => [
