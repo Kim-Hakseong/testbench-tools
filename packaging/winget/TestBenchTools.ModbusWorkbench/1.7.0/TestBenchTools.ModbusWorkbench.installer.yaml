@@ -1,0 +1,16 @@
+# yaml-language-server: $schema=https://aka.ms/winget-manifest.installer.1.6.0.schema.json
+PackageIdentifier: TestBenchTools.ModbusWorkbench
+PackageVersion: 1.7.0
+InstallerType: portable
+# Single-file self-contained build — nothing to install, so winget places it on
+# PATH rather than running an installer. This is also why no code-signing
+# certificate is required to publish here.
+Commands:
+  - modbus-workbench
+ReleaseDate: 2026-07-28
+Installers:
+  - Architecture: x64
+    InstallerUrl: https://github.com/Kim-Hakseong/testbench-modbus-workbench/releases/download/v1.7.0/ModbusWorkbench-v1.7.0-win-x64.exe
+    InstallerSha256: D306A01B7FBC99F9270006CDAD5ACC5E8D16C53AD3724058C0C356DF7416E29C
+ManifestType: installer
+ManifestVersion: 1.6.0

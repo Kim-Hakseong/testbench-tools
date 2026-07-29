@@ -1,0 +1,29 @@
+# yaml-language-server: $schema=https://aka.ms/winget-manifest.defaultLocale.1.6.0.schema.json
+PackageIdentifier: TestBenchTools.FrameTerm
+PackageVersion: 0.2.0
+PackageLocale: en-US
+Publisher: TestBench.tools
+PublisherUrl: https://testbench.tools/
+PublisherSupportUrl: https://github.com/Kim-Hakseong/testbench-frameterm/issues
+PackageName: FrameTerm
+PackageUrl: https://testbench.tools/apps/frameterm/
+License: MIT
+LicenseUrl: https://github.com/Kim-Hakseong/testbench-frameterm/blob/main/LICENSE
+Copyright: Copyright (c) 2026 TestBench.tools
+ShortDescription: Serial terminal built for frame-level protocol work.
+Description: |-
+  Serial terminal built for frame-level protocol work.
+  Runs entirely offline — nothing is uploaded. Free and open source under the
+  MIT License; the full source is in the repository linked above.
+Moniker: frameterm
+Tags:
+  - serial
+  - terminal
+  - rs232
+  - rs485
+  - protocol
+  - crc
+  - embedded
+ReleaseNotesUrl: https://github.com/Kim-Hakseong/testbench-frameterm/releases/tag/v0.2.0
+ManifestType: defaultLocale
+ManifestVersion: 1.6.0

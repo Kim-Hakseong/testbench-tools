@@ -1,0 +1,16 @@
+# yaml-language-server: $schema=https://aka.ms/winget-manifest.installer.1.6.0.schema.json
+PackageIdentifier: TestBenchTools.TdmsConverter
+PackageVersion: 1.0.0
+InstallerType: portable
+# Single-file self-contained build — nothing to install, so winget places it on
+# PATH rather than running an installer. This is also why no code-signing
+# certificate is required to publish here.
+Commands:
+  - tdms-converter
+ReleaseDate: 2026-07-28
+Installers:
+  - Architecture: x64
+    InstallerUrl: https://github.com/Kim-Hakseong/testbench-tdms-converter/releases/download/v1.0.0/TdmsConverter-v1.0.0-win-x64.exe
+    InstallerSha256: 044C3A5BD5AFC2D09DC60DBB7D69EA7F46840F50EA9911ADC5BBD4D4153DDB83
+ManifestType: installer
+ManifestVersion: 1.6.0

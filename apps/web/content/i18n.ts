@@ -743,6 +743,10 @@ export interface AppsStrings {
   download: string;
   sourceLabel: string;
   freeSuffix: string;
+  verifyHeading: string;
+  verifyBefore: string;
+  smartScreenTitle: string;
+  smartScreenBody: string;
   footerNote: string;
 }
 
@@ -756,6 +760,10 @@ export const APPS_PAGE: Record<SiteLocale, AppsStrings> = {
     download: "Download",
     sourceLabel: "View source on GitHub",
     freeSuffix: "· free · MIT",
+    verifyHeading: "Verify what you downloaded",
+    verifyBefore: "Compare the SHA-256 of the file you got against the one published here. In PowerShell:",
+    smartScreenTitle: "Windows will warn you the first time",
+    smartScreenBody: "These builds are not code-signed — a signing certificate is a yearly cost this project does not carry — so SmartScreen shows “Windows protected your PC” on first run. The warning means the publisher is unrecognised, not that anything was found wrong with the file. Choose More info → Run anyway, or check the checksum above first. Every build is produced from the public source in its repository.",
     footerNote: "Every app here is free and MIT licensed, like everything else on this site — use it, read the source, fork it. New releases are announced on this page.",
   },
   ko: {
@@ -767,6 +775,10 @@ export const APPS_PAGE: Record<SiteLocale, AppsStrings> = {
     download: "다운로드",
     sourceLabel: "GitHub에서 소스 보기",
     freeSuffix: "· 무료 · MIT",
+    verifyHeading: "받은 파일 검증하기",
+    verifyBefore: "받은 파일의 SHA-256을 여기 공개된 값과 대조하세요. PowerShell에서:",
+    smartScreenTitle: "처음 실행하면 Windows가 경고합니다",
+    smartScreenBody: "이 빌드는 코드 서명이 되어 있지 않아(서명 인증서는 이 프로젝트가 감당하지 않는 연간 비용입니다) SmartScreen이 “Windows의 PC 보호” 창을 띄웁니다. 이 경고는 게시자를 알 수 없다는 뜻이지, 파일에서 문제가 발견됐다는 뜻이 아닙니다. 추가 정보 → 실행을 누르시거나, 위 체크섬을 먼저 대조하세요. 모든 빌드는 각 저장소의 공개 소스에서 만들어집니다.",
     footerNote: "여기 있는 앱은 이 사이트의 모든 것과 마찬가지로 무료이며 MIT 라이선스입니다 — 쓰고, 소스를 읽고, 포크하셔도 됩니다. 새 릴리스는 이 페이지에서 안내합니다.",
   },
   ja: {
@@ -778,6 +790,10 @@ export const APPS_PAGE: Record<SiteLocale, AppsStrings> = {
     download: "ダウンロード",
     sourceLabel: "GitHubでソースを見る",
     freeSuffix: "· 無料 · MIT",
+    verifyHeading: "ダウンロードしたファイルの検証",
+    verifyBefore: "入手したファイルの SHA-256 を、ここに公開されている値と照合してください。PowerShell では:",
+    smartScreenTitle: "初回起動時に Windows が警告します",
+    smartScreenBody: "これらのビルドはコード署名されていないため（署名証明書は本プロジェクトが負担していない年間費用です）、SmartScreen が「Windows によって PC が保護されました」と表示します。この警告は発行元が不明という意味であり、ファイルに問題が見つかったという意味ではありません。詳細情報 → 実行 を選ぶか、先に上のチェックサムを照合してください。すべてのビルドは各リポジトリの公開ソースから作成されています。",
     footerNote: "ここにあるアプリは、本サイトのすべてと同じく無料で、MIT ライセンスです — 使う・ソースを読む・フォークする、いずれも自由です。新しいリリースはこのページでお知らせします。",
   },
   de: {
@@ -789,6 +805,10 @@ export const APPS_PAGE: Record<SiteLocale, AppsStrings> = {
     download: "Herunterladen",
     sourceLabel: "Quellcode auf GitHub",
     freeSuffix: "· kostenlos · MIT",
+    verifyHeading: "Heruntergeladene Datei prüfen",
+    verifyBefore: "Vergleichen Sie den SHA-256 Ihrer Datei mit dem hier veröffentlichten Wert. In PowerShell:",
+    smartScreenTitle: "Windows warnt beim ersten Start",
+    smartScreenBody: "Diese Builds sind nicht codesigniert — ein Signaturzertifikat ist eine jährliche Ausgabe, die dieses Projekt nicht trägt — daher zeigt SmartScreen „Der Computer wurde durch Windows geschützt“. Die Warnung bedeutet, dass der Herausgeber unbekannt ist, nicht dass an der Datei etwas gefunden wurde. Wählen Sie Weitere Informationen → Trotzdem ausführen, oder prüfen Sie zuerst die Prüfsumme oben. Jeder Build entsteht aus dem offenen Quellcode im jeweiligen Repository.",
     footerNote: "Jede App hier ist kostenlos und MIT-lizenziert, wie alles auf dieser Seite — nutzen, den Quellcode lesen, forken. Neue Versionen werden auf dieser Seite angekündigt.",
   },
   zh: {
@@ -800,6 +820,10 @@ export const APPS_PAGE: Record<SiteLocale, AppsStrings> = {
     download: "下载",
     sourceLabel: "在 GitHub 查看源码",
     freeSuffix: "· 免费 · MIT",
+    verifyHeading: "校验下载的文件",
+    verifyBefore: "将你拿到的文件的 SHA-256 与此处公布的值比对。在 PowerShell 中:",
+    smartScreenTitle: "首次运行时 Windows 会发出警告",
+    smartScreenBody: "这些构建未做代码签名（签名证书是本项目未承担的年度开销），因此 SmartScreen 会显示“Windows 已保护你的电脑”。该警告表示发布者无法识别，并不表示文件本身被发现有问题。可以选择 更多信息 → 仍要运行，或先比对上面的校验和。每个构建都来自各自仓库中的公开源码。",
     footerNote: "这里的应用都免费，并采用 MIT 许可，一如本站的一切 — 可自由使用、阅读源码、二次开发。新版本会在本页公布。",
   },
 };

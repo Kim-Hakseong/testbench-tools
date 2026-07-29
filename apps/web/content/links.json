@@ -10,7 +10,10 @@
       "url": "https://github.com/Kim-Hakseong/testbench-frameterm/releases/download/v0.2.0/FrameTerm-v0.2.0-win-x64.exe",
       "repo": "https://github.com/Kim-Hakseong/testbench-frameterm",
       "screenshot": "/apps/frameterm.png",
-      "free": true
+      "free": true,
+      "version": "v0.2.0",
+      "sha256": "29a5175d5e276b971cf3baf2cf72373172c53e5260584e664602a10467e4e1d4",
+      "sizeMb": 90
     },
     {
       "slug": "modbus-workbench",
@@ -22,7 +25,10 @@
       "url": "https://github.com/Kim-Hakseong/testbench-modbus-workbench/releases/download/v1.7.0/ModbusWorkbench-v1.7.0-win-x64.exe",
       "repo": "https://github.com/Kim-Hakseong/testbench-modbus-workbench",
       "screenshot": "/apps/modbus-workbench.png",
-      "free": true
+      "free": true,
+      "version": "v1.7.0",
+      "sha256": "d306a01b7fbc99f9270006cdad5acc5e8d16c53ad3724058c0c356df7416e29c",
+      "sizeMb": 90
     },
     {
       "slug": "tdms-converter",
@@ -34,7 +40,10 @@
       "url": "https://github.com/Kim-Hakseong/testbench-tdms-converter/releases/download/v1.0.0/TdmsConverter-v1.0.0-win-x64.exe",
       "repo": "https://github.com/Kim-Hakseong/testbench-tdms-converter",
       "screenshot": "/apps/tdms-converter.png",
-      "free": true
+      "free": true,
+      "version": "v1.0.0",
+      "sha256": "044c3a5bd5afc2d09dc60dbb7d69ea7f46840f50ea9911adc5bbd4d4153ddb83",
+      "sizeMb": 90
     }
   ]
 }

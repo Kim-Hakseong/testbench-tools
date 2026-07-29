@@ -1,0 +1,29 @@
+# yaml-language-server: $schema=https://aka.ms/winget-manifest.defaultLocale.1.6.0.schema.json
+PackageIdentifier: TestBenchTools.ModbusWorkbench
+PackageVersion: 1.7.0
+PackageLocale: en-US
+Publisher: TestBench.tools
+PublisherUrl: https://testbench.tools/
+PublisherSupportUrl: https://github.com/Kim-Hakseong/testbench-modbus-workbench/issues
+PackageName: Modbus Workbench
+PackageUrl: https://testbench.tools/apps/modbus-workbench/
+License: MIT
+LicenseUrl: https://github.com/Kim-Hakseong/testbench-modbus-workbench/blob/main/LICENSE
+Copyright: Copyright (c) 2026 TestBench.tools
+ShortDescription: Modbus RTU/TCP master with polling, writes and a built-in slave simulator.
+Description: |-
+  Modbus RTU/TCP master with polling, writes and a built-in slave simulator.
+  Runs entirely offline — nothing is uploaded. Free and open source under the
+  MIT License; the full source is in the repository linked above.
+Moniker: modbus-workbench
+Tags:
+  - modbus
+  - modbus-tcp
+  - modbus-rtu
+  - plc
+  - scada
+  - industrial
+  - simulator
+ReleaseNotesUrl: https://github.com/Kim-Hakseong/testbench-modbus-workbench/releases/tag/v1.7.0
+ManifestType: defaultLocale
+ManifestVersion: 1.6.0
