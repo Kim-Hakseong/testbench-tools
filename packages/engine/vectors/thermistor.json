@@ -1,0 +1,368 @@
+{
+  "$comment": "NTC thermistor golden vectors. Every expected value here was computed independently of the engine, at 50 significant digits with Python's decimal module, directly from the two published equations: the Beta (B-parameter) equation 1/T = 1/T0 + (1/B)*ln(R/R0) and the Steinhart-Hart equation 1/T = A + B*ln(R) + C*ln(R)^3, both with T in kelvin and T(K) = T(C) + 273.15. Entries marked $quoted are read from a published datasheet: the Vishay BCcomponents NTCLE100E3 datasheet, document number 29049, revision 07-May-2025, NTCLE100E3103*** (10 kohm, B25/85 = 3977 K) column of the 'resistance values at intermediate temperatures' tables, fetched from https://www.vishay.com/docs/29049/ntcle100.pdf and recorded in spec/ntc-thermistor.md. No coefficient here is invented. DO NOT MODIFY.",
+  "betaEquation": {
+    "$note": "Generic B = 3435 K anchored at 10 kohm / 25 C. Not a part number - an arbitrary but typical parameter set, so these rows test the equation, not a vendor curve.",
+    "r0Ohms": 10000,
+    "t0C": 25,
+    "beta": 3435,
+    "resistanceAtC": [
+      [
+        -40,
+        248276.524565994
+      ],
+      [
+        -20,
+        77522.549792681
+      ],
+      [
+        0,
+        28704.290389731
+      ],
+      [
+        25,
+        10000.0
+      ],
+      [
+        50,
+        4101.189901135
+      ],
+      [
+        85,
+        1451.347087425
+      ],
+      [
+        100,
+        987.036768462
+      ],
+      [
+        125,
+        553.740215603
+      ]
+    ],
+    "resistanceRelativeTolerance": 1e-09,
+    "temperatureAtOhms": [
+      [
+        248276.52456599355,
+        -40.0
+      ],
+      [
+        100000,
+        -24.6624742338
+      ],
+      [
+        32554,
+        -2.7065541935
+      ],
+      [
+        10000,
+        25.0
+      ],
+      [
+        1070,
+        96.7569144935
+      ],
+      [
+        500,
+        129.7677022273
+      ]
+    ],
+    "temperatureToleranceC": 1e-09,
+    "anchorIsExact": {
+      "ohms": 10000,
+      "celsius": 25
+    }
+  },
+  "betaFromTwoPoints": {
+    "$note": "B = ln(R1/R2) / (1/T1 - 1/T2). Pairs taken from the $quoted datasheet table; the spread between them is the point - one thermistor, four different B values.",
+    "toleranceK": 1e-06,
+    "pairs": [
+      {
+        "lowC": -40,
+        "highC": 25,
+        "lowOhms": 332094.0,
+        "highOhms": 10000.0,
+        "beta": 3746.07359671,
+        "label": "B-40/25"
+      },
+      {
+        "lowC": 25,
+        "highC": 50,
+        "lowOhms": 10000.0,
+        "highOhms": 3605.0,
+        "beta": 3931.9794522,
+        "label": "B25/50"
+      },
+      {
+        "lowC": 25,
+        "highC": 85,
+        "lowOhms": 10000.0,
+        "highOhms": 1070.0,
+        "beta": 3977.51433092,
+        "label": "B25/85"
+      },
+      {
+        "lowC": 25,
+        "highC": 100,
+        "lowOhms": 10000.0,
+        "highOhms": 677.3,
+        "beta": 3993.63638989,
+        "label": "B25/100"
+      },
+      {
+        "lowC": 25,
+        "highC": 125,
+        "lowOhms": 10000.0,
+        "highOhms": 338.7,
+        "beta": 4018.54792225,
+        "label": "B25/125"
+      }
+    ],
+    "datasheetB2585": 3977,
+    "datasheetB2585ToleranceK": 1
+  },
+  "steinhartFit": {
+    "$note": "Fitted through three $quoted table rows spanning the full published span. The 3x3 system is linear in A, B, C after substituting x = ln R, so the fit passes exactly through all three points.",
+    "fitPointsC": [
+      -40,
+      25,
+      125
+    ],
+    "points": [
+      {
+        "celsius": -40,
+        "ohms": 332094.0
+      },
+      {
+        "celsius": 25,
+        "ohms": 10000.0
+      },
+      {
+        "celsius": 125,
+        "ohms": 338.7
+      }
+    ],
+    "coefficients": {
+      "a": 0.0011384494567665874,
+      "b": 0.00023251884393734,
+      "c": 9.469821107034e-08
+    },
+    "coefficientRelativeTolerance": 1e-09,
+    "maxResidualAtFitPointsC": 1e-09
+  },
+  "steinhartValues": {
+    "$note": "Evaluated from the fitted coefficients above. R -> T is direct; T -> R is the Cardano closed form.",
+    "temperatureAtOhms": [
+      [
+        332094.0,
+        -40.0
+      ],
+      [
+        32554.0,
+        0.0211708846
+      ],
+      [
+        10000.0,
+        25.0
+      ],
+      [
+        3605.0,
+        49.9704707255
+      ],
+      [
+        1070.0,
+        84.9514086108
+      ],
+      [
+        338.7,
+        125.0
+      ],
+      [
+        182.6,
+        150.1096719041
+      ]
+    ],
+    "temperatureToleranceC": 1e-08,
+    "resistanceAtC": [
+      [
+        -40,
+        332094.0
+      ],
+      [
+        0,
+        32589.112728734
+      ],
+      [
+        25,
+        10000.0
+      ],
+      [
+        50,
+        3600.949747632
+      ],
+      [
+        85,
+        1068.355608114
+      ],
+      [
+        125,
+        338.7
+      ],
+      [
+        150,
+        183.066045522
+      ]
+    ],
+    "resistanceRelativeTolerance": 1e-09,
+    "roundTripRelativeTolerance": 1e-09
+  },
+  "tableCheck": {
+    "$note": "The fitted curve against every row of the $quoted table, including the 36 rows it was not fitted to. This is the verification that the three-point fit is worth anything.",
+    "rows": 39,
+    "maxAbsC": 0.1096719,
+    "worstCelsius": 150,
+    "rmsC": 0.03842218,
+    "toleranceC": 1e-06,
+    "maxAbsMustBeUnderC": 0.15
+  },
+  "narrowFitCheck": {
+    "$note": "The same fit procedure on three $quoted rows only 10 K apart (20, 25 and 30 C). It reproduces its own three points to the same precision as the wide fit and is four times worse everywhere else - which is why the tool checks a fit against points it was not given.",
+    "fitPointsC": [
+      20,
+      25,
+      30
+    ],
+    "maxAbsC": 0.43916771,
+    "worstCelsius": 150,
+    "rmsC": 0.14421919,
+    "toleranceC": 1e-06
+  },
+  "betaDeviation": {
+    "$note": "Beta equation vs the fitted Steinhart-Hart curve, using the datasheet's own B25/85 = 3977 K anchored at 10 kohm / 25 C. At each temperature: take the resistance the fitted curve gives, then ask what the Beta equation calls it.",
+    "r0Ohms": 10000,
+    "t0C": 25,
+    "beta": 3977,
+    "rows": [
+      {
+        "celsius": -40,
+        "ohms": 332094.0,
+        "betaCelsius": -37.01073268,
+        "deviationC": 2.98926732
+      },
+      {
+        "celsius": -20,
+        "ohms": 96470.213680708,
+        "betaCelsius": -18.3051371,
+        "deviationC": 1.6948629
+      },
+      {
+        "celsius": 0,
+        "ohms": 32589.112728734,
+        "betaCelsius": 0.7421008,
+        "deviationC": 0.7421008
+      },
+      {
+        "celsius": 25,
+        "ohms": 10000.0,
+        "betaCelsius": 25.0,
+        "deviationC": 0.0
+      },
+      {
+        "celsius": 50,
+        "ohms": 3600.949747632,
+        "betaCelsius": 49.72301886,
+        "deviationC": -0.27698114
+      },
+      {
+        "celsius": 85,
+        "ohms": 1068.355608114,
+        "betaCelsius": 85.05893632,
+        "deviationC": 0.05893632
+      },
+      {
+        "celsius": 125,
+        "ohms": 338.7,
+        "betaCelsius": 126.40000649,
+        "deviationC": 1.40000649
+      },
+      {
+        "celsius": 150,
+        "ohms": 183.066045522,
+        "betaCelsius": 152.72458578,
+        "deviationC": 2.72458578
+      }
+    ],
+    "toleranceC": 1e-06
+  },
+  "divider": {
+    "$note": "ratio = count / (2^N - 1), matching the ADC convention used elsewhere in this engine. V = Vs * R_across / (Rt + Rs).",
+    "cases": [
+      {
+        "topology": "pulldown",
+        "ohms": 10000,
+        "seriesOhms": 10000,
+        "supplyVolts": 3.3,
+        "adcBits": 12,
+        "volts": 1.65,
+        "ratio": 0.5,
+        "counts": 2048,
+        "fullScaleCounts": 4095
+      },
+      {
+        "topology": "pulldown",
+        "ohms": 3605,
+        "seriesOhms": 10000,
+        "supplyVolts": 3.3,
+        "adcBits": 12,
+        "volts": 0.8744211687,
+        "ratio": 0.264976111724,
+        "counts": 1085,
+        "fullScaleCounts": 4095
+      },
+      {
+        "topology": "pullup",
+        "ohms": 3605,
+        "seriesOhms": 10000,
+        "supplyVolts": 3.3,
+        "adcBits": 12,
+        "volts": 2.4255788313,
+        "ratio": 0.735023888276,
+        "counts": 3010,
+        "fullScaleCounts": 4095
+      },
+      {
+        "topology": "pulldown",
+        "ohms": 332094,
+        "seriesOhms": 10000,
+        "supplyVolts": 5,
+        "adcBits": 10,
+        "volts": 4.8538413419,
+        "ratio": 0.970768268371,
+        "counts": 993,
+        "fullScaleCounts": 1023
+      }
+    ],
+    "voltsToleranceV": 1e-09
+  },
+  "referenceCurve": {
+    "$note": "$quoted transcription guard - if any table row is mistyped these stop matching.",
+    "id": "ntcle100e3103",
+    "r25Ohms": 10000,
+    "beta2585": 3977,
+    "rowCount": 39,
+    "firstRow": [
+      -40,
+      332094
+    ],
+    "row25C": [
+      25,
+      10000
+    ],
+    "lastRow": [
+      150,
+      182.6
+    ],
+    "sumOfResistancesOhms": 1305337.7,
+    "document": "Vishay BCcomponents NTCLE100E3, document 29049, revision 07-May-2025",
+    "url": "https://www.vishay.com/docs/29049/ntcle100.pdf"
+  }
+}
