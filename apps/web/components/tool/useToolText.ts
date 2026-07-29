@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback } from "react";
-import { toolText } from "@/content/tool-i18n";
+import { toolText } from "@/content/tool-i18n/index";
 import { useActiveLang } from "@/components/useActiveLang";
 
 /**

@@ -1,23 +1,11 @@
-// UI strings inside the tools themselves.
-//
-// Tool pages are English-canonical for search, but the widget on them is what
-// an engineer actually operates, so it follows the language they picked. The
-// long-form article below the tool stays English.
-//
-// Lookup falls back to the English literal passed at the call site, so a tool
-// that has not been translated yet keeps working and reads exactly as before.
-// That makes the conversion incremental instead of all-or-nothing.
+// Vocabulary shared across many tools, plus the PLC address cluster.
+// One file per batch so several people can translate at once without
+// colliding; `index.ts` merges them and the lookup falls back to English.
 
 import type { SiteLocale } from "@/content/i18n";
+import type { ToolDict } from "./types";
 
-type Dict = Record<string, string>;
-
-/**
- * Vocabulary shared across many tools — directions, number bases, byte order,
- * the common result and error phrasings. Translating these once covers most of
- * what is visible inside any given tool.
- */
-const SHARED: Record<SiteLocale, Dict> = {
+export const SHARED: Record<SiteLocale, ToolDict> = {
   en: {},
 
   ko: {
@@ -357,18 +345,3 @@ const SHARED: Record<SiteLocale, Dict> = {
     "whole word": "整字",
   },
 };
-
-/** Look a string up for a locale, falling back to the English source text. */
-export function toolText(locale: SiteLocale, english: string): string {
-  return SHARED[locale]?.[english] ?? english;
-}
-
-/** Keys that have a translation in a locale — used by the coverage check. */
-export function translatedKeys(locale: SiteLocale): string[] {
-  return Object.keys(SHARED[locale] ?? {});
-}
-
-/** Every string the shared dictionary knows about, in English. */
-export function sharedVocabulary(): string[] {
-  return Object.keys(SHARED.ko);
-}
