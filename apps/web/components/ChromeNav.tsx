@@ -71,7 +71,12 @@ export function FooterNav({ routeLang }: { routeLang: SiteLocale }) {
   return (
     <>
       <p>{CHROME[lang].footer}</p>
-      <nav className="flex gap-4" aria-label="Legal">
+      <nav className="flex gap-4" aria-label="Footer">
+        {routeLang === "en" && (
+          <Link href="/notes/" className="transition-colors hover:text-body">
+            Notes
+          </Link>
+        )}
         <Link href={`${p}about/`} className="transition-colors hover:text-body">
           {ABOUT[lang].metaTitle}
         </Link>

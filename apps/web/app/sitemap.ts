@@ -2,6 +2,7 @@ import type { MetadataRoute } from "next";
 import { TOOLS } from "@/content/tools-meta";
 import { LOCALE_PREFIX, SITE_LOCALES } from "@/content/i18n";
 import links from "@/content/links.json";
+import { NOTES } from "@/content/notes";
 
 const SITE = "https://testbench.tools";
 
@@ -35,6 +36,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
     if (tool.locale !== "en") {
       urls.push({ url: `${SITE}/ko/tools/${tool.slug}/`, priority: 0.7 });
     }
+  }
+
+  // Notes are English-only, so they appear once each.
+  urls.push({ url: `${SITE}/notes/`, priority: 0.6 });
+  for (const note of NOTES) {
+    urls.push({ url: `${SITE}/notes/${note.slug}/`, priority: 0.7 });
   }
 
   return urls;

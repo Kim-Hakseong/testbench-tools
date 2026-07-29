@@ -1,4 +1,5 @@
 import type { FaqItem } from "@/components/tool/AeoBlocks";
+import type { NoteMeta } from "@/content/notes";
 
 const SITE = "https://testbench.tools";
 
@@ -57,6 +58,30 @@ export function toolJsonLd(opts: {
         name: f.q,
         acceptedAnswer: { "@type": "Answer", text: f.a },
       })),
+    },
+  ];
+}
+
+/**
+ * Article node for a field note. `citation` carries the source document, since
+ * a note whose whole argument rests on one manual should say which one in the
+ * structured data too, not only in the prose.
+ */
+export function noteJsonLd(note: NoteMeta): object[] {
+  return [
+    {
+      "@context": "https://schema.org",
+      "@type": "Article",
+      headline: note.title,
+      description: note.description,
+      url: `${SITE}/notes/${note.slug}/`,
+      datePublished: note.published,
+      dateModified: note.published,
+      inLanguage: "en",
+      citation: note.source,
+      author: { "@type": "Organization", name: "TestBench.tools", url: SITE },
+      publisher: { "@type": "Organization", name: "TestBench.tools", url: SITE },
+      mainEntityOfPage: { "@type": "WebPage", "@id": `${SITE}/notes/${note.slug}/` },
     },
   ];
 }

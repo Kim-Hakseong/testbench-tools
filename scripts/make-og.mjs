@@ -69,6 +69,27 @@ function readCatalogue() {
   return tools;
 }
 
+/**
+ * Field notes. Their card slug is prefixed so a note can never collide with a
+ * tool that happens to share a slug.
+ */
+function readNotes() {
+  const src = readFileSync(join(WEB, "content/notes.ts"), "utf8");
+  const notes = [];
+  for (const m of src.matchAll(
+    /slug: "([a-z0-9-]+)",\s*\n\s*title:\s*\n?\s*"([^"]+)",\s*\n\s*description:\s*\n?\s*"([^"]+)"/g,
+  )) {
+    notes.push({
+      slug: `note-${m[1]}`,
+      name: m[2],
+      description: m[3],
+      eyebrow: "Field note",
+      href: `/notes/${m[1]}/`,
+    });
+  }
+  return notes;
+}
+
 /** Pages that are not tools still get a card — they are what gets shared first. */
 const STATIC_CARDS = [
   {
@@ -86,6 +107,14 @@ const STATIC_CARDS = [
       "Free, MIT-licensed desktop companions for heavier offline work: a Modbus master, a frame-level serial terminal, and a TDMS viewer.",
     eyebrow: "Downloads",
     href: "/apps/",
+  },
+  {
+    slug: "notes",
+    name: "Field notes",
+    description:
+      "Where a vendor manual and the obvious reading of it disagree — raw analog counts, protocol bit order, sensor curves. Every claim cited.",
+    eyebrow: "Notes",
+    href: "/notes/",
   },
   {
     slug: "about",
@@ -170,7 +199,7 @@ p{font-size:29px;line-height:1.42;color:#6f6e66;margin-top:22px;max-width:34ch}
 // ---------------------------------------------------------------------------
 
 const only = new Set(process.argv.slice(2));
-const cards = [...STATIC_CARDS, ...readCatalogue()].filter(
+const cards = [...STATIC_CARDS, ...readNotes(), ...readCatalogue()].filter(
   (c) => only.size === 0 || only.has(c.slug),
 );
 if (cards.length === 0) throw new Error(`no card matches ${[...only].join(", ")}`);
