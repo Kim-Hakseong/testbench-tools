@@ -1,6 +1,6 @@
 # yaml-language-server: $schema=https://aka.ms/winget-manifest.defaultLocale.1.6.0.schema.json
 PackageIdentifier: TestBenchTools.FrameTerm
-PackageVersion: 0.2.0
+PackageVersion: 1.0.0
 PackageLocale: en-US
 Publisher: TestBench.tools
 PublisherUrl: https://testbench.tools/
@@ -24,6 +24,6 @@ Tags:
   - protocol
   - crc
   - embedded
-ReleaseNotesUrl: https://github.com/Kim-Hakseong/testbench-frameterm/releases/tag/v0.2.0
+ReleaseNotesUrl: https://github.com/Kim-Hakseong/testbench-frameterm/releases/tag/v1.0.0
 ManifestType: defaultLocale
 ManifestVersion: 1.6.0

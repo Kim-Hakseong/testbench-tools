@@ -7,12 +7,12 @@
       "platforms": [
         "Windows"
       ],
-      "url": "https://github.com/Kim-Hakseong/testbench-frameterm/releases/download/v0.2.0/FrameTerm-v0.2.0-win-x64.exe",
+      "url": "https://github.com/Kim-Hakseong/testbench-frameterm/releases/download/v1.0.0/FrameTerm-v1.0.0-win-x64.exe",
       "repo": "https://github.com/Kim-Hakseong/testbench-frameterm",
       "screenshot": "/apps/frameterm.png",
       "free": true,
-      "version": "v0.2.0",
-      "sha256": "29a5175d5e276b971cf3baf2cf72373172c53e5260584e664602a10467e4e1d4",
+      "version": "v1.0.0",
+      "sha256": "6d9e089bc8367a5793ddec4584a5be66304fd4dd96bc24cdeb5760719cef1154",
       "sizeMb": 90
     },
     {

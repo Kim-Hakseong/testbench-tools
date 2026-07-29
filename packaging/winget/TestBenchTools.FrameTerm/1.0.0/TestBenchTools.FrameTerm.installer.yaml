@@ -1,16 +1,16 @@
 # yaml-language-server: $schema=https://aka.ms/winget-manifest.installer.1.6.0.schema.json
 PackageIdentifier: TestBenchTools.FrameTerm
-PackageVersion: 0.2.0
+PackageVersion: 1.0.0
 InstallerType: portable
 # Single-file self-contained build — nothing to install, so winget places it on
 # PATH rather than running an installer. This is also why no code-signing
 # certificate is required to publish here.
 Commands:
   - frameterm
-ReleaseDate: 2026-07-28
+ReleaseDate: 2026-07-29
 Installers:
   - Architecture: x64
-    InstallerUrl: https://github.com/Kim-Hakseong/testbench-frameterm/releases/download/v0.2.0/FrameTerm-v0.2.0-win-x64.exe
-    InstallerSha256: 29A5175D5E276B971CF3BAF2CF72373172C53E5260584E664602A10467E4E1D4
+    InstallerUrl: https://github.com/Kim-Hakseong/testbench-frameterm/releases/download/v1.0.0/FrameTerm-v1.0.0-win-x64.exe
+    InstallerSha256: 6D9E089BC8367A5793DDEC4584A5BE66304FD4DD96BC24CDEB5760719CEF1154
 ManifestType: installer
 ManifestVersion: 1.6.0
