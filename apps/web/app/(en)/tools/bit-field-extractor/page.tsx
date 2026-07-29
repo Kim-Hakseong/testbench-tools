@@ -11,7 +11,8 @@ export const metadata: Metadata = {
   title: "Bit Field Extractor — decode register fields visually",
   description:
     "Free online bit field extractor: enter a register value up to 64-bit, define named fields by LSB and width, and read each field's value on a colored bit strip. 100% in your browser.",
-  openGraph: { title: "Bit Field Extractor — decode register fields visually", description: "Define named fields by LSB and width and read each field's value on a colored bit strip.", type: "website" },
+  openGraph: {
+    images: ["/og/bit-field-extractor.png"], siteName: "TestBench.tools", title: "Bit Field Extractor — decode register fields visually", description: "Define named fields by LSB and width and read each field's value on a colored bit strip.", type: "website" },
 };
 
 const FAQS: FaqItem[] = [

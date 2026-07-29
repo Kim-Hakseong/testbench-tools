@@ -9,6 +9,15 @@ export const metadata: Metadata = {
   },
   description:
     "計測・組み込み・産業オートメーションエンジニアのための無料ブラウザツール。CRC、Modbus、PLCスケーリング、PT100、TDMS変換 — 100%クライアントサイド。",
+  // Shared preview card. Pages that have their own override just `images`;
+  // everything else inherits this one, so a bare link never renders bare.
+  openGraph: {
+    siteName: "TestBench.tools",
+    locale: "ja_JP",
+    type: "website",
+    images: [{ url: "/og/default.png", width: 1200, height: 630 }],
+  },
+  twitter: { card: "summary_large_image" },
 };
 
 export default function JaLayout({ children }: { children: React.ReactNode }) {

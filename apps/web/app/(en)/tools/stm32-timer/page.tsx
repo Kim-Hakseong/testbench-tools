@@ -11,7 +11,8 @@ export const metadata: Metadata = {
   title: "STM32 Timer Calculator — PSC/ARR pairs for a target frequency",
   description:
     "Free online STM32-style timer calculator: prescaler and auto-reload (PSC/ARR) pairs for your clock and target frequency, ranked by error. 100% in your browser.",
-  openGraph: { title: "STM32 Timer Calculator — PSC/ARR pairs for a target frequency", description: "PSC/ARR pairs for your timer clock and target frequency, ranked by error.", type: "website" },
+  openGraph: {
+    images: ["/og/stm32-timer.png"], siteName: "TestBench.tools", title: "STM32 Timer Calculator — PSC/ARR pairs for a target frequency", description: "PSC/ARR pairs for your timer clock and target frequency, ranked by error.", type: "website" },
 };
 
 const FAQS: FaqItem[] = [

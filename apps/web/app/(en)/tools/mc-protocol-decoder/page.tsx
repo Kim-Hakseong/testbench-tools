@@ -10,7 +10,8 @@ export const metadata: Metadata = {
   title: "Mitsubishi MC Protocol Decoder — 3E frame, ASCII and binary",
   description:
     "Free MELSEC MC Protocol 3E frame decoder: access route, command, device and points, in both ASCII and binary code. 100% in your browser.",
-  openGraph: { title: "Mitsubishi MC Protocol Decoder", description: "Decode MC Protocol 3E frames field by field, ASCII or binary.", type: "website" },
+  openGraph: {
+    images: ["/og/mc-protocol-decoder.png"], siteName: "TestBench.tools", title: "Mitsubishi MC Protocol Decoder", description: "Decode MC Protocol 3E frames field by field, ASCII or binary.", type: "website" },
 };
 
 const FAQS: FaqItem[] = [

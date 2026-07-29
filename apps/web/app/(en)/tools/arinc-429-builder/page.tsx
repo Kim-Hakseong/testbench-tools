@@ -11,6 +11,7 @@ export const metadata: Metadata = {
   description:
     "Free ARINC 429 word builder: enter an octal label, SDI, SSM and data and get the 32-bit word with odd parity computed for you. 100% in your browser.",
   openGraph: {
+    images: ["/og/arinc-429-builder.png"], siteName: "TestBench.tools",
     title: "ARINC 429 Word Builder",
     description: "Build a 32-bit ARINC 429 word with correct parity, and see how it decodes back.",
     type: "website",

@@ -11,7 +11,8 @@ export const metadata: Metadata = {
   title: "CRC Identifier — find which CRC algorithm produced a checksum",
   description:
     "Free online CRC identifier: enter data with its known checksum and find the matching CRC algorithm — catalog lookup plus exhaustive parameter search in a Web Worker. 100% in your browser.",
-  openGraph: { title: "CRC Identifier — find which CRC algorithm produced a checksum", description: "Free online CRC identifier: enter data with its known checksum and find the matching CRC algorithm — catalog lookup plus exhaustive parameter search in a Web Worker. 100% in your browser.", type: "website" },
+  openGraph: {
+    images: ["/og/crc-identifier.png"], siteName: "TestBench.tools", title: "CRC Identifier — find which CRC algorithm produced a checksum", description: "Free online CRC identifier: enter data with its known checksum and find the matching CRC algorithm — catalog lookup plus exhaustive parameter search in a Web Worker. 100% in your browser.", type: "website" },
 };
 
 const FAQS: FaqItem[] = [

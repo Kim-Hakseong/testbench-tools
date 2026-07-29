@@ -11,6 +11,7 @@ export const metadata: Metadata = {
   description:
     "Free NTC thermistor calculator: resistance ↔ temperature with the Beta (B-parameter) equation and the Steinhart-Hart equation, plus a three-point fit for A, B and C and the error between the two models. 100% in your browser.",
   openGraph: {
+    images: ["/og/ntc-thermistor-calculator.png"], siteName: "TestBench.tools",
     title: "NTC Thermistor Calculator — Beta vs Steinhart-Hart",
     description:
       "R ↔ °C both ways, fit A, B and C from three datasheet points, and see how many degrees the Beta equation costs you.",

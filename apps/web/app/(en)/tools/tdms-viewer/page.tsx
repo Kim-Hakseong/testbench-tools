@@ -11,7 +11,8 @@ export const metadata: Metadata = {
   title: "TDMS Viewer — inspect groups, channels and properties",
   description:
     "Free online NI TDMS viewer: drop a .tdms file and browse its group/channel tree, properties and first samples — parsed by streaming in your browser, no upload.",
-  openGraph: { title: "TDMS Viewer — inspect groups, channels and properties", description: "Browse a TDMS file's group/channel tree, properties and first samples in your browser.", type: "website" },
+  openGraph: {
+    images: ["/og/tdms-viewer.png"], siteName: "TestBench.tools", title: "TDMS Viewer — inspect groups, channels and properties", description: "Browse a TDMS file's group/channel tree, properties and first samples in your browser.", type: "website" },
 };
 
 const FAQS: FaqItem[] = [

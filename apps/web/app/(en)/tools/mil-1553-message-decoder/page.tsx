@@ -11,7 +11,8 @@ export const metadata: Metadata = {
   title: "MIL-STD-1553B Message Decoder — command, data, status layout",
   description:
     "Free online MIL-STD-1553B message decoder: paste the words of a transfer and see each word's role — command, data or status — laid out with fields and parity. 100% in your browser.",
-  openGraph: { title: "MIL-STD-1553B Message Decoder", description: "Lay out a full 1553B transaction: command, data words and status, with roles and parity.", type: "website" },
+  openGraph: {
+    images: ["/og/mil-1553-message-decoder.png"], siteName: "TestBench.tools", title: "MIL-STD-1553B Message Decoder", description: "Lay out a full 1553B transaction: command, data words and status, with roles and parity.", type: "website" },
 };
 
 const FAQS: FaqItem[] = [

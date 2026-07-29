@@ -11,6 +11,7 @@ export const metadata: Metadata = {
   description:
     "Free MELSEC device address converter: X and Y are octal on FX5 but hexadecimal on iQ-R, so X20 is point 16 or 32 depending on the CPU. 100% in your browser.",
   openGraph: {
+    images: ["/og/mitsubishi-address-converter.png"], siteName: "TestBench.tools",
     title: "Mitsubishi MELSEC Address Converter",
     description: "Decode MELSEC device numbers with the right radix per series, and convert points between iQ-R and FX5.",
     type: "website",

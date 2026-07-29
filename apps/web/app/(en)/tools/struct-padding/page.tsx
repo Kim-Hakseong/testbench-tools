@@ -11,7 +11,8 @@ export const metadata: Metadata = {
   title: "Struct Padding Visualizer — offsets, padding, sizeof",
   description:
     "Free online C struct layout visualizer: paste members and see offsets, padding bytes and total sizeof for 32/64-bit natural alignment, with a byte map. 100% in your browser.",
-  openGraph: { title: "Struct Padding Visualizer — offsets, padding, sizeof", description: "Paste C struct members and see offsets, padding and sizeof for 32/64-bit alignment.", type: "website" },
+  openGraph: {
+    images: ["/og/struct-padding.png"], siteName: "TestBench.tools", title: "Struct Padding Visualizer — offsets, padding, sizeof", description: "Paste C struct members and see offsets, padding and sizeof for 32/64-bit alignment.", type: "website" },
 };
 
 const FAQS: FaqItem[] = [

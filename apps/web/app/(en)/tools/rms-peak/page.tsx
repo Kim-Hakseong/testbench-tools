@@ -11,7 +11,8 @@ export const metadata: Metadata = {
   title: "RMS ↔ Peak Converter — sine wave levels",
   description:
     "Free online RMS, peak and peak-to-peak converter for sine waves, including rectified average. Enter any one level and read the rest. 100% in your browser.",
-  openGraph: { title: "RMS ↔ Peak Converter — sine wave levels", description: "Convert RMS, peak, peak-to-peak and rectified average for sine waves.", type: "website" },
+  openGraph: {
+    images: ["/og/rms-peak.png"], siteName: "TestBench.tools", title: "RMS ↔ Peak Converter — sine wave levels", description: "Convert RMS, peak, peak-to-peak and rectified average for sine waves.", type: "website" },
 };
 
 const FAQS: FaqItem[] = [

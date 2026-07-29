@@ -7,6 +7,7 @@ export const metadata: Metadata = {
   title: ABOUT.en.metaTitle,
   description: ABOUT.en.metaDesc,
   alternates: sharedAlternates("about", "en"),
+  openGraph: { images: ["/og/about.png"], siteName: "TestBench.tools" },
 };
 
 export default function Page() {

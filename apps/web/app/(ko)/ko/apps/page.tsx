@@ -7,6 +7,7 @@ export const metadata: Metadata = {
   title: APPS_PAGE.ko.metaTitle,
   description: APPS_PAGE.ko.metaDesc,
   alternates: sharedAlternates("apps", "ko"),
+  openGraph: { images: ["/og/apps.png"], siteName: "TestBench.tools" },
 };
 
 export default function Page() {

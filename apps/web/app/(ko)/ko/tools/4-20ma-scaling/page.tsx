@@ -12,7 +12,7 @@ export const metadata: Metadata = {
   description:
     "4-20mA 루프 전류를 공정값으로, 공정값을 전류로 즉시 변환. 3.8mA 미만 단선(open loop)·범위 이탈 경고 포함. 100% 브라우저 내 계산.",
   alternates: toolAlternates("4-20ma-scaling", "ko"),
-  openGraph: { title: "4-20mA 스케일링 계산기 — 단선 판정 포함", description: "4-20mA 루프 전류를 공정값으로, 공정값을 전류로 즉시 변환. 3.8mA 미만 단선(open loop)·범위 이탈 경고 포함. 100% 브라우저 내 계산.", type: "website" },
+  openGraph: { images: ["/og/4-20ma-scaling.png"], siteName: "TestBench.tools", title: "4-20mA 스케일링 계산기 — 단선 판정 포함", description: "4-20mA 루프 전류를 공정값으로, 공정값을 전류로 즉시 변환. 3.8mA 미만 단선(open loop)·범위 이탈 경고 포함. 100% 브라우저 내 계산.", type: "website" },
 };
 
 const FAQS: FaqItem[] = [

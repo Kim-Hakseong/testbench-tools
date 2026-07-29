@@ -11,7 +11,8 @@ export const metadata: Metadata = {
   title: "CRC-32 Calculator — online, instant",
   description:
     "Free online CRC-32 (ISO-HDLC) calculator for hex bytes or ASCII text. Instant results with byte-order views. Runs 100% in your browser.",
-  openGraph: { title: "CRC-32 Calculator — online, instant", description: "Free online CRC-32 (ISO-HDLC) calculator for hex bytes or ASCII text. Instant results with byte-order views. Runs 100% in your browser.", type: "website" },
+  openGraph: {
+    images: ["/og/crc-32.png"], siteName: "TestBench.tools", title: "CRC-32 Calculator — online, instant", description: "Free online CRC-32 (ISO-HDLC) calculator for hex bytes or ASCII text. Instant results with byte-order views. Runs 100% in your browser.", type: "website" },
 };
 
 const FAQS: FaqItem[] = [

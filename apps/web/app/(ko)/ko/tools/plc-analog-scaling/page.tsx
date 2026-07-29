@@ -12,7 +12,7 @@ export const metadata: Metadata = {
   description:
     "PLC 아날로그 raw 카운트를 공학 단위로, 공학 단위를 raw로 변환. 검증된 Siemens S7 0–27648 프리셋 또는 커스텀 범위 지원. 100% 브라우저 내 계산.",
   alternates: toolAlternates("plc-analog-scaling", "ko"),
-  openGraph: { title: "PLC 아날로그 스케일링 계산기 — raw ↔ 공학 단위", description: "PLC 아날로그 raw 카운트를 공학 단위로, 공학 단위를 raw로 변환. 검증된 Siemens S7 0–27648 프리셋 또는 커스텀 범위 지원. 100% 브라우저 내 계산.", type: "website" },
+  openGraph: { images: ["/og/plc-analog-scaling.png"], siteName: "TestBench.tools", title: "PLC 아날로그 스케일링 계산기 — raw ↔ 공학 단위", description: "PLC 아날로그 raw 카운트를 공학 단위로, 공학 단위를 raw로 변환. 검증된 Siemens S7 0–27648 프리셋 또는 커스텀 범위 지원. 100% 브라우저 내 계산.", type: "website" },
 };
 
 const FAQS: FaqItem[] = [

@@ -12,7 +12,7 @@ export const metadata: Metadata = {
   description:
     "패킹 BCD 워드를 10진수로, 10진수를 BCD로 변환. 니블 단위 검증으로 잘못된 자리 위치를 정확히 표시. 100% 브라우저 내 계산.",
   alternates: toolAlternates("bcd-converter", "ko"),
-  openGraph: { title: "BCD 변환기 — 패킹 BCD ↔ 10진수, 니블 검증", description: "패킹 BCD 워드를 10진수로, 10진수를 BCD로 변환. 니블 단위 검증으로 잘못된 자리 위치를 정확히 표시. 100% 브라우저 내 계산.", type: "website" },
+  openGraph: { images: ["/og/bcd-converter.png"], siteName: "TestBench.tools", title: "BCD 변환기 — 패킹 BCD ↔ 10진수, 니블 검증", description: "패킹 BCD 워드를 10진수로, 10진수를 BCD로 변환. 니블 단위 검증으로 잘못된 자리 위치를 정확히 표시. 100% 브라우저 내 계산.", type: "website" },
 };
 
 const FAQS: FaqItem[] = [

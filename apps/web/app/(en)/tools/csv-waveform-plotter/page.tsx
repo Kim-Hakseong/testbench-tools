@@ -11,7 +11,8 @@ export const metadata: Metadata = {
   title: "CSV Waveform Plotter — quick-look charts in the browser",
   description:
     "Free online CSV waveform plotter: drop a CSV, pick channels, and see the traces on a scope-style canvas — auto delimiter and header detection, no upload.",
-  openGraph: { title: "CSV Waveform Plotter — quick-look charts in the browser", description: "Drop a CSV and see channel traces on a scope-style canvas, all client-side.", type: "website" },
+  openGraph: {
+    images: ["/og/csv-waveform-plotter.png"], siteName: "TestBench.tools", title: "CSV Waveform Plotter — quick-look charts in the browser", description: "Drop a CSV and see channel traces on a scope-style canvas, all client-side.", type: "website" },
 };
 
 const FAQS: FaqItem[] = [

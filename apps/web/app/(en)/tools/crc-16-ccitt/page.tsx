@@ -11,7 +11,8 @@ export const metadata: Metadata = {
   title: "CRC-16 CCITT Calculator — CCITT-FALSE, XMODEM, KERMIT, IBM-SDLC",
   description:
     "Free online CRC-16 CCITT calculator with selectable variants (CCITT-FALSE, XMODEM, KERMIT, IBM-SDLC) — all based on polynomial 0x1021. Runs 100% in your browser.",
-  openGraph: { title: "CRC-16 CCITT Calculator — CCITT-FALSE, XMODEM, KERMIT, IBM-SDLC", description: "Free online CRC-16 CCITT calculator with selectable variants (CCITT-FALSE, XMODEM, KERMIT, IBM-SDLC) — all based on polynomial 0x1021. Runs 100% in your browser.", type: "website" },
+  openGraph: {
+    images: ["/og/crc-16-ccitt.png"], siteName: "TestBench.tools", title: "CRC-16 CCITT Calculator — CCITT-FALSE, XMODEM, KERMIT, IBM-SDLC", description: "Free online CRC-16 CCITT calculator with selectable variants (CCITT-FALSE, XMODEM, KERMIT, IBM-SDLC) — all based on polynomial 0x1021. Runs 100% in your browser.", type: "website" },
 };
 
 const FAQS: FaqItem[] = [

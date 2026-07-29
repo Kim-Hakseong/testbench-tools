@@ -11,7 +11,8 @@ export const metadata: Metadata = {
   title: "Hex File Viewer — inspect any file as a hex dump",
   description:
     "Free online hex viewer: drop any file and read it as a classic hex dump with offsets and ASCII column, loaded incrementally. No upload, 100% in your browser.",
-  openGraph: { title: "Hex File Viewer — inspect any file as a hex dump", description: "Read any file as a classic hex dump with offsets and ASCII column, loaded incrementally.", type: "website" },
+  openGraph: {
+    images: ["/og/hex-file-viewer.png"], siteName: "TestBench.tools", title: "Hex File Viewer — inspect any file as a hex dump", description: "Read any file as a classic hex dump with offsets and ASCII column, loaded incrementally.", type: "website" },
 };
 
 const FAQS: FaqItem[] = [

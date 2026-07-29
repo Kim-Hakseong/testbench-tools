@@ -12,7 +12,8 @@ export const metadata: Metadata = {
   title: "Hex to ASCII Converter — online, instant",
   description:
     "Free online hex to ASCII converter. Paste hex bytes in any format (spaced, 0x-prefixed, packed) and read them as text instantly. 100% in your browser.",
-  openGraph: { title: "Hex to ASCII Converter — online, instant", description: "Free online hex to ASCII converter. Paste hex bytes in any format (spaced, 0x-prefixed, packed) and read them as text instantly. 100% in your browser.", type: "website" },
+  openGraph: {
+    images: ["/og/hex-to-ascii.png"], siteName: "TestBench.tools", title: "Hex to ASCII Converter — online, instant", description: "Free online hex to ASCII converter. Paste hex bytes in any format (spaced, 0x-prefixed, packed) and read them as text instantly. 100% in your browser.", type: "website" },
 };
 
 const FAQS: FaqItem[] = [

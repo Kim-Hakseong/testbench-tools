@@ -11,7 +11,8 @@ export const metadata: Metadata = {
   title: "Modbus Frame Decoder — RTU & TCP, online",
   description:
     "Free online Modbus frame decoder for RTU and TCP. Paste hex bytes to see unit, function, addresses and data fields with CRC verification. 100% in your browser.",
-  openGraph: { title: "Modbus Frame Decoder — RTU & TCP, online", description: "Free online Modbus frame decoder for RTU and TCP. Paste hex bytes to see unit, function, addresses and data fields with CRC verification. 100% in your browser.", type: "website" },
+  openGraph: {
+    images: ["/og/modbus-frame-decoder.png"], siteName: "TestBench.tools", title: "Modbus Frame Decoder — RTU & TCP, online", description: "Free online Modbus frame decoder for RTU and TCP. Paste hex bytes to see unit, function, addresses and data fields with CRC verification. 100% in your browser.", type: "website" },
 };
 
 const FAQS: FaqItem[] = [

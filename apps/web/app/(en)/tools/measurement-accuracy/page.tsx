@@ -11,6 +11,7 @@ export const metadata: Metadata = {
   description:
     "Turn an instrument accuracy spec such as ±(0.0035 % of reading + 0.0005 % of range) or ±(0.05 % + 3 counts) into an absolute uncertainty for one reading, with the term-by-term breakdown. Presets for the Keysight 34461A/34401A, Keithley DMM6500, Siglent SDM3055 and Fluke 87V/289. 100% in your browser.",
   openGraph: {
+    images: ["/og/measurement-accuracy.png"], siteName: "TestBench.tools",
     title: "Measurement Accuracy Calculator — DMM, scope and calibrator specs",
     description:
       "Absolute ± uncertainty, the resulting interval and which spec term dominates, from % of reading, % of range, counts and offset.",

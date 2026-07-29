@@ -11,7 +11,8 @@ export const metadata: Metadata = {
   title: "TDMS to CSV Converter — in your browser, no upload",
   description:
     "Free online NI TDMS to CSV converter. Drag in a .tdms file, pick channels and download CSV — parsed by streaming in your browser, nothing is uploaded.",
-  openGraph: { title: "TDMS to CSV Converter — in your browser, no upload", description: "Free online NI TDMS to CSV converter. Drag in a .tdms file, pick channels and download CSV — parsed by streaming in your browser, nothing is uploaded.", type: "website" },
+  openGraph: {
+    images: ["/og/tdms-to-csv.png"], siteName: "TestBench.tools", title: "TDMS to CSV Converter — in your browser, no upload", description: "Free online NI TDMS to CSV converter. Drag in a .tdms file, pick channels and download CSV — parsed by streaming in your browser, nothing is uploaded.", type: "website" },
 };
 
 const FAQS: FaqItem[] = [

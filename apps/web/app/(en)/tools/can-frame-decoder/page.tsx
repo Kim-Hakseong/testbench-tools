@@ -11,7 +11,8 @@ export const metadata: Metadata = {
   title: "CAN Frame Decoder — ID, DLC, data breakdown",
   description:
     "Free online CAN 2.0 frame breakdown: identifier in hex/binary/decimal for 11- and 29-bit frames, DLC and data bytes, with range validation. 100% in your browser.",
-  openGraph: { title: "CAN Frame Decoder — ID, DLC, data breakdown", description: "CAN 2.0 identifier breakdown (11/29-bit), DLC and data bytes with validation.", type: "website" },
+  openGraph: {
+    images: ["/og/can-frame-decoder.png"], siteName: "TestBench.tools", title: "CAN Frame Decoder — ID, DLC, data breakdown", description: "CAN 2.0 identifier breakdown (11/29-bit), DLC and data bytes with validation.", type: "website" },
 };
 
 const FAQS: FaqItem[] = [

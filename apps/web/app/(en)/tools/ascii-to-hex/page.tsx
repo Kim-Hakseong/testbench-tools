@@ -12,7 +12,8 @@ export const metadata: Metadata = {
   title: "ASCII to Hex Converter — online, instant",
   description:
     "Free online ASCII to hex converter. Type text and get spaced uppercase hex bytes instantly — ready to paste into a serial terminal or test script. 100% in your browser.",
-  openGraph: { title: "ASCII to Hex Converter — online, instant", description: "Free online ASCII to hex converter. Type text and get spaced uppercase hex bytes instantly — ready to paste into a serial terminal or test script. 100% in your browser.", type: "website" },
+  openGraph: {
+    images: ["/og/ascii-to-hex.png"], siteName: "TestBench.tools", title: "ASCII to Hex Converter — online, instant", description: "Free online ASCII to hex converter. Type text and get spaced uppercase hex bytes instantly — ready to paste into a serial terminal or test script. 100% in your browser.", type: "website" },
 };
 
 const FAQS: FaqItem[] = [

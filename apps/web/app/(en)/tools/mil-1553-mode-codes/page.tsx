@@ -10,7 +10,8 @@ export const metadata: Metadata = {
   title: "MIL-STD-1553B Mode Code Reference — searchable table",
   description:
     "Free searchable MIL-STD-1553B mode code reference: code, T/R bit, data-word rule and function for every defined mode command. 100% in your browser.",
-  openGraph: { title: "MIL-STD-1553B Mode Code Reference", description: "Searchable table of MIL-STD-1553B mode codes: T/R bit, data-word rule and function.", type: "website" },
+  openGraph: {
+    images: ["/og/mil-1553-mode-codes.png"], siteName: "TestBench.tools", title: "MIL-STD-1553B Mode Code Reference", description: "Searchable table of MIL-STD-1553B mode codes: T/R bit, data-word rule and function.", type: "website" },
 };
 
 const FAQS: FaqItem[] = [

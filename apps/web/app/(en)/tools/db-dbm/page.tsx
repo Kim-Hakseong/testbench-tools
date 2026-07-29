@@ -11,7 +11,8 @@ export const metadata: Metadata = {
   title: "dB · dBm Calculator — ratios, absolute power, Vrms",
   description:
     "Free online dB and dBm calculator: power/voltage ratios ↔ dB, dBm ↔ watts, and the RMS voltage at 50/75/600 Ω. 100% in your browser.",
-  openGraph: { title: "dB · dBm Calculator — ratios, absolute power, Vrms", description: "Power/voltage ratios ↔ dB, dBm ↔ watts, and RMS voltage at 50/75/600 Ω.", type: "website" },
+  openGraph: {
+    images: ["/og/db-dbm.png"], siteName: "TestBench.tools", title: "dB · dBm Calculator — ratios, absolute power, Vrms", description: "Power/voltage ratios ↔ dB, dBm ↔ watts, and RMS voltage at 50/75/600 Ω.", type: "website" },
 };
 
 const FAQS: FaqItem[] = [

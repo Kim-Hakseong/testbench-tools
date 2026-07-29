@@ -11,7 +11,8 @@ export const metadata: Metadata = {
   title: "Endianness Converter — byte swap 16/32/64-bit, word swap",
   description:
     "Free online endianness converter: full byte reversal, 16-bit byte swap and 32-bit word swap for any hex value. See every reordering at once. 100% in your browser.",
-  openGraph: { title: "Endianness Converter — byte swap 16/32/64-bit, word swap", description: "Full byte reversal, 16-bit byte swap and 32-bit word swap for any hex value.", type: "website" },
+  openGraph: {
+    images: ["/og/endianness-converter.png"], siteName: "TestBench.tools", title: "Endianness Converter — byte swap 16/32/64-bit, word swap", description: "Full byte reversal, 16-bit byte swap and 32-bit word swap for any hex value.", type: "website" },
 };
 
 const FAQS: FaqItem[] = [
