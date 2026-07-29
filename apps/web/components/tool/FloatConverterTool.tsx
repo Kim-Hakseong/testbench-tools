@@ -8,6 +8,7 @@ import {
   type WordOrder,
 } from "@testbench/engine";
 import { ResultCard } from "@/components/tool/ResultCard";
+import { useToolText } from "@/components/tool/useToolText";
 
 function hexWord(w: number): string {
   return w.toString(16).toUpperCase().padStart(4, "0");
@@ -33,6 +34,7 @@ const ORDER_NOTES: Record<WordOrder, string> = {
 };
 
 export function FloatConverterTool() {
+  const t = useToolText();
   const [direction, setDirection] = useState<"toRegs" | "toFloat">("toRegs");
   const [floatText, setFloatText] = useState("3.1415927");
   const [regsText, setRegsText] = useState("4049 0FDB");
@@ -40,11 +42,11 @@ export function FloatConverterTool() {
   const [debouncedRegs, setDebouncedRegs] = useState(regsText);
 
   useEffect(() => {
-    const t = setTimeout(() => {
+    const h = setTimeout(() => {
       setDebouncedFloat(floatText);
       setDebouncedRegs(regsText);
     }, 150);
-    return () => clearTimeout(t);
+    return () => clearTimeout(h);
   }, [floatText, regsText]);
 
   const floatValue = useMemo(() => {
@@ -58,7 +60,7 @@ export function FloatConverterTool() {
 
   return (
     <div className="rounded-card border border-line-strong bg-surface p-4 sm:p-5">
-      <div className="flex rounded-btn border border-line-strong p-0.5" role="tablist" aria-label="Direction">
+      <div className="flex rounded-btn border border-line-strong p-0.5" role="tablist" aria-label={t("Direction")}>
         {(
           [
             ["toRegs", "Float → Registers"],
@@ -75,7 +77,7 @@ export function FloatConverterTool() {
               direction === key ? "bg-elevated text-ink" : "text-mute hover:text-body"
             }`}
           >
-            {label}
+            {t(label)}
           </button>
         ))}
       </div>
@@ -84,7 +86,7 @@ export function FloatConverterTool() {
         <div className="mt-4 grid grid-cols-1 gap-5 md:grid-cols-2">
           <div>
             <label htmlFor="float-in" className="text-xs font-medium uppercase tracking-wide text-mute">
-              Float value
+              {t("Float value")}
             </label>
             <input
               id="float-in"
@@ -96,11 +98,11 @@ export function FloatConverterTool() {
               }`}
             />
             {floatValue === null ? (
-              <p className="mt-1.5 font-mono text-xs text-err" role="alert">Enter a decimal number.</p>
+              <p className="mt-1.5 font-mono text-xs text-err" role="alert">{t("Enter a decimal number.")}</p>
             ) : (
               stored !== null && (
                 <p className="mt-1.5 font-mono text-xs text-mute">
-                  stored float32: {stored} {stored !== floatValue ? "(nearest representable)" : ""}
+                  {t("stored float32")}: {stored} {stored !== floatValue ? t("(nearest representable)") : ""}
                 </p>
               )
             )}
@@ -112,7 +114,7 @@ export function FloatConverterTool() {
                 return (
                   <ResultCard
                     key={order}
-                    label={`${order} — ${ORDER_NOTES[order]}`}
+                    label={`${order} — ${t(ORDER_NOTES[order])}`}
                     value={`0x${hexWord(r0)} 0x${hexWord(r1)}`}
                   />
                 );
@@ -123,7 +125,7 @@ export function FloatConverterTool() {
         <div className="mt-4 grid grid-cols-1 gap-5 md:grid-cols-2">
           <div>
             <label htmlFor="regs-in" className="text-xs font-medium uppercase tracking-wide text-mute">
-              Two 16-bit registers (hex)
+              {t("Two 16-bit registers (hex)")}
             </label>
             <input
               id="regs-in"
@@ -137,7 +139,7 @@ export function FloatConverterTool() {
             />
             {regs === null && (
               <p className="mt-1.5 font-mono text-xs text-err" role="alert">
-                Enter two hex words, e.g. “4049 0FDB”.
+                {t("Enter two hex words, e.g. “4049 0FDB”.")}
               </p>
             )}
           </div>
@@ -146,7 +148,7 @@ export function FloatConverterTool() {
               WORD_ORDERS.map((order) => (
                 <ResultCard
                   key={order}
-                  label={`${order} — ${ORDER_NOTES[order]}`}
+                  label={`${order} — ${t(ORDER_NOTES[order])}`}
                   value={String(registersToFloat32(regs, order))}
                 />
               ))}

@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { uartBaudError } from "@testbench/engine";
 import { ResultCard } from "@/components/tool/ResultCard";
+import { useToolText } from "@/components/tool/useToolText";
 
 const COMMON_BAUDS = [9600, 19200, 38400, 57600, 115200, 230400, 460800, 921600];
 
@@ -15,14 +16,15 @@ function num(s: string): number | null {
 }
 
 export function UartBaudTool() {
-  const [t, setT] = useState({ fclk: "16000000", baud: "115200" });
+  const t = useToolText();
+  const [form, setForm] = useState({ fclk: "16000000", baud: "115200" });
   const [os, setOs] = useState<16 | 8>(16);
-  const [d, setD] = useState(t);
+  const [d, setD] = useState(form);
 
   useEffect(() => {
-    const h = setTimeout(() => setD(t), 150);
+    const h = setTimeout(() => setD(form), 150);
     return () => clearTimeout(h);
-  }, [t]);
+  }, [form]);
 
   const fclk = num(d.fclk);
   const baud = num(d.baud);
@@ -37,8 +39,8 @@ export function UartBaudTool() {
     return COMMON_BAUDS.map((b) => ({ baud: b, ...uartBaudError(fclk, b, os) }));
   }, [fclk, os]);
 
-  const set = (k: keyof typeof t) => (e: React.ChangeEvent<HTMLInputElement>) =>
-    setT((p) => ({ ...p, [k]: e.target.value }));
+  const set = (k: keyof typeof form) => (e: React.ChangeEvent<HTMLInputElement>) =>
+    setForm((p) => ({ ...p, [k]: e.target.value }));
 
   return (
     <div className="rounded-card border border-line-strong bg-surface p-4 sm:p-5">
@@ -46,20 +48,20 @@ export function UartBaudTool() {
         <div className="space-y-3">
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <label htmlFor="ub-fclk" className="font-mono text-xs text-mute">UART clock (Hz)</label>
-              <input id="ub-fclk" value={t.fclk} onChange={set("fclk")} spellCheck={false} className={`${fieldCls} ${fclk === null ? "border-err" : "border-line-strong"}`} />
+              <label htmlFor="ub-fclk" className="font-mono text-xs text-mute">{t("UART clock")} (Hz)</label>
+              <input id="ub-fclk" value={form.fclk} onChange={set("fclk")} spellCheck={false} className={`${fieldCls} ${fclk === null ? "border-err" : "border-line-strong"}`} />
             </div>
             <div>
-              <label htmlFor="ub-baud" className="font-mono text-xs text-mute">Target baud</label>
-              <input id="ub-baud" value={t.baud} onChange={set("baud")} spellCheck={false} className={`${fieldCls} ${baud === null ? "border-err" : "border-line-strong"}`} />
+              <label htmlFor="ub-baud" className="font-mono text-xs text-mute">{t("Target baud")}</label>
+              <input id="ub-baud" value={form.baud} onChange={set("baud")} spellCheck={false} className={`${fieldCls} ${baud === null ? "border-err" : "border-line-strong"}`} />
             </div>
           </div>
-          <div className="flex rounded-btn border border-line-strong p-0.5" role="tablist" aria-label="Oversampling">
+          <div className="flex rounded-btn border border-line-strong p-0.5" role="tablist" aria-label={t("Oversampling")}>
             {([16, 8] as const).map((o) => (
               <button key={o} type="button" role="tab" aria-selected={os === o}
                 onClick={() => setOs(o)}
                 className={`flex-1 rounded-[6px] px-3 py-1.5 font-mono text-sm transition-colors ${os === o ? "bg-elevated text-ink" : "text-mute hover:text-body"}`}>
-                ×{o} oversampling
+                ×{o} {t("oversampling")}
               </button>
             ))}
           </div>
@@ -67,11 +69,17 @@ export function UartBaudTool() {
             <div className="space-y-2.5">
               <p className={`rounded-btn border px-3 py-2 font-mono text-sm ${Math.abs(result.error) < 0.02 ? "border-ok/40 text-ok" : "border-err/40 text-err"}`}>
                 {Math.abs(result.error) < 0.02
-                  ? `OK — ${(result.error * 100).toFixed(3)} % error (within the ~±2 % rule of thumb)`
-                  : `RISKY — ${(result.error * 100).toFixed(2)} % error will likely corrupt frames`}
+                  ? t("OK — {e} % error (within the ~±2 % rule of thumb)").replace(
+                      "{e}",
+                      (result.error * 100).toFixed(3),
+                    )
+                  : t("RISKY — {e} % error will likely corrupt frames").replace(
+                      "{e}",
+                      (result.error * 100).toFixed(2),
+                    )}
               </p>
-              <ResultCard label="Divisor" value={String(result.divisor)} size="lg" />
-              <ResultCard label="Actual baud" value={result.actualBaud.toFixed(1).replace(/\.0$/, "")} />
+              <ResultCard label={t("Divisor")} value={String(result.divisor)} size="lg" />
+              <ResultCard label={t("Actual baud")} value={result.actualBaud.toFixed(1).replace(/\.0$/, "")} />
             </div>
           )}
         </div>
@@ -81,9 +89,9 @@ export function UartBaudTool() {
             <thead>
               <tr className="border-b border-line-soft text-xs uppercase tracking-wide text-mute">
                 <th className="px-3 py-2 font-medium">Baud</th>
-                <th className="px-3 py-2 font-medium">Divisor</th>
-                <th className="px-3 py-2 font-medium">Actual</th>
-                <th className="px-3 py-2 font-medium">Error</th>
+                <th className="px-3 py-2 font-medium">{t("Divisor")}</th>
+                <th className="px-3 py-2 font-medium">{t("Actual")}</th>
+                <th className="px-3 py-2 font-medium">{t("Error")}</th>
               </tr>
             </thead>
             <tbody>

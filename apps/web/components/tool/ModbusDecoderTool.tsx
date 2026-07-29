@@ -9,6 +9,7 @@ import {
   type ModbusProtocol,
 } from "@testbench/engine";
 import { HexInput } from "@/components/tool/HexInput";
+import { useToolText } from "@/components/tool/useToolText";
 
 // Pastel field-link colors (underline on bytes / row accent). No purple (banned).
 const FIELD_COLORS = ["#7dd3fc", "#5eead4", "#fcd34d", "#fda4af", "#bef264", "#93c5fd", "#fdba74", "#f9a8d4"];
@@ -16,14 +17,15 @@ const FIELD_COLORS = ["#7dd3fc", "#5eead4", "#fcd34d", "#fda4af", "#bef264", "#9
 type ProtocolChoice = "auto" | ModbusProtocol;
 
 export function ModbusDecoderTool() {
+  const t = useToolText();
   const [input, setInput] = useState("11 03 00 6B 00 03 76 87");
   const [choice, setChoice] = useState<ProtocolChoice>("auto");
   const [debounced, setDebounced] = useState(input);
   const [hovered, setHovered] = useState<number | null>(null);
 
   useEffect(() => {
-    const t = setTimeout(() => setDebounced(input), 150);
-    return () => clearTimeout(t);
+    const h = setTimeout(() => setDebounced(input), 150);
+    return () => clearTimeout(h);
   }, [input]);
 
   const parsed = useMemo(() => parseHex(debounced), [debounced]);
@@ -53,11 +55,11 @@ export function ModbusDecoderTool() {
             mode="hex"
             onModeChange={() => {}}
             error={parsed.ok ? undefined : parsed.error}
-            label="Frame bytes (hex)"
+            label={t("Frame bytes (hex)")}
           />
           <div>
             <label htmlFor="mb-protocol" className="text-xs font-medium uppercase tracking-wide text-mute">
-              Protocol
+              {t("Protocol")}
             </label>
             <select
               id="mb-protocol"
@@ -65,7 +67,7 @@ export function ModbusDecoderTool() {
               onChange={(e) => setChoice(e.target.value as ProtocolChoice)}
               className="mt-2 w-full rounded-btn border border-line-strong bg-well px-3 py-2 font-mono text-sm text-ink outline-none focus:border-mute md:w-44"
             >
-              <option value="auto">Auto-detect{sniffed ? ` (${sniffed.toUpperCase()})` : ""}</option>
+              <option value="auto">{t("Auto-detect")}{sniffed ? ` (${sniffed.toUpperCase()})` : ""}</option>
               <option value="rtu">Modbus RTU</option>
               <option value="tcp">Modbus TCP</option>
             </select>
@@ -81,7 +83,7 @@ export function ModbusDecoderTool() {
               </p>
             ) : result.exception ? (
               <p className="rounded-btn border border-warn/40 px-3 py-2 font-mono text-sm text-warn">
-                Exception response — {result.exception.name} (code{" "}
+                {t("Exception response")} — {result.exception.name} ({t("code")}{" "}
                 {result.exception.code})
               </p>
             ) : result.crc ? (
@@ -91,12 +93,12 @@ export function ModbusDecoderTool() {
                 }`}
               >
                 {result.crc.ok
-                  ? "CRC valid"
-                  : `CRC FAIL — received 0x${result.crc.received.toString(16).toUpperCase().padStart(4, "0")}, computed 0x${result.crc.computed.toString(16).toUpperCase().padStart(4, "0")}`}
+                  ? t("CRC valid")
+                  : `${t("CRC FAIL")} — ${t("received")} 0x${result.crc.received.toString(16).toUpperCase().padStart(4, "0")}, ${t("computed")} 0x${result.crc.computed.toString(16).toUpperCase().padStart(4, "0")}`}
               </p>
             ) : (
               <p className="rounded-btn border border-ok/40 px-3 py-2 font-mono text-sm text-ok">
-                MBAP header consistent
+                {t("MBAP header consistent")}
               </p>
             )}
 
@@ -128,10 +130,10 @@ export function ModbusDecoderTool() {
               <table className="w-full text-left text-sm">
                 <thead>
                   <tr className="border-b border-line-soft text-xs uppercase tracking-wide text-mute">
-                    <th className="px-3 py-2 font-medium">Field</th>
-                    <th className="px-3 py-2 font-medium">Bytes</th>
-                    <th className="px-3 py-2 font-medium">Value</th>
-                    <th className="px-3 py-2 font-medium">Meaning</th>
+                    <th className="px-3 py-2 font-medium">{t("Field")}</th>
+                    <th className="px-3 py-2 font-medium">{t("Bytes")}</th>
+                    <th className="px-3 py-2 font-medium">{t("Value")}</th>
+                    <th className="px-3 py-2 font-medium">{t("Meaning")}</th>
                   </tr>
                 </thead>
                 <tbody>

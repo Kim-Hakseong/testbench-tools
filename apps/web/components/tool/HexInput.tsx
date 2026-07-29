@@ -1,6 +1,7 @@
 "use client";
 
 import type { HexParseError } from "@testbench/engine";
+import { useToolText } from "@/components/tool/useToolText";
 
 export type InputMode = "hex" | "ascii";
 
@@ -23,13 +24,14 @@ export function HexInput({
   error?: HexParseError;
   label?: string;
 }) {
+  const t = useToolText();
   return (
     <div>
       <div className="flex items-center justify-between">
         <label htmlFor="tool-input" className="text-xs font-medium uppercase tracking-wide text-mute">
-          {label}
+          {t(label)}
         </label>
-        <div className="flex rounded-btn border border-line-strong p-0.5" role="tablist" aria-label="Input mode">
+        <div className="flex rounded-btn border border-line-strong p-0.5" role="tablist" aria-label={t("Input mode")}>
           {(["hex", "ascii"] as const).map((m) => (
             <button
               key={m}
@@ -59,7 +61,9 @@ export function HexInput({
       />
       {error && (
         <p className="mt-1.5 font-mono text-xs text-err" role="alert">
-          Invalid character “{error.char}” at position {error.index}
+          {t("Invalid character “{char}” at position {index}")
+            .replace("{char}", error.char)
+            .replace("{index}", String(error.index))}
           <span className="ml-2 text-mute">
             {value.slice(Math.max(0, error.index - 8), error.index)}
             <span className="text-err underline decoration-err underline-offset-2">

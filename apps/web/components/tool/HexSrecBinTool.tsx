@@ -9,6 +9,7 @@ import {
   toSrec,
   type FirmwareImage,
 } from "@testbench/engine";
+import { useToolText } from "@/components/tool/useToolText";
 
 function download(name: string, data: Uint8Array | string, mime: string) {
   const blob = new Blob([data as BlobPart], { type: mime });
@@ -24,6 +25,7 @@ const fieldCls =
   "mt-1.5 w-full rounded-btn border bg-well px-3 py-2 font-mono text-sm text-ink outline-none transition-colors focus:border-mute border-line-strong";
 
 export function HexSrecBinTool() {
+  const t = useToolText();
   const [mode, setMode] = useState<"toBin" | "toHex">("toBin");
   // toBin state
   const [text, setText] = useState("");
@@ -36,10 +38,10 @@ export function HexSrecBinTool() {
   const inputRef = useRef<HTMLInputElement>(null);
   const binRef = useRef<HTMLInputElement>(null);
 
-  const parseText = useCallback((t: string, name: string) => {
-    setText(t);
+  const parseText = useCallback((raw: string, name: string) => {
+    setText(raw);
     setSrcName(name.replace(/\.(hex|ihex|srec|s19|s28|s37|mot)$/i, ""));
-    const trimmed = t.trim();
+    const trimmed = raw.trim();
     if (trimmed === "") {
       setImage(null);
       setParseErr("");
@@ -48,12 +50,12 @@ export function HexSrecBinTool() {
     const r = trimmed.startsWith(":") ? parseIntelHex(trimmed) : parseSrec(trimmed);
     if (!r.ok) {
       setImage(null);
-      setParseErr(`Line ${r.line}: ${r.error}`);
+      setParseErr(`${t("Line")} ${r.line}: ${r.error}`);
     } else {
       setImage(r.image);
       setParseErr("");
     }
-  }, []);
+  }, [t]);
 
   async function convertBin(kind: "ihex" | "srec") {
     if (!binFile) return;
@@ -68,7 +70,7 @@ export function HexSrecBinTool() {
 
   return (
     <div className="rounded-card border border-line-strong bg-surface p-4 sm:p-5">
-      <div className="flex rounded-btn border border-line-strong p-0.5" role="tablist" aria-label="Direction">
+      <div className="flex rounded-btn border border-line-strong p-0.5" role="tablist" aria-label={t("Direction")}>
         {([["toBin", "HEX / SREC → BIN"], ["toHex", "BIN → HEX / SREC"]] as const).map(([k, label]) => (
           <button key={k} type="button" role="tab" aria-selected={mode === k}
             onClick={() => setMode(k)}
@@ -82,11 +84,11 @@ export function HexSrecBinTool() {
         <div className="mt-4 space-y-3">
           <div className="flex items-center justify-between">
             <label htmlFor="fw-text" className="text-xs font-medium uppercase tracking-wide text-mute">
-              Paste Intel HEX / S-Record text — or load a file
+              {t("Paste Intel HEX / S-Record text — or load a file")}
             </label>
             <button type="button" onClick={() => inputRef.current?.click()}
               className="rounded-btn border border-line-strong px-3 py-1 text-xs text-body transition-colors hover:border-mute">
-              Open file…
+              {t("Open file…")}
             </button>
             <input ref={inputRef} type="file" accept=".hex,.ihex,.srec,.s19,.s28,.s37,.mot,text/plain" className="hidden"
               onChange={(e) => {
@@ -109,10 +111,10 @@ export function HexSrecBinTool() {
                 <table className="w-full text-left text-sm">
                   <thead>
                     <tr className="border-b border-line-soft text-xs uppercase tracking-wide text-mute">
-                      <th className="px-3 py-2 font-medium">Segment</th>
-                      <th className="px-3 py-2 font-medium">Start</th>
-                      <th className="px-3 py-2 font-medium">End</th>
-                      <th className="px-3 py-2 font-medium">Bytes</th>
+                      <th className="px-3 py-2 font-medium">{t("Segment")}</th>
+                      <th className="px-3 py-2 font-medium">{t("Start")}</th>
+                      <th className="px-3 py-2 font-medium">{t("End")}</th>
+                      <th className="px-3 py-2 font-medium">{t("Bytes")}</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -134,14 +136,14 @@ export function HexSrecBinTool() {
                     download(`${srcName}.bin`, bin.data, "application/octet-stream");
                   }}
                   className="rounded-btn bg-ink px-4 py-2 text-sm font-medium text-canvas transition hover:opacity-90 active:scale-[0.98]">
-                  Download .bin
+                  {t("Download .bin")}
                 </button>
                 <span className="font-mono text-xs text-mute">
-                  {image.format === "ihex" ? "Intel HEX" : "S-Record"} · base 0x
+                  {image.format === "ihex" ? "Intel HEX" : "S-Record"} · {t("base address")} 0x
                   {segmentsToBin(image.segments).base.toString(16).toUpperCase()}
                   {image.startAddress !== null &&
-                    ` · entry 0x${image.startAddress.toString(16).toUpperCase()}`}{" "}
-                  · gaps filled with 0xFF
+                    ` · ${t("entry point")} 0x${image.startAddress.toString(16).toUpperCase()}`}{" "}
+                  · {t("gaps filled with 0xFF")}
                 </span>
               </div>
             </div>
@@ -151,10 +153,10 @@ export function HexSrecBinTool() {
         <div className="mt-4 space-y-3">
           <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
             <div>
-              <span className="text-xs font-medium uppercase tracking-wide text-mute">Binary file</span>
+              <span className="text-xs font-medium uppercase tracking-wide text-mute">{t("Binary file")}</span>
               <button type="button" onClick={() => binRef.current?.click()}
                 className="mt-1.5 w-full rounded-btn border border-line-strong bg-well px-3 py-2 text-left font-mono text-sm text-body transition-colors hover:border-mute">
-                {binFile ? `${binFile.name} (${binFile.size.toLocaleString()} B)` : "Choose .bin file…"}
+                {binFile ? `${binFile.name} (${binFile.size.toLocaleString()} B)` : t("Choose .bin file…")}
               </button>
               <input ref={binRef} type="file" className="hidden"
                 onChange={(e) => {
@@ -163,23 +165,23 @@ export function HexSrecBinTool() {
                 }} />
             </div>
             <div>
-              <label htmlFor="fw-base" className="text-xs font-medium uppercase tracking-wide text-mute">Base address (hex)</label>
+              <label htmlFor="fw-base" className="text-xs font-medium uppercase tracking-wide text-mute">{t("Base address (hex)")}</label>
               <input id="fw-base" value={baseText} onChange={(e) => setBaseText(e.target.value)} spellCheck={false} className={fieldCls} />
             </div>
           </div>
           <div className="flex gap-3">
             <button type="button" disabled={!binFile} onClick={() => void convertBin("ihex")}
               className="rounded-btn bg-ink px-4 py-2 text-sm font-medium text-canvas transition hover:opacity-90 active:scale-[0.98] disabled:opacity-40">
-              Download .hex
+              {t("Download .hex")}
             </button>
             <button type="button" disabled={!binFile} onClick={() => void convertBin("srec")}
               className="rounded-btn border border-line-strong px-4 py-2 text-sm text-body transition-colors hover:border-mute disabled:opacity-40">
-              Download .srec
+              {t("Download .srec")}
             </button>
           </div>
         </div>
       )}
-      <p className="mt-4 font-mono text-xs text-ok">Your file never leaves your browser.</p>
+      <p className="mt-4 font-mono text-xs text-ok">{t("Your file never leaves your browser.")}</p>
     </div>
   );
 }

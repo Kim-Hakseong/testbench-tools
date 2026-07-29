@@ -2,10 +2,12 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { parseCsvNumeric, type CsvNumeric } from "@testbench/engine";
+import { useToolText } from "@/components/tool/useToolText";
 
 const COLORS = ["#7dd3fc", "#5eead4", "#fcd34d", "#fda4af", "#bef264", "#93c5fd", "#fdba74", "#f9a8d4"];
 
 export function CsvPlotterTool() {
+  const t = useToolText();
   const [csv, setCsv] = useState<CsvNumeric | null>(null);
   const [error, setError] = useState("");
   const [fileName, setFileName] = useState("");
@@ -114,25 +116,25 @@ export function CsvPlotterTool() {
           e.preventDefault();
           setDragOver(false);
           const f = e.dataTransfer.files[0];
-          if (f) void f.text().then((t) => load(t, f.name));
+          if (f) void f.text().then((text) => load(text, f.name));
         }}
         className={`flex flex-col items-center justify-center rounded-card border border-dashed px-6 py-8 text-center transition-colors ${
           dragOver ? "border-ok bg-elevated" : "border-line-strong"
         }`}
       >
-        <p className="text-sm text-body">Drop a .csv file here</p>
-        <p className="mt-1 text-xs text-mute">or</p>
+        <p className="text-sm text-body">{t("Drop a .csv file here")}</p>
+        <p className="mt-1 text-xs text-mute">{t("or")}</p>
         <button type="button" onClick={() => inputRef.current?.click()}
           className="mt-2 rounded-btn bg-ink px-4 py-2 text-sm font-medium text-canvas transition hover:opacity-90 active:scale-[0.98]">
-          Choose file
+          {t("Choose file")}
         </button>
         <input ref={inputRef} type="file" accept=".csv,text/csv" className="hidden"
           onChange={(e) => {
             const f = e.target.files?.[0];
-            if (f) void f.text().then((t) => load(t, f.name));
+            if (f) void f.text().then((text) => load(text, f.name));
             e.target.value = "";
           }} />
-        <p className="mt-4 font-mono text-xs text-ok">Your file never leaves your browser.</p>
+        <p className="mt-4 font-mono text-xs text-ok">{t("Your file never leaves your browser.")}</p>
       </div>
 
       {error && <p className="mt-3 rounded-btn border border-err/40 px-3 py-2 font-mono text-sm text-err" role="alert">{error}</p>}
@@ -140,15 +142,17 @@ export function CsvPlotterTool() {
       {csv && (
         <div className="mt-4 space-y-3">
           <p className="font-mono text-xs text-mute">
-            {fileName} · {csv.rowCount} rows · {csv.headers.length} columns · delimiter “{csv.delimiter === "\t" ? "TAB" : csv.delimiter}”
-            {csv.skippedRows > 0 ? ` · ${csv.skippedRows} non-numeric rows skipped` : ""}
+            {fileName} · {csv.rowCount} {t("rows")} · {csv.headers.length} {t("columns")} · {t("delimiter")} “{csv.delimiter === "\t" ? "TAB" : csv.delimiter}”
+            {csv.skippedRows > 0
+              ? ` · ${t("{n} non-numeric rows skipped").replace("{n}", String(csv.skippedRows))}`
+              : ""}
           </p>
           <canvas ref={canvasRef} className="w-full rounded-btn border border-line-soft bg-well" style={{ height: 320 }} />
           <div className="flex flex-wrap items-center gap-3">
             {csv.headers.length > 1 && (
               <label className="flex items-center gap-2 font-mono text-xs text-body">
                 <input type="checkbox" checked={xIsFirst} onChange={(e) => setXIsFirst(e.target.checked)} />
-                first column = X axis
+                {t("first column = X axis")}
               </label>
             )}
             {csv.headers.map((h, i) =>

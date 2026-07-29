@@ -10,14 +10,16 @@ import {
 } from "@testbench/engine";
 import { HexInput } from "@/components/tool/HexInput";
 import { ResultCard } from "@/components/tool/ResultCard";
+import { useToolText } from "@/components/tool/useToolText";
 
 export function EndiannessTool() {
+  const t = useToolText();
   const [input, setInput] = useState("12 34 56 78");
   const [debounced, setDebounced] = useState(input);
 
   useEffect(() => {
-    const t = setTimeout(() => setDebounced(input), 150);
-    return () => clearTimeout(t);
+    const h = setTimeout(() => setDebounced(input), 150);
+    return () => clearTimeout(h);
   }, [input]);
 
   const parsed = useMemo(() => parseHex(debounced), [debounced]);
@@ -37,21 +39,21 @@ export function EndiannessTool() {
           />
           {bytes && (
             <p className="mt-2 font-mono text-xs text-mute">
-              {bytes.length} bytes ({bytes.length * 8}-bit)
+              {bytes.length} {t("bytes")} ({bytes.length * 8}-bit)
             </p>
           )}
         </div>
         <div className="space-y-2.5">
           {bytes && (
             <>
-              <ResultCard label="Byte-reversed (full endianness flip)" value={bytesToHex(reverseBytes(bytes))} size="lg" />
+              <ResultCard label={t("Byte-reversed (full endianness flip)")} value={bytesToHex(reverseBytes(bytes))} size="lg" />
               {bytes.length >= 2 && bytes.length % 2 === 0 && (
-                <ResultCard label="Byte swap within 16-bit words (AB CD → BA DC)" value={bytesToHex(swapBytesInWords(bytes))} />
+                <ResultCard label={t("Byte swap within 16-bit words (AB CD → BA DC)")} value={bytesToHex(swapBytesInWords(bytes))} />
               )}
               {bytes.length >= 4 && bytes.length % 4 === 0 && (
-                <ResultCard label="16-bit word swap within 32-bit (AB CD EF GH → EF GH AB CD)" value={bytesToHex(swapWords(bytes))} />
+                <ResultCard label={t("16-bit word swap within 32-bit (AB CD EF GH → EF GH AB CD)")} value={bytesToHex(swapWords(bytes))} />
               )}
-              <ResultCard label="Original" value={bytesToHex(bytes)} />
+              <ResultCard label={t("Original")} value={bytesToHex(bytes)} />
             </>
           )}
         </div>

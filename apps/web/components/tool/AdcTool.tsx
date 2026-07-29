@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { adcToVoltage, voltageToAdc } from "@testbench/engine";
 import { ResultCard } from "@/components/tool/ResultCard";
+import { useToolText } from "@/components/tool/useToolText";
 
 function num(s: string): number | null {
   const v = Number(s.trim());
@@ -13,6 +14,7 @@ const fieldCls =
   "mt-1.5 w-full rounded-btn border bg-well px-3 py-2 font-mono text-sm text-ink outline-none transition-colors focus:border-mute";
 
 export function AdcTool() {
+  const t = useToolText();
   const [direction, setDirection] = useState<"toV" | "toCount">("toV");
   const [bits, setBits] = useState(12);
   const [vrefText, setVrefText] = useState("3.3");
@@ -21,8 +23,8 @@ export function AdcTool() {
   const [d, setD] = useState({ vrefText, countText, voltText });
 
   useEffect(() => {
-    const t = setTimeout(() => setD({ vrefText, countText, voltText }), 150);
-    return () => clearTimeout(t);
+    const h = setTimeout(() => setD({ vrefText, countText, voltText }), 150);
+    return () => clearTimeout(h);
   }, [vrefText, countText, voltText]);
 
   const vref = num(d.vrefText);
@@ -44,7 +46,7 @@ export function AdcTool() {
 
   return (
     <div className="rounded-card border border-line-strong bg-surface p-4 sm:p-5">
-      <div className="flex rounded-btn border border-line-strong p-0.5" role="tablist" aria-label="Direction">
+      <div className="flex rounded-btn border border-line-strong p-0.5" role="tablist" aria-label={t("Direction")}>
         {(
           [
             ["toV", "Count → Voltage"],
@@ -61,7 +63,7 @@ export function AdcTool() {
               direction === key ? "bg-elevated text-ink" : "text-mute hover:text-body"
             }`}
           >
-            {label}
+            {t(label)}
           </button>
         ))}
       </div>
@@ -69,7 +71,7 @@ export function AdcTool() {
       <div className="mt-4 grid grid-cols-1 gap-5 md:grid-cols-2">
         <div className="grid grid-cols-2 gap-3">
           <div>
-            <label htmlFor="adc-bits" className="text-xs font-medium uppercase tracking-wide text-mute">Resolution</label>
+            <label htmlFor="adc-bits" className="text-xs font-medium uppercase tracking-wide text-mute">{t("Resolution")}</label>
             <select id="adc-bits" value={bits} onChange={(e) => setBits(Number(e.target.value))}
               className={`${fieldCls} border-line-strong`}>
               {[8, 10, 12, 14, 16, 24].map((b) => (
@@ -85,42 +87,42 @@ export function AdcTool() {
           <div className="col-span-2">
             {direction === "toV" ? (
               <>
-                <label htmlFor="adc-count" className="text-xs font-medium uppercase tracking-wide text-mute">ADC count</label>
+                <label htmlFor="adc-count" className="text-xs font-medium uppercase tracking-wide text-mute">{t("ADC count")}</label>
                 <input id="adc-count" value={countText} onChange={(e) => setCountText(e.target.value)} spellCheck={false}
                   className={`${fieldCls} ${countValid ? "border-line-strong" : "border-err"}`} />
                 {!countValid && count !== null && (
                   <p className="mt-1.5 font-mono text-xs text-err" role="alert">
-                    Count must be an integer in 0…{maxCode}.
+                    {t("Count must be an integer in 0…{max}.").replace("{max}", String(maxCode))}
                   </p>
                 )}
               </>
             ) : (
               <>
-                <label htmlFor="adc-volt" className="text-xs font-medium uppercase tracking-wide text-mute">Voltage (V)</label>
+                <label htmlFor="adc-volt" className="text-xs font-medium uppercase tracking-wide text-mute">{t("Voltage (V)")}</label>
                 <input id="adc-volt" value={voltText} onChange={(e) => setVoltText(e.target.value)} spellCheck={false}
                   className={`${fieldCls} ${volt === null ? "border-err" : "border-line-strong"}`} />
               </>
             )}
           </div>
           <p className="col-span-2 font-mono text-xs text-mute">
-            convention: ratio = count / (2^N − 1)
+            {t("convention: ratio = count / (2^N − 1)")}
           </p>
         </div>
 
         <div className="space-y-2.5">
           {result === null ? (
-            <p className="text-sm text-mute">Fix the highlighted inputs to see results.</p>
+            <p className="text-sm text-mute">{t("Fix the highlighted inputs to see results.")}</p>
           ) : result.kind === "v" ? (
             <>
-              <ResultCard label="Voltage" value={`${result.voltage.toFixed(6)} V`} size="lg" />
-              <ResultCard label="LSB size" value={`${(result.lsb * 1000).toFixed(6)} mV`} />
-              <ResultCard label="Ratio" value={`${(result.ratio * 100).toFixed(4)} %`} />
+              <ResultCard label={t("Voltage")} value={`${result.voltage.toFixed(6)} V`} size="lg" />
+              <ResultCard label={t("LSB size")} value={`${(result.lsb * 1000).toFixed(6)} mV`} />
+              <ResultCard label={t("Ratio")} value={`${(result.ratio * 100).toFixed(4)} %`} />
             </>
           ) : (
             <>
-              <ResultCard label="Nearest code" value={String(result.code)} size="lg" />
-              <ResultCard label="Code (hex)" value={"0x" + result.code.toString(16).toUpperCase()} />
-              <ResultCard label="LSB size" value={`${(result.lsb * 1000).toFixed(6)} mV`} />
+              <ResultCard label={t("Nearest code")} value={String(result.code)} size="lg" />
+              <ResultCard label={t("Code (hex)")} value={"0x" + result.code.toString(16).toUpperCase()} />
+              <ResultCard label={t("LSB size")} value={`${(result.lsb * 1000).toFixed(6)} mV`} />
             </>
           )}
         </div>

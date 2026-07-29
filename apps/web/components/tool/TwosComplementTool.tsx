@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { fromSigned, toSigned } from "@testbench/engine";
 import { ResultCard } from "@/components/tool/ResultCard";
+import { useToolText } from "@/components/tool/useToolText";
 
 type Width = 8 | 16 | 32;
 
@@ -10,6 +11,7 @@ const fieldCls =
   "mt-1.5 w-full rounded-btn border bg-well px-3 py-2 font-mono text-sm text-ink outline-none transition-colors focus:border-mute";
 
 export function TwosComplementTool() {
+  const t = useToolText();
   const [width, setWidth] = useState<Width>(16);
   const [decText, setDecText] = useState("-10");
   const [hexText, setHexText] = useState("FFF6");
@@ -19,19 +21,24 @@ export function TwosComplementTool() {
   function syncFromDec(text: string, w: Width) {
     const v = parseInt(text.trim(), 10);
     const half = Math.pow(2, w - 1);
-    if (text.trim() === "" || Number.isNaN(v)) return setError("Enter a decimal integer.");
+    if (text.trim() === "" || Number.isNaN(v)) return setError(t("Enter a decimal integer."));
     if (v < -half || v > half - 1)
-      return setError(`Out of range for ${w}-bit: ${-half} … ${half - 1}.`);
+      return setError(
+        t("Out of range for {w}-bit: {min} … {max}.")
+          .replace("{w}", String(w))
+          .replace("{min}", String(-half))
+          .replace("{max}", String(half - 1)),
+      );
     setError(null);
     setHexText(fromSigned(v, w).toString(16).toUpperCase().padStart(w / 4, "0"));
   }
 
   function syncFromHex(text: string, w: Width) {
-    const t = text.trim().replace(/^0x/i, "");
-    if (!new RegExp(`^[0-9a-fA-F]{1,${w / 4}}$`).test(t))
-      return setError(`Enter up to ${w / 4} hex digits.`);
+    const hex = text.trim().replace(/^0x/i, "");
+    if (!new RegExp(`^[0-9a-fA-F]{1,${w / 4}}$`).test(hex))
+      return setError(t("Enter up to {n} hex digits.").replace("{n}", String(w / 4)));
     setError(null);
-    setDecText(String(toSigned(parseInt(t, 16), w)));
+    setDecText(String(toSigned(parseInt(hex, 16), w)));
   }
 
   function onWidth(w: Width) {
@@ -46,7 +53,7 @@ export function TwosComplementTool() {
 
   return (
     <div className="rounded-card border border-line-strong bg-surface p-4 sm:p-5">
-      <div className="flex rounded-btn border border-line-strong p-0.5" role="tablist" aria-label="Width">
+      <div className="flex rounded-btn border border-line-strong p-0.5" role="tablist" aria-label={t("Width")}>
         {([8, 16, 32] as const).map((w) => (
           <button
             key={w}
@@ -66,7 +73,7 @@ export function TwosComplementTool() {
       <div className="mt-4 grid grid-cols-1 gap-5 md:grid-cols-2">
         <div className="space-y-3">
           <div>
-            <label htmlFor="tc-dec" className="text-xs font-medium uppercase tracking-wide text-mute">Signed decimal</label>
+            <label htmlFor="tc-dec" className="text-xs font-medium uppercase tracking-wide text-mute">{t("Signed decimal")}</label>
             <input id="tc-dec" value={decText} spellCheck={false}
               onChange={(e) => {
                 setDecText(e.target.value);
@@ -76,7 +83,7 @@ export function TwosComplementTool() {
               className={`${fieldCls} ${error && lastEdit === "dec" ? "border-err" : "border-line-strong"}`} />
           </div>
           <div>
-            <label htmlFor="tc-hex" className="text-xs font-medium uppercase tracking-wide text-mute">Hex (two&apos;s complement)</label>
+            <label htmlFor="tc-hex" className="text-xs font-medium uppercase tracking-wide text-mute">{t("Hex (two's complement)")}</label>
             <input id="tc-hex" value={hexText} spellCheck={false}
               onChange={(e) => {
                 setHexText(e.target.value);
@@ -91,10 +98,10 @@ export function TwosComplementTool() {
         <div className="space-y-2.5">
           {ok && (
             <>
-              <ResultCard label="Signed" value={String(signed)} size="lg" />
-              <ResultCard label="Unsigned" value={String(raw)} />
-              <ResultCard label="Hex" value={"0x" + raw.toString(16).toUpperCase().padStart(width / 4, "0")} />
-              <ResultCard label="Binary" value={raw.toString(2).padStart(width, "0")} />
+              <ResultCard label={t("Signed")} value={String(signed)} size="lg" />
+              <ResultCard label={t("Unsigned")} value={String(raw)} />
+              <ResultCard label={t("Hex")} value={"0x" + raw.toString(16).toUpperCase().padStart(width / 4, "0")} />
+              <ResultCard label={t("Binary")} value={raw.toString(2).padStart(width, "0")} />
             </>
           )}
         </div>

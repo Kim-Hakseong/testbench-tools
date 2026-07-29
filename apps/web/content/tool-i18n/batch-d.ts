@@ -6,8 +6,403 @@ import type { ToolDict } from "./types";
 
 export const BATCH_D: Record<SiteLocale, ToolDict> = {
   en: {},
-  ko: {},
-  ja: {},
-  de: {},
-  zh: {},
+
+  ko: {
+    // RTD (Pt100 / Pt1000)
+    "Sensor type": "센서 종류",
+    "Enter a temperature.": "온도를 입력하세요.",
+    "Enter a resistance.": "저항값을 입력하세요.",
+    "Supported range is 0…850 °C (the T < 0 °C branch of IEC 60751 is not implemented here).":
+      "지원 범위는 0…850 °C입니다 (IEC 60751의 T < 0 °C 구간은 여기서 미구현).",
+    "Supported range is R ≥ R0 ({r0} Ω), i.e. T ≥ 0 °C.":
+      "지원 범위는 R ≥ R0 ({r0} Ω), 즉 T ≥ 0 °C입니다.",
+    Temperature: "온도",
+    Resistance: "저항",
+
+    // RMS / 피크 변환
+    "Input kind": "입력 종류",
+    Peak: "피크",
+    "Peak-to-peak": "피크-피크",
+    "RMS value": "RMS 값",
+    "Peak value": "피크 값",
+    "Peak-to-peak value": "피크-피크 값",
+    "valid for a pure sine wave, zero DC offset": "순수 정현파, DC 오프셋 0 기준",
+    "Rectified average": "정류 평균",
+
+    // 계장 신호 변환
+    From: "변환 전",
+    To: "변환 후",
+    "Value is outside the {span} span — converting by linear extrapolation.":
+      "값이 {span} 범위를 벗어남 — 선형 외삽으로 변환합니다.",
+    equivalent: "환산값",
+    "Span mapping": "범위 매핑",
+
+    // 구조체 패딩 / 정렬
+    "Struct members (one per line)": "구조체 멤버 (한 줄에 하나)",
+    Architecture: "아키텍처",
+    "natural alignment (System V-style)": "자연 정렬 (System V 방식)",
+    Member: "멤버",
+    Size: "크기",
+    "Pad before": "앞쪽 패딩",
+    alignment: "정렬",
+    "bytes padding": "바이트 패딩",
+    padding: "패딩",
+    "tail padding": "꼬리 패딩",
+
+    // TDMS 뷰어 / CSV 변환
+    "Drop a .tdms file here": ".tdms 파일을 여기에 놓으세요",
+    or: "또는",
+    "Choose file": "파일 선택",
+    "Your file never leaves your browser.": "파일은 브라우저를 벗어나지 않습니다.",
+    "File is larger than 200 MB — browser memory limits may apply. The TDMS Converter desktop app (coming soon) handles batch conversion better.":
+      "파일이 200 MB보다 큽니다 — 브라우저 메모리 한계에 걸릴 수 있습니다. 일괄 변환은 TDMS Converter 데스크톱 앱(출시 예정)이 더 적합합니다.",
+    parsing: "파싱 중",
+    group: "그룹",
+    groups: "그룹",
+    channels: "채널",
+    samples: "샘플",
+    "Download CSV": "CSV 다운로드",
+    "file properties": "파일 속성",
+    "first samples": "처음 샘플",
+    "Need the data itself?": "데이터 자체가 필요하신가요?",
+    Converter: "변환기",
+
+    // 타이머 PSC/ARR
+    "Timer clock": "타이머 클럭",
+    "Target frequency": "목표 주파수",
+    "No 16-bit PSC/ARR pair reaches this frequency — check the inputs.":
+      "이 주파수를 만들 수 있는 16비트 PSC/ARR 조합이 없습니다 — 입력을 확인하세요.",
+    Actual: "실제",
+    Period: "주기",
+    "16-bit registers": "16비트 레지스터",
+    "best row highlighted": "최적 행 강조",
+
+    // 2점 교정
+    "Reference points": "기준점",
+    input: "입력",
+    output: "출력",
+    "x₁ and x₂ must differ.": "x₁과 x₂는 달라야 합니다.",
+    "Apply to input x": "입력 x에 적용",
+    "Slope (gain)": "기울기 (게인)",
+    Equation: "식",
+    "y at x = {x}": "x = {x} 일 때 y",
+    "x at y = {y}": "y = {y} 일 때 x",
+
+    // UART 보드레이트
+    "UART clock": "UART 클럭",
+    "Target baud": "목표 보드레이트",
+    Oversampling: "오버샘플링",
+    oversampling: "오버샘플링",
+    "OK — {e} % error (within the ~±2 % rule of thumb)":
+      "OK — 오차 {e} % (경험칙 ~±2 % 이내)",
+    "RISKY — {e} % error will likely corrupt frames":
+      "위험 — 오차 {e} %, 프레임 손상 가능성 높음",
+    Divisor: "분주값",
+    "Actual baud": "실제 보드레이트",
+
+    // 전압 분배기
+    "Find resistors": "저항 찾기",
+    "Compute Vout": "Vout 계산",
+    "Target Vout": "목표 Vout",
+    Series: "E 시리즈",
+    "R2 magnitude": "R2 크기",
+    top: "상단",
+    bottom: "하단",
+    "unloaded output": "무부하 출력",
+    "Vout (unloaded)": "Vout (무부하)",
+    "Enter Vin and a target Vout below Vin.": "Vin과 Vin보다 작은 목표 Vout을 입력하세요.",
+  },
+
+  ja: {
+    "Sensor type": "センサー種別",
+    "Enter a temperature.": "温度を入力してください。",
+    "Enter a resistance.": "抵抗値を入力してください。",
+    "Supported range is 0…850 °C (the T < 0 °C branch of IEC 60751 is not implemented here).":
+      "対応範囲は 0…850 °C です (IEC 60751 の T < 0 °C 側は未実装)。",
+    "Supported range is R ≥ R0 ({r0} Ω), i.e. T ≥ 0 °C.":
+      "対応範囲は R ≥ R0 ({r0} Ω)、つまり T ≥ 0 °C です。",
+    Temperature: "温度",
+    Resistance: "抵抗",
+
+    "Input kind": "入力の種類",
+    Peak: "ピーク",
+    "Peak-to-peak": "ピークtoピーク",
+    "RMS value": "RMS 値",
+    "Peak value": "ピーク値",
+    "Peak-to-peak value": "ピークtoピーク値",
+    "valid for a pure sine wave, zero DC offset": "純正弦波・DC オフセット 0 が前提",
+    "Rectified average": "整流平均",
+
+    From: "変換元",
+    To: "変換先",
+    "Value is outside the {span} span — converting by linear extrapolation.":
+      "値が {span} のスパン外です — 線形外挿で変換します。",
+    equivalent: "換算値",
+    "Span mapping": "スパン対応",
+
+    "Struct members (one per line)": "構造体メンバー (1 行に 1 つ)",
+    Architecture: "アーキテクチャ",
+    "natural alignment (System V-style)": "自然アライメント (System V 方式)",
+    Member: "メンバー",
+    Size: "サイズ",
+    "Pad before": "前方パディング",
+    alignment: "アライメント",
+    "bytes padding": "バイトのパディング",
+    padding: "パディング",
+    "tail padding": "末尾パディング",
+
+    "Drop a .tdms file here": ".tdms ファイルをここにドロップ",
+    or: "または",
+    "Choose file": "ファイルを選択",
+    "Your file never leaves your browser.": "ファイルがブラウザ外に出ることはありません。",
+    "File is larger than 200 MB — browser memory limits may apply. The TDMS Converter desktop app (coming soon) handles batch conversion better.":
+      "ファイルが 200 MB を超えています — ブラウザのメモリ制限に達する場合があります。一括変換には TDMS Converter デスクトップ版 (近日公開) が適しています。",
+    parsing: "解析中",
+    group: "グループ",
+    groups: "グループ",
+    channels: "チャンネル",
+    samples: "サンプル",
+    "Download CSV": "CSV をダウンロード",
+    "file properties": "ファイルプロパティ",
+    "first samples": "先頭サンプル",
+    "Need the data itself?": "データ本体が必要ですか?",
+    Converter: "コンバーター",
+
+    "Timer clock": "タイマークロック",
+    "Target frequency": "目標周波数",
+    "No 16-bit PSC/ARR pair reaches this frequency — check the inputs.":
+      "この周波数を実現できる 16 ビット PSC/ARR の組み合わせがありません — 入力を確認してください。",
+    Actual: "実際",
+    Period: "周期",
+    "16-bit registers": "16 ビットレジスタ",
+    "best row highlighted": "最適な行を強調",
+
+    "Reference points": "基準点",
+    input: "入力",
+    output: "出力",
+    "x₁ and x₂ must differ.": "x₁ と x₂ は異なる値にしてください。",
+    "Apply to input x": "入力 x に適用",
+    "Slope (gain)": "傾き (ゲイン)",
+    Equation: "式",
+    "y at x = {x}": "x = {x} のときの y",
+    "x at y = {y}": "y = {y} のときの x",
+
+    "UART clock": "UART クロック",
+    "Target baud": "目標ボーレート",
+    Oversampling: "オーバーサンプリング",
+    oversampling: "オーバーサンプリング",
+    "OK — {e} % error (within the ~±2 % rule of thumb)":
+      "OK — 誤差 {e} % (目安の ~±2 % 以内)",
+    "RISKY — {e} % error will likely corrupt frames":
+      "危険 — 誤差 {e} %、フレーム破損の可能性大",
+    Divisor: "分周値",
+    "Actual baud": "実際のボーレート",
+
+    "Find resistors": "抵抗を探す",
+    "Compute Vout": "Vout を計算",
+    "Target Vout": "目標 Vout",
+    Series: "E系列",
+    "R2 magnitude": "R2 の大きさ",
+    top: "上側",
+    bottom: "下側",
+    "unloaded output": "無負荷出力",
+    "Vout (unloaded)": "Vout (無負荷)",
+    "Enter Vin and a target Vout below Vin.":
+      "Vin と、Vin より小さい目標 Vout を入力してください。",
+  },
+
+  de: {
+    "Sensor type": "Sensortyp",
+    "Enter a temperature.": "Temperatur eingeben.",
+    "Enter a resistance.": "Widerstand eingeben.",
+    "Supported range is 0…850 °C (the T < 0 °C branch of IEC 60751 is not implemented here).":
+      "Unterstützter Bereich ist 0…850 °C (der Zweig T < 0 °C aus IEC 60751 ist hier nicht implementiert).",
+    "Supported range is R ≥ R0 ({r0} Ω), i.e. T ≥ 0 °C.":
+      "Unterstützter Bereich ist R ≥ R0 ({r0} Ω), also T ≥ 0 °C.",
+    Temperature: "Temperatur",
+    Resistance: "Widerstand",
+
+    "Input kind": "Eingangsgröße",
+    Peak: "Spitze",
+    "Peak-to-peak": "Spitze-Spitze",
+    "RMS value": "RMS-Wert",
+    "Peak value": "Spitzenwert",
+    "Peak-to-peak value": "Spitze-Spitze-Wert",
+    "valid for a pure sine wave, zero DC offset": "gilt für reine Sinusform, kein DC-Offset",
+    "Rectified average": "Gleichrichtwert",
+
+    From: "Von",
+    To: "Nach",
+    "Value is outside the {span} span — converting by linear extrapolation.":
+      "Wert liegt außerhalb der Spanne {span} — Umrechnung per linearer Extrapolation.",
+    equivalent: "Äquivalent",
+    "Span mapping": "Spannen-Zuordnung",
+
+    "Struct members (one per line)": "Struct-Member (einer pro Zeile)",
+    Architecture: "Architektur",
+    "natural alignment (System V-style)": "natürliches Alignment (System-V-Stil)",
+    Member: "Member",
+    Size: "Größe",
+    "Pad before": "Padding davor",
+    alignment: "Alignment",
+    "bytes padding": "Bytes Padding",
+    padding: "Padding",
+    "tail padding": "Padding am Ende",
+
+    "Drop a .tdms file here": ".tdms-Datei hier ablegen",
+    or: "oder",
+    "Choose file": "Datei wählen",
+    "Your file never leaves your browser.": "Ihre Datei verlässt den Browser nie.",
+    "File is larger than 200 MB — browser memory limits may apply. The TDMS Converter desktop app (coming soon) handles batch conversion better.":
+      "Datei ist größer als 200 MB — Speichergrenzen des Browsers können greifen. Für Stapelkonvertierung eignet sich die TDMS-Converter-Desktop-App (demnächst) besser.",
+    parsing: "analysiere",
+    group: "Gruppe",
+    groups: "Gruppen",
+    channels: "Kanäle",
+    samples: "Samples",
+    "Download CSV": "CSV herunterladen",
+    "file properties": "Dateieigenschaften",
+    "first samples": "erste Samples",
+    "Need the data itself?": "Brauchen Sie die Daten selbst?",
+    Converter: "Konverter",
+
+    "Timer clock": "Timer-Takt",
+    "Target frequency": "Zielfrequenz",
+    "No 16-bit PSC/ARR pair reaches this frequency — check the inputs.":
+      "Kein 16-Bit-PSC/ARR-Paar erreicht diese Frequenz — Eingaben prüfen.",
+    Actual: "Ist",
+    Period: "Periode",
+    "16-bit registers": "16-Bit-Register",
+    "best row highlighted": "beste Zeile hervorgehoben",
+
+    "Reference points": "Referenzpunkte",
+    input: "Eingang",
+    output: "Ausgang",
+    "x₁ and x₂ must differ.": "x₁ und x₂ müssen unterschiedlich sein.",
+    "Apply to input x": "Auf Eingang x anwenden",
+    "Slope (gain)": "Steigung (Verstärkung)",
+    Equation: "Gleichung",
+    "y at x = {x}": "y bei x = {x}",
+    "x at y = {y}": "x bei y = {y}",
+
+    "UART clock": "UART-Takt",
+    "Target baud": "Ziel-Baudrate",
+    Oversampling: "Oversampling",
+    oversampling: "Oversampling",
+    "OK — {e} % error (within the ~±2 % rule of thumb)":
+      "OK — {e} % Fehler (innerhalb der Faustregel ~±2 %)",
+    "RISKY — {e} % error will likely corrupt frames":
+      "RISKANT — {e} % Fehler führt wahrscheinlich zu fehlerhaften Frames",
+    Divisor: "Teiler",
+    "Actual baud": "Tatsächliche Baudrate",
+
+    "Find resistors": "Widerstände finden",
+    "Compute Vout": "Vout berechnen",
+    "Target Vout": "Ziel-Vout",
+    Series: "Reihe",
+    "R2 magnitude": "R2-Größenordnung",
+    top: "oben",
+    bottom: "unten",
+    "unloaded output": "unbelasteter Ausgang",
+    "Vout (unloaded)": "Vout (unbelastet)",
+    "Enter Vin and a target Vout below Vin.":
+      "Vin und ein Ziel-Vout unterhalb von Vin eingeben.",
+  },
+
+  zh: {
+    "Sensor type": "传感器类型",
+    "Enter a temperature.": "请输入温度。",
+    "Enter a resistance.": "请输入电阻值。",
+    "Supported range is 0…850 °C (the T < 0 °C branch of IEC 60751 is not implemented here).":
+      "支持范围为 0…850 °C（IEC 60751 中 T < 0 °C 的分支未实现）。",
+    "Supported range is R ≥ R0 ({r0} Ω), i.e. T ≥ 0 °C.":
+      "支持范围为 R ≥ R0（{r0} Ω），即 T ≥ 0 °C。",
+    Temperature: "温度",
+    Resistance: "电阻",
+
+    "Input kind": "输入类型",
+    Peak: "峰值",
+    "Peak-to-peak": "峰峰值",
+    "RMS value": "RMS 值",
+    "Peak value": "峰值",
+    "Peak-to-peak value": "峰峰值",
+    "valid for a pure sine wave, zero DC offset": "适用于纯正弦波、无直流偏置",
+    "Rectified average": "整流平均值",
+
+    From: "从",
+    To: "到",
+    "Value is outside the {span} span — converting by linear extrapolation.":
+      "数值超出 {span} 量程 — 按线性外推换算。",
+    equivalent: "等效值",
+    "Span mapping": "量程映射",
+
+    "Struct members (one per line)": "结构体成员（每行一个）",
+    Architecture: "架构",
+    "natural alignment (System V-style)": "自然对齐（System V 风格）",
+    Member: "成员",
+    Size: "大小",
+    "Pad before": "前置填充",
+    alignment: "对齐",
+    "bytes padding": "字节填充",
+    padding: "填充",
+    "tail padding": "尾部填充",
+
+    "Drop a .tdms file here": "将 .tdms 文件拖到此处",
+    or: "或",
+    "Choose file": "选择文件",
+    "Your file never leaves your browser.": "文件始终不会离开浏览器。",
+    "File is larger than 200 MB — browser memory limits may apply. The TDMS Converter desktop app (coming soon) handles batch conversion better.":
+      "文件超过 200 MB — 可能受浏览器内存限制。批量转换建议使用 TDMS Converter 桌面版（即将推出）。",
+    parsing: "正在解析",
+    group: "组",
+    groups: "组",
+    channels: "通道",
+    samples: "采样点",
+    "Download CSV": "下载 CSV",
+    "file properties": "文件属性",
+    "first samples": "前几个采样点",
+    "Need the data itself?": "需要数据本身？",
+    Converter: "转换器",
+
+    "Timer clock": "定时器时钟",
+    "Target frequency": "目标频率",
+    "No 16-bit PSC/ARR pair reaches this frequency — check the inputs.":
+      "没有 16 位 PSC/ARR 组合能达到该频率 — 请检查输入。",
+    Actual: "实际",
+    Period: "周期",
+    "16-bit registers": "16 位寄存器",
+    "best row highlighted": "已高亮最佳行",
+
+    "Reference points": "参考点",
+    input: "输入",
+    output: "输出",
+    "x₁ and x₂ must differ.": "x₁ 与 x₂ 必须不同。",
+    "Apply to input x": "应用于输入 x",
+    "Slope (gain)": "斜率（增益）",
+    Equation: "方程",
+    "y at x = {x}": "x = {x} 时的 y",
+    "x at y = {y}": "y = {y} 时的 x",
+
+    "UART clock": "UART 时钟",
+    "Target baud": "目标波特率",
+    Oversampling: "过采样",
+    oversampling: "过采样",
+    "OK — {e} % error (within the ~±2 % rule of thumb)":
+      "OK — 误差 {e} %（在经验值 ~±2 % 以内）",
+    "RISKY — {e} % error will likely corrupt frames":
+      "有风险 — 误差 {e} %，很可能导致帧出错",
+    Divisor: "分频值",
+    "Actual baud": "实际波特率",
+
+    "Find resistors": "查找电阻",
+    "Compute Vout": "计算 Vout",
+    "Target Vout": "目标 Vout",
+    Series: "E 系列",
+    "R2 magnitude": "R2 量级",
+    top: "上",
+    bottom: "下",
+    "unloaded output": "空载输出",
+    "Vout (unloaded)": "Vout（空载）",
+    "Enter Vin and a target Vout below Vin.": "请输入 Vin 以及小于 Vin 的目标 Vout。",
+  },
 };

@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { layoutStruct, parseStructBody, type Arch } from "@testbench/engine";
+import { useToolText } from "@/components/tool/useToolText";
 
 const DEFAULT_SRC = `uint8_t  flags;
 uint32_t count;
@@ -9,6 +10,7 @@ uint16_t id;
 char     name[8];`;
 
 export function StructPaddingTool() {
+  const t = useToolText();
   const [src, setSrc] = useState(DEFAULT_SRC);
   const [arch, setArch] = useState<Arch>(32);
   const [d, setD] = useState(src);
@@ -30,9 +32,9 @@ export function StructPaddingTool() {
         <div>
           <div className="flex items-center justify-between">
             <label htmlFor="sp-src" className="text-xs font-medium uppercase tracking-wide text-mute">
-              Struct members (one per line)
+              {t("Struct members (one per line)")}
             </label>
-            <div className="flex rounded-btn border border-line-strong p-0.5" role="tablist" aria-label="Architecture">
+            <div className="flex rounded-btn border border-line-strong p-0.5" role="tablist" aria-label={t("Architecture")}>
               {([32, 64] as const).map((a) => (
                 <button key={a} type="button" role="tab" aria-selected={arch === a}
                   onClick={() => setArch(a)}
@@ -51,7 +53,7 @@ export function StructPaddingTool() {
             <p className="mt-1.5 font-mono text-xs text-err" role="alert">{result.error}</p>
           )}
           <p className="mt-2 font-mono text-xs text-mute">
-            natural alignment (System V-style) · long = {arch === 64 ? "8" : "4"} bytes · pointers = {arch / 8} bytes
+            {t("natural alignment (System V-style)")} · long = {arch === 64 ? "8" : "4"} bytes · pointers = {arch / 8} bytes
           </p>
         </div>
 
@@ -62,10 +64,10 @@ export function StructPaddingTool() {
                 <table className="w-full text-left text-sm">
                   <thead>
                     <tr className="border-b border-line-soft text-xs uppercase tracking-wide text-mute">
-                      <th className="px-3 py-2 font-medium">Member</th>
-                      <th className="px-3 py-2 font-medium">Offset</th>
-                      <th className="px-3 py-2 font-medium">Size</th>
-                      <th className="px-3 py-2 font-medium">Pad before</th>
+                      <th className="px-3 py-2 font-medium">{t("Member")}</th>
+                      <th className="px-3 py-2 font-medium">{t("Offset")}</th>
+                      <th className="px-3 py-2 font-medium">{t("Size")}</th>
+                      <th className="px-3 py-2 font-medium">{t("Pad before")}</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -81,9 +83,9 @@ export function StructPaddingTool() {
                 </table>
               </div>
               <p className="mt-3 font-mono text-sm text-ink">
-                sizeof = <span className="text-ok">{result.layout.size}</span> · alignment {result.layout.align} ·{" "}
+                sizeof = <span className="text-ok">{result.layout.size}</span> · {t("alignment")} {result.layout.align} ·{" "}
                 <span className={result.layout.totalPadding > 0 ? "text-warn" : "text-ok"}>
-                  {result.layout.totalPadding} bytes padding ({Math.round((result.layout.totalPadding / result.layout.size) * 100)} %)
+                  {result.layout.totalPadding} {t("bytes padding")} ({Math.round((result.layout.totalPadding / result.layout.size) * 100)} %)
                 </span>
               </p>
               {/* byte map */}
@@ -91,10 +93,10 @@ export function StructPaddingTool() {
                 {(() => {
                   const cells: { kind: "data" | "pad"; title: string }[] = [];
                   for (const r of result.layout.rows) {
-                    for (let i = 0; i < r.padBefore; i++) cells.push({ kind: "pad", title: "padding" });
+                    for (let i = 0; i < r.padBefore; i++) cells.push({ kind: "pad", title: t("padding") });
                     for (let i = 0; i < r.size; i++) cells.push({ kind: "data", title: r.name });
                   }
-                  while (cells.length < result.layout.size) cells.push({ kind: "pad", title: "tail padding" });
+                  while (cells.length < result.layout.size) cells.push({ kind: "pad", title: t("tail padding") });
                   return cells.map((c, i) => (
                     <span key={i} title={`${i}: ${c.title}`}
                       className={`inline-block h-4 w-4 rounded-[3px] border ${

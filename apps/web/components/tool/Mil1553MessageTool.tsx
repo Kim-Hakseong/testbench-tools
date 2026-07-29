@@ -2,14 +2,18 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { decodeMessage } from "@testbench/engine";
+import { useToolText } from "@/components/tool/useToolText";
 
-function parseWords(text: string): { words: number[]; error: string | null } {
+function parseWords(
+  text: string,
+  t: (s: string) => string,
+): { words: number[]; error: string | null } {
   const tokens = text.trim().split(/[\s,]+/).filter(Boolean);
   const words: number[] = [];
   for (const tok of tokens) {
-    const t = tok.replace(/^0x/i, "");
-    if (!/^[0-9a-fA-F]{1,4}$/.test(t)) return { words: [], error: `Invalid word “${tok}”.` };
-    words.push(parseInt(t, 16));
+    const hex = tok.replace(/^0x/i, "");
+    if (!/^[0-9a-fA-F]{1,4}$/.test(hex)) return { words: [], error: `${t("Invalid word")} “${tok}”.` };
+    words.push(parseInt(hex, 16));
   }
   return { words, error: null };
 }
@@ -21,21 +25,22 @@ const ROLE_COLOR: Record<string, string> = {
 };
 
 export function Mil1553MessageTool() {
+  const t = useToolText();
   const [text, setText] = useState("2822 1234 5678 2800");
   const [d, setD] = useState(text);
 
   useEffect(() => {
-    const t = setTimeout(() => setD(text), 150);
-    return () => clearTimeout(t);
+    const h = setTimeout(() => setD(text), 150);
+    return () => clearTimeout(h);
   }, [text]);
 
-  const { words, error } = useMemo(() => parseWords(d), [d]);
+  const { words, error } = useMemo(() => parseWords(d, t), [d, t]);
   const msg = useMemo(() => (words.length > 0 && !error ? decodeMessage(words) : null), [words, error]);
 
   return (
     <div className="rounded-card border border-line-strong bg-surface p-4 sm:p-5">
       <label htmlFor="msg-in" className="text-xs font-medium uppercase tracking-wide text-mute">
-        Message words (16-bit hex, space-separated — word 1 is the command)
+        {t("Message words (16-bit hex, space-separated — word 1 is the command)")}
       </label>
       <textarea id="msg-in" value={text} rows={2} spellCheck={false}
         onChange={(e) => setText(e.target.value)}
@@ -47,7 +52,7 @@ export function Mil1553MessageTool() {
           <div className="flex flex-wrap items-center gap-2">
             <span className="rounded-full border border-line-strong px-2.5 py-0.5 font-mono text-xs text-ink">{msg.type}</span>
             <span className={`rounded-full border px-2.5 py-0.5 font-mono text-xs ${msg.ok ? "border-ok/40 text-ok" : "border-warn/40 text-warn"}`}>
-              {msg.ok ? `${msg.words.length} words — layout matches` : msg.note}
+              {msg.ok ? `${msg.words.length} ${t("words — layout matches")}` : msg.note}
             </span>
           </div>
 
@@ -56,9 +61,9 @@ export function Mil1553MessageTool() {
               <thead>
                 <tr className="border-b border-line-soft text-xs uppercase tracking-wide text-mute">
                   <th className="px-3 py-2 font-medium">#</th>
-                  <th className="px-3 py-2 font-medium">Word</th>
-                  <th className="px-3 py-2 font-medium">Role</th>
-                  <th className="px-3 py-2 font-medium">Decoded</th>
+                  <th className="px-3 py-2 font-medium">{t("Word")}</th>
+                  <th className="px-3 py-2 font-medium">{t("Role")}</th>
+                  <th className="px-3 py-2 font-medium">{t("Decoded")}</th>
                 </tr>
               </thead>
               <tbody>

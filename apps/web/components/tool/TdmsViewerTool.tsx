@@ -3,10 +3,12 @@
 import { useCallback, useRef, useState } from "react";
 import Link from "next/link";
 import { TdmsParser, tdmsTypeName, type TdmsFile } from "@testbench/engine";
+import { useToolText } from "@/components/tool/useToolText";
 
 const CHUNK_SIZE = 4 * 1024 * 1024;
 
 export function TdmsViewerTool() {
+  const t = useToolText();
   const [phase, setPhase] = useState<"idle" | "parsing" | "done" | "error">("idle");
   const [fileName, setFileName] = useState("");
   const [progress, setProgress] = useState(0);
@@ -50,11 +52,11 @@ export function TdmsViewerTool() {
           dragOver ? "border-ok bg-elevated" : "border-line-strong"
         }`}
       >
-        <p className="text-sm text-body">Drop a .tdms file here</p>
-        <p className="mt-1 text-xs text-mute">or</p>
+        <p className="text-sm text-body">{t("Drop a .tdms file here")}</p>
+        <p className="mt-1 text-xs text-mute">{t("or")}</p>
         <button type="button" onClick={() => inputRef.current?.click()}
           className="mt-2 rounded-btn bg-ink px-4 py-2 text-sm font-medium text-canvas transition hover:opacity-90 active:scale-[0.98]">
-          Choose file
+          {t("Choose file")}
         </button>
         <input ref={inputRef} type="file" accept=".tdms" className="hidden"
           onChange={(e) => {
@@ -62,7 +64,7 @@ export function TdmsViewerTool() {
             if (f) void parseFile(f);
             e.target.value = "";
           }} />
-        <p className="mt-4 font-mono text-xs text-ok">Your file never leaves your browser.</p>
+        <p className="mt-4 font-mono text-xs text-ok">{t("Your file never leaves your browser.")}</p>
       </div>
 
       {phase === "parsing" && (
@@ -70,7 +72,7 @@ export function TdmsViewerTool() {
           <div className="h-1.5 w-full overflow-hidden rounded-full bg-elevated">
             <div className="h-full bg-ok transition-[width]" style={{ width: `${Math.round(progress * 100)}%` }} />
           </div>
-          <p className="mt-1.5 font-mono text-xs text-mute">parsing {fileName}… {Math.round(progress * 100)}%</p>
+          <p className="mt-1.5 font-mono text-xs text-mute">{t("parsing")} {fileName}… {Math.round(progress * 100)}%</p>
         </div>
       )}
       {phase === "error" && (
@@ -81,7 +83,7 @@ export function TdmsViewerTool() {
         <div className="mt-5 space-y-4">
           {Object.entries(result.properties).length > 0 && (
             <div className="rounded-btn border border-line-soft bg-well p-3 font-mono text-xs text-body">
-              <span className="text-mute">file properties · </span>
+              <span className="text-mute">{t("file properties")} · </span>
               {Object.entries(result.properties).map(([k, v]) => `${k} = ${String(v)}`).join(" · ")}
             </div>
           )}
@@ -89,14 +91,14 @@ export function TdmsViewerTool() {
             <div key={g.path} className="rounded-btn border border-line-soft">
               <div className="border-b border-line-soft bg-elevated px-3 py-2 font-mono text-sm text-ink">
                 {g.name}
-                <span className="ml-2 text-xs text-mute">{g.channels.length} channels</span>
+                <span className="ml-2 text-xs text-mute">{g.channels.length} {t("channels")}</span>
               </div>
               {g.channels.map((c) => (
                 <details key={c.path} className="border-b border-line-soft px-3 py-2 last:border-0">
                   <summary className="cursor-pointer font-mono text-sm text-body">
                     {c.name}
                     <span className="ml-2 text-xs text-mute">
-                      {tdmsTypeName(c.dtype)} · {c.data.length} samples
+                      {tdmsTypeName(c.dtype)} · {c.data.length} {t("samples")}
                     </span>
                   </summary>
                   <div className="mt-2 space-y-1.5 pl-4 font-mono text-xs">
@@ -106,7 +108,7 @@ export function TdmsViewerTool() {
                       </p>
                     )}
                     <p className="text-body">
-                      <span className="text-mute">first samples: </span>
+                      <span className="text-mute">{t("first samples")}: </span>
                       {c.data.slice(0, 10).map((v) => Number(v.toPrecision(7))).join(", ")}
                       {c.data.length > 10 ? " …" : ""}
                     </p>
@@ -116,9 +118,9 @@ export function TdmsViewerTool() {
             </div>
           ))}
           <p className="text-sm text-mute">
-            Need the data itself?{" "}
+            {t("Need the data itself?")}{" "}
             <Link href="/tools/tdms-to-csv/" className="text-body underline decoration-line-strong underline-offset-4 hover:text-ink">
-              TDMS to CSV Converter →
+              TDMS to CSV {t("Converter")} →
             </Link>
           </p>
         </div>

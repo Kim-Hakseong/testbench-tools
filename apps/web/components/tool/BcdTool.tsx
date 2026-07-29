@@ -3,46 +3,52 @@
 import { useEffect, useMemo, useState } from "react";
 import { bcdToDecimal, decimalToBcd } from "@testbench/engine";
 import { ResultCard } from "@/components/tool/ResultCard";
+import { useToolText } from "@/components/tool/useToolText";
 
 const fieldCls =
   "mt-1.5 w-full rounded-btn border bg-well px-3 py-2 font-mono text-sm text-ink outline-none transition-colors focus:border-mute";
 
 export function BcdTool() {
+  const t = useToolText();
   const [direction, setDirection] = useState<"toDec" | "toBcd">("toDec");
   const [bcdText, setBcdText] = useState("1234");
   const [decText, setDecText] = useState("5678");
   const [d, setD] = useState({ bcdText, decText });
 
   useEffect(() => {
-    const t = setTimeout(() => setD({ bcdText, decText }), 150);
-    return () => clearTimeout(t);
+    const h = setTimeout(() => setD({ bcdText, decText }), 150);
+    return () => clearTimeout(h);
   }, [bcdText, decText]);
 
   const result = useMemo(() => {
     if (direction === "toDec") {
-      const t = d.bcdText.trim().replace(/^0x/i, "");
-      if (!/^[0-9a-fA-F]{1,8}$/.test(t)) return { error: "Enter a hex word, e.g. 1234." };
-      const word = parseInt(t, 16) >>> 0;
-      const r = bcdToDecimal(word, t.length);
+      const raw = d.bcdText.trim().replace(/^0x/i, "");
+      if (!/^[0-9a-fA-F]{1,8}$/.test(raw)) return { error: t("Enter a hex word, e.g. 1234.") };
+      const word = parseInt(raw, 16) >>> 0;
+      const r = bcdToDecimal(word, raw.length);
       if (!r.ok) {
         return {
-          error: `Invalid BCD: nibble ${r.error.nibbleIndex} (from the most significant) is 0x${r.error.nibbleValue.toString(16).toUpperCase()} — BCD nibbles must be 0–9.`,
+          error: t(
+            "Invalid BCD: nibble {i} (from the most significant) is 0x{v} — BCD nibbles must be 0–9.",
+          )
+            .replace("{i}", String(r.error.nibbleIndex))
+            .replace("{v}", r.error.nibbleValue.toString(16).toUpperCase()),
           nibbleIndex: r.error.nibbleIndex,
-          digits: t.toUpperCase(),
+          digits: raw.toUpperCase(),
         };
       }
-      return { dec: r.value, word, digits: t.toUpperCase() };
+      return { dec: r.value, word, digits: raw.toUpperCase() };
     }
-    const t = d.decText.trim();
-    if (!/^\d{1,8}$/.test(t)) return { error: "Enter a decimal integer (0–99999999)." };
-    const value = parseInt(t, 10);
+    const raw = d.decText.trim();
+    if (!/^\d{1,8}$/.test(raw)) return { error: t("Enter a decimal integer (0–99999999).") };
+    const value = parseInt(raw, 10);
     const word = decimalToBcd(value);
-    return { bcd: word, value, digits: t };
-  }, [direction, d]);
+    return { bcd: word, value, digits: raw };
+  }, [direction, d, t]);
 
   return (
     <div className="rounded-card border border-line-strong bg-surface p-4 sm:p-5">
-      <div className="flex rounded-btn border border-line-strong p-0.5" role="tablist" aria-label="Direction">
+      <div className="flex rounded-btn border border-line-strong p-0.5" role="tablist" aria-label={t("Direction")}>
         {(
           [
             ["toDec", "BCD → Decimal"],
@@ -59,7 +65,7 @@ export function BcdTool() {
               direction === key ? "bg-elevated text-ink" : "text-mute hover:text-body"
             }`}
           >
-            {label}
+            {t(label)}
           </button>
         ))}
       </div>
@@ -68,14 +74,14 @@ export function BcdTool() {
         <div>
           {direction === "toDec" ? (
             <>
-              <label htmlFor="bcd-in" className="text-xs font-medium uppercase tracking-wide text-mute">BCD word (hex)</label>
+              <label htmlFor="bcd-in" className="text-xs font-medium uppercase tracking-wide text-mute">{t("BCD word (hex)")}</label>
               <input id="bcd-in" value={bcdText} onChange={(e) => setBcdText(e.target.value)} spellCheck={false}
                 placeholder="1234"
                 className={`${fieldCls} ${"error" in result ? "border-err" : "border-line-strong"}`} />
             </>
           ) : (
             <>
-              <label htmlFor="dec-in" className="text-xs font-medium uppercase tracking-wide text-mute">Decimal value</label>
+              <label htmlFor="dec-in" className="text-xs font-medium uppercase tracking-wide text-mute">{t("Decimal value")}</label>
               <input id="dec-in" value={decText} onChange={(e) => setDecText(e.target.value)} spellCheck={false}
                 placeholder="5678"
                 className={`${fieldCls} ${"error" in result ? "border-err" : "border-line-strong"}`} />
@@ -100,16 +106,16 @@ export function BcdTool() {
         <div className="space-y-2.5">
           {"dec" in result && result.dec !== undefined ? (
             <>
-              <ResultCard label="Decimal" value={String(result.dec)} size="lg" />
-              <ResultCard label="BCD word" value={"0x" + result.digits} />
+              <ResultCard label={t("Decimal")} value={String(result.dec)} size="lg" />
+              <ResultCard label={t("BCD word")} value={"0x" + result.digits} />
             </>
           ) : "bcd" in result && result.bcd !== undefined ? (
             <>
-              <ResultCard label="BCD word" value={"0x" + result.bcd.toString(16).toUpperCase()} size="lg" />
-              <ResultCard label="Binary" value={result.bcd.toString(2).padStart(Math.max(4, result.digits.length * 4), "0")} />
+              <ResultCard label={t("BCD word")} value={"0x" + result.bcd.toString(16).toUpperCase()} size="lg" />
+              <ResultCard label={t("Binary")} value={result.bcd.toString(2).padStart(Math.max(4, result.digits.length * 4), "0")} />
             </>
           ) : (
-            <p className="text-sm text-mute">Fix the input to see results.</p>
+            <p className="text-sm text-mute">{t("Fix the input to see results.")}</p>
           )}
         </div>
       </div>

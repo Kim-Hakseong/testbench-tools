@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { ANALOG_PRESETS, scale } from "@testbench/engine";
 import { ResultCard } from "@/components/tool/ResultCard";
+import { useToolText } from "@/components/tool/useToolText";
 
 function num(s: string): number | null {
   const v = Number(s.trim());
@@ -18,6 +19,7 @@ const fieldCls =
   "mt-1.5 w-full rounded-btn border bg-well px-3 py-2 font-mono text-sm text-ink outline-none transition-colors focus:border-mute";
 
 export function PlcScalingTool() {
+  const t = useToolText();
   const [presetId, setPresetId] = useState<string>("s7");
   const [direction, setDirection] = useState<"toEng" | "toRaw">("toEng");
   const [rawMinText, setRawMinText] = useState("0");
@@ -28,8 +30,8 @@ export function PlcScalingTool() {
   const [d, setD] = useState({ rawMinText, rawMaxText, engMinText, engMaxText, inText });
 
   useEffect(() => {
-    const t = setTimeout(() => setD({ rawMinText, rawMaxText, engMinText, engMaxText, inText }), 150);
-    return () => clearTimeout(t);
+    const h = setTimeout(() => setD({ rawMinText, rawMaxText, engMinText, engMaxText, inText }), 150);
+    return () => clearTimeout(h);
   }, [rawMinText, rawMaxText, engMinText, engMaxText, inText]);
 
   const preset = ANALOG_PRESETS.find((p) => p.id === presetId);
@@ -69,7 +71,7 @@ export function PlcScalingTool() {
     <div className="rounded-card border border-line-strong bg-surface p-4 sm:p-5">
       <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
         <div>
-          <label htmlFor="plc-preset" className="text-xs font-medium uppercase tracking-wide text-mute">Vendor preset</label>
+          <label htmlFor="plc-preset" className="text-xs font-medium uppercase tracking-wide text-mute">{t("Vendor preset")}</label>
           <select
             id="plc-preset"
             value={presetId}
@@ -84,11 +86,11 @@ export function PlcScalingTool() {
                 ))}
               </optgroup>
             ))}
-            <option value="custom">Custom raw range…</option>
+            <option value="custom">{t("Custom raw range…")}</option>
           </select>
         </div>
         <div className="flex items-end">
-          <div className="flex w-full rounded-btn border border-line-strong p-0.5" role="tablist" aria-label="Direction">
+          <div className="flex w-full rounded-btn border border-line-strong p-0.5" role="tablist" aria-label={t("Direction")}>
             {(
               [
                 ["toEng", "Raw → Engineering"],
@@ -105,7 +107,7 @@ export function PlcScalingTool() {
                   direction === key ? "bg-elevated text-ink" : "text-mute hover:text-body"
                 }`}
               >
-                {label}
+                {t(label)}
               </button>
             ))}
           </div>
@@ -115,30 +117,30 @@ export function PlcScalingTool() {
       <div className="mt-4 grid grid-cols-1 gap-5 md:grid-cols-2">
         <div className="grid grid-cols-2 gap-3">
           <div>
-            <label htmlFor="plc-rawmin" className="text-xs font-medium uppercase tracking-wide text-mute">Raw min</label>
+            <label htmlFor="plc-rawmin" className="text-xs font-medium uppercase tracking-wide text-mute">{t("Raw min")}</label>
             <input id="plc-rawmin" value={preset ? String(preset.rawMin) : rawMinText} disabled={!!preset}
               onChange={(e) => setRawMinText(e.target.value)} spellCheck={false}
               className={`${fieldCls} border-line-strong disabled:opacity-60`} />
           </div>
           <div>
-            <label htmlFor="plc-rawmax" className="text-xs font-medium uppercase tracking-wide text-mute">Raw max</label>
+            <label htmlFor="plc-rawmax" className="text-xs font-medium uppercase tracking-wide text-mute">{t("Raw max")}</label>
             <input id="plc-rawmax" value={preset ? String(preset.rawMax) : rawMaxText} disabled={!!preset}
               onChange={(e) => setRawMaxText(e.target.value)} spellCheck={false}
               className={`${fieldCls} border-line-strong disabled:opacity-60`} />
           </div>
           <div>
-            <label htmlFor="plc-engmin" className="text-xs font-medium uppercase tracking-wide text-mute">Eng. min</label>
+            <label htmlFor="plc-engmin" className="text-xs font-medium uppercase tracking-wide text-mute">{t("Eng. min")}</label>
             <input id="plc-engmin" value={engMinText} onChange={(e) => setEngMinText(e.target.value)} spellCheck={false}
               className={`${fieldCls} ${engMin === null ? "border-err" : "border-line-strong"}`} />
           </div>
           <div>
-            <label htmlFor="plc-engmax" className="text-xs font-medium uppercase tracking-wide text-mute">Eng. max</label>
+            <label htmlFor="plc-engmax" className="text-xs font-medium uppercase tracking-wide text-mute">{t("Eng. max")}</label>
             <input id="plc-engmax" value={engMaxText} onChange={(e) => setEngMaxText(e.target.value)} spellCheck={false}
               className={`${fieldCls} ${engMax === null || engMax === engMin ? "border-err" : "border-line-strong"}`} />
           </div>
           <div className="col-span-2">
             <label htmlFor="plc-in" className="text-xs font-medium uppercase tracking-wide text-mute">
-              {direction === "toEng" ? "Raw value" : "Engineering value"}
+              {direction === "toEng" ? t("Raw value") : t("Engineering value")}
             </label>
             <input id="plc-in" value={inText} onChange={(e) => setInText(e.target.value)} spellCheck={false}
               className={`${fieldCls} ${input === null ? "border-err" : "border-line-strong"}`} />
@@ -147,25 +149,25 @@ export function PlcScalingTool() {
 
         <div className="space-y-2.5">
           {result === null ? (
-            <p className="text-sm text-mute">Fix the highlighted inputs to see results.</p>
+            <p className="text-sm text-mute">{t("Fix the highlighted inputs to see results.")}</p>
           ) : (
             <>
               <ResultCard
-                label={direction === "toEng" ? "Engineering value" : "Raw value"}
+                label={direction === "toEng" ? t("Engineering value") : t("Raw value")}
                 value={fmt(direction === "toRaw" ? Math.round(result) : result)}
                 size="lg"
               />
               <ResultCard
-                label="Percent of span"
+                label={t("Percent of span")}
                 value={`${fmt(scale(input!, direction === "toEng" ? rawMin! : engMin!, direction === "toEng" ? rawMax! : engMax!, 0, 100))} %`}
               />
               {outOfRange && (
                 <p className="rounded-btn border border-warn/40 px-3 py-2 font-mono text-xs text-warn">
-                  Input is outside the configured range — extrapolating linearly.
+                  {t("Input is outside the configured range — extrapolating linearly.")}
                 </p>
               )}
               {preset && (
-                <p className="font-mono text-xs text-mute">preset source: {preset.source}</p>
+                <p className="font-mono text-xs text-mute">{t("preset source:")} {preset.source}</p>
               )}
             </>
           )}

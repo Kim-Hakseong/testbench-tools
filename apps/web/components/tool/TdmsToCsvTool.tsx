@@ -2,6 +2,7 @@
 
 import { useCallback, useRef, useState } from "react";
 import { TdmsParser, tdmsToCsv, tdmsTypeName, type TdmsFile } from "@testbench/engine";
+import { useToolText } from "@/components/tool/useToolText";
 
 const CHUNK_SIZE = 4 * 1024 * 1024; // 4 MB slices — the file is never fully loaded
 const BIG_FILE = 200 * 1024 * 1024;
@@ -9,6 +10,7 @@ const BIG_FILE = 200 * 1024 * 1024;
 type Phase = "idle" | "parsing" | "done" | "error";
 
 export function TdmsToCsvTool() {
+  const t = useToolText();
   const [phase, setPhase] = useState<Phase>("idle");
   const [fileName, setFileName] = useState("");
   const [fileSize, setFileSize] = useState(0);
@@ -95,14 +97,14 @@ export function TdmsToCsvTool() {
           dragOver ? "border-ok bg-elevated" : "border-line-strong"
         }`}
       >
-        <p className="text-sm text-body">Drop a .tdms file here</p>
-        <p className="mt-1 text-xs text-mute">or</p>
+        <p className="text-sm text-body">{t("Drop a .tdms file here")}</p>
+        <p className="mt-1 text-xs text-mute">{t("or")}</p>
         <button
           type="button"
           onClick={() => inputRef.current?.click()}
           className="mt-2 rounded-btn bg-ink px-4 py-2 text-sm font-medium text-canvas transition hover:opacity-90 active:scale-[0.98]"
         >
-          Choose file
+          {t("Choose file")}
         </button>
         <input
           ref={inputRef}
@@ -115,13 +117,14 @@ export function TdmsToCsvTool() {
             e.target.value = "";
           }}
         />
-        <p className="mt-4 font-mono text-xs text-ok">Your file never leaves your browser.</p>
+        <p className="mt-4 font-mono text-xs text-ok">{t("Your file never leaves your browser.")}</p>
       </div>
 
       {fileSize > BIG_FILE && (
         <p className="mt-3 rounded-btn border border-warn/40 px-3 py-2 font-mono text-xs text-warn">
-          File is larger than 200 MB — browser memory limits may apply. The TDMS
-          Converter desktop app (coming soon) handles batch conversion better.
+          {t(
+            "File is larger than 200 MB — browser memory limits may apply. The TDMS Converter desktop app (coming soon) handles batch conversion better.",
+          )}
         </p>
       )}
 
@@ -131,7 +134,7 @@ export function TdmsToCsvTool() {
             <div className="h-full bg-ok transition-[width]" style={{ width: `${Math.round(progress * 100)}%` }} />
           </div>
           <p className="mt-1.5 font-mono text-xs text-mute">
-            parsing {fileName}… {Math.round(progress * 100)}%
+            {t("parsing")} {fileName}… {Math.round(progress * 100)}%
           </p>
         </div>
       )}
@@ -146,8 +149,9 @@ export function TdmsToCsvTool() {
         <div className="mt-5">
           <div className="flex flex-wrap items-center justify-between gap-3">
             <p className="font-mono text-xs text-mute">
-              {fileName} · {result.groups.length} group{result.groups.length === 1 ? "" : "s"} ·{" "}
-              {result.groups.reduce((n, g) => n + g.channels.length, 0)} channels · {totalSamples} samples
+              {fileName} · {result.groups.length} {t(result.groups.length === 1 ? "group" : "groups")} ·{" "}
+              {result.groups.reduce((n, g) => n + g.channels.length, 0)} {t("channels")} · {totalSamples}{" "}
+              {t("samples")}
             </p>
             <button
               type="button"
@@ -155,7 +159,7 @@ export function TdmsToCsvTool() {
               disabled={selected.size === 0}
               className="rounded-btn bg-ink px-4 py-2 text-sm font-medium text-canvas transition hover:opacity-90 active:scale-[0.98] disabled:opacity-40"
             >
-              Download CSV ({selected.size} ch)
+              {t("Download CSV")} ({selected.size} ch)
             </button>
           </div>
 
@@ -177,7 +181,7 @@ export function TdmsToCsvTool() {
                     />
                     <span className="font-mono text-sm text-ink">{c.name}</span>
                     <span className="font-mono text-xs text-mute">
-                      {tdmsTypeName(c.dtype)} · {c.data.length} samples
+                      {tdmsTypeName(c.dtype)} · {c.data.length} {t("samples")}
                     </span>
                     {Object.entries(c.properties).length > 0 && (
                       <span className="hidden truncate font-mono text-[11px] text-mute sm:inline">

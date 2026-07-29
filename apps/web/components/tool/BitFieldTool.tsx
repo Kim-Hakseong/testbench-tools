@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { extractFields, type BitField } from "@testbench/engine";
+import { useToolText } from "@/components/tool/useToolText";
 
 const FIELD_COLORS = ["#7dd3fc", "#5eead4", "#fcd34d", "#fda4af", "#bef264", "#93c5fd", "#fdba74", "#f9a8d4"];
 
@@ -15,6 +16,7 @@ interface Row {
 }
 
 export function BitFieldTool() {
+  const t = useToolText();
   const [valText, setValText] = useState("CAFE1234");
   const [rows, setRows] = useState<Row[]>([
     { name: "low byte", lsb: "0", width: "8" },
@@ -29,14 +31,14 @@ export function BitFieldTool() {
   }, [valText, rows]);
 
   const value = useMemo(() => {
-    const t = d.valText.trim().replace(/^0x/i, "");
-    if (!/^[0-9a-fA-F]{1,16}$/.test(t)) return null;
-    return BigInt("0x" + t);
+    const raw = d.valText.trim().replace(/^0x/i, "");
+    if (!/^[0-9a-fA-F]{1,16}$/.test(raw)) return null;
+    return BigInt("0x" + raw);
   }, [d.valText]);
 
   const totalBits = useMemo(() => {
-    const t = d.valText.trim().replace(/^0x/i, "");
-    return /^[0-9a-fA-F]+$/.test(t) ? t.length * 4 : 32;
+    const raw = d.valText.trim().replace(/^0x/i, "");
+    return /^[0-9a-fA-F]+$/.test(raw) ? raw.length * 4 : 32;
   }, [d.valText]);
 
   const fields: BitField[] = useMemo(
@@ -64,7 +66,7 @@ export function BitFieldTool() {
   return (
     <div className="rounded-card border border-line-strong bg-surface p-4 sm:p-5">
       <div>
-        <label htmlFor="bf-val" className="text-xs font-medium uppercase tracking-wide text-mute">Register value (hex, ≤64-bit)</label>
+        <label htmlFor="bf-val" className="text-xs font-medium uppercase tracking-wide text-mute">{t("Register value (hex, ≤64-bit)")}</label>
         <input id="bf-val" value={valText} onChange={(e) => setValText(e.target.value)} spellCheck={false}
           className={`mt-1.5 w-full rounded-btn border bg-well px-3 py-2 font-mono text-sm text-ink outline-none transition-colors focus:border-mute ${value === null ? "border-err" : "border-line-strong"}`} />
       </div>
@@ -79,7 +81,7 @@ export function BitFieldTool() {
               const set = (value >> BigInt(bit)) & 1n;
               const color = owner !== undefined ? FIELD_COLORS[owner % FIELD_COLORS.length] : undefined;
               return (
-                <span key={bit} title={`bit ${bit}`}
+                <span key={bit} title={`${t("Bit")} ${bit}`}
                   className="flex h-7 w-5 shrink-0 items-center justify-center rounded-[3px] border font-mono text-[11px]"
                   style={{
                     borderColor: color ?? "var(--tb-border-soft)",
@@ -107,20 +109,20 @@ export function BitFieldTool() {
       {/* field rows */}
       <div className="mt-4 space-y-2">
         <div className="grid grid-cols-[1fr_5rem_5rem_7rem_7rem_auto] items-center gap-2 font-mono text-[10px] uppercase tracking-wide text-mute">
-          <span>Field</span><span>LSB</span><span>Width</span><span>Value</span><span>Hex</span><span />
+          <span>{t("Field")}</span><span>LSB</span><span>{t("Width")}</span><span>{t("Value")}</span><span>{t("Hex")}</span><span />
         </div>
         {rows.map((row, i) => {
           const ex = extracted[i];
           return (
             <div key={i} className="grid grid-cols-[1fr_5rem_5rem_7rem_7rem_auto] items-center gap-2">
-              <input value={row.name} onChange={(e) => setRow(i, { name: e.target.value })} spellCheck={false} aria-label={`Field ${i + 1} name`} className={fieldCls}
+              <input value={row.name} onChange={(e) => setRow(i, { name: e.target.value })} spellCheck={false} aria-label={t("Field {n} name").replace("{n}", String(i + 1))} className={fieldCls}
                 style={{ borderLeftColor: FIELD_COLORS[i % FIELD_COLORS.length], borderLeftWidth: 3 }} />
-              <input value={row.lsb} onChange={(e) => setRow(i, { lsb: e.target.value })} spellCheck={false} aria-label={`Field ${i + 1} LSB`} className={fieldCls} />
-              <input value={row.width} onChange={(e) => setRow(i, { width: e.target.value })} spellCheck={false} aria-label={`Field ${i + 1} width`} className={fieldCls} />
+              <input value={row.lsb} onChange={(e) => setRow(i, { lsb: e.target.value })} spellCheck={false} aria-label={t("Field {n} LSB").replace("{n}", String(i + 1))} className={fieldCls} />
+              <input value={row.width} onChange={(e) => setRow(i, { width: e.target.value })} spellCheck={false} aria-label={t("Field {n} width").replace("{n}", String(i + 1))} className={fieldCls} />
               <span className="font-mono text-sm text-ink">{ex ? String(ex.value) : "—"}</span>
               <span className="font-mono text-sm text-body">{ex ? ex.hex : "—"}</span>
               <button type="button" onClick={() => setRows((r) => r.filter((_, idx) => idx !== i))}
-                disabled={rows.length <= 1} aria-label={`Remove field ${i + 1}`}
+                disabled={rows.length <= 1} aria-label={t("Remove field {n}").replace("{n}", String(i + 1))}
                 className="rounded-btn border border-line-strong px-2 py-1 text-sm text-mute transition-colors hover:border-mute hover:text-body disabled:opacity-40">
                 −
               </button>
@@ -131,7 +133,7 @@ export function BitFieldTool() {
       <button type="button"
         onClick={() => setRows((r) => [...r, { name: `field ${r.length + 1}`, lsb: "0", width: "1" }])}
         className="mt-2.5 rounded-btn border border-line-strong px-3 py-1.5 text-sm text-body transition-colors hover:border-mute">
-        + Add field
+        {t("+ Add field")}
       </button>
     </div>
   );

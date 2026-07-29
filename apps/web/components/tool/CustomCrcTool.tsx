@@ -13,15 +13,17 @@ import {
 } from "@testbench/engine";
 import { HexInput, type InputMode } from "@/components/tool/HexInput";
 import { ResultCard } from "@/components/tool/ResultCard";
+import { useToolText } from "@/components/tool/useToolText";
 
 function parseHexField(s: string): number | null {
-  const t = s.trim().replace(/^0x/i, "");
-  if (t === "" || !/^[0-9a-fA-F]{1,8}$/.test(t)) return null;
-  return parseInt(t, 16) >>> 0;
+  const raw = s.trim().replace(/^0x/i, "");
+  if (raw === "" || !/^[0-9a-fA-F]{1,8}$/.test(raw)) return null;
+  return parseInt(raw, 16) >>> 0;
 }
 
 /** Fully parameterized CRC panel: width / poly / init / reflect / xorout. */
 export function CustomCrcTool() {
+  const t = useToolText();
   // Defaults = the §9.1 worked example: CRC-8, poly 0xD5, init 0xFF → 0x7C.
   const [input, setInput] = useState("123456789");
   const [mode, setMode] = useState<InputMode>("ascii");
@@ -34,8 +36,8 @@ export function CustomCrcTool() {
   const [refout, setRefout] = useState(false);
 
   useEffect(() => {
-    const t = setTimeout(() => setDebounced(input), 150);
-    return () => clearTimeout(t);
+    const h = setTimeout(() => setDebounced(input), 150);
+    return () => clearTimeout(h);
   }, [input]);
 
   const { bytes, error } = useMemo((): {
@@ -81,7 +83,7 @@ export function CustomCrcTool() {
 
           <div className="mt-4">
             <label htmlFor="load-preset" className="text-xs font-medium uppercase tracking-wide text-mute">
-              Load preset
+              {t("Load preset")}
             </label>
             <select
               id="load-preset"
@@ -89,7 +91,7 @@ export function CustomCrcTool() {
               onChange={(e) => e.target.value && loadPreset(e.target.value)}
               className={`${fieldCls} border-line-strong`}
             >
-              <option value="">— choose a known model —</option>
+              <option value="">{t("— choose a known model —")}</option>
               {CRC_PRESETS.map((p) => (
                 <option key={p.name} value={p.name}>
                   {p.name}
@@ -100,7 +102,7 @@ export function CustomCrcTool() {
 
           <div className="mt-4 grid grid-cols-2 gap-3">
             <div>
-              <label htmlFor="crc-width" className="text-xs font-medium uppercase tracking-wide text-mute">Width (1–32)</label>
+              <label htmlFor="crc-width" className="text-xs font-medium uppercase tracking-wide text-mute">{t("Width (1–32)")}</label>
               <input
                 id="crc-width"
                 type="number"
@@ -112,7 +114,7 @@ export function CustomCrcTool() {
               />
             </div>
             <div>
-              <label htmlFor="crc-poly" className="text-xs font-medium uppercase tracking-wide text-mute">Polynomial (hex)</label>
+              <label htmlFor="crc-poly" className="text-xs font-medium uppercase tracking-wide text-mute">{t("Polynomial (hex)")}</label>
               <input
                 id="crc-poly"
                 value={poly}
@@ -122,7 +124,7 @@ export function CustomCrcTool() {
               />
             </div>
             <div>
-              <label htmlFor="crc-init" className="text-xs font-medium uppercase tracking-wide text-mute">Init (hex)</label>
+              <label htmlFor="crc-init" className="text-xs font-medium uppercase tracking-wide text-mute">{t("Init (hex)")}</label>
               <input
                 id="crc-init"
                 value={init}
@@ -132,7 +134,7 @@ export function CustomCrcTool() {
               />
             </div>
             <div>
-              <label htmlFor="crc-xorout" className="text-xs font-medium uppercase tracking-wide text-mute">XorOut (hex)</label>
+              <label htmlFor="crc-xorout" className="text-xs font-medium uppercase tracking-wide text-mute">{t("XorOut (hex)")}</label>
               <input
                 id="crc-xorout"
                 value={xorout}
@@ -159,18 +161,18 @@ export function CustomCrcTool() {
           {value !== null && bytes ? (
             <>
               <ResultCard
-                label={`CRC-${width} result`}
+                label={`CRC-${width} ${t("result")}`}
                 value={"0x" + value.toString(16).toUpperCase().padStart(hexDigits, "0")}
                 size="lg"
               />
-              <ResultCard label="Bytes (little-endian)" value={bytesToHex(crcBytes(value, width).le)} />
-              <ResultCard label="Bytes (big-endian)" value={bytesToHex(crcBytes(value, width).be)} />
-              <ResultCard label="Decimal" value={String(value)} />
-              <p className="pt-1 font-mono text-xs text-mute">{bytes.length} bytes in</p>
+              <ResultCard label={t("Bytes (little-endian)")} value={bytesToHex(crcBytes(value, width).le)} />
+              <ResultCard label={t("Bytes (big-endian)")} value={bytesToHex(crcBytes(value, width).be)} />
+              <ResultCard label={t("Decimal")} value={String(value)} />
+              <p className="pt-1 font-mono text-xs text-mute">{bytes.length} {t("bytes in")}</p>
             </>
           ) : (
             <p className="text-sm text-mute">
-              {error ? "Fix the input to see results." : "Fix the highlighted parameters to see results."}
+              {t(error ? "Fix the input to see results." : "Fix the highlighted parameters to see results.")}
             </p>
           )}
         </div>

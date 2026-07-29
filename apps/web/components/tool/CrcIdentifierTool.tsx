@@ -9,6 +9,7 @@ import {
   type CrcParams,
   type CrcSample,
 } from "@testbench/engine";
+import { useToolText } from "@/components/tool/useToolText";
 import type { SearchEvent, SearchRequest } from "@/workers/crc-search.worker";
 
 interface Row {
@@ -33,6 +34,7 @@ function fmtHex(v: number, width: number): string {
 }
 
 export function CrcIdentifierTool() {
+  const t = useToolText();
   const [rows, setRows] = useState<Row[]>([
     { dataText: "123456789", checksumText: "4B37" },
     { dataText: "", checksumText: "" },
@@ -47,8 +49,8 @@ export function CrcIdentifierTool() {
   const workerRef = useRef<Worker | null>(null);
 
   useEffect(() => {
-    const t = setTimeout(() => setDebouncedRows(rows), 150);
-    return () => clearTimeout(t);
+    const h = setTimeout(() => setDebouncedRows(rows), 150);
+    return () => clearTimeout(h);
   }, [rows]);
 
   useEffect(() => () => workerRef.current?.terminate(), []);
@@ -122,9 +124,9 @@ export function CrcIdentifierTool() {
       {/* sample pairs */}
       <div className="flex items-center justify-between">
         <span className="text-xs font-medium uppercase tracking-wide text-mute">
-          Known (data, checksum) pairs
+          {t("Known (data, checksum) pairs")}
         </span>
-        <div className="flex rounded-btn border border-line-strong p-0.5" role="tablist" aria-label="Data mode">
+        <div className="flex rounded-btn border border-line-strong p-0.5" role="tablist" aria-label={t("Data mode")}>
           {(["ascii", "hex"] as const).map((m) => (
             <button
               key={m}
@@ -148,24 +150,24 @@ export function CrcIdentifierTool() {
             <input
               value={row.dataText}
               onChange={(e) => updateRow(i, { dataText: e.target.value })}
-              placeholder={mode === "ascii" ? "data e.g. 123456789" : "data e.g. 01 03 00 00 00 0A"}
+              placeholder={t(mode === "ascii" ? "data e.g. 123456789" : "data e.g. 01 03 00 00 00 0A")}
               spellCheck={false}
-              aria-label={`Sample ${i + 1} data`}
+              aria-label={t("Sample {n} data").replace("{n}", String(i + 1))}
               className={`${inputCls} ${rowErrors[i] === "data" ? "border-err" : "border-line-strong"}`}
             />
             <input
               value={row.checksumText}
               onChange={(e) => updateRow(i, { checksumText: e.target.value })}
-              placeholder="checksum e.g. 4B37"
+              placeholder={t("checksum e.g. 4B37")}
               spellCheck={false}
-              aria-label={`Sample ${i + 1} checksum`}
+              aria-label={t("Sample {n} checksum").replace("{n}", String(i + 1))}
               className={`${inputCls} ${rowErrors[i] === "checksum" ? "border-err" : "border-line-strong"}`}
             />
             <button
               type="button"
               onClick={() => setRows((r) => r.filter((_, idx) => idx !== i))}
               disabled={rows.length <= 1}
-              aria-label={`Remove sample ${i + 1}`}
+              aria-label={t("Remove sample {n}").replace("{n}", String(i + 1))}
               className="rounded-btn border border-line-strong px-3 py-2 text-sm text-mute transition-colors hover:border-mute hover:text-body disabled:opacity-40"
             >
               −
@@ -178,19 +180,19 @@ export function CrcIdentifierTool() {
         onClick={() => setRows((r) => [...r, { dataText: "", checksumText: "" }])}
         className="mt-2.5 rounded-btn border border-line-strong px-3 py-1.5 text-sm text-body transition-colors hover:border-mute"
       >
-        + Add pair
+        {t("+ Add pair")}
       </button>
 
       {/* catalog matches */}
       <div className="mt-6">
         <h3 className="text-xs font-medium uppercase tracking-wide text-mute">
-          Catalog matches ({catalogMatches.length})
+          {t("Catalog matches")} ({catalogMatches.length})
         </h3>
         {samples.length === 0 ? (
-          <p className="mt-2 text-sm text-mute">Enter at least one valid pair.</p>
+          <p className="mt-2 text-sm text-mute">{t("Enter at least one valid pair.")}</p>
         ) : catalogMatches.length === 0 ? (
           <p className="mt-2 font-mono text-sm text-warn">
-            No catalog algorithm matches all pairs — try the deep search below.
+            {t("No catalog algorithm matches all pairs — try the deep search below.")}
           </p>
         ) : (
           <ul className="mt-2 space-y-1.5">
@@ -210,7 +212,7 @@ export function CrcIdentifierTool() {
         )}
         {samples.length === 1 && catalogMatches.length > 1 && (
           <p className="mt-2 text-xs text-mute">
-            Add a second pair to narrow the candidates.
+            {t("Add a second pair to narrow the candidates.")}
           </p>
         )}
       </div>
@@ -219,17 +221,17 @@ export function CrcIdentifierTool() {
       <div className="mt-6 border-t border-line-soft pt-4">
         <div className="flex flex-wrap items-center gap-3">
           <h3 className="text-xs font-medium uppercase tracking-wide text-mute">
-            Deep search (exhaustive, in a Web Worker)
+            {t("Deep search (exhaustive, in a Web Worker)")}
           </h3>
           <select
             value={searchWidth}
             onChange={(e) => setSearchWidth(Number(e.target.value) as 8 | 16)}
             disabled={searching}
-            aria-label="Search width"
+            aria-label={t("Search width")}
             className="rounded-btn border border-line-strong bg-well px-2 py-1 font-mono text-xs text-ink outline-none"
           >
-            <option value={8}>width 8</option>
-            <option value={16}>width 16</option>
+            <option value={8}>{t("width 8")}</option>
+            <option value={16}>{t("width 16")}</option>
           </select>
           {!searching ? (
             <button
@@ -238,7 +240,7 @@ export function CrcIdentifierTool() {
               disabled={samples.length === 0}
               className="rounded-btn bg-ink px-3 py-1.5 text-sm font-medium text-canvas transition hover:opacity-90 active:scale-[0.98] disabled:opacity-40"
             >
-              Search all polynomials
+              {t("Search all polynomials")}
             </button>
           ) : (
             <button
@@ -246,7 +248,7 @@ export function CrcIdentifierTool() {
               onClick={cancelSearch}
               className="rounded-btn border border-line-strong px-3 py-1.5 text-sm text-body transition-colors hover:border-mute"
             >
-              Cancel
+              {t("Cancel")}
             </button>
           )}
         </div>
@@ -261,8 +263,12 @@ export function CrcIdentifierTool() {
             </div>
             <p className="mt-1.5 font-mono text-xs text-mute">
               {searching
-                ? `sweeping polynomials… ${Math.round(progress * 100)}%`
-                : `done — ${deepResults.length} parameter set${deepResults.length === 1 ? "" : "s"} found`}
+                ? `${t("sweeping polynomials…")} ${Math.round(progress * 100)}%`
+                : t(
+                    deepResults.length === 1
+                      ? "done — {n} parameter set found"
+                      : "done — {n} parameter sets found",
+                  ).replace("{n}", String(deepResults.length))}
             </p>
           </div>
         )}

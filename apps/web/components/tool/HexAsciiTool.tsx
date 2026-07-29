@@ -3,14 +3,16 @@
 import { useEffect, useMemo, useState } from "react";
 import { asciiToBytes, bytesToAscii, bytesToHex, parseHex } from "@testbench/engine";
 import { CopyButton } from "@/components/CopyButton";
+import { useToolText } from "@/components/tool/useToolText";
 
 export function HexAsciiTool({ direction }: { direction: "hexToAscii" | "asciiToHex" }) {
+  const t = useToolText();
   const [input, setInput] = useState(direction === "hexToAscii" ? "48 69" : "Hi");
   const [debounced, setDebounced] = useState(input);
 
   useEffect(() => {
-    const t = setTimeout(() => setDebounced(input), 150);
-    return () => clearTimeout(t);
+    const h = setTimeout(() => setDebounced(input), 150);
+    return () => clearTimeout(h);
   }, [input]);
 
   const { output, error, byteCount } = useMemo(() => {
@@ -28,7 +30,7 @@ export function HexAsciiTool({ direction }: { direction: "hexToAscii" | "asciiTo
       <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
         <div>
           <label htmlFor="ha-in" className="text-xs font-medium uppercase tracking-wide text-mute">
-            {direction === "hexToAscii" ? "Hex bytes" : "ASCII text"}
+            {direction === "hexToAscii" ? t("Hex bytes") : t("ASCII text")}
           </label>
           <textarea
             id="ha-in"
@@ -43,15 +45,19 @@ export function HexAsciiTool({ direction }: { direction: "hexToAscii" | "asciiTo
           />
           {error && (
             <p className="mt-1.5 font-mono text-xs text-err" role="alert">
-              Invalid character “{error.char}” at position {error.index}
+              {t("Invalid character “{char}” at position {index}")
+                .replace("{char}", error.char)
+                .replace("{index}", String(error.index))}
             </p>
           )}
-          <p className="mt-1.5 font-mono text-xs text-mute">{byteCount} bytes</p>
+          <p className="mt-1.5 font-mono text-xs text-mute">
+            {byteCount} {t("bytes")}
+          </p>
         </div>
         <div>
           <div className="flex items-center justify-between">
             <span className="text-xs font-medium uppercase tracking-wide text-mute">
-              {direction === "hexToAscii" ? "ASCII text" : "Hex bytes"}
+              {direction === "hexToAscii" ? t("ASCII text") : t("Hex bytes")}
             </span>
             <CopyButton text={output} />
           </div>
@@ -59,7 +65,7 @@ export function HexAsciiTool({ direction }: { direction: "hexToAscii" | "asciiTo
             {output || <span className="text-mute">—</span>}
           </pre>
           {direction === "hexToAscii" && (
-            <p className="mt-1.5 text-xs text-mute">Non-printable bytes are shown as “.”</p>
+            <p className="mt-1.5 text-xs text-mute">{t("Non-printable bytes are shown as “.”")}</p>
           )}
         </div>
       </div>

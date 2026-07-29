@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { formatInBase, parseInBase, type NumberBase } from "@testbench/engine";
 import { CopyButton } from "@/components/CopyButton";
+import { useToolText } from "@/components/tool/useToolText";
 
 const BASES: { base: NumberBase; label: string; prefix: string }[] = [
   { base: 2, label: "Binary", prefix: "0b" },
@@ -13,6 +14,7 @@ const BASES: { base: NumberBase; label: string; prefix: string }[] = [
 
 /** Four synced fields — edit any base, the other three follow. */
 export function NumberBaseTool() {
+  const t = useToolText();
   const [texts, setTexts] = useState<Record<NumberBase, string>>({
     2: "11111111",
     8: "377",
@@ -50,7 +52,7 @@ export function NumberBaseTool() {
           <div key={base}>
             <div className="flex items-center justify-between">
               <label htmlFor={`base-${base}`} className="text-xs font-medium uppercase tracking-wide text-mute">
-                {label} {prefix && <span className="font-mono normal-case">({prefix})</span>}
+                {t(label)} {prefix && <span className="font-mono normal-case">({prefix})</span>}
               </label>
               <CopyButton text={texts[base]} />
             </div>
@@ -65,7 +67,9 @@ export function NumberBaseTool() {
             />
             {errorBase === base && (
               <p className="mt-1.5 font-mono text-xs text-err" role="alert">
-                Invalid digit for base {base} at position {errorIndex}
+                {t("Invalid digit for base {base} at position {index}")
+                  .replace("{base}", String(base))
+                  .replace("{index}", String(errorIndex))}
               </p>
             )}
           </div>

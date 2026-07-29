@@ -3,7 +3,9 @@
 import { useEffect, useMemo, useState } from "react";
 import { decodeStatusWord } from "@testbench/engine";
 import { ResultCard } from "@/components/tool/ResultCard";
+import { useToolText } from "@/components/tool/useToolText";
 
+// Flag names are quoted verbatim from MIL-STD-1553B and stay in English.
 const FLAGS: { key: keyof ReturnType<typeof decodeStatusWord>; label: string; bit: number }[] = [
   { key: "messageError", label: "Message Error", bit: 10 },
   { key: "instrumentation", label: "Instrumentation (reserved 0)", bit: 9 },
@@ -16,35 +18,36 @@ const FLAGS: { key: keyof ReturnType<typeof decodeStatusWord>; label: string; bi
 ];
 
 export function Mil1553StatusTool() {
+  const t = useToolText();
   const [wordText, setWordText] = useState("1800");
   const [d, setD] = useState(wordText);
 
   useEffect(() => {
-    const t = setTimeout(() => setD(wordText), 150);
-    return () => clearTimeout(t);
+    const h = setTimeout(() => setD(wordText), 150);
+    return () => clearTimeout(h);
   }, [wordText]);
 
   const status = useMemo(() => {
-    const t = d.trim().replace(/^0x/i, "");
-    if (!/^[0-9a-fA-F]{1,4}$/.test(t)) return null;
-    return decodeStatusWord(parseInt(t, 16));
+    const hex = d.trim().replace(/^0x/i, "");
+    if (!/^[0-9a-fA-F]{1,4}$/.test(hex)) return null;
+    return decodeStatusWord(parseInt(hex, 16));
   }, [d]);
 
   return (
     <div className="rounded-card border border-line-strong bg-surface p-4 sm:p-5">
       <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
         <div>
-          <label htmlFor="sw-word" className="text-xs font-medium uppercase tracking-wide text-mute">Status word (16-bit hex)</label>
+          <label htmlFor="sw-word" className="text-xs font-medium uppercase tracking-wide text-mute">{t("Status word (16-bit hex)")}</label>
           <input id="sw-word" value={wordText} onChange={(e) => setWordText(e.target.value)} spellCheck={false}
             className={`mt-1.5 w-full rounded-btn border bg-well px-3 py-2 font-mono text-lg text-ink outline-none transition-colors focus:border-mute ${status === null ? "border-err" : "border-line-strong"}`} />
-          {status === null && <p className="mt-1.5 font-mono text-xs text-err">Enter up to 4 hex digits.</p>}
+          {status === null && <p className="mt-1.5 font-mono text-xs text-err">{t("Enter up to 4 hex digits.")}</p>}
           {status && (
             <>
               <div className="mt-3">
-                <ResultCard label="RT address" value={String(status.rtAddress)} size="lg" />
+                <ResultCard label={t("RT address")} value={String(status.rtAddress)} size="lg" />
               </div>
               <p className="mt-3 font-mono text-xs text-mute">
-                bits 15–11 RT address · 10–0 status flags · odd parity {status.parity}
+                {t("bits 15–11 RT address · 10–0 status flags · odd parity")} {status.parity}
               </p>
             </>
           )}
@@ -55,9 +58,9 @@ export function Mil1553StatusTool() {
               <table className="w-full text-left text-sm">
                 <thead>
                   <tr className="border-b border-line-soft text-xs uppercase tracking-wide text-mute">
-                    <th className="px-3 py-2 font-medium">Bit</th>
-                    <th className="px-3 py-2 font-medium">Flag</th>
-                    <th className="px-3 py-2 font-medium">State</th>
+                    <th className="px-3 py-2 font-medium">{t("Bit")}</th>
+                    <th className="px-3 py-2 font-medium">{t("Flag")}</th>
+                    <th className="px-3 py-2 font-medium">{t("State")}</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -67,7 +70,7 @@ export function Mil1553StatusTool() {
                       <tr key={f.key} className="border-b border-line-soft last:border-0">
                         <td className="px-3 py-2 font-mono text-[13px] text-mute">{f.bit}</td>
                         <td className="px-3 py-2 text-body">{f.label}</td>
-                        <td className={`px-3 py-2 font-mono text-[13px] ${on ? "text-ok" : "text-mute"}`}>{on ? "1 · set" : "0"}</td>
+                        <td className={`px-3 py-2 font-mono text-[13px] ${on ? "text-ok" : "text-mute"}`}>{on ? `1 · ${t("set")}` : "0"}</td>
                       </tr>
                     );
                   })}

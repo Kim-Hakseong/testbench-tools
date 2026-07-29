@@ -12,6 +12,7 @@ import {
 } from "@testbench/engine";
 import { HexInput, type InputMode } from "@/components/tool/HexInput";
 import { ResultCard } from "@/components/tool/ResultCard";
+import { useToolText } from "@/components/tool/useToolText";
 
 /**
  * Preset-based CRC calculator panel. With multiple `presetNames` a variant
@@ -27,14 +28,15 @@ export function CrcTool({
   initialInput?: string;
   initialMode?: InputMode;
 }) {
+  const t = useToolText();
   const [input, setInput] = useState(initialInput);
   const [mode, setMode] = useState<InputMode>(initialMode);
   const [presetName, setPresetName] = useState(presetNames[0]!);
   const [debounced, setDebounced] = useState(input);
 
   useEffect(() => {
-    const t = setTimeout(() => setDebounced(input), 150);
-    return () => clearTimeout(t);
+    const h = setTimeout(() => setDebounced(input), 150);
+    return () => clearTimeout(h);
   }, [input]);
 
   const { bytes, error } = useMemo((): {
@@ -64,7 +66,7 @@ export function CrcTool({
           {presetNames.length > 1 && (
             <div className="mt-4">
               <label htmlFor="crc-variant" className="text-xs font-medium uppercase tracking-wide text-mute">
-                Variant
+                {t("Variant")}
               </label>
               <select
                 id="crc-variant"
@@ -81,7 +83,7 @@ export function CrcTool({
             </div>
           )}
           {bytes && (
-            <p className="mt-3 font-mono text-xs text-mute">{bytes.length} bytes</p>
+            <p className="mt-3 font-mono text-xs text-mute">{bytes.length} {t("bytes")}</p>
           )}
         </div>
         <div className="space-y-2.5">
@@ -92,12 +94,12 @@ export function CrcTool({
                 value={"0x" + value.toString(16).toUpperCase().padStart(hexDigits, "0")}
                 size="lg"
               />
-              <ResultCard label="Bytes (little-endian)" value={bytesToHex(crcBytes(value, preset.width).le)} />
-              <ResultCard label="Bytes (big-endian)" value={bytesToHex(crcBytes(value, preset.width).be)} />
-              <ResultCard label="Decimal" value={String(value)} />
+              <ResultCard label={t("Bytes (little-endian)")} value={bytesToHex(crcBytes(value, preset.width).le)} />
+              <ResultCard label={t("Bytes (big-endian)")} value={bytesToHex(crcBytes(value, preset.width).be)} />
+              <ResultCard label={t("Decimal")} value={String(value)} />
             </>
           ) : (
-            <p className="text-sm text-mute">Fix the input to see results.</p>
+            <p className="text-sm text-mute">{t("Fix the input to see results.")}</p>
           )}
         </div>
       </div>

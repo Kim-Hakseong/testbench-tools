@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { scale, scaleCurrent, type LoopStatus } from "@testbench/engine";
 import { ResultCard } from "@/components/tool/ResultCard";
+import { useToolText } from "@/components/tool/useToolText";
 
 const STATUS_LABEL: Record<LoopStatus, { text: string; cls: string }> = {
   "open-loop": { text: "OPEN LOOP — check wiring / transmitter", cls: "border-err/40 text-err" },
@@ -20,6 +21,7 @@ const fieldCls =
   "mt-1.5 w-full rounded-btn border bg-well px-3 py-2 font-mono text-sm text-ink outline-none transition-colors focus:border-mute";
 
 export function FourTwentyTool() {
+  const t = useToolText();
   const [direction, setDirection] = useState<"toPv" | "toMa">("toPv");
   const [maText, setMaText] = useState("12");
   const [pvText, setPvText] = useState("100");
@@ -29,8 +31,8 @@ export function FourTwentyTool() {
   const [d, setD] = useState({ maText, pvText, loText, hiText });
 
   useEffect(() => {
-    const t = setTimeout(() => setD({ maText, pvText, loText, hiText }), 150);
-    return () => clearTimeout(t);
+    const h = setTimeout(() => setD({ maText, pvText, loText, hiText }), 150);
+    return () => clearTimeout(h);
   }, [maText, pvText, loText, hiText]);
 
   const lo = num(d.loText);
@@ -52,7 +54,7 @@ export function FourTwentyTool() {
 
   return (
     <div className="rounded-card border border-line-strong bg-surface p-4 sm:p-5">
-      <div className="flex rounded-btn border border-line-strong p-0.5" role="tablist" aria-label="Direction">
+      <div className="flex rounded-btn border border-line-strong p-0.5" role="tablist" aria-label={t("Direction")}>
         {(
           [
             ["toPv", "mA → Value"],
@@ -69,7 +71,7 @@ export function FourTwentyTool() {
               direction === key ? "bg-elevated text-ink" : "text-mute hover:text-body"
             }`}
           >
-            {label}
+            {t(label)}
           </button>
         ))}
       </div>
@@ -78,29 +80,29 @@ export function FourTwentyTool() {
         <div className="grid grid-cols-2 gap-3">
           {direction === "toPv" ? (
             <div className="col-span-2">
-              <label htmlFor="ft-ma" className="text-xs font-medium uppercase tracking-wide text-mute">Loop current (mA)</label>
+              <label htmlFor="ft-ma" className="text-xs font-medium uppercase tracking-wide text-mute">{t("Loop current (mA)")}</label>
               <input id="ft-ma" value={maText} onChange={(e) => setMaText(e.target.value)} spellCheck={false}
                 className={`${fieldCls} ${ma === null ? "border-err" : "border-line-strong"}`} />
             </div>
           ) : (
             <div className="col-span-2">
-              <label htmlFor="ft-pv" className="text-xs font-medium uppercase tracking-wide text-mute">Process value ({unit || "unit"})</label>
+              <label htmlFor="ft-pv" className="text-xs font-medium uppercase tracking-wide text-mute">{t("Process value")} ({unit || t("unit")})</label>
               <input id="ft-pv" value={pvText} onChange={(e) => setPvText(e.target.value)} spellCheck={false}
                 className={`${fieldCls} ${pv === null ? "border-err" : "border-line-strong"}`} />
             </div>
           )}
           <div>
-            <label htmlFor="ft-lo" className="text-xs font-medium uppercase tracking-wide text-mute">Range low (= 4 mA)</label>
+            <label htmlFor="ft-lo" className="text-xs font-medium uppercase tracking-wide text-mute">{t("Range low (= 4 mA)")}</label>
             <input id="ft-lo" value={loText} onChange={(e) => setLoText(e.target.value)} spellCheck={false}
               className={`${fieldCls} ${lo === null ? "border-err" : "border-line-strong"}`} />
           </div>
           <div>
-            <label htmlFor="ft-hi" className="text-xs font-medium uppercase tracking-wide text-mute">Range high (= 20 mA)</label>
+            <label htmlFor="ft-hi" className="text-xs font-medium uppercase tracking-wide text-mute">{t("Range high (= 20 mA)")}</label>
             <input id="ft-hi" value={hiText} onChange={(e) => setHiText(e.target.value)} spellCheck={false}
               className={`${fieldCls} ${hi === null || hi === lo ? "border-err" : "border-line-strong"}`} />
           </div>
           <div className="col-span-2">
-            <label htmlFor="ft-unit" className="text-xs font-medium uppercase tracking-wide text-mute">Unit label</label>
+            <label htmlFor="ft-unit" className="text-xs font-medium uppercase tracking-wide text-mute">{t("Unit label")}</label>
             <input id="ft-unit" value={unit} onChange={(e) => setUnit(e.target.value)} spellCheck={false}
               className={`${fieldCls} border-line-strong`} />
           </div>
@@ -108,19 +110,19 @@ export function FourTwentyTool() {
 
         <div className="space-y-2.5">
           {result === null ? (
-            <p className="text-sm text-mute">Fix the highlighted inputs to see results.</p>
+            <p className="text-sm text-mute">{t("Fix the highlighted inputs to see results.")}</p>
           ) : result.kind === "pv" ? (
             <>
               <p className={`rounded-btn border px-3 py-2 font-mono text-sm ${STATUS_LABEL[result.status].cls}`}>
-                {STATUS_LABEL[result.status].text}
+                {t(STATUS_LABEL[result.status].text)}
               </p>
-              <ResultCard label={`Process value (${unit || "unit"})`} value={result.value.toFixed(4).replace(/\.?0+$/, "") || "0"} size="lg" />
-              <ResultCard label="Percent of span" value={`${result.percentOfSpan.toFixed(2)} %`} />
+              <ResultCard label={`${t("Process value")} (${unit || t("unit")})`} value={result.value.toFixed(4).replace(/\.?0+$/, "") || "0"} size="lg" />
+              <ResultCard label={t("Percent of span")} value={`${result.percentOfSpan.toFixed(2)} %`} />
             </>
           ) : (
             <>
-              <ResultCard label="Loop current" value={`${result.mA.toFixed(4).replace(/\.?0+$/, "")} mA`} size="lg" />
-              <ResultCard label="Percent of span" value={`${result.percentOfSpan.toFixed(2)} %`} />
+              <ResultCard label={t("Loop current")} value={`${result.mA.toFixed(4).replace(/\.?0+$/, "")} mA`} size="lg" />
+              <ResultCard label={t("Percent of span")} value={`${result.percentOfSpan.toFixed(2)} %`} />
             </>
           )}
         </div>

@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { scale } from "@testbench/engine";
 import { ResultCard } from "@/components/tool/ResultCard";
+import { useToolText } from "@/components/tool/useToolText";
 
 // Conventional instrumentation signal spans
 const RANGES = [
@@ -20,6 +21,7 @@ const fieldCls =
   "mt-1.5 w-full rounded-btn border bg-well px-3 py-2 font-mono text-sm text-ink outline-none transition-colors focus:border-mute";
 
 export function SignalConverterTool() {
+  const t = useToolText();
   const [fromId, setFromId] = useState<RangeId>("4-20ma");
   const [toId, setToId] = useState<RangeId>("1-5v");
   const [valText, setValText] = useState("12");
@@ -48,7 +50,7 @@ export function SignalConverterTool() {
         <div className="space-y-3">
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <label htmlFor="sc-from" className="text-xs font-medium uppercase tracking-wide text-mute">From</label>
+              <label htmlFor="sc-from" className="text-xs font-medium uppercase tracking-wide text-mute">{t("From")}</label>
               <select id="sc-from" value={fromId} onChange={(e) => setFromId(e.target.value as RangeId)} className={`${fieldCls} border-line-strong`}>
                 {RANGES.map((r) => (
                   <option key={r.id} value={r.id}>{r.label}</option>
@@ -56,7 +58,7 @@ export function SignalConverterTool() {
               </select>
             </div>
             <div>
-              <label htmlFor="sc-to" className="text-xs font-medium uppercase tracking-wide text-mute">To</label>
+              <label htmlFor="sc-to" className="text-xs font-medium uppercase tracking-wide text-mute">{t("To")}</label>
               <select id="sc-to" value={toId} onChange={(e) => setToId(e.target.value as RangeId)} className={`${fieldCls} border-line-strong`}>
                 {RANGES.map((r) => (
                   <option key={r.id} value={r.id}>{r.label}</option>
@@ -66,14 +68,17 @@ export function SignalConverterTool() {
           </div>
           <div>
             <label htmlFor="sc-val" className="text-xs font-medium uppercase tracking-wide text-mute">
-              Value ({from.unit})
+              {t("Value")} ({from.unit})
             </label>
             <input id="sc-val" value={valText} onChange={(e) => setValText(e.target.value)} spellCheck={false}
               className={`${fieldCls} ${value === null ? "border-err" : "border-line-strong"}`} />
           </div>
           {(under || over) && (
             <p className="rounded-btn border border-warn/40 px-3 py-2 font-mono text-xs text-warn">
-              Value is outside the {from.label} span — converting by linear extrapolation.
+              {t("Value is outside the {span} span — converting by linear extrapolation.").replace(
+                "{span}",
+                from.label,
+              )}
             </p>
           )}
         </div>
@@ -81,9 +86,9 @@ export function SignalConverterTool() {
         <div className="space-y-2.5">
           {converted !== null && (
             <>
-              <ResultCard label={`${to.label} equivalent`} value={`${converted.toFixed(4).replace(/\.?0+$/, "")} ${to.unit}`} size="lg" />
-              <ResultCard label="Percent of span" value={`${percent!.toFixed(2)} %`} />
-              <ResultCard label={`Span mapping`} value={`${from.label} → ${to.label}`} />
+              <ResultCard label={`${to.label} ${t("equivalent")}`} value={`${converted.toFixed(4).replace(/\.?0+$/, "")} ${to.unit}`} size="lg" />
+              <ResultCard label={t("Percent of span")} value={`${percent!.toFixed(2)} %`} />
+              <ResultCard label={t("Span mapping")} value={`${from.label} → ${to.label}`} />
             </>
           )}
         </div>

@@ -11,6 +11,7 @@ import {
   wattsFromDbm,
 } from "@testbench/engine";
 import { ResultCard } from "@/components/tool/ResultCard";
+import { useToolText } from "@/components/tool/useToolText";
 
 type Mode = "dbm" | "power" | "voltage";
 
@@ -28,14 +29,15 @@ function fmt(x: number): string {
 }
 
 export function DbDbmTool() {
+  const t = useToolText();
   const [mode, setMode] = useState<Mode>("dbm");
-  const [t, setT] = useState({ dbm: "0", ratio: "2", db: "3", z: "50", dir: "toDb" as "toDb" | "toRatio" });
-  const [d, setD] = useState(t);
+  const [form, setForm] = useState({ dbm: "0", ratio: "2", db: "3", z: "50", dir: "toDb" as "toDb" | "toRatio" });
+  const [d, setD] = useState(form);
 
   useEffect(() => {
-    const h = setTimeout(() => setD(t), 150);
+    const h = setTimeout(() => setD(form), 150);
     return () => clearTimeout(h);
-  }, [t]);
+  }, [form]);
 
   const dbmV = num(d.dbm);
   const ratioV = num(d.ratio);
@@ -62,17 +64,17 @@ export function DbDbmTool() {
     return { kind: "ratio", ratio: mode === "power" ? powerRatioFromDb(dbV) : voltageRatioFromDb(dbV) };
   }, [mode, d.dir, dbmV, ratioV, dbV, zV]);
 
-  const set = (k: keyof typeof t) => (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) =>
-    setT((p) => ({ ...p, [k]: e.target.value }));
+  const set = (k: keyof typeof form) => (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) =>
+    setForm((p) => ({ ...p, [k]: e.target.value }));
 
   return (
     <div className="rounded-card border border-line-strong bg-surface p-4 sm:p-5">
-      <div className="flex rounded-btn border border-line-strong p-0.5" role="tablist" aria-label="Mode">
+      <div className="flex rounded-btn border border-line-strong p-0.5" role="tablist" aria-label={t("Mode")}>
         {([["dbm", "dBm ↔ power"], ["power", "Power ratio ↔ dB"], ["voltage", "Voltage ratio ↔ dB"]] as const).map(([k, label]) => (
           <button key={k} type="button" role="tab" aria-selected={mode === k}
             onClick={() => setMode(k)}
             className={`flex-1 rounded-[6px] px-2 py-1.5 text-sm transition-colors ${mode === k ? "bg-elevated text-ink" : "text-mute hover:text-body"}`}>
-            {label}
+            {t(label)}
           </button>
         ))}
       </div>
@@ -82,36 +84,36 @@ export function DbDbmTool() {
           {mode === "dbm" ? (
             <>
               <div>
-                <label htmlFor="db-dbm" className="font-mono text-xs text-mute">Power (dBm)</label>
-                <input id="db-dbm" value={t.dbm} onChange={set("dbm")} spellCheck={false} className={`${fieldCls} ${dbmV === null ? "border-err" : "border-line-strong"}`} />
+                <label htmlFor="db-dbm" className="font-mono text-xs text-mute">{t("Power (dBm)")}</label>
+                <input id="db-dbm" value={form.dbm} onChange={set("dbm")} spellCheck={false} className={`${fieldCls} ${dbmV === null ? "border-err" : "border-line-strong"}`} />
               </div>
               <div>
-                <label htmlFor="db-z" className="font-mono text-xs text-mute">Impedance (Ω)</label>
-                <select id="db-z" value={t.z} onChange={set("z")} className={`${fieldCls} border-line-strong`}>
-                  <option value="50">50 (RF)</option>
-                  <option value="75">75 (video)</option>
-                  <option value="600">600 (audio/telecom)</option>
+                <label htmlFor="db-z" className="font-mono text-xs text-mute">{t("Impedance (Ω)")}</label>
+                <select id="db-z" value={form.z} onChange={set("z")} className={`${fieldCls} border-line-strong`}>
+                  <option value="50">{t("50 (RF)")}</option>
+                  <option value="75">{t("75 (video)")}</option>
+                  <option value="600">{t("600 (audio/telecom)")}</option>
                 </select>
               </div>
             </>
           ) : (
             <>
               <div>
-                <label htmlFor="db-dir" className="font-mono text-xs text-mute">Direction</label>
-                <select id="db-dir" value={t.dir} onChange={set("dir")} className={`${fieldCls} border-line-strong`}>
-                  <option value="toDb">ratio → dB</option>
-                  <option value="toRatio">dB → ratio</option>
+                <label htmlFor="db-dir" className="font-mono text-xs text-mute">{t("Direction")}</label>
+                <select id="db-dir" value={form.dir} onChange={set("dir")} className={`${fieldCls} border-line-strong`}>
+                  <option value="toDb">{t("ratio → dB")}</option>
+                  <option value="toRatio">{t("dB → ratio")}</option>
                 </select>
               </div>
               {d.dir === "toDb" ? (
                 <div>
                   <label htmlFor="db-ratio" className="font-mono text-xs text-mute">{mode === "power" ? "P₂/P₁" : "V₂/V₁"}</label>
-                  <input id="db-ratio" value={t.ratio} onChange={set("ratio")} spellCheck={false} className={`${fieldCls} ${ratioV === null || ratioV <= 0 ? "border-err" : "border-line-strong"}`} />
+                  <input id="db-ratio" value={form.ratio} onChange={set("ratio")} spellCheck={false} className={`${fieldCls} ${ratioV === null || ratioV <= 0 ? "border-err" : "border-line-strong"}`} />
                 </div>
               ) : (
                 <div>
                   <label htmlFor="db-db" className="font-mono text-xs text-mute">dB</label>
-                  <input id="db-db" value={t.db} onChange={set("db")} spellCheck={false} className={`${fieldCls} ${dbV === null ? "border-err" : "border-line-strong"}`} />
+                  <input id="db-db" value={form.db} onChange={set("db")} spellCheck={false} className={`${fieldCls} ${dbV === null ? "border-err" : "border-line-strong"}`} />
                 </div>
               )}
             </>
@@ -126,16 +128,16 @@ export function DbDbmTool() {
         <div className="space-y-2.5">
           {result?.kind === "dbm" && (
             <>
-              <ResultCard label="Power" value={`${fmt(result.mw)} mW`} size="lg" />
-              <ResultCard label="Power (W)" value={`${fmt(result.w)} W`} />
+              <ResultCard label={t("Power")} value={`${fmt(result.mw)} mW`} size="lg" />
+              <ResultCard label={t("Power (W)")} value={`${fmt(result.w)} W`} />
               <ResultCard label={`Vrms @ ${d.z} Ω`} value={`${fmt(result.vrms)} V`} />
             </>
           )}
           {result?.kind === "db" && (
-            <ResultCard label="Level" value={`${fmt(result.db)} dB`} size="lg" />
+            <ResultCard label={t("Level")} value={`${fmt(result.db)} dB`} size="lg" />
           )}
           {result?.kind === "ratio" && (
-            <ResultCard label={mode === "power" ? "Power ratio" : "Voltage ratio"} value={fmt(result.ratio)} size="lg" />
+            <ResultCard label={t(mode === "power" ? "Power ratio" : "Voltage ratio")} value={fmt(result.ratio)} size="lg" />
           )}
         </div>
       </div>
