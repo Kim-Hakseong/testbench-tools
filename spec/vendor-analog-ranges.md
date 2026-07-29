@@ -234,6 +234,39 @@ URL(실제 취득): https://sftpssqblobcdn.blob.core.windows.net/prod/largefile/
 7. 1756-IF8 integer mode의 −32768/32767은 **정격 레인지 양끝이 아니라 확장 신호
    양끝**(0–20mA → 0 mA / 20.58 mA)에 대응한다. 위 ControlLogix 절 참조.
 
+
+### Rockwell / Allen-Bradley ControlLogix 절연·특수 입력 (1756-IF6CIS / -IF6I / -IR6I / -IT6I)
+
+- **문서**: `1756-UM009G-EN-P`, March 2025
+- **URL**: `https://literature.rockwellautomation.com/idc/groups/literature/documents/um/1756-um009_-en-p.pdf`
+- **위치**: Ch.3 → *Data Format as Related to Resolution and Scaling* → **Integer mode**,
+  표 *Input Signal to User Count Conversion*, p.31 — IF8과 **같은 표의 다른 행**
+- **적용 조건**: **integer mode 전용.** floating point mode에서는 모듈이 자체 스케일링하므로
+  raw 범위 개념이 성립하지 않는다(IF8과 동일).
+
+| 모듈 | 레인지 | −32768 카운트 | 32767 카운트 |
+|---|---|---|---|
+| 1756-IF6CIS | 0…20 mA | 0 mA | 21.09376 mA |
+| 1756-IF6I | ±10V | −10.54688 V | 10.54688 V |
+| 1756-IF6I | 0…10V | 0 V | 10.54688 V |
+| 1756-IF6I | 0…5V | 0 V | 5.27344 V |
+| 1756-IF6I | 0…20 mA | 0 mA | 21.09376 mA |
+| 1756-IR6I | 1…487 Ω | 0.859068653 Ω | 507.862 Ω |
+| 1756-IR6I | 2…1000 Ω | 2 Ω | 1016.502 Ω |
+| 1756-IR6I | 4…2000 Ω | 4 Ω | 2033.780 Ω |
+| 1756-IR6I | 8…4020 Ω | 8 Ω | 4068.392 Ω |
+| 1756-IT6I / -IT6I2 | −12…30 mV | −15.80323 mV | 31.396 mV |
+| 1756-IT6I / -IT6I2 | −12…78 mV | −15.15836 mV | 79.241 mV |
+
+- [주의] **IF8의 값을 재사용하면 안 된다.** 같은 0…20 mA인데 IF8은 20.58 mA,
+  IF6CIS·IF6I는 **21.09376 mA**에서 32767에 닿는다. 헤드룸이 모듈마다 다르다.
+- [주의] IR6I는 **저항(Ω)**, IT6I는 **단자 전압(mV)** 이다. IT6I가 돌려주는 것은 온도가
+  아니라 mV이므로, 온도로 바꾸려면 열전대 역함수가 따로 필요하다.
+- [주의] IR6I 1…487 Ω 레인지의 하한은 1 Ω이 아니라 **0.859068653 Ω**이다. 레인지 이름과
+  실제 끝점이 다른 대표적인 예.
+- [미구현·기록만] 같은 페이지의 **출력 모듈** 표: 1756-OF4/-OF8 0…20 mA = 0…21.2916 mA,
+  ±10V = ±10.4336 V. 필요해지면 재조사 없이 추가 가능.
+
 ## 구현 금지 (근거 미기재)
 
 | 벤더/모듈 | 확인이 필요한 것 | 출처 | 상태 |
@@ -241,7 +274,6 @@ URL(실제 취득): https://sftpssqblobcdn.blob.core.windows.net/prod/largefile/
 | Mitsubishi Q68ADV / Q68ADI 개별 확인 | Q64AD와 같은 Table 3.1을 공유하므로 값은 동일하나, 8채널 전압/전류 전용이라 지원 레인지 집합이 다름 (Q68ADV는 전류 없음, Q68ADI는 전압 없음) | SH(NA)-080055-U Table 3.1 (기재됨) | ⚠️ 값은 확보, 레인지 조합만 미정 — 프리셋 라벨은 Q64AD 기준으로만 발행 |
 | Mitsubishi L60ADVL8 / L60ADIL8 | 모듈별 디지털 출력 범위 (L60AD4와 다름) | SH(NA)-080899ENG-F §3.2 (2)(3) 에 값이 있으나 위 전사 위험 5번 미해결 | ⛔ 구현 금지 |
 | Allen-Bradley 1756-IF8 floating point mode | 해당 없음 — 모듈이 공학 단위로 변환하므로 raw 범위 자체가 없음 (1756-UM009G-EN-P Ch.3) | 판단 완료 | ⛔ 프리셋 만들지 않음 (개념 부재) |
-| Allen-Bradley 1756-IF6CIS / -IF6I / -IR6I / -IT6I | integer mode 신호 양끝이 IF8과 다름 (예: IF6I 0–10V → 10.54688 V) | 1756-UM009G-EN-P p.31 에 값이 있음 | ⚠️ 값은 확보, 이번 범위 밖 — 필요 시 재조사 없이 추가 가능 |
 
 ### 확인했으나 1차 출처를 찾지 못한 것
 

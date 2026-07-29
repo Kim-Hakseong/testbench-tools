@@ -129,6 +129,42 @@ describe("§9.6 S7 preset scaling", () => {
     expect(ANALOG_PRESETS.find((p) => p.id === "clx-if8-int-0-20ma")!.note).toContain("20.58 mA");
   });
 
+  it("the isolated ControlLogix inputs do not inherit the IF8 endpoints", () => {
+    // Same p.31 table, different headroom per module. Copying an IF8 conversion
+    // onto an IF6I is the mistake these presets exist to prevent, so the notes
+    // have to name the endpoint that differs.
+    const note = (id: string) => ANALOG_PRESETS.find((p) => p.id === id)!.note!;
+
+    // 0-20 mA reaches full count at 20.58 mA on the IF8 and 21.09376 mA here.
+    expect(note("clx-if8-int-0-20ma")).toContain("20.58 mA");
+    expect(note("clx-if6cis-int-0-20ma")).toContain("21.09376 mA");
+    expect(note("clx-if6i-int-0-20ma")).toContain("21.09376 mA");
+    expect(note("clx-if6cis-int-0-20ma")).not.toContain("20.58 mA,");
+
+    // 0-10V likewise: 10.25 V on the IF8, 10.54688 V on the IF6I.
+    expect(note("clx-if8-int-0-10v")).toContain("10.25 V");
+    expect(note("clx-if6i-int-0-10v")).toContain("10.54688 V");
+
+    // Range names lie: the 1-487 ohm range actually starts below 1 ohm.
+    expect(note("clx-ir6i-int-1-487")).toContain("0.859068653");
+
+    // Every isolated-family preset is integer-mode only and full signed span.
+    const family = ANALOG_PRESETS.filter(
+      (p) => /^clx-(if6cis|if6i|ir6i|it6i)-/.test(p.id),
+    );
+    expect(family.length).toBe(11);
+    for (const preset of family) {
+      expect([preset.rawMin, preset.rawMax]).toEqual([-32768, 32767]);
+      expect(preset.module).toContain("integer mode");
+      expect(preset.note).toContain("Integer mode only");
+      expect(preset.source).toBe("spec/vendor-analog-ranges.md");
+    }
+
+    // The thermocouple module returns millivolts, not temperature — saying so
+    // is the whole point of its note.
+    expect(note("clx-it6i-int-12-30mv")).toContain("not temperature");
+  });
+
   it("notes, where present, are non-empty prose", () => {
     for (const preset of ANALOG_PRESETS) {
       if (preset.note !== undefined) expect(preset.note.trim().length).toBeGreaterThan(0);
