@@ -219,22 +219,24 @@ export function AccuracyTool() {
             </div>
           )}
 
-          <div className="grid grid-cols-3 gap-2">
-            <div className="col-span-1">
+          {/* Bottom-aligned cells: "Range (full scale)" wraps to two lines at this
+              width, and without this the three inputs sit at different heights. */}
+          <div className="grid grid-cols-3 items-end gap-2">
+            <div className="col-span-1 flex flex-col justify-end">
               <label htmlFor="acc-reading" className="text-xs font-medium uppercase tracking-wide text-mute">
                 {t("Reading")}
               </label>
               <input id="acc-reading" value={reading} onChange={(e) => setReading(e.target.value)}
                 spellCheck={false} inputMode="decimal" className={fieldCls} />
             </div>
-            <div className="col-span-1">
+            <div className="col-span-1 flex flex-col justify-end">
               <label htmlFor="acc-range" className="text-xs font-medium uppercase tracking-wide text-mute">
                 {t("Range (full scale)")}
               </label>
               <input id="acc-range" value={range} onChange={(e) => edited(setRange)(e.target.value)}
                 spellCheck={false} inputMode="decimal" className={fieldCls} />
             </div>
-            <div className="col-span-1">
+            <div className="col-span-1 flex flex-col justify-end">
               <label htmlFor="acc-unit" className="text-xs font-medium uppercase tracking-wide text-mute">
                 {t("Unit")}
               </label>
