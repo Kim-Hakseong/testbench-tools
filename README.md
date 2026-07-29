@@ -1,35 +1,71 @@
 # TestBench.tools
 
-Free, ad-supported browser micro-tools for test & measurement, embedded and
-industrial automation engineers. 100% client-side — no accounts, no uploads,
-no servers. English at the root, Korean under `/ko/`.
+Free browser tools for test & measurement, embedded and industrial automation
+work: CRC calculators, Modbus and MIL-STD-1553B frame decoders, PLC address
+converters for Siemens, Mitsubishi, Allen-Bradley and LS, sensor math, and file
+converters.
 
-## Repository layout
+**https://testbench.tools**
+
+Every calculation runs in the browser. The site is a static export — there is no
+API and no upload endpoint, so there is nowhere for your data to go even if
+someone wanted it to. English at the root, with `/ko/`, `/ja/`, `/de/` and
+`/zh/` for the interface.
+
+## Why the source is worth reading
+
+The point of publishing this is that you can check the arithmetic instead of
+trusting it.
+
+- **The engine is isolated and tested.** `packages/engine` is plain TypeScript
+  with no dependencies, and every module ships golden vectors under
+  `packages/engine/vectors/`.
+- **Vendor constants are traced, not guessed.** Every PLC raw range, thermocouple
+  coefficient and protocol frame here is recorded in `spec/` with the manual it
+  came from — document number, revision, and the table it was read out of. Where
+  a value could not be traced to a primary source it is recorded as blocked and
+  the preset does not ship. `spec/` also lists the transcription hazards found
+  along the way, including a vendor manual whose footnote contradicts its own
+  table by a factor of four.
+- **Where sources genuinely disagree, both are shown.** Public documentation
+  numbers ARINC 429 label bits in opposite directions depending on who you read,
+  so the decoder makes it a setting and always reports both readings rather than
+  quietly picking one.
+
+## Layout
 
 ```
 apps/web/            Next.js 14 App Router, static export (output: 'export')
-  app/(en)/          English pages (hub, tools, apps, about/contact/privacy)
-  app/(ko)/ko/       Korean pages (hub + PLC/sensor tools; XGT when unblocked)
-  components/        UI components (ToolShell, AdSlot, HexInput, …)
-  content/           tools-meta.ts (catalog), links.json (apps), ads.json (ads)
-  design/tokens.css  design tokens (dark = Resend-lineage, light = monet-lineage)
+  app/(en)/          English pages — hub, tools, apps, about/contact/privacy
+  app/(ko|ja|de|zh)/ localised routes
+  components/        tool UIs; the engine does the maths, these only render it
+  content/           tools-meta.ts (catalogue), i18n, ads.json, links.json
+  design/tokens.css  design tokens
   workers/           Web Workers (CRC deep search)
-packages/engine/     pure-TS calculation engines + vitest golden-vector tests
-  vectors/           golden vectors (DESIGN §9 — DO NOT EDIT)
-spec/                human-verified vendor constants, with sources (release gate)
+packages/engine/     pure TypeScript calculations + vitest golden vectors
+  vectors/           golden vectors — immutable, never edited in place
+spec/                sourcing evidence for every vendor constant (release gate)
+scripts/             translation coverage check, social card generator
 ```
 
-## Development
+## Running it
 
-Requires Node ≥ 20 and **pnpm** (never `npm install`).
+Requires Node ≥ 20 and [pnpm](https://pnpm.io). `npm install` is not supported —
+the workspace is pinned.
 
 ```sh
 pnpm install
-pnpm -r test        # engine golden-vector suite (must stay green)
-pnpm build          # static export → apps/web/out/
+pnpm dev                         # http://localhost:3000
+pnpm -r test                     # engine golden vectors
+pnpm build                       # static export → apps/web/out/
+node scripts/check-tool-i18n.mjs # translation coverage
+node scripts/make-og.mjs         # regenerate social preview cards
 ```
 
-Disk cleanup when done:
+Social cards are generated on demand rather than during the build, so rerun
+`make-og.mjs` after changing a tool's name or description.
+
+Disk cleanup:
 
 ```sh
 rm -rf node_modules apps/web/.next apps/web/out && pnpm store prune
@@ -37,75 +73,55 @@ rm -rf node_modules apps/web/.next apps/web/out && pnpm store prune
 
 ### Correctness rules
 
-- Golden vectors in `packages/engine/vectors/` are immutable. New engines get
-  new vectors; existing values are never edited.
-- Vendor constants (PLC raw ranges, XGT frames, thermocouple coefficients) are
-  implemented **only** when recorded with a source in `spec/`. The XGT
-  decoder/builder stays blocked until `spec/xgt-reference.md` is filled with
-  manual example frames.
+- Golden vectors are immutable. New engines get new vectors; existing values are
+  never edited to make a test pass.
+- A vendor constant is implemented **only** when it is recorded in `spec/` with
+  its source. No source, no preset — a raw range that is wrong by a factor of
+  four silently miscalibrates a process, which is the failure this gate exists
+  to prevent.
 
-## Deployment (human steps) — Cloudflare Pages
+## Deployment
 
-The site is a pure static export (~3 MB, no server functions), so it fits
-Cloudflare Pages' free tier: **unlimited bandwidth, commercial use allowed**.
-Hosting cost stays zero no matter how much traffic grows.
+The static export has no server functions, so it runs on any static host.
+Production is Cloudflare Pages:
 
-> Why not Vercel? Vercel's free (Hobby) plan forbids commercial use — running
-> ads would require Pro ($20/mo). Vercel's real limit here isn't bandwidth
-> (100 GB/mo free) but that ToS clause. Cloudflare Pages has no such
-> restriction, which makes it the better fit for an ad-supported static site.
+- Build command: `pnpm build`
+- Build output directory: `apps/web/out`
+- No environment variables required
 
-1. **Cloudflare Pages**: Dashboard → Workers & Pages → Create → Pages →
-   Connect to Git → select this repo, then:
-   - Build command: `pnpm build`
-   - Build output directory: `apps/web/out`
-   - Environment: no variables needed (Pages detects pnpm via the lockfile;
-     if the build image needs a Node pin, set `NODE_VERSION` = `20`)
-   Every push to `main` auto-deploys. Preview deployments per branch are free.
-2. **Domain**: register `testbench.tools` at Porkbun with auto-renew ON.
-   Two options — no conflict either way (registrar and hosting are
-   independent; custom domains are a free feature with automatic HTTPS):
-   - *Simplest*: move DNS to Cloudflare (free plan), then Pages → Custom
-     domains → add `testbench.tools`. DNS + hosting + cert live in one place.
-   - *Keep Porkbun DNS*: add a CNAME for the domain pointing at the
-     `<project>.pages.dev` hostname shown in the Pages dashboard.
-3. **Contact mail**: enable domain email forwarding for
-   `contact@testbench.tools` → personal inbox (Cloudflare Email Routing or
-   Porkbun forwarding — both free). No personal names anywhere on the site
-   (asset-separation rule).
+Every push to `main` deploys.
 
-## Enabling ads (human steps)
+## Ads
 
-Ads are OFF by default (`apps/web/content/ads.json` → `"provider": "none"`).
-Slots render nothing until configured — never an empty frame.
+Ads are off by default (`apps/web/content/ads.json` → `"provider": "none"`).
+Slots render nothing at all until a provider is configured — never an empty
+frame. EthicalAds is preferred because it does not track, so no cookie banner is
+needed; AdSense requires Google's CMP to be configured first.
 
-- **EthicalAds (preferred, no cookie banner needed)**
-  1. Apply at ethicalads.io with the deployed site.
-  2. Set `{ "provider": "ethicalads", "ethicalads": { "publisher": "<id>" } }`.
-  3. Rebuild + deploy. Script loads only when the publisher id is set.
-- **AdSense (optional, requires consent management)**
-  1. Verify the site in AdSense (About/Contact/Privacy pages already exist).
-  2. Configure Google's CMP (EU consent) in the AdSense console first.
-  3. Set `{ "provider": "adsense", "adsense": { "client": "ca-pub-…" } }`.
+Placement is fixed in code: at most two slots per page, below the results and
+mid-explainer, never inside the tool's input or result area.
 
-Placement is fixed in code: max 2 slots per page (below results,
-mid-explainer), never inside the tool input/result area.
+## Desktop apps
 
-## Quality snapshot (W10, 2026-07-25)
+Heavier offline work — multi-gigabyte files, live serial ports, batch jobs — is
+handled by three free MIT-licensed desktop apps, each in its own repository:
 
-Lighthouse 12.x, headless Chrome, mobile emulation, gzip static serving
-(parity with production hosting):
+- [Modbus Workbench](https://github.com/Kim-Hakseong/testbench-modbus-workbench) — Modbus RTU/TCP master with polling, writes and a built-in slave simulator
+- [FrameTerm](https://github.com/Kim-Hakseong/testbench-frameterm) — serial terminal built for frame-level protocol work
+- [TDMS Converter](https://github.com/Kim-Hakseong/testbench-tdms-converter) — viewer and CSV converter for NI TDMS measurement files
 
-| Page | Perf | A11y | Best Practices | SEO |
-|---|---|---|---|---|
-| `/` (hub) | 96 | 100 | 100 | 100 |
-| `/tools/crc-16-modbus/` | 98 | 100 | 100* | 100 |
-| `/tools/tdms-to-csv/` | 98 | 100 | 100* | 100 |
-| `/ko/tools/pt100-calculator/` | 99 | 100 | 100* | 100 |
+## Contributing
 
-*measured 96 before the favicon fix landed; the only deduction was the
-favicon 404, now resolved.
+Corrections to the engineering are the most useful thing you can send. If a
+constant is wrong, cite the manual — that is the standard everything here is
+held to, and a citation makes the fix reviewable in minutes.
 
-Engine tests: 66 passing (checksum/convert/modbus/identify/scaling/rtd/tdms
-golden vectors). External requests in production build: fonts self-hosted,
-zero third-party requests while ads are off.
+## License
+
+MIT — see [LICENSE](LICENSE). Bundled fonts and the standards documents cited in
+`spec/` are not covered by it; see
+[THIRD-PARTY-NOTICES.md](THIRD-PARTY-NOTICES.md).
+
+---
+
+© 2026 TestBench.tools · MIT licensed — free and open source.
