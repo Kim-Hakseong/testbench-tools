@@ -2,6 +2,7 @@ import Link from "next/link";
 import "../design/tokens.css";
 import "../app/globals.css";
 import ads from "@/content/ads.json";
+import site from "@/content/site.json";
 import { HTML_LANG, type SiteLocale } from "@/content/i18n";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { FooterNav, HeaderNav, HomeLink } from "@/components/ChromeNav";
@@ -29,6 +30,18 @@ export function RootShell({ lang, children }: { lang: SiteLocale; children: Reac
     <html lang={HTML_LANG[lang]} suppressHydrationWarning>
       <head>
         <JsonLd data={siteJsonLd()} />
+        {/* Ownership tokens for the search consoles. Empty means no tag —
+            nothing is emitted until someone pastes one in content/site.json. */}
+        {site.verification.google !== "" && (
+          <meta name="google-site-verification" content={site.verification.google} />
+        )}
+        {site.verification.bing !== "" && (
+          <meta name="msvalidate.01" content={site.verification.bing} />
+        )}
+        {site.verification.naver !== "" && (
+          <meta name="naver-site-verification" content={site.verification.naver} />
+        )}
+
         <script dangerouslySetInnerHTML={{ __html: themeInit }} />
         {lang === "en" && <script dangerouslySetInnerHTML={{ __html: langInit }} />}
         {/* Self-hosted fonts drive the LCP headline — preload all three. */}

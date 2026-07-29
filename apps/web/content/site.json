@@ -1,0 +1,8 @@
+{
+  "$comment": "Search-engine ownership tokens. Paste the value the console gives you and redeploy; an empty string renders no tag at all. DNS TXT verification is usually easier on a Cloudflare domain and needs nothing here.",
+  "verification": {
+    "google": "",
+    "bing": "",
+    "naver": ""
+  }
+}
