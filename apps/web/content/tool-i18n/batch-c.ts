@@ -19,6 +19,11 @@ export const BATCH_C: Record<SiteLocale, ToolDict> = {
   en: {},
 
   ko: {
+    "Word (hex)": "워드 (16진)",
+    "Data field (bits 29-11, signed)": "데이터 필드 (비트 29-11, 부호 있음)",
+    "BCD digits (most significant first)": "BCD 자릿수 (상위부터)",
+    "Decodes back as": "역디코드 결과",
+    "Parity is computed here, so a word with the wrong parity cannot be produced.": "패리티는 여기서 계산되므로, 패리티가 틀린 워드는 만들어질 수 없습니다.",
     "32-bit word (hex)": "32비트 워드 (16진)",
     "Label bit order": "라벨 비트 순서",
     "MSB at bit 1": "MSB가 비트 1",
@@ -186,6 +191,11 @@ export const BATCH_C: Record<SiteLocale, ToolDict> = {
   },
 
   ja: {
+    "Word (hex)": "ワード (16進)",
+    "Data field (bits 29-11, signed)": "データフィールド (ビット 29-11, 符号あり)",
+    "BCD digits (most significant first)": "BCD 桁 (上位から)",
+    "Decodes back as": "逆デコード結果",
+    "Parity is computed here, so a word with the wrong parity cannot be produced.": "パリティはここで計算されるため、パリティが誤ったワードは生成できません。",
     "32-bit word (hex)": "32ビットワード (16進)",
     "Label bit order": "ラベルのビット順",
     "MSB at bit 1": "MSB がビット 1",
@@ -343,6 +353,11 @@ export const BATCH_C: Record<SiteLocale, ToolDict> = {
   },
 
   de: {
+    "Word (hex)": "Wort (hex)",
+    "Data field (bits 29-11, signed)": "Datenfeld (Bits 29-11, vorzeichenbehaftet)",
+    "BCD digits (most significant first)": "BCD-Ziffern (höchstwertige zuerst)",
+    "Decodes back as": "Dekodiert wieder als",
+    "Parity is computed here, so a word with the wrong parity cannot be produced.": "Die Parität wird hier berechnet — ein Wort mit falscher Parität kann nicht entstehen.",
     "32-bit word (hex)": "32-Bit-Wort (hex)",
     "Label bit order": "Label-Bitreihenfolge",
     "MSB at bit 1": "MSB auf Bit 1",
@@ -500,6 +515,11 @@ export const BATCH_C: Record<SiteLocale, ToolDict> = {
   },
 
   zh: {
+    "Word (hex)": "字 (十六进制)",
+    "Data field (bits 29-11, signed)": "数据字段 (第 29-11 位, 有符号)",
+    "BCD digits (most significant first)": "BCD 位 (从高位开始)",
+    "Decodes back as": "反解结果",
+    "Parity is computed here, so a word with the wrong parity cannot be produced.": "校验位由本工具计算，因此不会生成校验错误的字。",
     "32-bit word (hex)": "32 位字 (十六进制)",
     "Label bit order": "标签位序",
     "MSB at bit 1": "MSB 在第 1 位",
