@@ -50,6 +50,24 @@ export const NOTES: NoteMeta[] = [
     source: "AIM, GE/Ballard, Holt, MaxT and Wikipedia — compared",
     tools: ["arinc-429-decoder", "arinc-429-builder"],
   },
+  {
+    slug: "ntc-beta-only-right-twice",
+    title: "Your NTC's B value is exact at two temperatures and nowhere else",
+    description:
+      "B25/85 is a line drawn through two points on a curve. Measured against a published R/T table, a Beta-only conversion reads 3 °C high at −40 °C and 2.8 °C high at 150 °C — and exactly right at 25 and 85.",
+    published: "2026-07-30",
+    source: "Vishay BCcomponents NTCLE100E3 datasheet, document 29049, revision 07-May-2025",
+    tools: ["ntc-thermistor-calculator", "pt100-calculator"],
+  },
+  {
+    slug: "type-b-thermocouple-no-inverse",
+    title: "A type B thermocouple barely cares what your cold junction is doing",
+    description:
+      "Its curve doubles back near room temperature, so below 250 °C no inverse exists at all — and the same property makes a 40 °C swing in the cold junction move a 1018 °C reading by 0.05 °C.",
+    published: "2026-07-30",
+    source: "NIST ITS-90 reference functions (SRD 60), cross-checked against Monograph 175",
+    tools: ["thermocouple-calculator"],
+  },
 ];
 
 export function noteBySlug(slug: string): NoteMeta | undefined {
