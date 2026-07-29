@@ -166,6 +166,11 @@ export function PlcScalingTool() {
                   {t("Input is outside the configured range — extrapolating linearly.")}
                 </p>
               )}
+              {preset?.note && (
+                <p className="rounded-btn border border-line-strong px-3 py-2 text-xs text-mute">
+                  {preset.note}
+                </p>
+              )}
               {preset && (
                 <p className="font-mono text-xs text-mute">{t("preset source:")} {preset.source}</p>
               )}

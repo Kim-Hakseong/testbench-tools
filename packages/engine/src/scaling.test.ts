@@ -67,6 +67,72 @@ describe("§9.6 S7 preset scaling", () => {
     expect([byId.get("slc-ni4-4-20ma")!.rawMin, byId.get("slc-ni4-4-20ma")!.rawMax]).toEqual([3277, 16384]);
     // LS XGF-AD4S precise 4-20mA — XGF-AD4S V1.4.
     expect([byId.get("xgf-ad4s-precise-4-20ma")!.rawMin, byId.get("xgf-ad4s-precise-4-20ma")!.rawMax]).toEqual([4000, 20000]);
+    // Mitsubishi Q64AD — SH(NA)-080055-U Table 3.1, both resolution modes.
+    expect([byId.get("q64ad-normal-unipolar")!.rawMin, byId.get("q64ad-normal-unipolar")!.rawMax]).toEqual([0, 4000]);
+    expect([byId.get("q64ad-normal-bipolar")!.rawMin, byId.get("q64ad-normal-bipolar")!.rawMax]).toEqual([-4000, 4000]);
+    expect([byId.get("q64ad-high-0-10v")!.rawMin, byId.get("q64ad-high-0-10v")!.rawMax]).toEqual([0, 16000]);
+    expect([byId.get("q64ad-high-unipolar-12000")!.rawMin, byId.get("q64ad-high-unipolar-12000")!.rawMax]).toEqual([0, 12000]);
+    expect([byId.get("q64ad-high-bipolar")!.rawMin, byId.get("q64ad-high-bipolar")!.rawMax]).toEqual([-16000, 16000]);
+    // Mitsubishi L60AD4 — SH(NA)-080899ENG-F section 3.2 table (1).
+    expect([byId.get("l60ad4-normal")!.rawMin, byId.get("l60ad4-normal")!.rawMax]).toEqual([0, 20000]);
+    expect([byId.get("l60ad4-bipolar")!.rawMin, byId.get("l60ad4-bipolar")!.rawMax]).toEqual([-20000, 20000]);
+    expect([byId.get("l60ad4-extended")!.rawMin, byId.get("l60ad4-extended")!.rawMax]).toEqual([-5000, 22500]);
+    // Mitsubishi FX5U CPU built-in — JY997D60501H chapter 7.
+    expect([byId.get("fx5u-builtin-0-10v")!.rawMin, byId.get("fx5u-builtin-0-10v")!.rawMax]).toEqual([0, 4000]);
+    // LS XGF-AD8A — V1.8 Table 2.2, four formats.
+    expect([byId.get("xgf-ad8a-unsigned")!.rawMin, byId.get("xgf-ad8a-unsigned")!.rawMax]).toEqual([0, 16000]);
+    expect([byId.get("xgf-ad8a-signed")!.rawMin, byId.get("xgf-ad8a-signed")!.rawMax]).toEqual([-8000, 8000]);
+    expect([byId.get("xgf-ad8a-percentile")!.rawMin, byId.get("xgf-ad8a-percentile")!.rawMax]).toEqual([0, 10000]);
+    expect([byId.get("xgf-ad8a-precise-4-20ma")!.rawMin, byId.get("xgf-ad8a-precise-4-20ma")!.rawMax]).toEqual([4000, 20000]);
+    // LS XBF-AD04A — V2.4 section 2.2.2.
+    expect([byId.get("xbf-ad04a-unsigned")!.rawMin, byId.get("xbf-ad04a-unsigned")!.rawMax]).toEqual([0, 4000]);
+    expect([byId.get("xbf-ad04a-signed")!.rawMin, byId.get("xbf-ad04a-signed")!.rawMax]).toEqual([-2000, 2000]);
+    expect([byId.get("xbf-ad04a-percentile")!.rawMin, byId.get("xbf-ad04a-percentile")!.rawMax]).toEqual([0, 1000]);
+    expect([byId.get("xbf-ad04a-precise-4-20ma")!.rawMin, byId.get("xbf-ad04a-precise-4-20ma")!.rawMax]).toEqual([400, 2000]);
+  });
+
+  it("does not carry one module's range over to a sibling module", () => {
+    // The whole reason the gate exists: these four Mitsubishi A/D families are
+    // routinely assumed to share a range and every one of them differs.
+    const max = (id: string) => ANALOG_PRESETS.find((p) => p.id === id)!.rawMax;
+    const unipolarFullScale = [
+      max("r60ad4-normal"), // MELSEC iQ-R  32000
+      max("q64ad-normal-unipolar"), // MELSEC-Q     4000
+      max("l60ad4-normal"), // MELSEC-L    20000
+      max("fx5u-builtin-0-10v"), // iQ-F built-in 4000
+    ];
+    expect(unipolarFullScale).toEqual([32000, 4000, 20000, 4000]);
+    // Q64AD normal and the FX5U built-in coincide at 4000 by accident; they must
+    // still be distinct presets on distinct modules.
+    const q64 = ANALOG_PRESETS.find((p) => p.id === "q64ad-normal-unipolar")!;
+    const fx5 = ANALOG_PRESETS.find((p) => p.id === "fx5u-builtin-0-10v")!;
+    expect(q64.module).not.toBe(fx5.module);
+
+    // Same for the two LS families: 14-bit AD8A vs 16-bit AD4S vs 12-bit AD04A.
+    expect(max("xgf-ad8a-signed")).toBe(8000);
+    expect(max("xgf-ad4s-signed")).toBe(32000);
+    expect(max("xbf-ad04a-signed")).toBe(2000);
+  });
+
+  it("ControlLogix presets exist only for integer mode and warn about the endpoints", () => {
+    // 1756-UM009G-EN-P: floating point mode scales on the module, so no raw range
+    // exists there; integer mode is fixed at -32768..32767 but those counts sit on
+    // the EXTENDED signal endpoints, which the note has to state.
+    const clx = ANALOG_PRESETS.filter((p) => p.id.startsWith("clx-if8-"));
+    expect(clx.length).toBe(4);
+    for (const p of clx) {
+      expect([p.rawMin, p.rawMax]).toEqual([-32768, 32767]);
+      expect(p.module).toContain("integer mode");
+      expect(p.note).toContain("Integer mode only");
+    }
+    // The 0-20 mA top count is 20.58 mA, not 20 mA.
+    expect(ANALOG_PRESETS.find((p) => p.id === "clx-if8-int-0-20ma")!.note).toContain("20.58 mA");
+  });
+
+  it("notes, where present, are non-empty prose", () => {
+    for (const preset of ANALOG_PRESETS) {
+      if (preset.note !== undefined) expect(preset.note.trim().length).toBeGreaterThan(0);
+    }
   });
 
   it("scales through a vendor preset end to end", () => {
