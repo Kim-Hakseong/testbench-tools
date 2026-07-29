@@ -1,0 +1,230 @@
+{
+  "$comment": "ARINC 429 golden vectors. The ARINC 429 specification is a paid document, so every value here comes from public vendor application notes that were cross-checked against each other; each entry names its source and whether it was quoted or derived. Label-to-parameter assignments and equipment-ID tables are deliberately absent — they live in the paid spec and in per-aircraft ICDs. DO NOT MODIFY.",
+  "$sources": {
+    "aim": "AIM GmbH, 'ARINC 429 Specification Tutorial' v2.2 (July 2019), pp. 11-14 — word format figure, transfer-order figure, SSM tables for BCD/BNR/discrete, BNR sign bit 29, BCD subfield widths. https://www.aim-online.com/wp-content/uploads/2019/07/aim-tutorial-oview429-190712-u.pdf",
+    "ge": "GE Intelligent Platforms (formerly Condor Engineering / Ballard), 'ARINC Protocol Tutorial' WP-GFT639A, ch.1, pp. 7-9 — Figure 3 word format, parity rule, Table 4/5 SSM codes, Figure 5 BCD example, Figure 7 BNR example, Table 6 discrete word, Table 8 BNR scaling. https://www.psirep.com/system/files/arinc_protocol_tutorial_wp_gft639a_16.pdf",
+    "holt": "Holt Integrated Circuits HI-35850/HI-35860 datasheet (DS35850 Rev. A, March 2021), Table 2 'SPI / ARINC bit-mapping' and control bits CR4/CR9 (odd parity on bit 32), CR7/CR8 (SDI = ARINC bits 10 and 9). https://www.holtic.com",
+    "maxt": "MaxT / MX Foundation 4, 'ARINC 429 Specification' — field map, transmission order, SSM tables, BCD subfield widths with the 75839 worked example. https://www.maxt.com/mxf/arinc_429_spec.html",
+    "wikipedia": "Wikipedia, 'ARINC 429' — field map, odd parity, label octal representation and the Holt bit-reversal example (label 213 octal = 8B hex written as D1 hex).",
+    "vhdl": "Kamaraju et al., 'VHDL Implementation and Verification of ARINC-429 Core' (arXiv:1011.5374), §1.2, citing ARINC Specification 429P1-15 — bit transmission order.",
+    "jaimebw": "J. Bowen Varela, 'Encoding ARINC429' (2024-11-11) — worked encoding of octal label 205 into the byte A1 hex and the complete word E0 06 40 A1. https://jaimebw.com/2024-11-11-encoding-arinc429/"
+  },
+  "$labelBitOrderConflict": {
+    "$note": "Public sources agree the label is sent ahead of the rest of the word and in the opposite bit order to every other field, but they DISAGREE on which numbered bit holds the octal label's most significant bit. The two readings bit-reverse the label byte, so a decoder must not guess silently.",
+    "bit1-msb": {
+      "meaning": "Octal label MSB sits at word bit 1, LSB at bit 8; the label byte in the 32-bit value is the bit-reverse of the octal number.",
+      "sources": ["holt", "wikipedia", "jaimebw"],
+      "evidence": "Holt Table 2 annotates ARINC bit 1 as 'Label (MSB)' and ARINC bit 8 as 'Label (LSB)' in both CR11 modes. Wikipedia/Holt: to transmit label 213 octal (8B hex) the bit-reversed value D1 hex is written to the label octet."
+    },
+    "bit8-msb": {
+      "meaning": "Octal label MSB sits at word bit 8, LSB at bit 1; the label byte in the 32-bit value reads directly as the octal number.",
+      "sources": ["ge", "aim", "maxt", "vhdl"],
+      "evidence": "Transmission order is published as 8,7,6,5,4,3,2,1,9,10,...,32 with the note that the label's most significant bit is transmitted first, which places the MSB at bit 8. GE Table 6 tabulates a discrete word whose 'Label 005' has bit 1 = 1, bit 2 = 0, bit 3 = 1, bits 4-8 = 0 — that is 005 octal only when bit 8 is the MSB."
+    },
+    "default": "bit1-msb"
+  },
+  "fields": {
+    "$source": "aim, ge, maxt, holt, wikipedia — unanimous",
+    "$note": "ARINC numbers the bits 1 (LSB of the 32-bit value) to 32 (MSB).",
+    "label": { "first": 1, "last": 8 },
+    "sdi": { "first": 9, "last": 10 },
+    "data": { "first": 11, "last": 29 },
+    "ssm": { "first": 30, "last": 31 },
+    "parity": { "first": 32, "last": 32 }
+  },
+  "ssm": {
+    "$source": "aim (p.12), ge (Tables 4 and 5), maxt, wikipedia — index is (bit31 << 1) | bit30",
+    "bnr": ["Failure Warning", "No Computed Data", "Functional Test", "Normal Operation"],
+    "bcd": [
+      "Plus, North, East, Right, To, Above",
+      "No Computed Data",
+      "Functional Test",
+      "Minus, South, West, Left, From, Below"
+    ],
+    "discrete": ["Verified Data, Normal Operation", "No Computed Data", "Functional Test", "Failure Warning"],
+    "$discreteNote": "The discrete column is published by aim and wikipedia; ge gives only the BCD and BNR tables. Both agree with each other."
+  },
+  "labelReversal": [
+    {
+      "$source": "wikipedia, holt",
+      "$quoted": "to transmit a Label 213 octal (or 8B hex) the bit-reversed value D1 hex is written to the Label octet",
+      "octal": "213",
+      "octalValue": 139,
+      "reversed": 209
+    },
+    {
+      "$source": "jaimebw",
+      "$quoted": "Octal 205 = binary 10000101, reversed 10100001 = 0xA1",
+      "octal": "205",
+      "octalValue": 133,
+      "reversed": 161
+    },
+    {
+      "$source": "ge Table 6",
+      "$note": "GE tabulates this bit pattern as label 005; under the bit1-msb reading the same pattern is label 240. Both are recorded here because that is exactly where the sources part company.",
+      "octal": "005",
+      "octalValue": 5,
+      "reversed": 160
+    },
+    { "$derived": true, "octal": "000", "octalValue": 0, "reversed": 0 },
+    { "$derived": true, "octal": "001", "octalValue": 1, "reversed": 128 },
+    { "$derived": true, "octal": "377", "octalValue": 255, "reversed": 255 },
+    { "$derived": true, "octal": "100", "octalValue": 64, "reversed": 2 }
+  ],
+  "parity": {
+    "$source": "ge — 'if bits 1-31 contain an even number of 1 bits, bit 32 must be set to create ODD parity'; aim, holt (CR9), wikipedia agree",
+    "cases": [
+      {
+        "$source": "jaimebw",
+        "$note": "Complete published word E0 06 40 A1. Odd parity verified by counting: 9 one-bits in the 32-bit word.",
+        "hex": "0xE00640A1",
+        "ones": 9,
+        "parityBit": 1,
+        "parityOk": true
+      },
+      {
+        "$derived": true,
+        "$note": "Same word with data bit 11 flipped — one extra 1 makes the count even.",
+        "hex": "0xE00644A1",
+        "ones": 10,
+        "parityBit": 1,
+        "parityOk": false
+      },
+      { "$derived": true, "hex": "0x00000000", "ones": 0, "parityBit": 0, "parityOk": false },
+      { "$derived": true, "hex": "0x80000000", "ones": 1, "parityBit": 1, "parityOk": true },
+      { "$derived": true, "hex": "0xFFFFFFFF", "ones": 32, "parityBit": 1, "parityOk": false },
+      { "$derived": true, "hex": "0x7FFFFFFF", "ones": 31, "parityBit": 0, "parityOk": true }
+    ]
+  },
+  "wordDecode": {
+    "$source": "jaimebw",
+    "$note": "Field-by-field decode of the one complete published word. Label is shown under both conventions; the source itself uses bit1-msb.",
+    "hex": "0xE00640A1",
+    "labelField": 161,
+    "labelOctalBit1Msb": "205",
+    "labelOctalBit8Msb": "241",
+    "sdi": 0,
+    "data": 400,
+    "ssm": 3,
+    "ssmBnr": "Normal Operation",
+    "parityBit": 1,
+    "parityOk": true,
+    "bnrNegative": false
+  },
+  "bcd": {
+    "$source": "ge Figure 5, aim p.14, maxt",
+    "$note": "Five subfields, MSD in bits 29-27 (3 bits, 0-7), then 26-23, 22-19, 18-15, 14-11 (4 bits, 0-9).",
+    "subfields": [
+      { "first": 27, "last": 29, "maxDigit": 7 },
+      { "first": 23, "last": 26, "maxDigit": 9 },
+      { "first": 19, "last": 22, "maxDigit": 9 },
+      { "first": 15, "last": 18, "maxDigit": 9 },
+      { "first": 11, "last": 14, "maxDigit": 9 }
+    ],
+    "cases": [
+      {
+        "$source": "ge Figure 5",
+        "$quoted": "data field 0100101011110000110 conveying 25786 with a positive sign (SSM 00)",
+        "dataField": "0x25786",
+        "digits": [2, 5, 7, 8, 6],
+        "value": 25786,
+        "ssm": 0,
+        "ssmMeaning": "Plus, North, East, Right, To, Above",
+        "valid": true
+      },
+      {
+        "$source": "maxt",
+        "$quoted": "75839 encodes as 111 0101 1000 0011 1001",
+        "dataField": "0x75839",
+        "digits": [7, 5, 8, 3, 9],
+        "value": 75839,
+        "valid": true
+      },
+      {
+        "$derived": true,
+        "$note": "Last nibble is 0xA — not a decimal digit. The 3-bit MSD can never be invalid, which is why only subfields 2-5 are checked.",
+        "dataField": "0x2578A",
+        "digits": [2, 5, 7, 8, 10],
+        "value": null,
+        "invalidDigits": [5],
+        "valid": false
+      },
+      {
+        "$derived": true,
+        "dataField": "0x00000",
+        "digits": [0, 0, 0, 0, 0],
+        "value": 0,
+        "valid": true
+      }
+    ]
+  },
+  "bnr": {
+    "$source": "ge Figure 7 and p.8, aim p.14",
+    "$note": "Bit 29 is the sign (1 = negative / South / West / Left / From / Below); bit 28 carries half the parameter's full-scale value, bit 27 a quarter, and so on. Negative values are the two's complement of the positive value across bits 29-11.",
+    "signBit": 29,
+    "msbBit": 28,
+    "magnitudeBits": 18,
+    "cases": [
+      {
+        "$source": "ge Figure 7",
+        "$quoted": "scale 512, bits 29 through 19 used, bit 29 = 0 so the value is positive, bit 28 = 256, bit 23 = 1/64 of scale, bit 22 = 1/128 of scale, total 268",
+        "$note": "Field value derived from the quoted set bits 28, 23 and 22.",
+        "dataField": "0x21800",
+        "setBits": [28, 23, 22],
+        "signed": 137216,
+        "negative": false,
+        "fullScale": 512,
+        "value": 268,
+        "ssm": 3,
+        "ssmMeaning": "Normal Operation"
+      },
+      {
+        "$derived": true,
+        "$note": "Two's complement of the case above across bits 29-11: 2^19 - 137216.",
+        "dataField": "0x5E800",
+        "signed": -137216,
+        "negative": true,
+        "fullScale": 512,
+        "value": -268
+      },
+      {
+        "$derived": true,
+        "$note": "All ones is -1 count, the smallest negative step.",
+        "dataField": "0x7FFFF",
+        "signed": -1,
+        "negative": true,
+        "fullScale": 262144,
+        "value": -1
+      },
+      {
+        "$derived": true,
+        "$note": "Most negative representable count: bit 29 set, everything else clear.",
+        "dataField": "0x40000",
+        "signed": -262144,
+        "negative": true,
+        "fullScale": 512,
+        "value": -512
+      }
+    ],
+    "resolution": {
+      "$source": "ge Table 8 — the range/scale, significant-bit and resolution columns, with the label and parameter names deliberately dropped",
+      "$note": "resolution = fullScale / 2^magnitudeBits.",
+      "cases": [
+        { "fullScale": 1024, "magnitudeBits": 10, "resolution": 1 },
+        { "fullScale": 65536, "magnitudeBits": 16, "resolution": 1 },
+        { "fullScale": 256, "magnitudeBits": 8, "resolution": 1 },
+        { "fullScale": 512, "magnitudeBits": 10, "resolution": 0.5 }
+      ]
+    }
+  },
+  "roundTrip": {
+    "$derived": true,
+    "$note": "Encoder output re-decoded. Parity is always computed by the encoder, so every word here has odd parity by construction.",
+    "cases": [
+      { "labelOctal": "205", "sdi": 0, "data": 400, "ssm": 3, "hex": "0xE00640A1" },
+      { "labelOctal": "213", "sdi": 2, "data": 0, "ssm": 0, "hex": "0x000002D1" },
+      { "labelOctal": "377", "sdi": 3, "data": 524287, "ssm": 3, "hex": "0x7FFFFFFF" },
+      { "labelOctal": "000", "sdi": 0, "data": 0, "ssm": 0, "hex": "0x80000000" }
+    ]
+  }
+}

@@ -25,3 +25,4 @@ export * from "./abslc";
 export * from "./lsxgt";
 export * from "./xgt";
 export * from "./mcprotocol";
+export * from "./arinc429";

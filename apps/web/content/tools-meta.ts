@@ -110,6 +110,7 @@ export const TOOLS: ToolMeta[] = [
   { slug: "mil-1553-status-word", name: "MIL-STD-1553B Status Word Decoder", description: "Decode 1553B status words: RT address and every status flag bit.", category: "avionics-databus", p0: false, locale: "en", status: "live", tags: ["1553", "milstd1553", "avionics", "status word", "military bus"] },
   { slug: "mil-1553-mode-codes", name: "MIL-STD-1553B Mode Code Reference", description: "Look up 1553B mode codes by T/R bit and code, with data-word rules.", category: "avionics-databus", p0: false, locale: "en", status: "live", tags: ["1553", "milstd1553", "avionics", "mode code", "reference"] },
   { slug: "mil-1553-message-decoder", name: "MIL-STD-1553B Message Decoder", description: "Lay out a full 1553B transaction: command, data words and status, with parity checks.", category: "avionics-databus", p0: false, locale: "en", status: "live", tags: ["1553", "milstd1553", "avionics", "message", "transaction"] },
+  { slug: "arinc-429-decoder", name: "ARINC 429 Word Decoder", description: "Decode a 429 word: octal label, SDI, SSM, BNR/BCD and odd parity.", category: "avionics-databus", p0: true, locale: "en", status: "live", tags: ["arinc429", "arinc", "avionics", "label", "bnr", "bcd", "decoder"] },
 
   // 8) File Tools
   { slug: "tdms-to-csv", name: "TDMS to CSV Converter", description: "Convert NI TDMS files to CSV in your browser — no upload.", category: "file-tools", p0: true, locale: "en", status: "live", tags: ["tdms", "csv", "labview", "ni", "convert"] },
