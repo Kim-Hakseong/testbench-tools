@@ -61,6 +61,23 @@ export function ThermocoupleTool() {
   const info = THERMOCOUPLE_TYPES.find((x) => x.id === type)!;
 
   /**
+   * The two directions do not share a span, and pairing them on one line reads
+   * as a contradiction: type K's reference function runs to −270 °C, but NIST
+   * only publishes an inverse down to −5.891 mV (−200 °C), and type B produces
+   * 0 mV at 0 °C while its inverse starts at 0.291 mV. Show whichever span the
+   * current direction is actually bounded by.
+   */
+  const span = useMemo(() => {
+    if (mode === "toMv") {
+      const lo = tcVoltage(type, info.minC);
+      const hi = tcVoltage(type, info.maxC);
+      const out = lo.ok && hi.ok ? ` → ${fmt(lo.millivolts)}…${fmt(hi.millivolts)} mV` : "";
+      return `${fmt(info.minC, 0)}…${fmt(info.maxC, 0)} °C${out}`;
+    }
+    return `${fmt(info.minMv)}…${fmt(info.maxMv)} mV → ${fmt(info.inverseMinC, 0)}…${fmt(info.inverseMaxC, 0)} °C`;
+  }, [mode, type, info]);
+
+  /**
    * One shape for all three modes. The engine returns a different result type
    * per direction; flattening them here keeps the panel from having to narrow
    * a three-way union field by field.
@@ -130,7 +147,7 @@ export function ThermocoupleTool() {
               ))}
             </select>
             <p className="mt-1.5 font-mono text-[11px] text-mute">
-              {`${fmt(info.minC, 0)}…${fmt(info.maxC, 0)} °C · ${fmt(info.minMv)}…${fmt(info.maxMv)} mV`}
+              {span}
             </p>
           </div>
 
