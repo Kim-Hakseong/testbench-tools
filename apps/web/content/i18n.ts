@@ -755,8 +755,8 @@ export const APPS_PAGE: Record<SiteLocale, AppsStrings> = {
     comingSoon: "Coming soon",
     download: "Download",
     sourceLabel: "View source on GitHub",
-    freeSuffix: "· free",
-    footerNote: "Every app here is free, like everything else on this site. New releases are announced on this page.",
+    freeSuffix: "· free · MIT",
+    footerNote: "Every app here is free and MIT licensed, like everything else on this site — use it, read the source, fork it. New releases are announced on this page.",
   },
   ko: {
     metaTitle: "데스크톱 앱 — 무거운 작업을 위한 무료 동반 앱",
@@ -766,8 +766,8 @@ export const APPS_PAGE: Record<SiteLocale, AppsStrings> = {
     comingSoon: "출시 예정",
     download: "다운로드",
     sourceLabel: "GitHub에서 소스 보기",
-    freeSuffix: "· 무료",
-    footerNote: "여기 있는 앱은 이 사이트의 모든 것과 마찬가지로 무료입니다. 새 릴리스는 이 페이지에서 안내합니다.",
+    freeSuffix: "· 무료 · MIT",
+    footerNote: "여기 있는 앱은 이 사이트의 모든 것과 마찬가지로 무료이며 MIT 라이선스입니다 — 쓰고, 소스를 읽고, 포크하셔도 됩니다. 새 릴리스는 이 페이지에서 안내합니다.",
   },
   ja: {
     metaTitle: "デスクトップアプリ — 重い作業向けの無料コンパニオン",
@@ -777,8 +777,8 @@ export const APPS_PAGE: Record<SiteLocale, AppsStrings> = {
     comingSoon: "近日公開",
     download: "ダウンロード",
     sourceLabel: "GitHubでソースを見る",
-    freeSuffix: "· 無料",
-    footerNote: "ここにあるアプリは、本サイトのすべてと同じく無料です。新しいリリースはこのページでお知らせします。",
+    freeSuffix: "· 無料 · MIT",
+    footerNote: "ここにあるアプリは、本サイトのすべてと同じく無料で、MIT ライセンスです — 使う・ソースを読む・フォークする、いずれも自由です。新しいリリースはこのページでお知らせします。",
   },
   de: {
     metaTitle: "Desktop-Apps — kostenlose Begleiter für größere Aufgaben",
@@ -788,8 +788,8 @@ export const APPS_PAGE: Record<SiteLocale, AppsStrings> = {
     comingSoon: "Demnächst",
     download: "Herunterladen",
     sourceLabel: "Quellcode auf GitHub",
-    freeSuffix: "· kostenlos",
-    footerNote: "Jede App hier ist kostenlos, wie alles auf dieser Seite. Neue Versionen werden auf dieser Seite angekündigt.",
+    freeSuffix: "· kostenlos · MIT",
+    footerNote: "Jede App hier ist kostenlos und MIT-lizenziert, wie alles auf dieser Seite — nutzen, den Quellcode lesen, forken. Neue Versionen werden auf dieser Seite angekündigt.",
   },
   zh: {
     metaTitle: "桌面应用 —— 面向大工作量的免费伴侣",
@@ -799,8 +799,8 @@ export const APPS_PAGE: Record<SiteLocale, AppsStrings> = {
     comingSoon: "即将推出",
     download: "下载",
     sourceLabel: "在 GitHub 查看源码",
-    freeSuffix: "· 免费",
-    footerNote: "这里的应用都免费，一如本站的一切。新版本会在本页公布。",
+    freeSuffix: "· 免费 · MIT",
+    footerNote: "这里的应用都免费，并采用 MIT 许可，一如本站的一切 — 可自由使用、阅读源码、二次开发。新版本会在本页公布。",
   },
 };
 
