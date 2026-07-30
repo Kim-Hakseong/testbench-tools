@@ -41,6 +41,11 @@ export function HeaderNav({ routeLang }: { routeLang: SiteLocale }) {
           </svg>
           {t.navApps}
         </Link>
+        {routeLang === "en" && (
+          <Link href="/notes/" className="text-sm text-mute transition-colors hover:text-body">
+            Notes
+          </Link>
+        )}
         <Link href={`${p}about/`} className="text-sm text-mute transition-colors hover:text-body">
           {t.navAbout}
         </Link>
