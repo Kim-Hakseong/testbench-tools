@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Callout, H2, NoteShell, P, Quoted } from "@/components/notes/NoteShell";
+import { CountMap, Figure } from "@/components/notes/Figure";
 import { JsonLd, noteJsonLd } from "@/lib/jsonld";
 import { noteBySlug } from "@/content/notes";
 
@@ -93,6 +94,16 @@ export default function Page() {
         <P>
           Two things in that table break the assumption people bring to it.
         </P>
+
+        <Figure caption="What people write, against what the module does. Both endpoints move: the bottom by half the count range, the top by the module's over-range headroom.">
+          <CountMap
+            rows={[
+              { title: "Assumed", left: "0 mA → 0 counts", right: "20 mA → 32767 counts", correct: false },
+              { title: "1756-IF8, integer mode", left: "0 mA → −32768 counts", right: "20.58 mA → 32767 counts", correct: true },
+            ]}
+            ariaLabel="Two spans compared. The assumed mapping runs 0 milliamps at 0 counts to 20 milliamps at 32767 counts. The module actually runs 0 milliamps at minus 32768 counts to 20.58 milliamps at 32767 counts."
+          />
+        </Figure>
 
         <H2>The zero point is at the bottom of the count range</H2>
 

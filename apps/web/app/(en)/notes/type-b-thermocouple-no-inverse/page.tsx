@@ -1,9 +1,19 @@
 import type { Metadata } from "next";
 import { Callout, H2, NoteShell, P, Quoted } from "@/components/notes/NoteShell";
+import { Figure, LinePlot } from "@/components/notes/Figure";
+import { tcVoltage } from "@testbench/engine";
 import { JsonLd, noteJsonLd } from "@/lib/jsonld";
 import { noteBySlug } from "@/content/notes";
 
 const NOTE = noteBySlug("type-b-thermocouple-no-inverse")!;
+
+// Plotted straight from the shipped reference function, so the curve and the
+// calculator can never disagree.
+const DIP = Array.from({ length: 121 }, (_, i) => {
+  const c = i * 0.5;
+  const r = tcVoltage("B", c);
+  return { x: c, y: r.ok ? r.millivolts * 1000 : 0 };
+});
 
 export const metadata: Metadata = {
   alternates: { canonical: "/notes/type-b-thermocouple-no-inverse/" },
@@ -63,6 +73,23 @@ export default function Page() {
           zero near 42 °C. So −2 µV is produced at about 10.9 °C <em>and</em> at about 31.0 °C.
           One voltage, two temperatures.
         </P>
+
+        <Figure caption="Type B emf from 0 to 60 °C, evaluated from the ITS-90 reference function. Any horizontal line across the dip crosses the curve twice — which is exactly why no inverse exists here.">
+          <LinePlot
+            points={DIP}
+            xTicks={[0, 10, 21, 30, 42, 50, 60]}
+            yTicks={[-3, -2, -1, 0, 1, 2, 3]}
+            xLabel="°C"
+            yLabel="µV"
+            zeroLine
+            markers={[
+              { x: 21.0, y: -2.585, label: "min −2.585 µV @ 21.0 °C", anchor: "end" },
+              { x: 42, y: 0, label: "back to 0 @ 42 °C", anchor: "end" },
+            ]}
+            fmtY={(v) => String(v)}
+            ariaLabel="Type B thermocouple emf against temperature from 0 to 60 degrees Celsius. The curve falls below zero, reaches a minimum of minus 2.585 microvolts at 21 degrees, and returns to zero at 42 degrees, so a single negative voltage corresponds to two different temperatures."
+          />
+        </Figure>
 
         <Callout>
           That is not a measurement problem or a fit problem. An inverse function cannot exist

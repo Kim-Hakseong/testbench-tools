@@ -1,9 +1,23 @@
 import type { Metadata } from "next";
 import { Callout, H2, NoteShell, P, Quoted } from "@/components/notes/NoteShell";
+import { Figure, WordLayout } from "@/components/notes/Figure";
+import { parseArinc429 } from "@testbench/engine";
 import { JsonLd, noteJsonLd } from "@/lib/jsonld";
 import { noteBySlug } from "@/content/notes";
 
 const NOTE = noteBySlug("arinc-429-label-bit-order")!;
+
+// The bit string comes out of the decoder itself, so the diagram is the word
+// the tool actually reports rather than one typed out by hand.
+const W = parseArinc429("0xE00640A1", { labelBitOrder: "bit1-msb" });
+const BITS = W.ok ? W.word.bits : "";
+const FIELDS = [
+  { label: "P", bits: BITS.slice(0, 1), span: 1 },
+  { label: "SSM", bits: BITS.slice(1, 3), span: 2 },
+  { label: "Data 29-11", bits: BITS.slice(3, 22), span: 19 },
+  { label: "SDI", bits: BITS.slice(22, 24), span: 2 },
+  { label: "Label 8-1", bits: BITS.slice(24, 32), span: 8 },
+];
 
 export const metadata: Metadata = {
   alternates: { canonical: "/notes/arinc-429-label-bit-order/" },
@@ -50,6 +64,13 @@ export default function Page() {
           field with the MSB at bit 1 — that is, reverse it to <code>10000101</code> — and you
           get octal 205. One field, two numbers, no contradiction in the bits themselves.
         </P>
+
+        <Figure caption="0xE00640A1 laid out as the fields everyone agrees on. Only the last block is disputed: read 10100001 from the left and it is 241, read it from the right and it is 205.">
+          <WordLayout
+            fields={FIELDS}
+            ariaLabel="A 32-bit ARINC 429 word shown as five fields from bit 32 down to bit 1: one parity bit, two SSM bits, nineteen data bits, two SDI bits, and the eight label bits 1 to 8 holding the pattern 10100001."
+          />
+        </Figure>
 
         <H2>Both conventions are published</H2>
 

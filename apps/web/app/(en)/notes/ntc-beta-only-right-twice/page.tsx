@@ -1,9 +1,19 @@
 import type { Metadata } from "next";
 import { Callout, H2, NoteShell, P, Quoted } from "@/components/notes/NoteShell";
+import { Figure, LinePlot } from "@/components/notes/Figure";
+import { ntcBetaTemperature, NTC_REFERENCE_CURVES } from "@testbench/engine";
 import { JsonLd, noteJsonLd } from "@/lib/jsonld";
 import { noteBySlug } from "@/content/notes";
 
 const NOTE = noteBySlug("ntc-beta-only-right-twice")!;
+
+// Every published row of the datasheet table, run back through the Beta
+// equation. Computed here rather than transcribed, so the plot cannot drift.
+const BETA = { r0Ohms: 10000, t0C: 25, beta: 3977 };
+const ERROR = NTC_REFERENCE_CURVES[0]!.table.map(([celsius, ohms]) => {
+  const r = ntcBetaTemperature(BETA, ohms);
+  return { x: celsius, y: r.ok ? r.celsius - celsius : 0 };
+});
 
 export const metadata: Metadata = {
   alternates: { canonical: "/notes/ntc-beta-only-right-twice/" },
@@ -72,6 +82,22 @@ export default function Page() {
           B25/85. Everywhere else the error grows in both directions, and it dips slightly
           negative in between — the straight line cuts the corner.
         </P>
+
+        <Figure caption="Beta-equation error across all 39 rows of the datasheet table. It touches zero at 25 and 85 °C — the two temperatures B25/85 is defined between — and grows in both directions from there.">
+          <LinePlot
+            points={ERROR}
+            xTicks={[-40, 0, 25, 50, 85, 110, 150]}
+            yTicks={[-1, 0, 1, 2, 3]}
+            xLabel="actual °C"
+            yLabel="error °C"
+            zeroLine
+            markers={[
+              { x: 25, y: 0, label: "25 °C", anchor: "end" },
+              { x: 85, y: 0.01, label: "85 °C" },
+            ]}
+            ariaLabel="Error of the Beta equation against temperature for a Vishay NTCLE100E3103 thermistor. The error is plus 2.99 degrees at minus 40, falls to zero at 25 degrees, dips slightly negative near 50, returns to zero at 85, and rises to plus 2.84 degrees at 150."
+          />
+        </Figure>
 
         <Callout>
           Three degrees is not a rounding difference. On a battery pack cut-off, a fridge
