@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { CATEGORIES, TOOLS } from "@/content/tools-meta";
 import { CATEGORY_ACCENT, CATEGORY_GLOW } from "@/lib/category-style";
+import { NoktraBanner } from "./NoktraBanner";
 
 type ShellLocale = "en" | "ko";
 
@@ -43,6 +44,7 @@ export function ToolShell({
         <h1 className="mt-4 text-4xl sm:text-5xl">{name}</h1>
         <p className="mt-3 max-w-2xl text-[15px] text-mute">{description}</p>
         <div className="mt-8">{children}</div>
+        <NoktraBanner slug={slug} locale={locale} />
       </div>
     </article>
   );
