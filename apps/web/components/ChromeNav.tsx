@@ -4,6 +4,7 @@ import Link from "next/link";
 import { ABOUT, CHROME, CONTACT, LOCALE_PREFIX, PRIVACY, type SiteLocale } from "@/content/i18n";
 import { LangSwitch } from "@/components/LangSwitch";
 import { useActiveLang } from "@/components/useActiveLang";
+import { NOKTRA_BASE } from "@/content/noktra-links";
 
 /**
  * Header nav, badge and language selector. Client-side so that an English-only
@@ -22,6 +23,16 @@ export function HeaderNav({ routeLang }: { routeLang: SiteLocale }) {
           rather than a destination — it reads as one only when it looks like
           the links beside it. */}
       <nav className="hidden items-center gap-4 md:flex" aria-label="Site">
+        {/* 자매 브랜드 로고 링크 — 오프라인 데스크톱 검증 도구 쪽 */}
+        <a
+          href={`${NOKTRA_BASE}${lang === "ko" ? "/ko/" : "/"}`}
+          target="_blank"
+          rel="noopener"
+          aria-label="NOKTRA — verification instruments for air-gapped environments"
+          className="font-serif text-sm tracking-[0.14em] text-mute transition-colors hover:text-ink"
+        >
+          NOKTRA
+        </a>
         <Link
           href={`${p}apps/`}
           className="group inline-flex items-center gap-1.5 text-sm font-medium text-ink transition-colors hover:text-mute"
