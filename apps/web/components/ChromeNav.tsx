@@ -23,15 +23,18 @@ export function HeaderNav({ routeLang }: { routeLang: SiteLocale }) {
           rather than a destination — it reads as one only when it looks like
           the links beside it. */}
       <nav className="hidden items-center gap-4 md:flex" aria-label="Site">
-        {/* 자매 브랜드 로고 링크 — 오프라인 데스크톱 검증 도구 쪽 */}
+        {/* 자매 브랜드 칩 — 보더+브랜드 도트+↗로 '눌리는 제휴 링크'임을 드러낸다 */}
         <a
           href={`${NOKTRA_BASE}${lang === "ko" ? "/ko/" : "/"}`}
           target="_blank"
           rel="noopener"
           aria-label="NOKTRA — verification instruments for air-gapped environments"
-          className="font-serif text-sm tracking-[0.14em] text-mute transition-colors hover:text-ink"
+          title={lang === "ko" ? "자매 사이트 — 오프라인 데스크톱 검증 도구" : "Sister site — offline desktop instruments"}
+          className="inline-flex items-center gap-1.5 rounded-md border border-line-strong px-2.5 py-1 font-serif text-[13px] tracking-[0.12em] text-body transition-colors hover:border-ink hover:text-ink"
         >
+          <span aria-hidden="true" className="h-1.5 w-1.5 flex-none" style={{ background: "#31A9BC" }} />
           NOKTRA
+          <span aria-hidden="true" className="font-mono text-[10px] text-mute">↗</span>
         </a>
         <Link
           href={`${p}apps/`}
