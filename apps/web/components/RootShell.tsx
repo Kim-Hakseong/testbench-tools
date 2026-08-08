@@ -16,16 +16,16 @@ const REPO_URL = "https://github.com/Kim-Hakseong/testbench-tools";
 // then prefers-color-scheme. Must stay inline and synchronous.
 const themeInit = `(function(){try{var t=localStorage.getItem("theme");if(t!=="light"&&t!=="dark"){t=window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light";}document.documentElement.setAttribute("data-theme",t);}catch(e){document.documentElement.setAttribute("data-theme","dark");}})();`;
 
-// Locale routing on the root path only, and only for a visitor who has
-// already chosen a language — localStorage "lang", set by the switcher.
+// First-visit locale routing on the root path only: an explicit choice
+// (localStorage "lang", set by the language switcher) wins; otherwise the
+// browser language decides. Static hosting has no server, so this runs
+// client-side before paint. Crawlers get hreflang tags instead.
 //
-// It used to fall back to navigator.language, which meant a first-time visit
-// from a Korean browser bounced / to /ko/. A crawler is a first-time visit
-// every time, so Search Console reported the site's most important URL as
-// "Page with redirect". Guessing at a stranger's language was never worth
-// that; the switcher is in the header and hreflang tells search engines
-// which translations exist.
-const langInit = `(function(){try{var p=location.pathname;if(p!=="/"&&p!=="/index.html")return;var m={ko:"/ko/",ja:"/ja/",de:"/de/",zh:"/zh/"};var s=localStorage.getItem("lang");if(s&&s!=="en"&&m[s])location.replace(m[s]);}catch(e){}})();`;
+// This was briefly removed on the theory that it caused Search Console's
+// "Page with redirect". It did not — that report listed only the http/www
+// and /index.html canonicalisation every site has, and Googlebot crawls
+// with English anyway, so this branch never fires for it.
+const langInit = `(function(){try{var p=location.pathname;if(p!=="/"&&p!=="/index.html")return;var m={ko:"/ko/",ja:"/ja/",de:"/de/",zh:"/zh/"};var s=localStorage.getItem("lang");if(s){if(s!=="en"&&m[s])location.replace(m[s]);return;}var n=(navigator.language||"").toLowerCase().slice(0,2);if(m[n])location.replace(m[n]);}catch(e){}})();`;
 
 /** Shared document shell — each locale's root layout wraps pages with this. */
 export function RootShell({ lang, children }: { lang: SiteLocale; children: React.ReactNode }) {
