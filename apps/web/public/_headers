@@ -1,0 +1,13 @@
+# Cloudflare Pages response headers.
+#
+# Next.js writes an RSC payload beside every exported page — /notes/index.txt
+# next to /notes/. Those files are served publicly, carry the page's content in
+# serialised form, and being plain text they cannot declare a canonical. Search
+# Console duly reported them as "Duplicate without user-selected canonical".
+#
+# noindex rather than a robots.txt Disallow on purpose: a disallowed URL is
+# never fetched, so the directive is never read and anything already indexed
+# stays. Letting the crawler fetch it and find noindex is what actually removes
+# them.
+/*.txt
+  X-Robots-Tag: noindex
