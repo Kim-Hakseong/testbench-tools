@@ -62,6 +62,7 @@ export const TOOLS: ToolMeta[] = [
   // 2) Protocol Decoders
   { slug: "modbus-frame-decoder", name: "Modbus Frame Decoder", description: "Decode Modbus RTU/TCP frames: unit, function, registers, CRC check.", category: "protocol-decoders", p0: true, locale: "en", status: "live", tags: ["modbus", "rtu", "tcp", "decoder", "frame"] },
   { slug: "nmea-0183-decoder", name: "NMEA 0183 Decoder", description: "Parse NMEA 0183 sentences into labeled fields with checksum check.", category: "protocol-decoders", p0: false, locale: "en", status: "live", tags: ["nmea", "gps", "decoder"] },
+  { slug: "nmea-0183-generator", name: "NMEA 0183 Sentence Generator", description: "Build valid GGA/RMC/custom sentences with checksum, from decimal coordinates.", category: "protocol-decoders", p0: true, locale: "en", status: "live", tags: ["nmea", "nmea 0183", "gps", "sentence", "generator", "checksum"] },
   { slug: "can-frame-decoder", name: "CAN Frame Decoder", description: "Break down CAN 2.0 frames: ID, DLC, data bytes, flags.", category: "protocol-decoders", p0: false, locale: "en", status: "live", tags: ["can", "canbus", "decoder", "frame"] },
   { slug: "mc-protocol-decoder", name: "Mitsubishi MC Protocol Decoder", description: "Decode MC Protocol 3E frames — ASCII or binary, command, device, end code.", category: "protocol-decoders", p0: false, locale: "en", status: "live", tags: ["mitsubishi", "mc", "melsec", "slmp", "plc", "decoder", "3e"] },
 

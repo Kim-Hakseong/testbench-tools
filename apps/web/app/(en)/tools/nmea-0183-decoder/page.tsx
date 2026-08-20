@@ -94,6 +94,63 @@ export default function Page() {
 
         <AdSlot id="nmea-0183-decoder-content" />
 
+        <Section title="Writing a parser that survives real receivers">
+          <p>
+            The format is simple; the failure modes are all in the assumptions.
+            Four rules cover most of what breaks hand-written NMEA parsers.
+          </p>
+          <p>
+            <strong>Match the type, not the talker.</strong> The first two
+            letters of the address are the constellation — GP for GPS, GL for
+            GLONASS, GA for Galileo, GN for a combined fix. A parser that
+            hard-matches <code>$GPGGA</code> stops working the day a
+            multi-constellation module starts emitting <code>$GNGGA</code>,
+            which is the default on modern receivers. Match the last three
+            letters and keep the talker as data.
+          </p>
+          <p>
+            <strong>Empty fields are normal, not errors.</strong> Before a fix,
+            a receiver sends the sentence anyway with the position fields
+            blank: <code>$GPGGA,,,,,,0,00,,,M,,M,,*66</code> is a valid
+            sentence that means &quot;no fix yet&quot;. Code that does
+            <code>parseFloat</code> on every field without checking for empty
+            strings turns start-up into NaN.
+          </p>
+          <p>
+            <strong>The coordinate field is not a decimal number.</strong>
+            ddmm.mmmm has to be split at the minutes boundary — degrees are the
+            digits before the last two integer digits, the rest is minutes to
+            divide by 60. Reading 3733.9900 as 37.339900° puts the fix in the
+            wrong place by about 25 km, and nothing warns you.
+          </p>
+          <p>
+            <strong>Field counts vary by revision.</strong> Later NMEA
+            revisions appended fields — RMC grew a mode indicator, then a
+            navigation status. Parse positionally from the front and tolerate
+            extra fields at the end rather than requiring an exact count.
+          </p>
+        </Section>
+
+        <Section title="Feeding NMEA into LabVIEW or a PLC">
+          <p>
+            NMEA is plain ASCII on a serial port, so any environment that can
+            read lines can consume it — the work is always the same three
+            steps: frame on <code>$</code>…CR/LF, verify the checksum, split on
+            commas. In LabVIEW that is a serial read wired to a string
+            subset/scan pattern; on a PLC it is a string instruction block. The
+            two places implementations go wrong are the coordinate conversion
+            above and dropped partial lines at start-up — always resynchronise
+            on the next <code>$</code> rather than assuming the buffer starts
+            at a sentence boundary.
+          </p>
+          <p>
+            To test a consumer without a live receiver, the companion
+            generator on this site builds valid sentences — including the
+            no-fix and southern-hemisphere cases a bench receiver rarely
+            produces on demand.
+          </p>
+        </Section>
+
         <Section title="Parameters">
           <ParamsTable
             rows={[
@@ -111,7 +168,7 @@ export default function Page() {
         </Section>
 
         <Faq items={FAQS} />
-        <RelatedTools slugs={["nmea-checksum", "modbus-frame-decoder", "can-frame-decoder"]} />
+        <RelatedTools slugs={["nmea-0183-generator", "nmea-checksum", "can-frame-decoder"]} />
       </ToolShell>
     </>
   );

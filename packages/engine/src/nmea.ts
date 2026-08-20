@@ -144,3 +144,97 @@ export const NMEA_FIELD_LABELS: Record<string, string[]> = {
     "VDOP",
   ],
 };
+
+// ---------------------------------------------------------------------------
+// Sentence generation
+// ---------------------------------------------------------------------------
+
+/**
+ * NMEA's coordinate encoding is the classic trap in this format: it is NOT
+ * decimal degrees. Latitude is ddmm.mmmm and longitude dddmm.mmmm — degrees
+ * concatenated with decimal MINUTES. 37.5665° becomes 3733.9900, because
+ * 0.5665° × 60 = 33.99′. Reading that field as a plain number puts a fix in
+ * the wrong city; that mistake is why this helper exists as tested code
+ * rather than a format string in the UI.
+ */
+export interface NmeaCoordinate {
+  /** The numeric field exactly as it appears in the sentence. */
+  field: string;
+  /** Hemisphere letter: N/S for latitude, E/W for longitude. */
+  hemisphere: string;
+}
+
+export type NmeaCoordinateResult =
+  | { ok: true; value: NmeaCoordinate }
+  | { ok: false; error: string };
+
+/** Encode decimal degrees as an NMEA latitude field (ddmm.mmmm + N/S). */
+export function nmeaLatitude(decimalDegrees: number): NmeaCoordinateResult {
+  return encodeCoordinate(decimalDegrees, 90, 2, ["N", "S"]);
+}
+
+/** Encode decimal degrees as an NMEA longitude field (dddmm.mmmm + E/W). */
+export function nmeaLongitude(decimalDegrees: number): NmeaCoordinateResult {
+  return encodeCoordinate(decimalDegrees, 180, 3, ["E", "W"]);
+}
+
+function encodeCoordinate(
+  decimalDegrees: number,
+  limit: number,
+  degreeDigits: number,
+  hemispheres: [string, string],
+): NmeaCoordinateResult {
+  if (!Number.isFinite(decimalDegrees)) {
+    return { ok: false, error: "Enter the coordinate in decimal degrees" };
+  }
+  if (Math.abs(decimalDegrees) > limit) {
+    return { ok: false, error: `Must be within ±${limit}°` };
+  }
+
+  const hemisphere = decimalDegrees < 0 ? hemispheres[1] : hemispheres[0];
+  const abs = Math.abs(decimalDegrees);
+  let degrees = Math.floor(abs);
+  // Minutes to 4 decimals, carrying 60.0000′ over into the next degree so
+  // 36.9999999° never prints the illegal "3660.0000".
+  let minutes = Math.round((abs - degrees) * 60 * 10000) / 10000;
+  if (minutes >= 60) {
+    minutes -= 60;
+    degrees += 1;
+  }
+
+  const mm = minutes.toFixed(4).padStart(7, "0");
+  return {
+    ok: true,
+    value: { field: `${String(degrees).padStart(degreeDigits, "0")}${mm}`, hemisphere },
+  };
+}
+
+/** Decode an NMEA coordinate field back to decimal degrees. */
+export function nmeaCoordinateToDegrees(field: string, hemisphere: string): number | null {
+  const m = /^(\d{2,3})(\d{2}\.\d+)$/.exec(field.trim());
+  if (!m) return null;
+  const degrees = Number(m[1]) + Number(m[2]) / 60;
+  return /^[SW]$/i.test(hemisphere.trim()) ? -degrees : degrees;
+}
+
+/** hhmmss.ss UTC field from hours/minutes/seconds. */
+export function nmeaTime(hours: number, minutes: number, seconds: number): string | null {
+  if (!Number.isInteger(hours) || hours < 0 || hours > 23) return null;
+  if (!Number.isInteger(minutes) || minutes < 0 || minutes > 59) return null;
+  if (!Number.isFinite(seconds) || seconds < 0 || seconds >= 60) return null;
+  const ss = seconds.toFixed(2).padStart(5, "0");
+  return `${String(hours).padStart(2, "0")}${String(minutes).padStart(2, "0")}${ss}`;
+}
+
+/** ddmmyy date field. The two-digit year is the format's own limitation. */
+export function nmeaDate(day: number, month: number, year: number): string | null {
+  if (!Number.isInteger(day) || day < 1 || day > 31) return null;
+  if (!Number.isInteger(month) || month < 1 || month > 12) return null;
+  if (!Number.isInteger(year) || year < 0) return null;
+  const yy = year % 100;
+  return (
+    String(day).padStart(2, "0") +
+    String(month).padStart(2, "0") +
+    String(yy).padStart(2, "0")
+  );
+}
