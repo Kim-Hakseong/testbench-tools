@@ -1,11 +1,16 @@
-// Cloudflare Workers static-assets config: `wrangler deploy` publishes the
-// Next.js static export as pure assets (no Worker script). Asset-only
-// requests are free and unmetered on the free plan.
+// Cloudflare Workers config: `wrangler deploy` publishes the Next.js static
+// export as assets, plus one tiny Worker (worker/index.js) that counts tool
+// usage. GET/HEAD requests are answered by the assets and stay free and
+// unmetered; only the beacon's POST /hit reaches the script.
 {
   "name": "testbench-tools",
   "compatibility_date": "2026-07-26",
+  "main": "worker/index.js",
   "assets": {
     "directory": "apps/web/out",
     "not_found_handling": "404-page"
-  }
+  },
+  "analytics_engine_datasets": [
+    { "binding": "TOOL_USAGE", "dataset": "testbench_tool_usage" }
+  ]
 }
