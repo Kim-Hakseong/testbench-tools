@@ -8,7 +8,10 @@
   "main": "worker/index.js",
   "assets": {
     "directory": "apps/web/out",
-    "not_found_handling": "404-page"
+    "not_found_handling": "404-page",
+    // /hit has no asset and never will; route it to the Worker before the
+    // asset layer answers 405 for the POST.
+    "run_worker_first": ["/hit"]
   },
   "analytics_engine_datasets": [
     { "binding": "TOOL_USAGE", "dataset": "testbench_tool_usage" }
