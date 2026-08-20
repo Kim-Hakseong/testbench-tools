@@ -1,0 +1,29 @@
+# yaml-language-server: $schema=https://aka.ms/winget-manifest.defaultLocale.1.6.0.schema.json
+PackageIdentifier: TestBenchTools.LinkTap
+PackageVersion: 1.0.0
+PackageLocale: en-US
+Publisher: TestBench.tools
+PublisherUrl: https://testbench.tools/
+PublisherSupportUrl: https://github.com/Kim-Hakseong/testbench-linktap/issues
+PackageName: LinkTap
+PackageUrl: https://testbench.tools/apps/linktap/
+License: MIT
+LicenseUrl: https://github.com/Kim-Hakseong/testbench-linktap/blob/main/LICENSE
+Copyright: Copyright (c) 2026 TestBench.tools
+ShortDescription: Zero-driver tap for TCP and serial links, with automatic Modbus and NMEA decoding.
+Description: |-
+  Zero-driver tap for TCP and serial links, with automatic Modbus and NMEA decoding.
+  Runs entirely offline — nothing is uploaded. Free and open source under the
+  MIT License; the full source is in the repository linked above.
+Moniker: linktap
+Tags:
+  - modbus
+  - nmea
+  - serial
+  - tcp
+  - protocol-analyzer
+  - tap
+  - industrial-automation
+ReleaseNotesUrl: https://github.com/Kim-Hakseong/testbench-linktap/releases/tag/v1.0.0
+ManifestType: defaultLocale
+ManifestVersion: 1.6.0

@@ -9,6 +9,7 @@ const COUNTERPART: Record<string, string> = {
   "tdms-converter": "/tools/tdms-to-csv/",
   frameterm: "/tools/modbus-frame-decoder/",
   "modbus-workbench": "/tools/modbus-frame-decoder/",
+  linktap: "/tools/modbus-frame-decoder/",
 };
 
 export function AppDetailBody({ locale, slug }: { locale: SiteLocale; slug: string }) {

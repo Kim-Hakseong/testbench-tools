@@ -104,7 +104,7 @@ const STATIC_CARDS = [
     slug: "apps",
     name: "Desktop Apps",
     description:
-      "Free, MIT-licensed desktop companions for heavier offline work: a Modbus master, a frame-level serial terminal, and a TDMS viewer.",
+      "Free, MIT-licensed desktop companions: a Modbus master, a frame-level serial terminal, a TDMS viewer, and a zero-driver link tap.",
     eyebrow: "Downloads",
     href: "/apps/",
   },

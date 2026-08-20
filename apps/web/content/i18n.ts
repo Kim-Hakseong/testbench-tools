@@ -452,26 +452,31 @@ export const APP_DESC: Record<SiteLocale, Record<string, string>> = {
     "tdms-converter": "Desktop viewer and CSV converter for NI TDMS measurement files.",
     frameterm: "Serial terminal built for frame-level protocol work.",
     "modbus-workbench": "Modbus RTU/TCP master with polling, writes and a built-in simulator.",
+    "linktap": "Zero-driver tap for TCP and serial links, with automatic Modbus and NMEA decoding.",
   },
   ko: {
     "tdms-converter": "NI TDMS 측정 파일용 데스크톱 뷰어 겸 CSV 변환기.",
     frameterm: "프레임 단위 프로토콜 작업용 시리얼 터미널.",
     "modbus-workbench": "폴링·쓰기·내장 시뮬레이터를 갖춘 Modbus RTU/TCP 마스터.",
+    "linktap": "드라이버 없이 TCP·시리얼 링크 중간을 여는 탭. Modbus·NMEA 자동 해석.",
   },
   ja: {
     "tdms-converter": "NI TDMS計測ファイル用のデスクトップビューア兼CSV変換ツール。",
     frameterm: "フレームレベルのプロトコル作業向けシリアルターミナル。",
     "modbus-workbench": "ポーリング・書き込み・内蔵シミュレータを備えた Modbus RTU/TCP マスター。",
+    "linktap": "ドライバ不要でTCP・シリアルリンクの中間を開くタップ。Modbus・NMEAを自動解釈。",
   },
   de: {
     "tdms-converter": "Desktop-Viewer und CSV-Konverter für NI-TDMS-Messdateien.",
     frameterm: "Serielles Terminal für Protokollarbeit auf Frame-Ebene.",
     "modbus-workbench": "Modbus-RTU/TCP-Master mit Abfragen, Schreibzugriffen und internem Simulator.",
+    "linktap": "Treiberloser Tap für TCP- und serielle Verbindungen, mit automatischer Modbus- und NMEA-Dekodierung.",
   },
   zh: {
     "tdms-converter": "面向 NI TDMS 测量文件的桌面查看器与 CSV 转换工具。",
     frameterm: "面向帧级协议调试的串口终端。",
     "modbus-workbench": "带轮询、写入与内置模拟器的 Modbus RTU/TCP 主站。",
+    "linktap": "无需驱动即可打开 TCP 与串口链路中间的抓取器，自动解析 Modbus 与 NMEA。",
   },
 };
 
@@ -881,6 +886,17 @@ export const APP_DETAIL: Record<SiteLocale, AppDetailStrings> = {
         ],
         counterpartLabel: "Modbus Frame Decoder web tool",
       },
+      linktap: {
+        tagline: "Open the middle of a device link and read what passes — without a driver.",
+        features: [
+          "TCP proxy: point the client at LinkTap, it forwards to the real server",
+          "Serial bridge: device on port A, application on port B, no kernel driver",
+          "Modbus TCP/RTU and NMEA 0183 recognised and decoded to one line each",
+          "Direction is known, not guessed — a client frame is a request by construction",
+          "Plain substring filter, no filter language; demo runs with no hardware",
+        ],
+        counterpartLabel: "Modbus Frame Decoder web tool",
+      },
     },
   },
   ko: {
@@ -924,6 +940,17 @@ export const APP_DETAIL: Record<SiteLocale, AppDetailStrings> = {
         ],
         counterpartLabel: "Modbus Frame Decoder 웹 툴",
       },
+      linktap: {
+        tagline: "드라이버 없이 장치 링크의 중간을 열어 오가는 것을 읽습니다.",
+        features: [
+          "TCP 프록시: 클라이언트를 LinkTap으로 향하게 하면 실제 서버로 전달",
+          "시리얼 브리지: 장치는 포트 A, 앱은 포트 B — 커널 드라이버 불필요",
+          "Modbus TCP/RTU·NMEA 0183을 자동 인식해 한 줄로 해석",
+          "방향은 추측이 아니라 사실 — 클라이언트발 프레임은 구조적으로 요청",
+          "필터 언어 없는 부분일치 검색, 하드웨어 없이 도는 데모",
+        ],
+        counterpartLabel: "Modbus 프레임 디코더 웹 툴",
+      },
     },
   },
   ja: {
@@ -965,6 +992,17 @@ export const APP_DETAIL: Record<SiteLocale, AppDetailStrings> = {
           "完全オフライン動作、UI は 5 言語",
         ],
         counterpartLabel: "Modbus Frame Decoder ウェブツール",
+      },
+      linktap: {
+        tagline: "ドライバなしでデバイスリンクの中間を開き、流れるものを読みます。",
+        features: [
+          "TCPプロキシ: クライアントをLinkTapに向けると実サーバーへ転送",
+          "シリアルブリッジ: デバイスはポートA、アプリはポートB — カーネルドライバ不要",
+          "Modbus TCP/RTU・NMEA 0183を自動認識し1行に解釈",
+          "方向は推測ではなく事実 — クライアント発フレームは構造上リクエスト",
+          "フィルタ言語のない部分一致検索、ハードウェアなしで動くデモ",
+        ],
+        counterpartLabel: "Modbusフレームデコーダー Webツール",
       },
     },
   },
@@ -1008,6 +1046,17 @@ export const APP_DETAIL: Record<SiteLocale, AppDetailStrings> = {
         ],
         counterpartLabel: "Modbus-Frame-Decoder Web-Tool",
       },
+      linktap: {
+        tagline: "Öffnet die Mitte einer Geräteverbindung und liest mit — ohne Treiber.",
+        features: [
+          "TCP-Proxy: Client auf LinkTap richten, Weiterleitung zum echten Server",
+          "Serielle Brücke: Gerät an Port A, Anwendung an Port B — kein Kerneltreiber",
+          "Modbus TCP/RTU und NMEA 0183 automatisch erkannt und je Zeile dekodiert",
+          "Richtung ist Fakt, nicht Vermutung — ein Client-Frame ist per Konstruktion eine Anfrage",
+          "Einfacher Teilstring-Filter statt Filtersprache; Demo läuft ohne Hardware",
+        ],
+        counterpartLabel: "Modbus-Frame-Decoder-Webtool",
+      },
     },
   },
   zh: {
@@ -1049,6 +1098,17 @@ export const APP_DETAIL: Record<SiteLocale, AppDetailStrings> = {
           "完全离线运行；界面支持五种语言",
         ],
         counterpartLabel: "Modbus 报文解码 网页工具",
+      },
+      linktap: {
+        tagline: "无需驱动即可打开设备链路的中间，读取往来的数据。",
+        features: [
+          "TCP 代理：将客户端指向 LinkTap，由它转发到真实服务器",
+          "串口桥接：设备接端口 A，应用接端口 B — 无需内核驱动",
+          "自动识别 Modbus TCP/RTU 与 NMEA 0183，每条报文解析为一行",
+          "方向是事实而非猜测 — 来自客户端的帧在结构上就是请求",
+          "无过滤语言的子串过滤；演示无需任何硬件",
+        ],
+        counterpartLabel: "Modbus 帧解码器网页工具",
       },
     },
   },
