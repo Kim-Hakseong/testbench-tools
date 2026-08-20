@@ -1,6 +1,6 @@
 # yaml-language-server: $schema=https://aka.ms/winget-manifest.defaultLocale.1.6.0.schema.json
 PackageIdentifier: TestBenchTools.TdmsConverter
-PackageVersion: 1.0.0
+PackageVersion: 1.1.0
 PackageLocale: en-US
 Publisher: TestBench.tools
 PublisherUrl: https://testbench.tools/
@@ -10,9 +10,9 @@ PackageUrl: https://testbench.tools/apps/tdms-converter/
 License: MIT
 LicenseUrl: https://github.com/Kim-Hakseong/testbench-tdms-converter/blob/main/LICENSE
 Copyright: Copyright (c) 2026 TestBench.tools
-ShortDescription: Desktop viewer and CSV converter for NI TDMS measurement files.
+ShortDescription: Desktop viewer and CSV/xlsx converter for NI TDMS measurement files.
 Description: |-
-  Desktop viewer and CSV converter for NI TDMS measurement files.
+  Desktop viewer and CSV/xlsx converter for NI TDMS measurement files.
   Runs entirely offline — nothing is uploaded. Free and open source under the
   MIT License; the full source is in the repository linked above.
 Moniker: tdms-converter
@@ -23,6 +23,6 @@ Tags:
   - csv
   - converter
   - data-acquisition
-ReleaseNotesUrl: https://github.com/Kim-Hakseong/testbench-tdms-converter/releases/tag/v1.0.0
+ReleaseNotesUrl: https://github.com/Kim-Hakseong/testbench-tdms-converter/releases/tag/v1.1.0
 ManifestType: defaultLocale
 ManifestVersion: 1.6.0

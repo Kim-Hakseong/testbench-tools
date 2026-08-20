@@ -33,16 +33,16 @@
     {
       "slug": "tdms-converter",
       "name": "TDMS Converter",
-      "description": "Desktop viewer and CSV converter for NI TDMS measurement files.",
+      "description": "Desktop viewer and CSV/xlsx converter for NI TDMS measurement files.",
       "platforms": [
         "Windows"
       ],
-      "url": "https://github.com/Kim-Hakseong/testbench-tdms-converter/releases/download/v1.0.0/TdmsConverter-v1.0.0-win-x64.exe",
+      "url": "https://github.com/Kim-Hakseong/testbench-tdms-converter/releases/download/v1.1.0/TdmsConverter-v1.1.0-win-x64.exe",
       "repo": "https://github.com/Kim-Hakseong/testbench-tdms-converter",
       "screenshot": "/apps/tdms-converter.png",
       "free": true,
-      "version": "v1.0.0",
-      "sha256": "044c3a5bd5afc2d09dc60dbb7d69ea7f46840f50ea9911adc5bbd4d4153ddb83",
+      "version": "v1.1.0",
+      "sha256": "f40ca99f1c0a62ca8a57731f8687566b6cd025eb9e8c8d97f986716487531320",
       "sizeMb": 90
     }
   ]
