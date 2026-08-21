@@ -12,7 +12,7 @@ export const metadata: Metadata = {
   description:
     "Free online PLC analog scaling calculator: convert raw ADC counts to engineering units and back, with manual-verified presets for Siemens S7, Mitsubishi R60AD4, AB SLC 1746-NI4 and LS XGF-AD4S. 100% in your browser.",
   alternates: toolAlternates("plc-analog-scaling", "en"),
-  openGraph: { images: ["/og/plc-analog-scaling.png"], siteName: "TestBench.tools", title: "PLC Analog Scaling Calculator — raw counts ↔ engineering units", description: "Free online PLC analog scaling calculator: convert raw ADC counts to engineering units and back, with manual-verified presets for Siemens S7, Mitsubishi R60AD4, AB SLC 1746-NI4 and LS XGF-AD4S. 100% in your browser.", type: "website" },
+  openGraph: { url: "/tools/plc-analog-scaling/", images: ["/og/plc-analog-scaling.png"], siteName: "TestBench.tools", title: "PLC Analog Scaling Calculator — raw counts ↔ engineering units", description: "Free online PLC analog scaling calculator: convert raw ADC counts to engineering units and back, with manual-verified presets for Siemens S7, Mitsubishi R60AD4, AB SLC 1746-NI4 and LS XGF-AD4S. 100% in your browser.", type: "website" },
 };
 
 const FAQS: FaqItem[] = [

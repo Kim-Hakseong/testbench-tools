@@ -11,7 +11,7 @@ export const metadata: Metadata = {
   title: "Voltage Divider Calculator — with E24/E96 standard values",
   description:
     "Free online voltage divider calculator: compute Vout from R1/R2, or find the best standard E24/E96 resistor pairs for a target ratio with error percentages. 100% in your browser.",
-  openGraph: {
+  openGraph: { url: "/tools/voltage-divider/",
     images: ["/og/voltage-divider.png"], siteName: "TestBench.tools", title: "Voltage Divider Calculator — with E24/E96 standard values", description: "Compute Vout or find the best standard E24/E96 resistor pairs for a target ratio.", type: "website" },
 };
 

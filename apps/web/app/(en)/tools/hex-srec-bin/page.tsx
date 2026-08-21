@@ -11,7 +11,7 @@ export const metadata: Metadata = {
   title: "Intel HEX · S-Record ↔ BIN Converter — firmware images",
   description:
     "Free online firmware image converter: Intel HEX or Motorola S-Record to raw binary and back, with checksum validation and segment map. 100% in your browser.",
-  openGraph: {
+  openGraph: { url: "/tools/hex-srec-bin/",
     images: ["/og/hex-srec-bin.png"], siteName: "TestBench.tools", title: "Intel HEX · S-Record ↔ BIN Converter — firmware images", description: "Convert firmware between Intel HEX, S-Record and raw binary with checksum validation.", type: "website" },
 };
 

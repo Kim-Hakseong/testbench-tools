@@ -11,7 +11,7 @@ export const metadata: Metadata = {
   title: "Modbus Address Converter — 40001 ↔ 0-based ↔ 1-based",
   description:
     "Free online Modbus address converter between data-model notation (40001, 30001…), 1-based and 0-based protocol addresses, for all four entity types. 100% in your browser.",
-  openGraph: {
+  openGraph: { url: "/tools/modbus-address-converter/",
     images: ["/og/modbus-address-converter.png"], siteName: "TestBench.tools", title: "Modbus Address Converter — 40001 ↔ 0-based ↔ 1-based", description: "Convert between 4xxxx data-model notation, 1-based and 0-based Modbus protocol addresses.", type: "website" },
 };
 

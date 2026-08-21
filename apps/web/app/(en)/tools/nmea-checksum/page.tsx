@@ -11,7 +11,7 @@ export const metadata: Metadata = {
   title: "NMEA Checksum Calculator — validate & generate 0183 sentences",
   description:
     "Free online NMEA 0183 checksum tool: paste a sentence to validate its checksum, or type a body to generate the complete $…*HH sentence. 100% in your browser.",
-  openGraph: {
+  openGraph: { url: "/tools/nmea-checksum/",
     images: ["/og/nmea-checksum.png"], siteName: "TestBench.tools", title: "NMEA Checksum Calculator — validate & generate 0183 sentences", description: "Validate an NMEA 0183 sentence's checksum or generate the complete $…*HH sentence.", type: "website" },
 };
 

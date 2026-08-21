@@ -10,7 +10,7 @@ export const metadata: Metadata = {
   title: "The XBF-AD04A manual prints two different full-scale values",
   description:
     "A footnote in the LS XBF-AD04A manual says the unsigned digital output reaches 16000; the table above it says 4000. Which is right, how the manual itself settles it, and how to handle a self-contradicting datasheet.",
-  openGraph: {
+  openGraph: { url: "/notes/xbf-ad04a-16000-or-4000/",
     images: ["/og/note-xbf-ad04a-16000-or-4000.png"],
     siteName: "TestBench.tools",
     type: "article",

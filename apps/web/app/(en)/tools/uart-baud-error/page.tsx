@@ -11,7 +11,7 @@ export const metadata: Metadata = {
   title: "UART Baud Rate Error Calculator — divisor & error %",
   description:
     "Free online UART baud rate error calculator: integer divisor, actual baud and error percentage for your clock, with a table of common baud rates. 100% in your browser.",
-  openGraph: {
+  openGraph: { url: "/tools/uart-baud-error/",
     images: ["/og/uart-baud-error.png"], siteName: "TestBench.tools", title: "UART Baud Rate Error Calculator — divisor & error %", description: "Integer divisor, actual baud and error percentage for your UART clock.", type: "website" },
 };
 

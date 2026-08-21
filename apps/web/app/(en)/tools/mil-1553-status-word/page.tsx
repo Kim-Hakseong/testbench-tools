@@ -11,7 +11,7 @@ export const metadata: Metadata = {
   title: "MIL-STD-1553B Status Word Decoder — RT address & flag bits",
   description:
     "Free online MIL-STD-1553B status word decoder: RT address plus Message Error, Service Request, Busy, Terminal Flag and every status bit. 100% in your browser.",
-  openGraph: {
+  openGraph: { url: "/tools/mil-1553-status-word/",
     images: ["/og/mil-1553-status-word.png"], siteName: "TestBench.tools", title: "MIL-STD-1553B Status Word Decoder", description: "Decode 1553B status words: RT address and every status flag bit.", type: "website" },
 };
 

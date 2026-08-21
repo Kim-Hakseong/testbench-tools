@@ -11,7 +11,7 @@ export const metadata: Metadata = {
   title: "Siemens S7 Address Converter — byte, word and overlap checker",
   description:
     "Free online Siemens S7 address tool: decode %MW100, %M10.3 and DB1.DBW20, see the bytes each one covers, and check whether two addresses overlap. 100% in your browser.",
-  openGraph: {
+  openGraph: { url: "/tools/s7-address-converter/",
     images: ["/og/s7-address-converter.png"], siteName: "TestBench.tools",
     title: "Siemens S7 Address Converter",
     description: "Decode S7 addresses, see the bytes they cover, and catch overlapping words before they bite.",

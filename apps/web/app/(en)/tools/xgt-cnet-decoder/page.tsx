@@ -10,7 +10,7 @@ export const metadata: Metadata = {
   title: "LS XGT Cnet Frame Decoder — fields and BCC check",
   description:
     "Free LS XGT Cnet frame decoder: split a dedicated-protocol frame into station, command, blocks and error code, and verify the BCC. 100% in your browser.",
-  openGraph: {
+  openGraph: { url: "/tools/xgt-cnet-decoder/",
     images: ["/og/xgt-cnet-decoder.png"], siteName: "TestBench.tools", title: "LS XGT Cnet Frame Decoder", description: "Decode XGT Cnet frames field by field and check the BCC.", type: "website" },
 };
 

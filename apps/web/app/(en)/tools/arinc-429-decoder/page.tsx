@@ -10,7 +10,7 @@ export const metadata: Metadata = {
   title: "ARINC 429 Word Decoder — label, SDI, SSM, BNR/BCD, parity",
   description:
     "Free ARINC 429 word decoder: octal label with both bit-order readings, SDI, SSM, BNR and BCD data and an odd-parity check. 100% in your browser.",
-  openGraph: {
+  openGraph: { url: "/tools/arinc-429-decoder/",
     images: ["/og/arinc-429-decoder.png"], siteName: "TestBench.tools",
     title: "ARINC 429 Word Decoder",
     description: "Decode a 32-bit ARINC 429 word field by field, with both label bit-order conventions shown.",

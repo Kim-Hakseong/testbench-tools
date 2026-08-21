@@ -11,7 +11,7 @@ export const metadata: Metadata = {
   title: "Custom CRC Calculator — any width, poly, init, reflect, xorout",
   description:
     "Free online parameterized CRC calculator: set width (1–32), polynomial, init, RefIn/RefOut and XorOut to match any CRC model. Runs 100% in your browser.",
-  openGraph: {
+  openGraph: { url: "/tools/custom-crc/",
     images: ["/og/custom-crc.png"], siteName: "TestBench.tools", title: "Custom CRC Calculator — any width, poly, init, reflect, xorout", description: "Free online parameterized CRC calculator: set width (1–32), polynomial, init, RefIn/RefOut and XorOut to match any CRC model. Runs 100% in your browser.", type: "website" },
 };
 

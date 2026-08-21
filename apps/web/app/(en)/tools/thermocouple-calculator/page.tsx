@@ -10,7 +10,7 @@ export const metadata: Metadata = {
   title: "Thermocouple Calculator — mV ↔ °C with cold junction, ITS-90",
   description:
     "Free thermocouple calculator for types K, J, T, E, N, R, S and B: millivolts to temperature with cold-junction compensation, using the NIST ITS-90 reference functions. 100% in your browser.",
-  openGraph: {
+  openGraph: { url: "/tools/thermocouple-calculator/",
     images: ["/og/thermocouple-calculator.png"], siteName: "TestBench.tools",
     title: "Thermocouple Calculator — types K, J, T, E, N, R, S, B",
     description: "mV ↔ °C on the NIST ITS-90 reference functions, with cold-junction compensation.",

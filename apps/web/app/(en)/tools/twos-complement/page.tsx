@@ -11,7 +11,7 @@ export const metadata: Metadata = {
   title: "Two's Complement Converter — signed ↔ hex, 8/16/32-bit",
   description:
     "Free online two's complement converter: signed decimal ↔ raw hex at 8, 16 and 32-bit widths, with unsigned and binary views. 100% in your browser.",
-  openGraph: {
+  openGraph: { url: "/tools/twos-complement/",
     images: ["/og/twos-complement.png"], siteName: "TestBench.tools", title: "Two's Complement Converter — signed ↔ hex, 8/16/32-bit", description: "Signed decimal ↔ raw hex at 8/16/32-bit widths, with unsigned and binary views.", type: "website" },
 };
 

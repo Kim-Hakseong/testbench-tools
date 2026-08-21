@@ -20,7 +20,7 @@ export const metadata: Metadata = {
   title: "Your NTC's B value is exact at two temperatures and nowhere else",
   description:
     "The Beta equation is a straight line through two points of a curved characteristic. Measured against Vishay's published R/T table it reads 3 °C high at −40 °C, exactly right at 25 and 85, and 2.8 °C high at 150.",
-  openGraph: {
+  openGraph: { url: "/notes/ntc-beta-only-right-twice/",
     images: ["/og/note-ntc-beta-only-right-twice.png"],
     siteName: "TestBench.tools",
     type: "article",

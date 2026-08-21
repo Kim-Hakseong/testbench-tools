@@ -11,7 +11,7 @@ export const metadata: Metadata = {
   title: "I2C Pull-up Calculator — resistor bounds from bus capacitance",
   description:
     "Free online I2C pull-up resistor calculator: minimum and maximum values from VDD, bus capacitance and speed mode, using the I2C specification formulas. 100% in your browser.",
-  openGraph: {
+  openGraph: { url: "/tools/i2c-pullup/",
     images: ["/og/i2c-pullup.png"], siteName: "TestBench.tools", title: "I2C Pull-up Calculator — resistor bounds from bus capacitance", description: "Min/max pull-up values from VDD, bus capacitance and I2C speed mode.", type: "website" },
 };
 

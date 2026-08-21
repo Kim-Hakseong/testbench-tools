@@ -12,7 +12,7 @@ export const metadata: Metadata = {
   description:
     "Free online ADC calculator: convert ADC counts to voltage and back for 8–24 bit converters, with LSB size. Uses the count/(2^N−1) convention. 100% in your browser.",
   alternates: toolAlternates("adc-calculator", "en"),
-  openGraph: { images: ["/og/adc-calculator.png"], siteName: "TestBench.tools", title: "ADC Calculator — counts ↔ voltage, LSB size", description: "Free online ADC calculator: convert ADC counts to voltage and back for 8–24 bit converters, with LSB size. Uses the count/(2^N−1) convention. 100% in your browser.", type: "website" },
+  openGraph: { url: "/tools/adc-calculator/", images: ["/og/adc-calculator.png"], siteName: "TestBench.tools", title: "ADC Calculator — counts ↔ voltage, LSB size", description: "Free online ADC calculator: convert ADC counts to voltage and back for 8–24 bit converters, with LSB size. Uses the count/(2^N−1) convention. 100% in your browser.", type: "website" },
 };
 
 const FAQS: FaqItem[] = [

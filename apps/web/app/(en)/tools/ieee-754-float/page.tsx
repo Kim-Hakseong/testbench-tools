@@ -11,7 +11,7 @@ export const metadata: Metadata = {
   title: "IEEE 754 Float Converter — Modbus word orders ABCD/CDAB/BADC/DCBA",
   description:
     "Free online IEEE 754 float ↔ Modbus register converter covering all four word orders (ABCD, CDAB, BADC, DCBA). Find the right byte order for your PLC. 100% in your browser.",
-  openGraph: {
+  openGraph: { url: "/tools/ieee-754-float/",
     images: ["/og/ieee-754-float.png"], siteName: "TestBench.tools", title: "IEEE 754 Float Converter — Modbus word orders ABCD/CDAB/BADC/DCBA", description: "Free online IEEE 754 float ↔ Modbus register converter covering all four word orders (ABCD, CDAB, BADC, DCBA). Find the right byte order for your PLC. 100% in your browser.", type: "website" },
 };
 

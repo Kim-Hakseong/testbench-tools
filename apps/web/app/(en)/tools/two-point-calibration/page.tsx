@@ -11,7 +11,7 @@ export const metadata: Metadata = {
   title: "2-Point Calibration Calculator — slope & offset from two readings",
   description:
     "Free online two-point calibration calculator: enter two reference readings and get slope, offset and the correction equation, with live apply/invert. 100% in your browser.",
-  openGraph: {
+  openGraph: { url: "/tools/two-point-calibration/",
     images: ["/og/two-point-calibration.png"], siteName: "TestBench.tools", title: "2-Point Calibration Calculator — slope & offset from two readings", description: "Enter two reference readings and get slope, offset and the correction equation.", type: "website" },
 };
 

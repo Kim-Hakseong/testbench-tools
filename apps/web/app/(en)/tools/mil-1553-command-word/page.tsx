@@ -11,7 +11,7 @@ export const metadata: Metadata = {
   title: "MIL-STD-1553B Command Word Decoder — RT, T/R, subaddress, word count",
   description:
     "Free online MIL-STD-1553B command word decoder and builder: RT address, T/R bit, subaddress, word count and mode codes, with odd parity. 100% in your browser.",
-  openGraph: {
+  openGraph: { url: "/tools/mil-1553-command-word/",
     images: ["/og/mil-1553-command-word.png"], siteName: "TestBench.tools", title: "MIL-STD-1553B Command Word Decoder", description: "Decode and build 1553B command words: RT address, T/R, subaddress, word count and mode codes.", type: "website" },
 };
 

@@ -11,7 +11,7 @@ export const metadata: Metadata = {
   title: "In integer mode, 32767 on a 1756-IF8 is not 20 mA",
   description:
     "ControlLogix analog inputs in integer mode put -32768 at 0 mA and 32767 at 20.58 mA, not 0 and 20. Where the numbers come from, why the obvious scaling is wrong at both ends, and how to check yours.",
-  openGraph: {
+  openGraph: { url: "/notes/1756-if8-integer-counts/",
     images: ["/og/note-1756-if8-integer-counts.png"],
     siteName: "TestBench.tools",
     type: "article",

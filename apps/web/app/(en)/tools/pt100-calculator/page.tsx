@@ -12,7 +12,7 @@ export const metadata: Metadata = {
   description:
     "Free online PT100/PT1000 RTD calculator: convert resistance to temperature and back using the IEC 60751 Callendar-Van Dusen equation (0–850 °C). 100% in your browser.",
   alternates: toolAlternates("pt100-calculator", "en"),
-  openGraph: { images: ["/og/pt100-calculator.png"], siteName: "TestBench.tools", title: "PT100 / PT1000 Calculator — resistance ↔ temperature (IEC 60751)", description: "Free online PT100/PT1000 RTD calculator: convert resistance to temperature and back using the IEC 60751 Callendar-Van Dusen equation (0–850 °C). 100% in your browser.", type: "website" },
+  openGraph: { url: "/tools/pt100-calculator/", images: ["/og/pt100-calculator.png"], siteName: "TestBench.tools", title: "PT100 / PT1000 Calculator — resistance ↔ temperature (IEC 60751)", description: "Free online PT100/PT1000 RTD calculator: convert resistance to temperature and back using the IEC 60751 Callendar-Van Dusen equation (0–850 °C). 100% in your browser.", type: "website" },
 };
 
 const FAQS: FaqItem[] = [

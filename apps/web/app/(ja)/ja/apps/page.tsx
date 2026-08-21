@@ -7,7 +7,7 @@ export const metadata: Metadata = {
   title: APPS_PAGE.ja.metaTitle,
   description: APPS_PAGE.ja.metaDesc,
   alternates: sharedAlternates("apps", "ja"),
-  openGraph: { images: ["/og/apps.png"], siteName: "TestBench.tools" },
+  openGraph: { url: "/ja/apps/", images: ["/og/apps.png"], siteName: "TestBench.tools" },
 };
 
 export default function Page() {

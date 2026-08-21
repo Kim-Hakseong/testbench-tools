@@ -10,7 +10,7 @@ export const metadata: Metadata = {
   title: "Allen-Bradley SLC 500 Address Converter — N7:2/8, B3/16, I:2.1/3",
   description:
     "Free Allen-Bradley SLC 500 address decoder: file type, element and bit for N7:2/8, the B3/16 shorthand, and slot/word I/O like I:2.1/3. 100% in your browser.",
-  openGraph: {
+  openGraph: { url: "/tools/ab-slc-address-converter/",
     images: ["/og/ab-slc-address-converter.png"], siteName: "TestBench.tools",
     title: "Allen-Bradley SLC 500 Address Converter",
     description: "Decode SLC 500 data-table and I/O addresses: file, element, bit and slot.",

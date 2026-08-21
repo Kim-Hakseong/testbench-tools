@@ -24,7 +24,7 @@ export const metadata: Metadata = {
   title: "The same ARINC 429 word is label 205 and label 241",
   description:
     "ARINC 429 label bits are numbered in opposite directions by different published sources, so one word yields two different octal labels. Why both are defensible, and how to tell which one your tool means.",
-  openGraph: {
+  openGraph: { url: "/notes/arinc-429-label-bit-order/",
     images: ["/og/note-arinc-429-label-bit-order.png"],
     siteName: "TestBench.tools",
     type: "article",

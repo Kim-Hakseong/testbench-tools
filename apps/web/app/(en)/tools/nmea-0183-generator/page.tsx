@@ -11,7 +11,7 @@ export const metadata: Metadata = {
   title: "NMEA 0183 Sentence Generator — GGA, RMC, custom, with checksum",
   description:
     "Free online NMEA 0183 sentence generator: build valid GGA and RMC sentences from decimal coordinates, or any custom body, with the checksum computed for you. 100% in your browser.",
-  openGraph: {
+  openGraph: { url: "/tools/nmea-0183-generator/",
     images: ["/og/nmea-0183-generator.png"],
     siteName: "TestBench.tools",
     title: "NMEA 0183 Sentence Generator",

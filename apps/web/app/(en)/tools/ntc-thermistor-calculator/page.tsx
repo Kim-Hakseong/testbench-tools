@@ -10,7 +10,7 @@ export const metadata: Metadata = {
   title: "NTC Thermistor Calculator — Beta and Steinhart-Hart, R ↔ °C",
   description:
     "Free NTC thermistor calculator: resistance ↔ temperature with the Beta (B-parameter) equation and the Steinhart-Hart equation, plus a three-point fit for A, B and C and the error between the two models. 100% in your browser.",
-  openGraph: {
+  openGraph: { url: "/tools/ntc-thermistor-calculator/",
     images: ["/og/ntc-thermistor-calculator.png"], siteName: "TestBench.tools",
     title: "NTC Thermistor Calculator — Beta vs Steinhart-Hart",
     description:

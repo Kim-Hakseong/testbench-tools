@@ -20,7 +20,7 @@ export const metadata: Metadata = {
   title: "A type B thermocouple barely cares what your cold junction is doing",
   description:
     "Type B's emf doubles back below 42 °C, so no inverse exists under 250 °C. The same property means a 40 °C swing in the cold junction moves a 1018 °C reading by 0.05 °C — where type K would move 25.",
-  openGraph: {
+  openGraph: { url: "/notes/type-b-thermocouple-no-inverse/",
     images: ["/og/note-type-b-thermocouple-no-inverse.png"],
     siteName: "TestBench.tools",
     type: "article",

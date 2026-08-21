@@ -11,7 +11,7 @@ export const metadata: Metadata = {
   title: "Number Base Converter — binary, octal, decimal, hex",
   description:
     "Free online number base converter with four synced fields: edit binary, octal, decimal or hexadecimal and the others update live. Arbitrary size, 100% in your browser.",
-  openGraph: {
+  openGraph: { url: "/tools/number-base-converter/",
     images: ["/og/number-base-converter.png"], siteName: "TestBench.tools", title: "Number Base Converter — binary, octal, decimal, hex", description: "Free online number base converter with four synced fields: edit binary, octal, decimal or hexadecimal and the others update live. Arbitrary size, 100% in your browser.", type: "website" },
 };
 

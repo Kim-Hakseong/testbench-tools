@@ -10,7 +10,7 @@ export const metadata: Metadata = {
   title: "LS XGT Cnet Frame Builder — RSS, RSB, WSS, WSB with BCC",
   description:
     "Free LS XGT Cnet frame builder: pick the command, station and devices and get the exact bytes, with the BCC computed and the command case handled for you. 100% in your browser.",
-  openGraph: {
+  openGraph: { url: "/tools/xgt-cnet-builder/",
     images: ["/og/xgt-cnet-builder.png"], siteName: "TestBench.tools", title: "LS XGT Cnet Frame Builder", description: "Build XGT Cnet request frames with the correct sizes and BCC.", type: "website" },
 };
 

@@ -11,7 +11,7 @@ export const metadata: Metadata = {
   title: "Signal Converter — 4-20mA ↔ 1-5V ↔ 0-10V ↔ 3-15psi",
   description:
     "Free online process signal converter between standard instrumentation spans: 4-20mA, 0-20mA, 1-5V, 0-5V, 0-10V and 3-15psi. 100% in your browser.",
-  openGraph: {
+  openGraph: { url: "/tools/signal-converter/",
     images: ["/og/signal-converter.png"], siteName: "TestBench.tools", title: "Signal Converter — 4-20mA ↔ 1-5V ↔ 0-10V ↔ 3-15psi", description: "Convert between standard instrumentation spans: 4-20mA, 1-5V, 0-10V, 3-15psi and more.", type: "website" },
 };
 

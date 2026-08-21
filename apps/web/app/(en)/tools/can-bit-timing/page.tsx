@@ -11,7 +11,7 @@ export const metadata: Metadata = {
   title: "CAN Bit Timing Calculator — prescaler, segments, sample point",
   description:
     "Free online CAN bit timing calculator: prescaler, SEG1/SEG2 and sample point candidates for your clock and bitrate, ranked by error. 100% in your browser.",
-  openGraph: {
+  openGraph: { url: "/tools/can-bit-timing/",
     images: ["/og/can-bit-timing.png"], siteName: "TestBench.tools", title: "CAN Bit Timing Calculator — prescaler, segments, sample point", description: "Prescaler, SEG1/SEG2 and sample point candidates for your CAN clock and bitrate.", type: "website" },
 };
 

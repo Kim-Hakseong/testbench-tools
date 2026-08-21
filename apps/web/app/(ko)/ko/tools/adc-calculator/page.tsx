@@ -12,7 +12,7 @@ export const metadata: Metadata = {
   description:
     "8~24비트 ADC 카운트를 전압으로, 전압을 카운트로 변환하고 LSB 크기를 계산. count/(2^N−1) 규약 명시. 100% 브라우저 내 계산.",
   alternates: toolAlternates("adc-calculator", "ko"),
-  openGraph: { images: ["/og/adc-calculator.png"], siteName: "TestBench.tools", title: "ADC 계산기 — 카운트 ↔ 전압, LSB 크기", description: "8~24비트 ADC 카운트를 전압으로, 전압을 카운트로 변환하고 LSB 크기를 계산. count/(2^N−1) 규약 명시. 100% 브라우저 내 계산.", type: "website" },
+  openGraph: { url: "/ko/tools/adc-calculator/", images: ["/og/adc-calculator.png"], siteName: "TestBench.tools", title: "ADC 계산기 — 카운트 ↔ 전압, LSB 크기", description: "8~24비트 ADC 카운트를 전압으로, 전압을 카운트로 변환하고 LSB 크기를 계산. count/(2^N−1) 규약 명시. 100% 브라우저 내 계산.", type: "website" },
 };
 
 const FAQS: FaqItem[] = [

@@ -11,7 +11,7 @@ export const metadata: Metadata = {
   title: "NMEA 0183 Decoder — labeled fields, checksum check",
   description:
     "Free online NMEA 0183 decoder: paste a sentence and get labeled fields for GGA, RMC, GLL, VTG, GSA and generic parsing for the rest, with checksum verdict. 100% in your browser.",
-  openGraph: {
+  openGraph: { url: "/tools/nmea-0183-decoder/",
     images: ["/og/nmea-0183-decoder.png"], siteName: "TestBench.tools", title: "NMEA 0183 Decoder — labeled fields, checksum check", description: "Labeled field decoding for GGA/RMC/GLL/VTG/GSA sentences with checksum verdict.", type: "website" },
 };
 

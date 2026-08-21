@@ -10,7 +10,7 @@ export const metadata: Metadata = {
   title: "LS XGT / XGK Address Converter — P00105, hex bit, D0011.A",
   description:
     "Free LS ELECTRIC XGK/XGB device address decoder: the last digit of a bit device is the bit in hex, word devices take a dotted hex bit. 100% in your browser.",
-  openGraph: {
+  openGraph: { url: "/tools/ls-xgt-address-converter/",
     images: ["/og/ls-xgt-address-converter.png"], siteName: "TestBench.tools",
     title: "LS XGT / XGK Address Converter",
     description: "Split XGK addresses into word and hex bit, for bit devices and dotted word devices alike.",

@@ -12,7 +12,7 @@ export const metadata: Metadata = {
   description:
     "PT100/PT1000 RTD의 저항을 온도로, 온도를 저항으로 변환. IEC 60751 Callendar-Van Dusen 식(0~850°C) 사용. 100% 브라우저 내 계산.",
   alternates: toolAlternates("pt100-calculator", "ko"),
-  openGraph: { images: ["/og/pt100-calculator.png"], siteName: "TestBench.tools", title: "PT100 / PT1000 계산기 — 저항 ↔ 온도 (IEC 60751)", description: "PT100/PT1000 RTD의 저항을 온도로, 온도를 저항으로 변환. IEC 60751 Callendar-Van Dusen 식(0~850°C) 사용. 100% 브라우저 내 계산.", type: "website" },
+  openGraph: { url: "/ko/tools/pt100-calculator/", images: ["/og/pt100-calculator.png"], siteName: "TestBench.tools", title: "PT100 / PT1000 계산기 — 저항 ↔ 온도 (IEC 60751)", description: "PT100/PT1000 RTD의 저항을 온도로, 온도를 저항으로 변환. IEC 60751 Callendar-Van Dusen 식(0~850°C) 사용. 100% 브라우저 내 계산.", type: "website" },
 };
 
 const FAQS: FaqItem[] = [

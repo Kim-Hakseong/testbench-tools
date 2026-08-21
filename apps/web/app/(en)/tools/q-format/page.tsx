@@ -11,7 +11,7 @@ export const metadata: Metadata = {
   title: "Fixed-Point Q-Format Converter — Qm.n ↔ real value",
   description:
     "Free online fixed-point converter: real values ↔ signed Qm.n (Q15, Q31, Q7.8 …) with range, resolution and quantization error. 100% in your browser.",
-  openGraph: {
+  openGraph: { url: "/tools/q-format/",
     images: ["/og/q-format.png"], siteName: "TestBench.tools", title: "Fixed-Point Q-Format Converter — Qm.n ↔ real value", description: "Real values ↔ signed Qm.n (Q15, Q31, Q7.8 …) with range, resolution and quantization error.", type: "website" },
 };
 

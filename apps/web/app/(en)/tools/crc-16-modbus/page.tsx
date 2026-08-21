@@ -11,7 +11,7 @@ export const metadata: Metadata = {
   title: "CRC-16 Modbus Calculator — online, instant",
   description:
     "Free online CRC-16/MODBUS calculator for hex or ASCII data. Live result with little-endian byte order for Modbus RTU frames. 100% in your browser.",
-  openGraph: {
+  openGraph: { url: "/tools/crc-16-modbus/",
     images: ["/og/crc-16-modbus.png"], siteName: "TestBench.tools", title: "CRC-16 Modbus Calculator — online, instant", description: "Free online CRC-16/MODBUS calculator for hex or ASCII data. Live result with little-endian byte order for Modbus RTU frames. 100% in your browser.", type: "website" },
 };
 

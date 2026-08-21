@@ -12,7 +12,7 @@ export const metadata: Metadata = {
   description:
     "Free online 4-20mA current loop calculator: convert loop current to process value and back, with open-loop, under-range and over-range warnings. 100% in your browser.",
   alternates: toolAlternates("4-20ma-scaling", "en"),
-  openGraph: { images: ["/og/4-20ma-scaling.png"], siteName: "TestBench.tools", title: "4-20mA Scaling Calculator — with open-loop detection", description: "Free online 4-20mA current loop calculator: convert loop current to process value and back, with open-loop, under-range and over-range warnings. 100% in your browser.", type: "website" },
+  openGraph: { url: "/tools/4-20ma-scaling/", images: ["/og/4-20ma-scaling.png"], siteName: "TestBench.tools", title: "4-20mA Scaling Calculator — with open-loop detection", description: "Free online 4-20mA current loop calculator: convert loop current to process value and back, with open-loop, under-range and over-range warnings. 100% in your browser.", type: "website" },
 };
 
 const FAQS: FaqItem[] = [

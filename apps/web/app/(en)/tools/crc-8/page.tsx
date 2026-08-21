@@ -11,7 +11,7 @@ export const metadata: Metadata = {
   title: "CRC-8 Calculator — standard and MAXIM/Dallas variants",
   description:
     "Free online CRC-8 calculator for hex or ASCII data: plain CRC-8 (poly 0x07) and CRC-8/MAXIM (Dallas 1-Wire, poly 0x31). 100% in your browser.",
-  openGraph: {
+  openGraph: { url: "/tools/crc-8/",
     images: ["/og/crc-8.png"], siteName: "TestBench.tools", title: "CRC-8 Calculator — standard and MAXIM/Dallas variants", description: "Plain CRC-8 (poly 0x07) and CRC-8/MAXIM (Dallas 1-Wire, poly 0x31) over hex or ASCII data.", type: "website" },
 };
 

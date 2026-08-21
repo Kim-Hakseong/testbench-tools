@@ -12,7 +12,7 @@ export const metadata: Metadata = {
   description:
     "Free online BCD converter: packed BCD words to decimal and back, with per-nibble validation that pinpoints invalid digits. 100% in your browser.",
   alternates: toolAlternates("bcd-converter", "en"),
-  openGraph: { images: ["/og/bcd-converter.png"], siteName: "TestBench.tools", title: "BCD Converter — packed BCD ↔ decimal with validation", description: "Free online BCD converter: packed BCD words to decimal and back, with per-nibble validation that pinpoints invalid digits. 100% in your browser.", type: "website" },
+  openGraph: { url: "/tools/bcd-converter/", images: ["/og/bcd-converter.png"], siteName: "TestBench.tools", title: "BCD Converter — packed BCD ↔ decimal with validation", description: "Free online BCD converter: packed BCD words to decimal and back, with per-nibble validation that pinpoints invalid digits. 100% in your browser.", type: "website" },
 };
 
 const FAQS: FaqItem[] = [

@@ -11,7 +11,7 @@ export const metadata: Metadata = {
   title: "Loop Burden Calculator — 4-20mA voltage budget check",
   description:
     "Free online 4-20mA loop burden calculator: check that your supply voltage covers sense resistor, wiring and the transmitter's minimum voltage at 20mA. 100% in your browser.",
-  openGraph: {
+  openGraph: { url: "/tools/loop-burden/",
     images: ["/og/loop-burden.png"], siteName: "TestBench.tools", title: "Loop Burden Calculator — 4-20mA voltage budget check", description: "Check that your loop supply covers sense resistor, wiring and transmitter lift-off voltage at 20 mA.", type: "website" },
 };
 

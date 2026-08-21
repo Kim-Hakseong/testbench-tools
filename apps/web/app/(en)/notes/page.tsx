@@ -7,7 +7,7 @@ export const metadata: Metadata = {
   title: "Field notes",
   description:
     "Write-ups on the places where a vendor manual and the obvious reading of it disagree — raw analog counts, protocol bit order, sensor curves. Every claim cited to the document it came from.",
-  openGraph: {
+  openGraph: { url: "/notes/",
     images: ["/og/notes.png"],
     siteName: "TestBench.tools",
     type: "website",
