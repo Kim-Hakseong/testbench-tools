@@ -110,7 +110,7 @@ handled by four free MIT-licensed desktop apps, each in its own repository:
 - [Modbus Workbench](https://github.com/Kim-Hakseong/testbench-modbus-workbench) — Modbus RTU/TCP master with polling, writes and a built-in slave simulator
 - [FrameTerm](https://github.com/Kim-Hakseong/testbench-frameterm) — serial terminal built for frame-level protocol work
 - [TDMS Converter](https://github.com/Kim-Hakseong/testbench-tdms-converter) — viewer and CSV/xlsx converter for NI TDMS measurement files
-- [LinkTap](https://github.com/Kim-Hakseong/testbench-linktap) — zero-driver tap for TCP and serial links, with automatic Modbus and NMEA decoding
+- [LinkTap](https://github.com/Kim-Hakseong/testbench-linktap) — tap for TCP and serial links (passive capture, proxy or bridge) with automatic Modbus and NMEA decoding
 
 ## Contributing
 

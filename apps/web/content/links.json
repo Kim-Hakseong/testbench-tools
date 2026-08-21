@@ -48,17 +48,17 @@
     {
       "slug": "linktap",
       "name": "LinkTap",
-      "description": "Zero-driver tap for TCP and serial links, with automatic Modbus and NMEA decoding.",
+      "description": "Tap TCP and serial links — passive capture, proxy or bridge — with automatic Modbus and NMEA decoding. No separate driver install.",
       "platforms": [
         "Windows"
       ],
-      "url": "https://github.com/Kim-Hakseong/testbench-linktap/releases/download/v1.0.1/LinkTap-v1.0.1-win-x64.exe",
+      "url": "https://github.com/Kim-Hakseong/testbench-linktap/releases/download/v1.2.0/LinkTap-v1.2.0-win-x64.zip",
       "repo": "https://github.com/Kim-Hakseong/testbench-linktap",
       "screenshot": "/apps/linktap.png",
       "free": true,
-      "version": "v1.0.1",
-      "sha256": "4f01a46c7910e4fb36959b9b563949aa724098debdf1687010da194e91fcf7a2",
-      "sizeMb": 90
+      "version": "v1.2.0",
+      "sha256": "026e7fa374b486d7bd8a33b500ca7e2b943419c4e2ea4da87b2ec4e222f7ddc7",
+      "sizeMb": 42
     }
   ]
 }
