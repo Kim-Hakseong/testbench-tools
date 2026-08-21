@@ -1,6 +1,6 @@
 # yaml-language-server: $schema=https://aka.ms/winget-manifest.defaultLocale.1.6.0.schema.json
 PackageIdentifier: TestBenchTools.LinkTap
-PackageVersion: 1.0.0
+PackageVersion: 1.0.1
 PackageLocale: en-US
 Publisher: TestBench.tools
 PublisherUrl: https://testbench.tools/
@@ -24,6 +24,6 @@ Tags:
   - protocol-analyzer
   - tap
   - industrial-automation
-ReleaseNotesUrl: https://github.com/Kim-Hakseong/testbench-linktap/releases/tag/v1.0.0
+ReleaseNotesUrl: https://github.com/Kim-Hakseong/testbench-linktap/releases/tag/v1.0.1
 ManifestType: defaultLocale
 ManifestVersion: 1.6.0

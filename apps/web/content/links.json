@@ -52,12 +52,12 @@
       "platforms": [
         "Windows"
       ],
-      "url": "https://github.com/Kim-Hakseong/testbench-linktap/releases/download/v1.0.0/LinkTap-v1.0.0-win-x64.exe",
+      "url": "https://github.com/Kim-Hakseong/testbench-linktap/releases/download/v1.0.1/LinkTap-v1.0.1-win-x64.exe",
       "repo": "https://github.com/Kim-Hakseong/testbench-linktap",
       "screenshot": "/apps/linktap.png",
       "free": true,
-      "version": "v1.0.0",
-      "sha256": "f0f904e7b53173bed1550e7e58f00a2ae9668f1380c38f0a0e1f5553e47a3b9d",
+      "version": "v1.0.1",
+      "sha256": "4f01a46c7910e4fb36959b9b563949aa724098debdf1687010da194e91fcf7a2",
       "sizeMb": 90
     }
   ]
