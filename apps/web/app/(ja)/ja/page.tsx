@@ -7,6 +7,7 @@ export const metadata: Metadata = {
   description:
     "CRC計算、フレームデコード、PLCスケーリング、センサー計算、ファイル変換 — 無料・即時・100%クライアントサイド。データはブラウザの外に出ません。",
   alternates: hubAlternates("ja"),
+  openGraph: { images: ["/og/default.png"], url: "/ja/" },
 };
 
 export default function Page() {

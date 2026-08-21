@@ -7,6 +7,7 @@ export const metadata: Metadata = {
   title: PRIVACY.de.metaTitle,
   description: PRIVACY.de.metaDesc,
   alternates: sharedAlternates("privacy", "de"),
+  openGraph: { images: ["/og/default.png"], url: "/de/privacy/" },
 };
 
 export default function Page() {

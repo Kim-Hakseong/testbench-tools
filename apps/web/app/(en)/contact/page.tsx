@@ -7,6 +7,7 @@ export const metadata: Metadata = {
   title: CONTACT.en.metaTitle,
   description: CONTACT.en.metaDesc,
   alternates: sharedAlternates("contact", "en"),
+  openGraph: { images: ["/og/default.png"], url: "/contact/" },
 };
 
 export default function Page() {

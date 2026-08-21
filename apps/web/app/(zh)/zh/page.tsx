@@ -7,6 +7,7 @@ export const metadata: Metadata = {
   description:
     "CRC 计算、报文解码、PLC 标定换算、传感器计算与文件转换 — 免费、即时、100% 浏览器本地运行。您的数据不会离开浏览器。",
   alternates: hubAlternates("zh"),
+  openGraph: { images: ["/og/default.png"], url: "/zh/" },
 };
 
 export default function Page() {

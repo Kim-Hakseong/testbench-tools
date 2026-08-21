@@ -18,6 +18,7 @@ export function generateMetadata({ params }: Props): Metadata {
     title: app.name,
     description: d?.tagline ?? app.description,
     alternates: sharedAlternates(`apps/${params.slug}`, "ja"),
+    openGraph: { images: ["/og/default.png"], url: `/ja/apps/${params.slug}/` },
   };
 }
 

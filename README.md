@@ -59,6 +59,7 @@ pnpm dev                         # http://localhost:3000
 pnpm -r test                     # engine golden vectors
 pnpm build                       # static export → apps/web/out/
 node scripts/check-tool-i18n.mjs # translation coverage
+node scripts/check-og.mjs        # og:url/og:image present on every canonical page (run after build)
 node scripts/make-og.mjs         # regenerate social preview cards
 ```
 

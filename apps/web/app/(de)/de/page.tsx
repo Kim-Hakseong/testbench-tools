@@ -7,6 +7,7 @@ export const metadata: Metadata = {
   description:
     "CRC-Rechner, Frame-Decoder, SPS-Skalierung, Sensor-Mathematik und Dateikonverter — kostenlos, sofort, 100 % clientseitig. Ihre Daten verlassen den Browser nicht.",
   alternates: hubAlternates("de"),
+  openGraph: { images: ["/og/default.png"], url: "/de/" },
 };
 
 export default function Page() {
