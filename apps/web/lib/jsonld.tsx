@@ -39,13 +39,21 @@ export function toolJsonLd(opts: {
 }): object[] {
   const url =
     opts.locale === "ko" ? `${SITE}/ko/tools/${opts.slug}/` : `${SITE}/tools/${opts.slug}/`;
+  // `@id` and `mainEntityOfPage` state, in the structured data itself, which URL
+  // this content belongs to. Added 2026-08-24: three tool pages had been assigned
+  // a scraper's domain as their Google-selected canonical, so every self-reference
+  // the page can carry is worth carrying — the <link rel="canonical"> alone was
+  // not enough to keep the original attributed to us.
   return [
     {
       "@context": "https://schema.org",
       "@type": "SoftwareApplication",
+      "@id": url,
       name: opts.name,
       description: opts.description,
       url,
+      mainEntityOfPage: { "@type": "WebPage", "@id": url },
+      publisher: { "@type": "Organization", name: "TestBench.tools", url: SITE },
       applicationCategory: "DeveloperApplication",
       operatingSystem: "Any (web browser)",
       offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
@@ -53,6 +61,8 @@ export function toolJsonLd(opts: {
     {
       "@context": "https://schema.org",
       "@type": "FAQPage",
+      "@id": `${url}#faq`,
+      mainEntityOfPage: { "@type": "WebPage", "@id": url },
       mainEntity: opts.faqs.map((f) => ({
         "@type": "Question",
         name: f.q,
