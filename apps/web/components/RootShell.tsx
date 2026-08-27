@@ -100,7 +100,9 @@ export function RootShell({ lang, children }: { lang: SiteLocale; children: Reac
         <main>{children}</main>
         <footer className="mt-20 border-t border-line-soft">
           <div className="mx-auto flex max-w-6xl flex-col gap-3 px-4 py-8 text-sm text-mute sm:flex-row sm:items-center sm:justify-between sm:px-6">
-            <p>© {new Date().getFullYear()} TestBench.tools</p>
+            {/* The operating entity rides in the copyright line — one place,
+                every page, which is exactly where registries look for it. */}
+            <p>© {new Date().getFullYear()} TestBench.tools · operated by TECHSENSE</p>
             <FooterNav routeLang={lang} />
           </div>
         </footer>

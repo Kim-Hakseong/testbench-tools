@@ -493,6 +493,11 @@ export interface AboutStrings {
   principlesLead: string;
   principles: { title: string; body: string }[];
   free: string;
+  /** Legal operator line — TestBench.tools is run by the TECHSENSE entity.
+   *  Kept to one plain sentence: the brand stays TestBench.tools, this only
+   *  records who operates it (asset independence, and what registries like
+   *  Apple Developer verify against the domain). */
+  operator: string;
   contactBefore: string;
   contactLink: string;
   contactAfter: string;
@@ -515,6 +520,7 @@ export const ABOUT: Record<SiteLocale, AboutStrings> = {
       { title: "Verified.", body: "The calculation engines are covered by an automated test suite pinned to published check values and golden vectors. If a tool page states a number, a test asserts it." },
     ],
     free: "The site is free and supported by minimal advertising. There are no accounts, no paywalls and no upload servers.",
+    operator: "TestBench.tools is a product of TECHSENSE.",
     contactBefore: "Found a bug, a wrong constant, or a tool you wish existed? ",
     contactLink: "Get in touch",
     contactAfter: ".",
@@ -535,6 +541,7 @@ export const ABOUT: Record<SiteLocale, AboutStrings> = {
       { title: "검증됨.", body: "계산 엔진은 공표된 체크값과 골든 벡터에 고정된 자동 테스트로 검증됩니다. 툴 페이지에 적힌 숫자는 반드시 테스트가 보증합니다." },
     ],
     free: "이 사이트는 무료이며 최소한의 광고로 운영됩니다. 계정도, 유료 장벽도, 업로드 서버도 없습니다.",
+    operator: "TestBench.tools는 TECHSENSE가 운영하는 서비스입니다.",
     contactBefore: "버그, 잘못된 상수, 또는 있었으면 하는 툴이 있나요? ",
     contactLink: "알려주세요",
     contactAfter: ".",
@@ -555,6 +562,7 @@ export const ABOUT: Record<SiteLocale, AboutStrings> = {
       { title: "検証済み。", body: "計算エンジンは公表されたチェック値とゴールデンベクタに固定された自動テストで検証されています。ツールページに書かれた数値は必ずテストが保証します。" },
     ],
     free: "このサイトは無料で、最小限の広告で運営されています。アカウントも、有料の壁も、アップロードサーバーもありません。",
+    operator: "TestBench.tools は TECHSENSE が運営するサービスです。",
     contactBefore: "バグ、誤った定数、あるいは欲しいツールはありますか？ ",
     contactLink: "ご連絡ください",
     contactAfter: "。",
@@ -575,6 +583,7 @@ export const ABOUT: Record<SiteLocale, AboutStrings> = {
       { title: "Verifiziert.", body: "Die Rechen-Engines sind durch eine automatisierte Testsuite abgedeckt, die an veröffentlichte Prüfwerte und Golden Vectors gebunden ist. Steht eine Zahl auf einer Tool-Seite, sichert ein Test sie zu." },
     ],
     free: "Die Seite ist kostenlos und wird durch minimale Werbung finanziert. Es gibt keine Konten, keine Paywalls und keine Upload-Server.",
+    operator: "TestBench.tools ist ein Produkt von TECHSENSE.",
     contactBefore: "Einen Fehler, eine falsche Konstante oder ein fehlendes Tool gefunden? ",
     contactLink: "Melden Sie sich",
     contactAfter: ".",
@@ -595,6 +604,7 @@ export const ABOUT: Record<SiteLocale, AboutStrings> = {
       { title: "经过验证。", body: "计算引擎由自动化测试覆盖，并锁定到公开的校验值与黄金向量。工具页上写出的数字，都有测试为其背书。" },
     ],
     free: "本站免费，靠极少量广告维持。没有账号、没有付费墙、没有上传服务器。",
+    operator: "TestBench.tools 是 TECHSENSE 旗下的产品。",
     contactBefore: "发现了 bug、错误的常数，或希望增加某个工具？ ",
     contactLink: "联系我们",
     contactAfter: "。",

@@ -17,6 +17,9 @@ export function AboutBody({ locale }: { locale: SiteLocale }) {
           ))}
         </ul>
         <p>{t.free}</p>
+        {/* Who operates the service — the brand stays TestBench.tools; this one
+            sentence is the legal-entity link registries verify against the domain. */}
+        <p>{t.operator}</p>
         <p>
           {t.contactBefore}
           <Link
