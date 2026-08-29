@@ -1,11 +1,29 @@
-# TestBench.tools
+<p align="center">
+  <img src="docs/logo.png" width="160" alt="TestBench.tools logo" />
+</p>
 
-Free browser tools for test & measurement, embedded and industrial automation
-work: CRC calculators, Modbus and MIL-STD-1553B frame decoders, PLC address
-converters for Siemens, Mitsubishi, Allen-Bradley and LS, sensor math, and file
-converters.
+<h1 align="center">TestBench.tools</h1>
 
-**https://testbench.tools**
+<p align="center">
+  <b>56 free browser tools for test &amp; measurement, embedded and industrial automation</b><br/>
+  CRC calculators, Modbus and MIL-STD-1553B frame decoders, PLC address converters for
+  Siemens, Mitsubishi, Allen-Bradley and LS, sensor math and file converters.
+</p>
+
+<p align="center">
+  <a href="https://testbench.tools"><b>testbench.tools →</b></a>
+</p>
+
+<p align="center">
+  <img src="https://img.shields.io/badge/Tools-56-047a4e" alt="56 tools" />
+  <img src="https://img.shields.io/badge/Next.js-14-000000?logo=nextdotjs" alt="Next.js 14" />
+  <img src="https://img.shields.io/badge/Hosting-static%20export%20(no%20server)-blue" alt="Static export" />
+  <img src="https://img.shields.io/badge/Data-never%20leaves%20the%20browser-brightgreen" alt="Client-side only" />
+  <img src="https://img.shields.io/badge/Languages-5-blue" alt="5 languages" />
+  <img src="https://img.shields.io/badge/License-MIT-lightgrey" alt="MIT" />
+</p>
+
+---
 
 Every calculation runs in the browser. The site is a static export — there is no
 API and no upload endpoint, so there is nowhere for your data to go even if
