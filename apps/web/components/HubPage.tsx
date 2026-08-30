@@ -1,7 +1,7 @@
 import { HubGrid } from "@/components/HubGrid";
 import links from "@/content/links.json";
 import Link from "next/link";
-import { APP_DESC, HUB, type SiteLocale } from "@/content/i18n";
+import { APP_DESC, HUB, LOCALE_PREFIX, type SiteLocale } from "@/content/i18n";
 import { notesByDate } from "@/content/notes";
 
 /** Full hub page (hero + catalog + desktop apps strip), shared by all locales. */
@@ -21,26 +21,45 @@ export function HubPage({ locale }: { locale: SiteLocale }) {
           {links.apps.map((app) => (
             <div
               key={app.slug}
-              className="rounded-card border border-line-soft bg-surface p-5"
+              className="flex flex-col overflow-hidden rounded-card border border-line-soft bg-surface"
             >
-              <div className="flex items-start justify-between gap-2">
-                <h3 className="text-sm font-medium text-ink">{app.name}</h3>
-                {app.url === "" ? (
-                  <span className="rounded-full border border-line-strong px-2 py-0.5 font-mono text-[10px] uppercase tracking-wide text-mute">
-                    {t.comingSoon}
-                  </span>
-                ) : (
-                  <a
-                    href={app.url}
-                    className="rounded-btn border border-line-strong px-3 py-1 text-xs text-ink transition-colors hover:border-mute"
-                  >
-                    {t.download}
-                  </a>
-                )}
+              {/* Same shot and framing the /apps/ page uses, so the two views of
+                  the same app agree rather than showing it two different ways. */}
+              {app.screenshot && (
+                <Link
+                  href={`${LOCALE_PREFIX[locale]}apps/${app.slug}/`}
+                  aria-label={app.name}
+                  className="block border-b border-line-soft"
+                >
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={app.screenshot}
+                    alt={`${app.name} — desktop app screenshot`}
+                    className="aspect-[16/10] w-full bg-canvas object-cover object-top"
+                    loading="lazy"
+                  />
+                </Link>
+              )}
+              <div className="p-5">
+                <div className="flex items-start justify-between gap-2">
+                  <h3 className="text-sm font-medium text-ink">{app.name}</h3>
+                  {app.url === "" ? (
+                    <span className="rounded-full border border-line-strong px-2 py-0.5 font-mono text-[10px] uppercase tracking-wide text-mute">
+                      {t.comingSoon}
+                    </span>
+                  ) : (
+                    <a
+                      href={app.url}
+                      className="rounded-btn border border-line-strong px-3 py-1 text-xs text-ink transition-colors hover:border-mute"
+                    >
+                      {t.download}
+                    </a>
+                  )}
+                </div>
+                <p className="mt-1.5 text-[13px] text-mute">
+                  {APP_DESC[locale][app.slug] ?? app.description}
+                </p>
               </div>
-              <p className="mt-1.5 text-[13px] text-mute">
-                {APP_DESC[locale][app.slug] ?? app.description}
-              </p>
             </div>
           ))}
         </div>
