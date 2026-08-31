@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import links from "@/content/links.json";
 import { GitHubIcon } from "@/components/GitHubIcon";
 import { APP_DETAIL, APPS_PAGE, LOCALE_PREFIX, type SiteLocale } from "@/content/i18n";
+import { JsonLd, appJsonLd } from "@/lib/jsonld";
 
 // Web-tool counterpart per app (English-only tool pages).
 const COUNTERPART: Record<string, string> = {
@@ -21,6 +22,22 @@ export function AppDetailBody({ locale, slug }: { locale: SiteLocale; slug: stri
 
   return (
     <div className="mx-auto max-w-4xl px-4 pb-16 pt-8 sm:px-6">
+      {/* Says which URL this download page is, so a scraped copy cannot be taken
+          for the original — two locales of this page had already been assigned a
+          scraper's domain as their canonical. */}
+      <JsonLd
+        data={appJsonLd({
+          name: app.name,
+          description: detail?.tagline ?? app.description,
+          slug: app.slug,
+          locale,
+          platforms: app.platforms,
+          version: app.version,
+          downloadUrl: app.url || undefined,
+          repo: app.repo,
+          sizeMb: app.sizeMb,
+        })}
+      />
       <nav aria-label="Breadcrumb" className="font-mono text-xs text-mute">
         <Link href={`${prefix}apps/`} className="transition-colors hover:text-body">
           {t.breadcrumb}

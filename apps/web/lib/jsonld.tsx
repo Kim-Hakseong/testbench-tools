@@ -1,4 +1,5 @@
 import type { FaqItem } from "@/components/tool/AeoBlocks";
+import { LOCALE_PREFIX, type SiteLocale } from "@/content/i18n";
 import type { NoteMeta } from "@/content/notes";
 
 const SITE = "https://testbench.tools";
@@ -68,6 +69,52 @@ export function toolJsonLd(opts: {
         name: f.q,
         acceptedAnswer: { "@type": "Answer", text: f.a },
       })),
+    },
+  ];
+}
+
+/**
+ * SoftwareApplication node for a desktop app's detail page.
+ *
+ * Added 2026-08-31: these pages carried no page-level structured data at all —
+ * only the site-wide Organization node — and two of them (ja/zh Modbus
+ * Workbench) had been assigned a scraper's domain as their Google-selected
+ * canonical, the same way three tool pages were a week earlier. Tool pages
+ * already say which URL they belong to; the download pages did not, so they say
+ * it now. Every value comes from content/links.json, so nothing here is a claim
+ * the download page does not already make.
+ */
+export function appJsonLd(opts: {
+  name: string;
+  description: string;
+  slug: string;
+  locale: SiteLocale;
+  platforms: string[];
+  version?: string;
+  downloadUrl?: string;
+  repo?: string;
+  sizeMb?: number;
+}): object[] {
+  const url = `${SITE}${LOCALE_PREFIX[opts.locale]}apps/${opts.slug}/`;
+  return [
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "@id": url,
+      name: opts.name,
+      description: opts.description,
+      url,
+      mainEntityOfPage: { "@type": "WebPage", "@id": url },
+      applicationCategory: "DeveloperApplication",
+      operatingSystem: opts.platforms.join(", "),
+      ...(opts.version ? { softwareVersion: opts.version.replace(/^v/, "") } : {}),
+      ...(opts.downloadUrl ? { downloadUrl: opts.downloadUrl } : {}),
+      ...(opts.sizeMb ? { fileSize: `${opts.sizeMb} MB` } : {}),
+      ...(opts.repo ? { codeRepository: opts.repo } : {}),
+      license: "https://opensource.org/licenses/MIT",
+      isAccessibleForFree: true,
+      offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
+      publisher: { "@type": "Organization", name: "TestBench.tools", url: SITE },
     },
   ];
 }
