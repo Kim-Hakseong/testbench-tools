@@ -851,6 +851,14 @@ export interface AppDetailStrings {
   plannedScope: string;
   whatItDoes: string;
   needNow: string;
+  /**
+   * Appended to each app's search-result description. Added 2026-08-31: an
+   * unrelated cross-platform tool ships under the name "Modbus Workbench" too,
+   * and our snippet said nothing that told the two apart. These are facts the
+   * page already states — free, MIT, part of this suite — put where a searcher
+   * sees them. The platform goes in the title for the same reason.
+   */
+  metaSuffix: string;
   apps: Record<string, { tagline: string; features: string[]; counterpartLabel: string }>;
 }
 
@@ -863,6 +871,7 @@ export const APP_DETAIL: Record<SiteLocale, AppDetailStrings> = {
     plannedScope: "Planned scope",
     whatItDoes: "What it does",
     needNow: "Need it right now, in the browser? ",
+    metaSuffix: "Free and open source (MIT), from the TestBench.tools desktop suite.",
     apps: {
       "tdms-converter": {
         tagline: "Open, inspect and convert NI TDMS measurement files on your desktop.",
@@ -917,6 +926,7 @@ export const APP_DETAIL: Record<SiteLocale, AppDetailStrings> = {
     plannedScope: "계획된 범위",
     whatItDoes: "기능",
     needNow: "지금 브라우저에서 바로 필요하신가요? ",
+    metaSuffix: "무료 오픈소스(MIT), TestBench.tools 데스크톱 앱 제품군.",
     apps: {
       "tdms-converter": {
         tagline: "NI TDMS 측정 파일을 데스크톱에서 열고 살펴보고 변환.",
@@ -971,6 +981,7 @@ export const APP_DETAIL: Record<SiteLocale, AppDetailStrings> = {
     plannedScope: "予定している範囲",
     whatItDoes: "できること",
     needNow: "今すぐブラウザで使いたいですか？ ",
+    metaSuffix: "無料・オープンソース(MIT)、TestBench.tools デスクトップアプリ製品群。",
     apps: {
       "tdms-converter": {
         tagline: "NI TDMS計測ファイルをデスクトップで一括CSV変換。",
@@ -1024,6 +1035,7 @@ export const APP_DETAIL: Record<SiteLocale, AppDetailStrings> = {
     plannedScope: "Geplanter Umfang",
     whatItDoes: "Was es tut",
     needNow: "Sofort im Browser gebraucht? ",
+    metaSuffix: "Kostenlos und quelloffen (MIT), aus der TestBench.tools-Desktop-Suite.",
     apps: {
       "tdms-converter": {
         tagline: "NI-TDMS-Messdateien am Desktop stapelweise nach CSV konvertieren.",
@@ -1077,6 +1089,7 @@ export const APP_DETAIL: Record<SiteLocale, AppDetailStrings> = {
     plannedScope: "计划范围",
     whatItDoes: "功能",
     needNow: "现在就想在浏览器里用？ ",
+    metaSuffix: "免费开源(MIT)，TestBench.tools 桌面应用系列。",
     apps: {
       "tdms-converter": {
         tagline: "在桌面批量将 NI TDMS 测量文件转换为 CSV。",

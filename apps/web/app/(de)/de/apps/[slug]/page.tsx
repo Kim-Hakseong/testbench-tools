@@ -15,8 +15,8 @@ export function generateMetadata({ params }: Props): Metadata {
   if (!app) return {};
   const d = APP_DETAIL.de.apps[app.slug];
   return {
-    title: app.name,
-    description: d?.tagline ?? app.description,
+    title: `${app.name} — ${app.platforms.join(", ")}`,
+    description: `${d?.tagline ?? app.description} ${APP_DETAIL.de.metaSuffix}`,
     alternates: sharedAlternates(`apps/${params.slug}`, "de"),
     openGraph: { images: ["/og/default.png"], url: `/de/apps/${params.slug}/` },
   };
