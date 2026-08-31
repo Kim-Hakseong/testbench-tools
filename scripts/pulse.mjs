@@ -393,6 +393,17 @@ async function main() {
       const p = prev?.gsc?.totals;
       md.push(`총 노출 **${gsc.totals.impressions}** (이전 ${p?.impressions ?? "?"}) · 클릭 **${gsc.totals.clicks}** (이전 ${p?.clicks ?? "?"}) · 평균 순위 ${gsc.totals.position?.toFixed(1)}`, "");
     }
+    // The window is 28 days but this runs weekly, so consecutive reports share 21
+    // of those 28 days. Within one report the "이전" comparison is clean (the two
+    // windows do not overlap each other); across reports it is not, and reading a
+    // sliding window as movement is an easy way to invent a trend that isn't there.
+    md.push(
+      "> **창 겹침 주의**: 이 28일 창은 **지난주 리포트의 창과 21일(75%)이 같은 데이터**다. " +
+      "지난주 리포트와 이번 주 리포트의 수치를 나란히 놓고 주간 변화라고 읽지 말 것 — " +
+      "대부분 창이 밀린 결과다. 위의 (이전 …) 비교는 겹치지 않는 두 창이므로 그대로 신뢰해도 된다. " +
+      "주 단위 추세가 필요하면 월간 리뷰(`scripts/monthly.mjs`)의 달 대 달 비교를 볼 것.",
+      "",
+    );
     md.push(`### 상위 검색어`, "");
     md.push(fmtRows(gsc.queries.slice(0, 20), [
       { h: "검색어", f: (r) => r.q },

@@ -17,3 +17,4 @@ LISTING_COPY.md
 AUTOPILOT.md
 telemetry/
 scripts/autopilot-run.sh
+scripts/autopilot-monthly.sh
