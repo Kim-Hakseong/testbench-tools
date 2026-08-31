@@ -10,7 +10,7 @@ export const metadata: Metadata = {
   alternates: { canonical: "/tools/q-format/" },
   title: "Fixed-Point Q-Format Converter — Qm.n ↔ real value",
   description:
-    "Free online fixed-point converter: real values ↔ signed Qm.n (Q15, Q31, Q7.8 …) with range, resolution and quantization error. 100% in your browser.",
+    "Free online Q format calculator: convert real values ↔ signed Qm.n fixed point (Q15, Q31, Q7.8 …) with range, resolution and quantization error. 100% in your browser.",
   openGraph: { url: "/tools/q-format/",
     images: ["/og/q-format.png"], siteName: "TestBench.tools", title: "Fixed-Point Q-Format Converter — Qm.n ↔ real value", description: "Real values ↔ signed Qm.n (Q15, Q31, Q7.8 …) with range, resolution and quantization error.", type: "website" },
 };
@@ -93,6 +93,45 @@ export default function Page() {
             <br />
             −1.0 → −32768 = 0x8000 · 1.0 → <span className="text-warn">clamped</span> to 0x7FFF (max 1 − 2⁻¹⁵)
           </DataWell>
+          <p>
+            Converting the other way, or in a format with integer bits, works
+            the same — only the scale factor 2ⁿ changes:
+          </p>
+          <DataWell>
+            0.75 in Q7.8 → round(0.75 × 2⁸) = 192 = <span className="text-ok">0x00C0</span>
+            <br />
+            −0.75 in Q15 → round(−0.75 × 2¹⁵) = −24576 = <span className="text-ok">0xA000</span>
+            <br />
+            0xA000 back to real → −24576 ÷ 2¹⁵ = −0.75 (exact, no error)
+          </DataWell>
+        </Section>
+
+        <Section title="Common Q formats">
+          <p>
+            Two conventions collide in the wild. <code>Q15</code> written alone
+            is shorthand for <code>Q0.15</code> — all fraction, no integer bits
+            — while <code>Q7.8</code> spells out both halves. Whenever a
+            datasheet or DSP library says just &ldquo;Q15&rdquo;, read it as the
+            fractional-only form; the values below all assume the signed layout
+            of 1 sign bit plus m integer and n fraction bits.
+          </p>
+          <ParamsTable
+            rows={[
+              { name: "Q0.7 (Q7)", value: "8-bit · −1 … 0.9921875", note: "step 2⁻⁷ = 0.0078125" },
+              { name: "Q0.15 (Q15)", value: "16-bit · −1 … 0.999969482", note: "step 2⁻¹⁵ ≈ 3.05×10⁻⁵" },
+              { name: "Q1.14", value: "16-bit · −2 … 1.999938965", note: "step 2⁻¹⁴ ≈ 6.10×10⁻⁵" },
+              { name: "Q7.8", value: "16-bit · −128 … 127.99609375", note: "step 2⁻⁸ = 0.00390625" },
+              { name: "Q0.31 (Q31)", value: "32-bit · −1 … 1 − 2⁻³¹", note: "step 2⁻³¹ ≈ 4.66×10⁻¹⁰" },
+            ]}
+          />
+          <p>
+            Every row follows from the same two expressions the converter uses:
+            the range is <code>−2ᵐ … 2ᵐ − 2⁻ⁿ</code> and the step size is{" "}
+            <code>2⁻ⁿ</code>. Trading a fraction bit for an integer bit doubles
+            the range and halves the precision — Q7.8 reaches ±128 but resolves
+            only to about four thousandths, where Q15 resolves 128 times finer
+            and cannot leave −1…1.
+          </p>
         </Section>
 
         <AdSlot id="q-format-content" />
