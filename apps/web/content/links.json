@@ -7,13 +7,13 @@
       "platforms": [
         "Windows"
       ],
-      "url": "https://github.com/Kim-Hakseong/testbench-frameterm/releases/download/v1.0.0/FrameTerm-v1.0.0-win-x64.exe",
+      "url": "https://github.com/Kim-Hakseong/testbench-frameterm/releases/download/v1.0.1/FrameTerm-v1.0.1-win-x64.exe",
       "repo": "https://github.com/Kim-Hakseong/testbench-frameterm",
       "screenshot": "/apps/frameterm.png",
       "free": true,
-      "version": "v1.0.0",
-      "sha256": "6d9e089bc8367a5793ddec4584a5be66304fd4dd96bc24cdeb5760719cef1154",
-      "sizeMb": 90
+      "version": "v1.0.1",
+      "sha256": "0a12c86e8c50c7863978f1a34cdd9f13fee3db3670704c015542874aa805fe91",
+      "sizeMb": 46
     },
     {
       "slug": "modbus-workbench",
@@ -22,13 +22,13 @@
       "platforms": [
         "Windows"
       ],
-      "url": "https://github.com/Kim-Hakseong/testbench-modbus-workbench/releases/download/v1.7.0/ModbusWorkbench-v1.7.0-win-x64.exe",
+      "url": "https://github.com/Kim-Hakseong/testbench-modbus-workbench/releases/download/v1.7.1/ModbusWorkbench-v1.7.1-win-x64.exe",
       "repo": "https://github.com/Kim-Hakseong/testbench-modbus-workbench",
       "screenshot": "/apps/modbus-workbench.png",
       "free": true,
-      "version": "v1.7.0",
-      "sha256": "d306a01b7fbc99f9270006cdad5acc5e8d16c53ad3724058c0c356df7416e29c",
-      "sizeMb": 90
+      "version": "v1.7.1",
+      "sha256": "5e8562f71fde60aefd931adf92d3784258be057d685fd67b3bb0cd075224c6fe",
+      "sizeMb": 46
     },
     {
       "slug": "tdms-converter",
@@ -37,13 +37,13 @@
       "platforms": [
         "Windows"
       ],
-      "url": "https://github.com/Kim-Hakseong/testbench-tdms-converter/releases/download/v1.1.0/TdmsConverter-v1.1.0-win-x64.exe",
+      "url": "https://github.com/Kim-Hakseong/testbench-tdms-converter/releases/download/v1.1.1/TdmsConverter-v1.1.1-win-x64.exe",
       "repo": "https://github.com/Kim-Hakseong/testbench-tdms-converter",
       "screenshot": "/apps/tdms-converter.png",
       "free": true,
-      "version": "v1.1.0",
-      "sha256": "f40ca99f1c0a62ca8a57731f8687566b6cd025eb9e8c8d97f986716487531320",
-      "sizeMb": 90
+      "version": "v1.1.1",
+      "sha256": "425e8e8ba58733179ea382bfcfabfa12094c0aa3e20991e30df3f351fdf43c8e",
+      "sizeMb": 46
     },
     {
       "slug": "linktap",
@@ -52,13 +52,13 @@
       "platforms": [
         "Windows"
       ],
-      "url": "https://github.com/Kim-Hakseong/testbench-linktap/releases/download/v1.3.1/LinkTap-v1.3.1-win-x64.zip",
+      "url": "https://github.com/Kim-Hakseong/testbench-linktap/releases/download/v1.3.2/LinkTap-v1.3.2-win-x64.zip",
       "repo": "https://github.com/Kim-Hakseong/testbench-linktap",
       "screenshot": "/apps/linktap.png",
       "free": true,
-      "version": "v1.3.1",
-      "sha256": "5ef878bc49938c25063e83d489d7f30938aee290cda4a2a8fb41b807ac310e9d",
-      "sizeMb": 42
+      "version": "v1.3.2",
+      "sha256": "2b6359525f2eefafd2902780c54bd258849111fc19e212f4142413d215124d8b",
+      "sizeMb": 44
     }
   ]
 }

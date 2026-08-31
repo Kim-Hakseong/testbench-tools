@@ -96,7 +96,9 @@ export function AppsBody({ locale }: { locale: SiteLocale }) {
           <h2 className="text-lg text-ink">{t.verifyHeading}</h2>
           <p className="mt-2 text-sm leading-6 text-mute">{t.verifyBefore}</p>
           <pre className="mt-3 overflow-x-auto rounded-btn border border-line-soft bg-elevated p-3 font-mono text-xs text-body">
-            {"Get-FileHash .\\ModbusWorkbench-v1.7.0-win-x64.exe -Algorithm SHA256"}
+            {/* Filename comes from the catalogue so the example cannot drift out
+                of date the way a hard-coded version did. */}
+            {`Get-FileHash .\\${links.apps[0].url.split("/").pop()} -Algorithm SHA256`}
           </pre>
         </div>
         <div>
