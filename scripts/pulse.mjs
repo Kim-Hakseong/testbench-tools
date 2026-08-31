@@ -215,6 +215,78 @@ async function collectRum() {
 // Site health — no tokens needed, always runs
 // ---------------------------------------------------------------------------
 
+// ---------------------------------------------------------------------------
+// Index coverage — which live pages Google has not put in its index
+// ---------------------------------------------------------------------------
+
+/**
+ * A page that is not indexed cannot rank at all, and nothing in this report
+ * would otherwise show it: a page with no impressions looks the same whether it
+ * is un-indexed or simply unpopular. Two things made this worth automating:
+ *
+ *  - Google exposes no API to *request* indexing for ordinary pages (the
+ *    Indexing API is limited to JobPosting and BroadcastEvent), so the request
+ *    stays a manual click. What can be automated is knowing which URLs to click,
+ *    which is the tedious part.
+ *  - Twice now a scraper has had one of our pages assigned its own domain as the
+ *    Google-selected canonical, dropping ours from the index. Both times it was
+ *    found by hand. `googleCanonical` pointing off-site is checked here instead.
+ *
+ * Only zero-impression pages are inspected: a page earning impressions is
+ * indexed by definition, and each inspection call costs several seconds.
+ */
+async function collectIndexStatus(gsc) {
+  if (!gsc) return null;
+  const MAX = 40; // bounds the run; anything larger is reported, not silently cut
+
+  let sitemapUrls;
+  try {
+    const xml = await (await fetch(`${SITE}/sitemap.xml`)).text();
+    sitemapUrls = [...xml.matchAll(/<loc>(.*?)<\/loc>/g)].map((m) => m[1].replace(SITE, ""));
+  } catch (e) {
+    setupNeeded.push(`색인 점검: 사이트맵을 읽지 못함 — ${e.message}`);
+    return null;
+  }
+
+  const earning = new Set(gsc.pages.map((p) => p.page.replace(SITE, "")));
+  const candidates = sitemapUrls.filter((u) => !earning.has(u));
+  const truncated = candidates.length > MAX;
+  const toCheck = candidates.slice(0, MAX);
+
+  const token = await gscToken();
+  if (!token) return null;
+
+  const rows = [];
+  for (const url of toCheck) {
+    try {
+      const res = await fetch("https://searchconsole.googleapis.com/v1/urlInspection/index:inspect", {
+        method: "POST",
+        headers: { authorization: `Bearer ${token}`, "content-type": "application/json" },
+        body: JSON.stringify({ inspectionUrl: `${SITE}${url}`, siteUrl: GSC_PROPERTY }),
+      });
+      const s = (await res.json())?.inspectionResult?.indexStatusResult;
+      if (!s) continue;
+      const canonical = (s.googleCanonical ?? "").replace(SITE, "");
+      const foreign = Boolean(s.googleCanonical && !s.googleCanonical.startsWith(SITE));
+      if (s.coverageState !== "Submitted and indexed" || foreign) {
+        rows.push({ url, state: s.coverageState ?? "?", canonical, foreign });
+      }
+    } catch {
+      // A single failed inspection must not lose the rest of the report.
+    }
+    await new Promise((r) => setTimeout(r, 250));
+  }
+
+  const stolen = rows.filter((r) => r.foreign);
+  if (stolen.length) {
+    anomalies.push(
+      `스크레이퍼 의심 ${stolen.length}건 — 구글이 우리 페이지의 원본을 외부 도메인으로 판정: ` +
+      stolen.map((r) => `${r.url} → ${r.canonical || "(외부)"}`).join(" · "),
+    );
+  }
+  return { checked: toCheck.length, candidates: candidates.length, truncated, rows };
+}
+
 async function collectHealth() {
   const checks = [];
   const check = async (name, fn) => {
@@ -341,7 +413,10 @@ async function main() {
     collectHealth(),
   ]);
 
-  const snapshot = { date: today, gsc, usage, rum, health };
+  // Runs after GSC because it only inspects pages that earned no impressions.
+  const index = await collectIndexStatus(gsc);
+
+  const snapshot = { date: today, gsc, usage, rum, health, index };
   const insight = analyseGsc(gsc, prev);
   const ledger = loadLedger();
   const pending = checkLedger(ledger, snapshot);
@@ -351,6 +426,27 @@ async function main() {
   const md = [];
   md.push(`# Pulse — ${today}`, "");
   md.push(`이 리포트는 기계가 수집만 한 것이다. 판단은 AUTOPILOT.md 계약대로.`, "");
+
+  if (index?.rows.length) {
+    md.push(`## 색인 요청 필요 (${index.rows.length}건)`, "");
+    md.push(
+      "색인되지 않은 페이지는 순위 이전에 **검색에 존재하지 않는다**. 일반 페이지의 색인 요청은 " +
+      "구글이 API로 열어두지 않았으므로(Indexing API는 채용공고·라이브방송 전용) **아래 URL을 " +
+      "Search Console → URL 검사 → 색인 생성 요청으로 하나씩** 눌러야 한다. 하루 한도가 있어 " +
+      "넘치면 다음 날 이어서 하면 된다.",
+      "",
+    );
+    for (const r of index.rows) {
+      const why = r.foreign ? `⚠️ 외부 도메인이 원본으로 판정됨 → ${r.canonical || "(외부)"}` : r.state;
+      md.push(`- \`${SITE}${r.url}\` — ${why}`);
+    }
+    md.push("");
+    if (index.truncated) {
+      md.push(`> 후보 ${index.candidates}건 중 ${index.checked}건만 검사했다(1회 상한). 나머지는 다음 주기에 잡힌다.`, "");
+    }
+  } else if (index) {
+    md.push(`## 색인`, "", `노출 0인 ${index.checked}개 페이지를 검사했고 **전부 정상 색인**돼 있다. 요청할 것 없음.`, "");
+  }
 
   md.push(`## 헬스`, "");
   md.push(fmtRows(health, [
