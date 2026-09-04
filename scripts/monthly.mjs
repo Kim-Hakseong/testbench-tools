@@ -305,10 +305,13 @@ async function main() {
   // Ledger
   md.push("## 예측 원장", "");
   md.push(...fmt(ledger, [
+    // The id is what a verdict line refers to; dates are not unique.
+    { h: "id", f: (e) => `\`${e.id ?? "(id 없음)"}\`` },
     { h: "만기", f: (e) => e.due },
     { h: "D", f: (e) => (e.daysLeft >= 0 ? `+${e.daysLeft}` : `${e.daysLeft} 지남`) },
-    { h: "행동", f: (e) => e.action.slice(0, 42) },
-    { h: "예측", f: (e) => `${e.metric.slice(0, 28)} ${e.prediction}` },
+    { h: "행동", f: (e) => e.action.slice(0, 34) },
+    { h: "예측", f: (e) => `${e.metric.slice(0, 24)} ${e.prediction}` },
+    { h: "기저", f: (e) => e.baseline ?? "—" },
     { h: "판정", f: (e) => e.verdict ?? "—" },
   ]));
   const overdue = ledger.filter((e) => e.daysLeft < 0 && !e.verdict);
