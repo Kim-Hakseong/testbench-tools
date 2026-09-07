@@ -8,11 +8,11 @@ import { toolAlternates } from "@/lib/i18n";
 import { JsonLd, toolJsonLd } from "@/lib/jsonld";
 
 export const metadata: Metadata = {
-  title: "PT100 / PT1000 Calculator — resistance ↔ temperature (IEC 60751)",
+  title: "PT100 / PT1000 Calculator & Resistance Table (IEC 60751)",
   description:
-    "Free online PT100/PT1000 RTD calculator: convert resistance to temperature and back using the IEC 60751 Callendar-Van Dusen equation (0–850 °C). 100% in your browser.",
+    "Free online PT100/PT1000 RTD calculator: convert resistance to temperature and back with the IEC 60751 Callendar-Van Dusen formula, plus a PT100/PT1000 resistance table for 0–850 °C. 100% in your browser.",
   alternates: toolAlternates("pt100-calculator", "en"),
-  openGraph: { url: "/tools/pt100-calculator/", images: ["/og/pt100-calculator.png"], siteName: "TestBench.tools", title: "PT100 / PT1000 Calculator — resistance ↔ temperature (IEC 60751)", description: "Free online PT100/PT1000 RTD calculator: convert resistance to temperature and back using the IEC 60751 Callendar-Van Dusen equation (0–850 °C). 100% in your browser.", type: "website" },
+  openGraph: { url: "/tools/pt100-calculator/", images: ["/og/pt100-calculator.png"], siteName: "TestBench.tools", title: "PT100 / PT1000 Calculator & Resistance Table (IEC 60751)", description: "Free online PT100/PT1000 RTD calculator: convert resistance to temperature and back with the IEC 60751 Callendar-Van Dusen formula, plus a PT100/PT1000 resistance table for 0–850 °C. 100% in your browser.", type: "website" },
 };
 
 const FAQS: FaqItem[] = [
@@ -27,6 +27,14 @@ const FAQS: FaqItem[] = [
   {
     q: "What is the difference between PT100 and PT1000?",
     a: "Only R0, the resistance at 0 °C: 100 Ω versus 1000 Ω. The temperature coefficients are identical, so a PT1000 reads exactly ten times the resistance of a PT100 at every temperature — 1385.055 Ω instead of 138.5055 Ω at 100 °C.",
+  },
+  {
+    q: "What resistance does a PT1000 read at 25 °C?",
+    a: "1097.347 Ω — and a PT100 reads 109.735 Ω at the same temperature. Both come from the same equation: 1000·(1 + 3.9083×10⁻³·25 − 5.775×10⁻⁷·25²). The table on this page lists the common points from 0 to 850 °C.",
+  },
+  {
+    q: "Where do the numbers in a PT1000 resistance table come from?",
+    a: "They are not measured values — every published table is the Callendar-Van Dusen equation evaluated at fixed temperature steps. That is why a PT1000 table is the PT100 table times ten, and why this page computes the points instead of shipping a lookup file: the calculator above gives any temperature between the rows.",
   },
   {
     q: "My meter shows 108.5 Ω on a PT100 — what temperature is that?",
@@ -68,8 +76,9 @@ export default function Page() {
         <AnswerBox>
           This tool converts platinum RTD resistance to temperature and back
           for PT100 and PT1000 sensors, using the IEC 60751 Callendar-Van Dusen
-          equation over 0…850 °C. Reference points: 100 °C ↔ 138.5055 Ω, and a
-          measured 108.5 Ω ↔ 21.8189 °C on a PT100.
+          equation over 0…850 °C, and lists the resistance table both sensors
+          follow. Reference points: 100 °C ↔ 138.5055 Ω on a PT100 and
+          1385.055 Ω on a PT1000; a measured 108.5 Ω ↔ 21.8189 °C.
         </AnswerBox>
 
         <Section title="How it works">
@@ -101,6 +110,64 @@ export default function Page() {
             <br />
             measured R = 108.5 Ω → T = <span className="text-ok">21.8189 °C</span>
           </DataWell>
+          <p>
+            A PT1000 runs through the identical steps with R0 = 1000 Ω — the
+            coefficients never change, only the scale:
+          </p>
+          <DataWell>
+            PT1000 · T = 100 °C
+            <br />
+            R = 1000 × (1 + 3.9083×10⁻³·100 − 5.775×10⁻⁷·100²)
+            <br />
+            &nbsp;&nbsp;= <span className="text-ok">1385.055 Ω</span>
+            <br />
+            <br />
+            measured R = 1200 Ω → T = <span className="text-ok">51.566 °C</span>
+          </DataWell>
+        </Section>
+
+        <Section title="PT100 / PT1000 resistance table">
+          <p>
+            The rows below are the Callendar-Van Dusen equation evaluated at
+            common temperatures — the same numbers the calculator above returns,
+            rounded to three decimals. Because R0 is the only difference between
+            the two sensors, the PT1000 column is exactly ten times the PT100
+            column at every temperature; a PT1000 therefore also changes about
+            3.9 Ω per °C near room temperature against a PT100&apos;s 0.39 Ω.
+            That ratio is why 2-wire wiring hurts a PT1000 far less: one ohm of
+            lead resistance is an error of roughly 2.6 °C on a PT100 but only
+            0.26 °C on a PT1000.
+          </p>
+          <ParamsTable
+            rows={[
+              { name: "0 °C", value: "1000.000 Ω", note: "PT100 · 100.000 Ω" },
+              { name: "10 °C", value: "1039.025 Ω", note: "PT100 · 103.903 Ω" },
+              { name: "20 °C", value: "1077.935 Ω", note: "PT100 · 107.794 Ω" },
+              { name: "25 °C", value: "1097.347 Ω", note: "PT100 · 109.735 Ω" },
+              { name: "50 °C", value: "1193.971 Ω", note: "PT100 · 119.397 Ω" },
+              { name: "100 °C", value: "1385.055 Ω", note: "PT100 · 138.506 Ω" },
+              { name: "150 °C", value: "1573.251 Ω", note: "PT100 · 157.325 Ω" },
+              { name: "200 °C", value: "1758.560 Ω", note: "PT100 · 175.856 Ω" },
+              { name: "250 °C", value: "1940.981 Ω", note: "PT100 · 194.098 Ω" },
+              { name: "300 °C", value: "2120.515 Ω", note: "PT100 · 212.052 Ω" },
+              { name: "400 °C", value: "2470.920 Ω", note: "PT100 · 247.092 Ω" },
+              { name: "500 °C", value: "2809.775 Ω", note: "PT100 · 280.978 Ω" },
+              { name: "600 °C", value: "3137.080 Ω", note: "PT100 · 313.708 Ω" },
+              { name: "700 °C", value: "3452.835 Ω", note: "PT100 · 345.284 Ω" },
+              { name: "800 °C", value: "3757.040 Ω", note: "PT100 · 375.704 Ω" },
+              { name: "850 °C", value: "3904.811 Ω", note: "PT100 · 390.481 Ω" },
+            ]}
+          />
+          <p>
+            The spacing between rows narrows as temperature rises: a PT1000
+            gains 39.025 Ω over the first 10 °C but only 29.323 Ω between 840
+            and 850 °C. That shrinkage is the B·T² term, and it is what a
+            straight-line approximation throws away — invert a pure{" "}
+            <code>R = R0(1 + A·T)</code> line and a sensor actually sitting at
+            400 °C (2470.920 Ω) reads back as about 376 °C, some 24 °C low.
+            Values below 0 °C are deliberately absent: that branch of IEC 60751
+            adds a C coefficient and is not implemented here.
+          </p>
         </Section>
 
         <AdSlot id="pt100-calculator-content" />
