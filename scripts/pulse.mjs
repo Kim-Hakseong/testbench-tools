@@ -115,16 +115,23 @@ async function collectGsc() {
     const dims = (dimensions, range) =>
       gscQuery(token, { startDate: range[0], endDate: range[1], dimensions, rowLimit: 250 });
 
-    const [queries, pages, prevQueries, totals] = await Promise.all([
+    const [queries, pages, prevQueries, totals, prevTotals] = await Promise.all([
       dims(["query"], [start, end]),
       dims(["page"], [start, end]),
       dims(["query"], [prevStart, prevEnd]),
       gscQuery(token, { startDate: start, endDate: end, rowLimit: 1 }),
+      // The window that actually precedes this one. Without it the report was
+      // comparing against last week's snapshot, which shares 21 of its 28 days —
+      // a sliding window read as movement, which is exactly the mistake the note
+      // below the totals warns about.
+      gscQuery(token, { startDate: prevStart, endDate: prevEnd, rowLimit: 1 }),
     ]);
 
     return {
       window: { start, end },
+      prevWindow: { start: prevStart, end: prevEnd },
       totals: totals[0] ?? null,
+      prevTotals: prevTotals[0] ?? null,
       queries: queries.map((r) => ({ q: r.keys[0], ...pick(r) })),
       pages: pages.map((r) => ({ page: r.keys[0].replace(SITE, ""), ...pick(r) })),
       prevQueries: prevQueries.map((r) => ({ q: r.keys[0], ...pick(r) })),
@@ -360,9 +367,17 @@ function analyseGsc(gsc, prev) {
     .filter((r) => r.impressions >= 15 && r.clicks === 0 && r.position > 15)
     .slice(0, 15);
 
+  // Breakage check, not a trend: consecutive snapshots share 21 of 28 days, so a
+  // drop this large between them means something broke (site down, deindexed),
+  // not that traffic drifted. Trend comparisons use gsc.prevTotals instead.
   if (prev?.gsc?.totals && gsc.totals) {
     const drop = 1 - gsc.totals.impressions / prev.gsc.totals.impressions;
-    if (drop > 0.4) anomalies.push(`노출 급감: ${prev.gsc.totals.impressions} → ${gsc.totals.impressions} (전 스냅샷 대비 −${Math.round(drop * 100)}%)`);
+    if (drop > 0.4) {
+      anomalies.push(
+        `노출 급감 의심(고장 점검용, 추세 아님): 지난 스냅샷 ${prev.gsc.totals.impressions} → ${gsc.totals.impressions}. ` +
+        `두 창은 21일이 겹치므로 이 정도 낙폭은 사이트·색인 이상을 의심할 신호다.`,
+      );
+    }
   }
 
   return { newQueries, opportunities };
@@ -486,18 +501,24 @@ async function main() {
   if (gsc) {
     md.push(`## 검색 (GSC ${gsc.window.start} ~ ${gsc.window.end})`, "");
     if (gsc.totals) {
-      const p = prev?.gsc?.totals;
-      md.push(`총 노출 **${gsc.totals.impressions}** (이전 ${p?.impressions ?? "?"}) · 클릭 **${gsc.totals.clicks}** (이전 ${p?.clicks ?? "?"}) · 평균 순위 ${gsc.totals.position?.toFixed(1)}`, "");
+      const p = gsc.prevTotals;
+      const w = gsc.prevWindow;
+      md.push(`총 노출 **${gsc.totals.impressions}** · 클릭 **${gsc.totals.clicks}** · 평균 순위 ${gsc.totals.position?.toFixed(1)}`, "");
+      if (p && w) {
+        md.push(
+          `직전 28일(${w.start}~${w.end}, **겹치지 않음**): 노출 ${p.impressions} · 클릭 ${p.clicks} · 순위 ${p.position?.toFixed(1)}`,
+          "",
+        );
+      }
     }
     // The window is 28 days but this runs weekly, so consecutive reports share 21
-    // of those 28 days. Within one report the "이전" comparison is clean (the two
-    // windows do not overlap each other); across reports it is not, and reading a
-    // sliding window as movement is an easy way to invent a trend that isn't there.
+    // of those 28 days. The comparison printed above is against the window that
+    // actually precedes this one, which is clean; comparing two *reports* is not.
     md.push(
       "> **창 겹침 주의**: 이 28일 창은 **지난주 리포트의 창과 21일(75%)이 같은 데이터**다. " +
       "지난주 리포트와 이번 주 리포트의 수치를 나란히 놓고 주간 변화라고 읽지 말 것 — " +
-      "대부분 창이 밀린 결과다. 위의 (이전 …) 비교는 겹치지 않는 두 창이므로 그대로 신뢰해도 된다. " +
-      "주 단위 추세가 필요하면 월간 리뷰(`scripts/monthly.mjs`)의 달 대 달 비교를 볼 것.",
+      "대부분 창이 밀린 결과다. 추세를 말할 수 있는 비교는 **바로 위의 '직전 28일' 한 줄뿐**이며, " +
+      "그보다 긴 추세는 월간 리뷰(`scripts/monthly.mjs`)의 달 대 달 비교를 볼 것.",
       "",
     );
     md.push(`### 상위 검색어`, "");
