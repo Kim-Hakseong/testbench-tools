@@ -263,7 +263,13 @@ async function collectIndexStatus(gsc) {
   const token = await gscToken();
   if (!token) return null;
 
+  // `rows` holds only the pages that need action; `checkedRows` keeps the full
+  // result of every inspection. Without the latter a clean week records nothing,
+  // and a prediction like "how many of these three canonicals came back to us"
+  // has no data to settle against — which is how two predictions expired
+  // unjudgeable on 2026-09-21.
   const rows = [];
+  const checkedRows = [];
   for (const url of toCheck) {
     try {
       const res = await fetch("https://searchconsole.googleapis.com/v1/urlInspection/index:inspect", {
@@ -275,9 +281,9 @@ async function collectIndexStatus(gsc) {
       if (!s) continue;
       const canonical = (s.googleCanonical ?? "").replace(SITE, "");
       const foreign = Boolean(s.googleCanonical && !s.googleCanonical.startsWith(SITE));
-      if (s.coverageState !== "Submitted and indexed" || foreign) {
-        rows.push({ url, state: s.coverageState ?? "?", canonical, foreign });
-      }
+      const row = { url, state: s.coverageState ?? "?", canonical, foreign, lastCrawl: s.lastCrawlTime?.slice(0, 10) ?? null };
+      checkedRows.push(row);
+      if (s.coverageState !== "Submitted and indexed" || foreign) rows.push(row);
     } catch {
       // A single failed inspection must not lose the rest of the report.
     }
@@ -291,7 +297,7 @@ async function collectIndexStatus(gsc) {
       stolen.map((r) => `${r.url} → ${r.canonical || "(외부)"}`).join(" · "),
     );
   }
-  return { checked: toCheck.length, candidates: candidates.length, truncated, rows };
+  return { checked: toCheck.length, candidates: candidates.length, truncated, rows, checkedRows };
 }
 
 async function collectHealth() {
