@@ -10,9 +10,9 @@ import { JsonLd, toolJsonLd } from "@/lib/jsonld";
 export const metadata: Metadata = {
   title: "PT100 / PT1000 Calculator & Resistance Table (IEC 60751)",
   description:
-    "Free online PT100/PT1000 RTD calculator: convert resistance to temperature and back with the IEC 60751 Callendar-Van Dusen formula, plus a PT100/PT1000 resistance table for 0–850 °C. 100% in your browser.",
+    "Free online PT100/PT1000 RTD calculator: convert resistance to temperature and back with the IEC 60751 Callendar-Van Dusen formula, plus PT100 and PT1000 resistance tables — 10 °C steps across 0–200 °C and the full 0–850 °C range. 100% in your browser.",
   alternates: toolAlternates("pt100-calculator", "en"),
-  openGraph: { url: "/tools/pt100-calculator/", images: ["/og/pt100-calculator.png"], siteName: "TestBench.tools", title: "PT100 / PT1000 Calculator & Resistance Table (IEC 60751)", description: "Free online PT100/PT1000 RTD calculator: convert resistance to temperature and back with the IEC 60751 Callendar-Van Dusen formula, plus a PT100/PT1000 resistance table for 0–850 °C. 100% in your browser.", type: "website" },
+  openGraph: { url: "/tools/pt100-calculator/", images: ["/og/pt100-calculator.png"], siteName: "TestBench.tools", title: "PT100 / PT1000 Calculator & Resistance Table (IEC 60751)", description: "Free online PT100/PT1000 RTD calculator: convert resistance to temperature and back with the IEC 60751 Callendar-Van Dusen formula, plus PT100 and PT1000 resistance tables — 10 °C steps across 0–200 °C and the full 0–850 °C range. 100% in your browser.", type: "website" },
 };
 
 const FAQS: FaqItem[] = [
@@ -31,6 +31,10 @@ const FAQS: FaqItem[] = [
   {
     q: "What resistance does a PT1000 read at 25 °C?",
     a: "1097.347 Ω — and a PT100 reads 109.735 Ω at the same temperature. Both come from the same equation: 1000·(1 + 3.9083×10⁻³·25 − 5.775×10⁻⁷·25²). The table on this page lists the common points from 0 to 850 °C.",
+  },
+  {
+    q: "What is the resistance of a PT100 at 30 °C per IEC 60751?",
+    a: "111.673 Ω, and a PT1000 reads 1116.729 Ω. Both are 100·(1 + 3.9083×10⁻³·30 − 5.775×10⁻⁷·30²) scaled by R0. The 10 °C-step table on this page covers 0 to 200 °C for lookups like this; the calculator above takes any temperature in between.",
   },
   {
     q: "Where do the numbers in a PT1000 resistance table come from?",
@@ -167,6 +171,51 @@ export default function Page() {
             400 °C (2470.920 Ω) reads back as about 376 °C, some 24 °C low.
             Values below 0 °C are deliberately absent: that branch of IEC 60751
             adds a C coefficient and is not implemented here.
+          </p>
+        </Section>
+
+        <Section title="PT100 resistance at 10 °C steps (0–200 °C)">
+          <p>
+            The table above jumps in 50 and 100 °C strides once it clears
+            100 °C, which is the wrong grain for the band most PT100 sensors
+            actually sit in. Below is the same IEC 60751 equation at every
+            10 °C from 0 to 200 °C, PT100 first — so a reading taken at, say,
+            30 °C resolves to <code>111.673 Ω</code> without interpolating
+            between rows.
+          </p>
+          <ParamsTable
+            rows={[
+              { name: "0 °C", value: "100.000 Ω", note: "PT1000 · 1000.000 Ω" },
+              { name: "10 °C", value: "103.903 Ω", note: "PT1000 · 1039.025 Ω" },
+              { name: "20 °C", value: "107.794 Ω", note: "PT1000 · 1077.935 Ω" },
+              { name: "30 °C", value: "111.673 Ω", note: "PT1000 · 1116.729 Ω" },
+              { name: "40 °C", value: "115.541 Ω", note: "PT1000 · 1155.408 Ω" },
+              { name: "50 °C", value: "119.397 Ω", note: "PT1000 · 1193.971 Ω" },
+              { name: "60 °C", value: "123.242 Ω", note: "PT1000 · 1232.419 Ω" },
+              { name: "70 °C", value: "127.075 Ω", note: "PT1000 · 1270.751 Ω" },
+              { name: "80 °C", value: "130.897 Ω", note: "PT1000 · 1308.968 Ω" },
+              { name: "90 °C", value: "134.707 Ω", note: "PT1000 · 1347.069 Ω" },
+              { name: "100 °C", value: "138.506 Ω", note: "PT1000 · 1385.055 Ω" },
+              { name: "110 °C", value: "142.293 Ω", note: "PT1000 · 1422.925 Ω" },
+              { name: "120 °C", value: "146.068 Ω", note: "PT1000 · 1460.680 Ω" },
+              { name: "130 °C", value: "149.832 Ω", note: "PT1000 · 1498.316 Ω" },
+              { name: "140 °C", value: "153.584 Ω", note: "PT1000 · 1535.843 Ω" },
+              { name: "150 °C", value: "157.325 Ω", note: "PT1000 · 1573.251 Ω" },
+              { name: "160 °C", value: "161.054 Ω", note: "PT1000 · 1610.544 Ω" },
+              { name: "170 °C", value: "164.772 Ω", note: "PT1000 · 1647.721 Ω" },
+              { name: "180 °C", value: "168.478 Ω", note: "PT1000 · 1684.783 Ω" },
+              { name: "190 °C", value: "172.173 Ω", note: "PT1000 · 1721.729 Ω" },
+              { name: "200 °C", value: "175.856 Ω", note: "PT1000 · 1758.560 Ω" },
+            ]}
+          />
+          <p>
+            Read down the PT100 column and the per-decade step falls from
+            3.903 Ω over the first 10 °C to 3.683 Ω over the last — a 5.6 %
+            drop in sensitivity across the range, which is the whole reason the
+            standard carries a B·T² term instead of a single slope. The rows at
+            20, 50, 100, 150 and 200 °C are the same values as in the 0–850 °C
+            table above; they are listed twice on purpose so each table stands
+            on its own.
           </p>
         </Section>
 
