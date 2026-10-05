@@ -10,7 +10,7 @@ export const metadata: Metadata = {
   alternates: { canonical: "/tools/nmea-0183-generator/" },
   title: "NMEA 0183 Sentence Generator — GGA, RMC, custom, with checksum",
   description:
-    "Free online NMEA 0183 sentence generator: build valid GGA and RMC sentences from decimal coordinates, or any custom body, with the checksum computed for you. 100% in your browser.",
+    "Free online NMEA 0183 sentence generator: build valid GGA and RMC sentences from decimal coordinates, or any custom body, with the checksum computed for you — plus the RMC field order, slot by slot. 100% in your browser.",
   openGraph: { url: "/tools/nmea-0183-generator/",
     images: ["/og/nmea-0183-generator.png"],
     siteName: "TestBench.tools",
@@ -32,6 +32,10 @@ const FAQS: FaqItem[] = [
   {
     q: "What is the difference between GGA and RMC?",
     a: "GGA is the fix: position, time, fix quality, satellites in use, HDOP and altitude — but no date and no speed. RMC is the recommended minimum: position, time, date, speed over ground and course — but no altitude and no satellite count. Loggers usually want both, which is why receivers interleave them.",
+  },
+  {
+    q: "What are the fields of an NMEA RMC sentence?",
+    a: "Twelve, in fixed order after the address: UTC time, status (A = valid, V = void), latitude, N/S, longitude, E/W, speed over ground in knots, course over ground in degrees, date (ddmmyy), magnetic variation, variation E/W and mode indicator, followed by the *HH checksum. Example: $GPRMC,023000.00,A,3733.9900,N,12658.6800,E,12.5,084.4,051026,,,A*63. The field table on this page walks through that sentence slot by slot.",
   },
   {
     q: "What do the talker IDs GP, GN, GL, GA and BD mean?",
@@ -115,6 +119,45 @@ export default function Page() {
             <br />
             decoded back: GPGGA · 14 fields · checksum OK
           </DataWell>
+        </Section>
+
+        <Section title="RMC sentence fields, in order">
+          <p>
+            RMC is the sentence most loggers and displays key on, because it is
+            the only common one that carries the date. Its fields are
+            positional — the meaning of a value is its place after the
+            address, so an empty field still occupies its slot. Here is the
+            same fix as the GGA example above, as RMC, moving at 12.5 knots on
+            a course of 84.4°:
+          </p>
+          <DataWell>
+            $GPRMC,023000.00,A,3733.9900,N,12658.6800,E,12.5,084.4,051026,,,A*63
+          </DataWell>
+          <ParamsTable
+            rows={[
+              { name: "1 · UTC time", value: "023000.00", note: "hhmmss.ss — 02:30:00 UTC" },
+              { name: "2 · Status", value: "A", note: "A = valid, V = void" },
+              { name: "3 · Latitude", value: "3733.9900", note: "ddmm.mmmm" },
+              { name: "4 · N/S", value: "N" },
+              { name: "5 · Longitude", value: "12658.6800", note: "dddmm.mmmm" },
+              { name: "6 · E/W", value: "E" },
+              { name: "7 · Speed over ground", value: "12.5", note: "knots" },
+              { name: "8 · Course over ground", value: "084.4", note: "degrees" },
+              { name: "9 · Date", value: "051026", note: "ddmmyy — 5 October 2026" },
+              { name: "10 · Magnetic variation", value: "(empty)", note: "degrees" },
+              { name: "11 · Variation E/W", value: "(empty)" },
+              { name: "12 · Mode indicator", value: "A", note: "absent on older receivers" },
+              { name: "Checksum", value: "*63", note: "XOR of everything between $ and *" },
+            ]}
+          />
+          <p>
+            Two things trip up RMC parsers. The status field is the validity
+            flag: with <code>V</code> the receiver still fills the slots it
+            can, so a parser that ignores field 2 logs stale or empty positions
+            as real ones. And the date is ddmmyy with a two-digit year — the
+            century is yours to supply. This page&apos;s decoder labels all
+            twelve fields; paste the sentence above into it to check.
+          </p>
         </Section>
 
         <AdSlot id="nmea-0183-generator-content" />
