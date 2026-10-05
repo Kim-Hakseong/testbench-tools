@@ -115,7 +115,7 @@ async function collectGsc() {
     const dims = (dimensions, range) =>
       gscQuery(token, { startDate: range[0], endDate: range[1], dimensions, rowLimit: 250 });
 
-    const [queries, pages, prevQueries, totals, prevTotals] = await Promise.all([
+    const [queries, pages, prevQueries, totals, prevTotals, daily] = await Promise.all([
       dims(["query"], [start, end]),
       dims(["page"], [start, end]),
       dims(["query"], [prevStart, prevEnd]),
@@ -125,15 +125,22 @@ async function collectGsc() {
       // a sliding window read as movement, which is exactly the mistake the note
       // below the totals warns about.
       gscQuery(token, { startDate: prevStart, endDate: prevEnd, rowLimit: 1 }),
+      dims(["date"], [start, end]),
     ]);
+
+    // GSC orders rows by clicks. With clicks at zero the order is effectively
+    // alphabetical, and the report's 20-row cut dropped the page holding 69% of
+    // impressions (2026-10-05). Sort by what the tables are read for.
+    const byImpressions = (a, b) => b.impressions - a.impressions || b.clicks - a.clicks;
 
     return {
       window: { start, end },
       prevWindow: { start: prevStart, end: prevEnd },
       totals: totals[0] ?? null,
       prevTotals: prevTotals[0] ?? null,
-      queries: queries.map((r) => ({ q: r.keys[0], ...pick(r) })),
-      pages: pages.map((r) => ({ page: r.keys[0].replace(SITE, ""), ...pick(r) })),
+      queries: queries.map((r) => ({ q: r.keys[0], ...pick(r) })).sort(byImpressions),
+      pages: pages.map((r) => ({ page: r.keys[0].replace(SITE, ""), ...pick(r) })).sort(byImpressions),
+      daily: daily.map((r) => ({ date: r.keys[0], ...pick(r) })),
       prevQueries: prevQueries.map((r) => ({ q: r.keys[0], ...pick(r) })),
     };
   } catch (e) {
@@ -553,6 +560,29 @@ async function main() {
       { h: "클릭", f: (r) => r.clicks },
       { h: "순위", f: (r) => r.position },
     ]));
+
+    // A few days can carry most of a window. On 2026-09-24~27 one page took 289
+    // of its 346 impressions, almost none attributed to a query, then went back
+    // to ~3/day. Read as a whole, that looked like "346 impressions, 0 clicks —
+    // fix the snippet"; it was a burst. Name such days so the window isn't read
+    // as steady demand.
+    const days = gsc.daily ?? [];
+    if (days.length >= 7) {
+      const sorted = days.map((d) => d.impressions).sort((a, b) => a - b);
+      const median = sorted[Math.floor(sorted.length / 2)];
+      const burst = days.filter((d) => d.impressions >= Math.max(20, median * 4));
+      if (burst.length) {
+        const share = burst.reduce((a, d) => a + d.impressions, 0);
+        const total = days.reduce((a, d) => a + d.impressions, 0);
+        md.push(
+          `> **노출 급증일**: ${burst.map((d) => `${d.date.slice(5)}(${d.impressions})`).join(", ")} — ` +
+          `일 중앙값 ${median}의 4배 이상. 이 ${burst.length}일이 창 노출 ${total} 중 ${share}` +
+          `(${Math.round((share / total) * 100)}%)다. 이 날들을 빼고 읽기 전에는 노출 대비 클릭 0을 ` +
+          `스니펫 문제로 판정하지 말 것 — 검색어로 귀속되지 않은 일시적 급증일 수 있다.`,
+          "",
+        );
+      }
+    }
   }
 
   if (rum) {
