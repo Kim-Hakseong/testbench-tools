@@ -8,7 +8,7 @@
   "nmea-checksum": "2026-08-21",
   "modbus-frame-decoder": "2026-08-21",
   "nmea-0183-decoder": "2026-08-21",
-  "nmea-0183-generator": "2026-08-21",
+  "nmea-0183-generator": "2026-10-05",
   "can-frame-decoder": "2026-08-21",
   "mc-protocol-decoder": "2026-08-21",
   "ieee-754-float": "2026-08-21",
