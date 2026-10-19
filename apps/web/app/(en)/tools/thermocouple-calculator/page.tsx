@@ -7,13 +7,13 @@ import { JsonLd, toolJsonLd } from "@/lib/jsonld";
 
 export const metadata: Metadata = {
   alternates: { canonical: "/tools/thermocouple-calculator/" },
-  title: "Thermocouple Calculator — mV to Temperature Chart & Formula (K, J, T, ITS-90)",
+  title: "Thermocouple Calculator — mV to Temperature Chart & Formula (K, J, T, R, S, ITS-90)",
   description:
-    "Free thermocouple calculator for types K, J, T, E, N, R, S and B: millivolts to temperature with cold-junction compensation on the NIST ITS-90 reference functions, plus a type K/J/T mV-to-°C chart. 100% in your browser.",
+    "Free thermocouple calculator for types K, J, T, E, N, R, S and B: millivolts to temperature with cold-junction compensation on the NIST ITS-90 reference functions, plus mV-to-°C charts for types K, J, T and the Pt-Rh types R and S, and the mV output range of all eight types. 100% in your browser.",
   openGraph: { url: "/tools/thermocouple-calculator/",
     images: ["/og/thermocouple-calculator.png"], siteName: "TestBench.tools",
     title: "Thermocouple Calculator — mV to °C chart, types K, J, T, E, N, R, S, B",
-    description: "mV ↔ °C on the NIST ITS-90 reference functions, with cold-junction compensation and a type K/J/T reference chart.",
+    description: "mV ↔ °C on the NIST ITS-90 reference functions, with cold-junction compensation, type K/J/T and R/S reference charts, and the mV range of each type.",
     type: "website",
   },
 };
@@ -48,6 +48,18 @@ const FAQS: FaqItem[] = [
     a: "They are read from the reference tables of NIST Monograph 175 (Burns, Scroger, Strouse, Croarkin and Guthrie, 1993): table 7.3.3 for type K, 6.3.3 for type J and 9.3.3 for type T, all with reference junctions at 0 °C. They are not re-derived for this page — the same values are the golden vectors this site's automated test suite pins the engine against, so the chart and the calculator above cannot drift apart.",
   },
   {
+    q: "What is the mV output of a type S thermocouple?",
+    a: "With the reference junction at 0 °C: 0 mV at 0 °C, 0.64591 mV at 100 °C, 4.23329 mV at 500 °C, 9.5871 mV at 1000 °C, 14.3726 mV at 1400 °C and 18.69251 mV at 1768 °C, the top of the published range. Type R runs higher at each of those temperatures: 0.6474 mV at 100 °C, 4.47126 mV at 500 °C, 10.50596 mV at 1000 °C, 16.0401 mV at 1400 °C and 21.10148 mV at 1768 °C. Both are small outputs for the temperatures involved: a type S couple at 1000 °C gives 9.5871 mV where a type K couple at the same temperature gives 41.2756 mV. The chart on this page lists these rows for both types.",
+  },
+  {
+    q: "What is the mV range of each thermocouple type?",
+    a: "Over the range NIST publishes an inverse for: type K −5.891 to 54.886 mV, J −8.095 to 69.553 mV, T −5.603 to 20.872 mV, E −8.825 to 76.373 mV, N −3.990 to 47.513 mV, R −0.226 to 21.103 mV, S −0.235 to 18.693 mV and B 0.291 to 13.820 mV, all with the reference junction at 0 °C. The mV output range table on this page pairs each with its temperature span. Note that the forward functions for K, E, N and T extend further at the cold end, down to −270 °C, than the inverse does — NIST stops at −200 °C there, so those voltages can be produced but not converted back.",
+  },
+  {
+    q: "Where do the type R and S chart numbers come from?",
+    a: "The same place as the K, J and T rows: the reference tables of NIST Monograph 175 (Burns, Scroger, Strouse, Croarkin and Guthrie, 1993) — table 3.3.3 for type R and 4.3.3 for type S, reference junctions at 0 °C. The voltage bounds in the mV output range table are read from the approximate-inverse blocks of the NIST ITS-90 Thermocouple Database (SRD 60). Nothing on this page is interpolated between table rows; the rows are the temperatures the source tables print.",
+  },
+  {
     q: "Is my data uploaded?",
     a: "No. Every calculation runs in your browser.",
   },
@@ -67,9 +79,10 @@ export default function Page() {
           and B. Its main mode takes the voltage you measured plus your cold
           junction temperature and returns the hot-junction temperature, which is
           the number you actually want. Reference: type K at 100 °C produces
-          4.0962 mV with the cold junction at 0 °C. A mV-to-°C chart for types
-          K, J and T, taken from the NIST reference tables, is further down the
-          page.
+          4.0962 mV with the cold junction at 0 °C. Further down the page are
+          mV-to-°C charts taken from the NIST reference tables — types K, J and
+          T, then the Pt-Rh types R and S — and a table of the mV output range
+          each of the eight types covers.
         </AnswerBox>
 
         <Section title="How it works">
@@ -160,8 +173,48 @@ export default function Page() {
             temperature is not the sensitivity you get at the top of the
             range. Type J is printed to
             1 µV rather than 0.01 µV above 760 °C in the source tables, so the
-            800, 1000 and 1200 °C rows carry one fewer digit. Types E, N, R, S
-            and B are in the calculator above but not charted here.
+            800, 1000 and 1200 °C rows carry one fewer digit. Types R and S are
+            charted in the next section; E, N and B are in the calculator above
+            but not charted here.
+          </p>
+        </Section>
+
+        <Section title="Type R and S mV to temperature chart (Pt-Rh)">
+          <p>
+            The platinum-rhodium types read differently enough from the base-metal
+            ones that charting them on the same rows would be misleading: at
+            1000 °C a type R couple produces 10.50596 mV where type K produces
+            41.2756 mV, about a quarter of the output. Values below are
+            thermoelectric voltage against temperature with the reference
+            junction at 0 °C, printed to the digit the source tables publish, at
+            the temperatures those tables list.
+          </p>
+          <ParamsTable
+            rows={[
+              { name: "0 °C", value: "R · 0 mV", note: "S · 0 mV" },
+              { name: "100 °C", value: "R · 0.6474 mV", note: "S · 0.64591 mV" },
+              { name: "500 °C", value: "R · 4.47126 mV", note: "S · 4.23329 mV" },
+              { name: "1000 °C", value: "R · 10.50596 mV", note: "S · 9.5871 mV" },
+              { name: "1064 °C", value: "R · 11.36132 mV", note: "S · 10.33209 mV — inverse sub-range boundary" },
+              { name: "1400 °C", value: "R · 16.0401 mV", note: "S · 14.3726 mV" },
+              { name: "1664 °C", value: "R · 19.73198 mV", note: "S · 17.5301 mV" },
+              { name: "1768 °C", value: "R · 21.10148 mV", note: "S · 18.69251 mV — top of both types" },
+            ]}
+          />
+          <p>
+            Type R sits above type S at every temperature the two tables share,
+            and the gap widens with temperature — 0.6474 against 0.64591 mV at
+            100 °C is a 1.5 µV difference, while 21.10148 against 18.69251 mV at
+            1768 °C is 2.4 mV. The two are not interchangeable at the top of the
+            range even though their ranges and alloys are usually quoted
+            together. The 1064 °C row is where NIST switches inverse sub-range:
+            above 11.361 mV for type R, and above 10.332 mV for type S, the
+            mV-to-°C fit changes and its published residual band tightens to
+            −0.0005…+0.001 °C for R and ±0.0002 °C for S, the narrowest bands
+            NIST publishes for any type — then widens again to about ±0.002 °C
+            in the final sub-range above 1664.5 °C. All of those are far below
+            any sensor tolerance, so it is the thermocouple and not the
+            arithmetic that limits you there.
           </p>
         </Section>
 
@@ -185,6 +238,42 @@ export default function Page() {
             against NIST Monograph 175 (Burns et al., 1993). Wire colour codes and
             tolerance classes belong to ANSI/ASTM E230 and IEC 60584 and are
             deliberately not published here.
+          </p>
+        </Section>
+
+        <Section title="mV output range by type">
+          <p>
+            If you are sizing an input stage or sanity-checking a reading, the
+            useful question is not the temperature span but the voltage span.
+            Below is the millivolt range over which NIST publishes an inverse —
+            that is, the range this calculator will convert back to temperature,
+            with the temperature span it corresponds to. Reference junction at
+            0 °C throughout.
+          </p>
+          <ParamsTable
+            rows={[
+              { name: "K", value: "−5.891 … 54.886 mV", note: "−200 … 1372 °C" },
+              { name: "J", value: "−8.095 … 69.553 mV", note: "−210 … 1200 °C" },
+              { name: "T", value: "−5.603 … 20.872 mV", note: "−200 … 400 °C" },
+              { name: "E", value: "−8.825 … 76.373 mV", note: "−200 … 1000 °C, widest span" },
+              { name: "N", value: "−3.990 … 47.513 mV", note: "−200 … 1300 °C" },
+              { name: "R", value: "−0.226 … 21.103 mV", note: "−50 … 1768.1 °C" },
+              { name: "S", value: "−0.235 … 18.693 mV", note: "−50 … 1768.1 °C" },
+              { name: "B", value: "0.291 … 13.820 mV", note: "250 … 1820 °C, no inverse below 250 °C" },
+            ]}
+          />
+          <p>
+            Two consequences worth reading off the table. First, the span is not
+            proportional to the temperature range: type E covers 1200 degrees in
+            85.198 mV while type S covers 1818 degrees in 18.928 mV, so an input
+            range chosen for a type E couple leaves a type S couple using about a
+            fifth of it — and with it, a fifth of the resolution. Second, these
+            voltage bounds are narrower at the cold end than the reference
+            functions themselves. The forward functions for types K, E, N and T
+            reach −270 °C — type K produces −6.4577 mV there, type N
+            −4.3451 mV — but NIST publishes no inverse below −200 °C for them,
+            and none below 250 °C for type B, so this calculator refuses those
+            voltages rather than extrapolating a plausible-looking number.
           </p>
         </Section>
 
