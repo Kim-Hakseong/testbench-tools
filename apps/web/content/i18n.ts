@@ -374,7 +374,7 @@ export const CARD_DESC: Partial<Record<SiteLocale, Record<string, string>>> = {
     "bcd-converter": "BCD ↔ Dezimal mit Nibble-Prüfung und Fehlerposition.",
     "loop-burden": "Spannungsbudget einer 4-20-mA-Schleife prüfen.",
     "modbus-address-converter": "0-basierte, 1-basierte und 4xxxx-Modbus-Adressen übersetzen.",
-    "pt100-calculator": "RTD-Widerstand ↔ Temperatur nach IEC 60751 (PT100/PT1000).",
+    "pt100-calculator": "PT1000-Rechner und PT100-Rechner: RTD-Widerstand ↔ Temperatur nach IEC 60751, mit Widerstandstabelle.",
     "thermocouple-calculator": "Spannung ↔ Temperatur für Thermoelemente K/J/T/E.",
     "adc-calculator": "ADC-Counts ↔ Spannung für N-Bit-Wandler, mit LSB-Größe.",
     "voltage-divider": "Spannungsteiler lösen, mit E24/E96-Näherungswiderständen.",
