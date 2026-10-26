@@ -192,35 +192,52 @@ async function collectUsage() {
 // Cloudflare RUM page views (optional)
 // ---------------------------------------------------------------------------
 
+async function rumGroups(dimension, days) {
+  const query = `{
+    viewer { accounts(filter: {accountTag: "${CF_ACCOUNT}"}) {
+      rumPageloadEventsAdaptiveGroups(
+        filter: {siteTag: "${ENV.CF_RUM_SITE_TAG}", datetime_geq: "${daysAgo(days)}T00:00:00Z"},
+        limit: 100, orderBy: [sum_visits_DESC]) {
+        sum { visits }
+        dimensions { ${dimension} }
+      }
+    } }
+  }`;
+  const res = await fetch("https://api.cloudflare.com/client/v4/graphql", {
+    method: "POST",
+    headers: { authorization: `Bearer ${ENV.CF_API_TOKEN}`, "content-type": "application/json" },
+    body: JSON.stringify({ query }),
+  });
+  const json = await res.json();
+  const groups = json?.data?.viewer?.accounts?.[0]?.rumPageloadEventsAdaptiveGroups;
+  if (!groups) throw new Error(JSON.stringify(json.errors ?? json).slice(0, 300));
+  return groups.map((g) => ({ key: g.dimensions[dimension], visits: g.sum.visits }));
+}
+
 async function collectRum() {
   if (!ENV.CF_API_TOKEN || !ENV.CF_RUM_SITE_TAG) {
     if (!ENV.CF_RUM_SITE_TAG) setupNeeded.push("RUM(선택): CF_RUM_SITE_TAG 미설정 — 페이지뷰 생략");
     return null;
   }
-
-  const query = `{
-    viewer { accounts(filter: {accountTag: "${CF_ACCOUNT}"}) {
-      rumPageloadEventsAdaptiveGroups(
-        filter: {siteTag: "${ENV.CF_RUM_SITE_TAG}", datetime_geq: "${daysAgo(7)}T00:00:00Z"},
-        limit: 100, orderBy: [sum_visits_DESC]) {
-        sum { visits }
-        dimensions { requestPath }
-      }
-    } }
-  }`;
-
   try {
-    const res = await fetch("https://api.cloudflare.com/client/v4/graphql", {
-      method: "POST",
-      headers: { authorization: `Bearer ${ENV.CF_API_TOKEN}`, "content-type": "application/json" },
-      body: JSON.stringify({ query }),
-    });
-    const json = await res.json();
-    const groups = json?.data?.viewer?.accounts?.[0]?.rumPageloadEventsAdaptiveGroups;
-    if (!groups) throw new Error(JSON.stringify(json.errors ?? json).slice(0, 300));
-    return groups.map((g) => ({ path: g.dimensions.requestPath, visits: g.sum.visits }));
+    return (await rumGroups("requestPath", 7)).map((g) => ({ path: g.key, visits: g.visits }));
   } catch (e) {
     setupNeeded.push(`RUM: 조회 실패(스키마 확인 필요할 수 있음) — ${e.message}`);
+    return null;
+  }
+}
+
+// Where visits come from. GSC only sees Google; on 2026-10-26 a 28-day window
+// had zero Google clicks while RUM counted visits — and grouping by referrer
+// showed them arriving from Bing, DuckDuckGo, Yahoo and ChatGPT (all Bing-index
+// fed). Without this the loop was optimising for a search engine that sent
+// nobody. Visits are adaptively sampled, so read ratios, not exact counts.
+async function collectReferrers() {
+  if (!ENV.CF_API_TOKEN || !ENV.CF_RUM_SITE_TAG) return null;
+  try {
+    return (await rumGroups("refererHost", 28)).map((g) => ({ host: g.key || "(direct/none)", visits: g.visits }));
+  } catch (e) {
+    setupNeeded.push(`RUM referrer: 조회 실패 — ${e.message}`);
     return null;
   }
 }
@@ -434,17 +451,18 @@ async function main() {
   mkdirSync(TELEMETRY, { recursive: true });
   const prev = previousSnapshot();
 
-  const [gsc, usage, rum, health] = await Promise.all([
+  const [gsc, usage, rum, health, referrers] = await Promise.all([
     collectGsc(),
     collectUsage(),
     collectRum(),
     collectHealth(),
+    collectReferrers(),
   ]);
 
   // Runs after GSC because it only inspects pages that earned no impressions.
   const index = await collectIndexStatus(gsc);
 
-  const snapshot = { date: today, gsc, usage, rum, health, index };
+  const snapshot = { date: today, gsc, usage, rum, health, index, referrers };
   const insight = analyseGsc(gsc, prev);
   const ledger = loadLedger();
   const pending = checkLedger(ledger, snapshot);
@@ -589,6 +607,24 @@ async function main() {
     md.push(`## 페이지뷰 (RUM, 최근 7일)`, "");
     md.push(fmtRows(rum.slice(0, 20), [
       { h: "경로", f: (r) => r.path },
+      { h: "방문", f: (r) => r.visits },
+    ]));
+  }
+
+  if (referrers) {
+    const total = referrers.reduce((a, r) => a + r.visits, 0);
+    const bingFed = /(^|\.)(bing\.com|duckduckgo\.com|yahoo\.com|chatgpt\.com|ecosia\.org)$/;
+    const bing = referrers.filter((r) => bingFed.test(r.host)).reduce((a, r) => a + r.visits, 0);
+    const google = referrers.filter((r) => /(^|\.)google\./.test(r.host)).reduce((a, r) => a + r.visits, 0);
+    md.push(`## 유입 출처 (RUM 리퍼러, 최근 28일)`, "");
+    md.push(
+      `> 방문 ${total} 중 **Bing 색인 계열(Bing·DuckDuckGo·Yahoo·ChatGPT 등) ${bing}**, **Google ${google}**. ` +
+      `GSC는 Google만 본다 — GSC 클릭이 0이어도 방문이 있으면 여기서 온 것이다. ` +
+      `RUM은 표본 추출이라 정확한 수가 아니라 비율로 읽을 것.`,
+      "",
+    );
+    md.push(fmtRows(referrers.slice(0, 15), [
+      { h: "리퍼러", f: (r) => r.host },
       { h: "방문", f: (r) => r.visits },
     ]));
   }
