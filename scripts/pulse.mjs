@@ -243,6 +243,63 @@ async function collectReferrers() {
 }
 
 // ---------------------------------------------------------------------------
+// Bing Webmaster Tools — the engine that actually sends visitors (2026-10-26:
+// 130 of the referred visits came from Bing-fed engines, 0 from Google).
+// GetQueryStats/GetPageStats return weekly buckets with /Date(ms)/ stamps;
+// sum the ones inside the same 28-day window GSC uses.
+// ---------------------------------------------------------------------------
+
+async function collectBing() {
+  if (!ENV.BING_API_KEY) {
+    setupNeeded.push("Bing(선택): BING_API_KEY 미설정 — Bing 검색 데이터 생략");
+    return null;
+  }
+  const base = "https://ssl.bing.com/webmaster/api.svc/json";
+  const site = encodeURIComponent(`${SITE}/`);
+  const since = Date.parse(`${daysAgo(29)}T00:00:00Z`);
+  const call = async (method) => {
+    const res = await fetch(`${base}/${method}?apikey=${ENV.BING_API_KEY}&siteUrl=${site}`);
+    const json = await res.json();
+    if (!Array.isArray(json?.d)) throw new Error(`${method}: ${JSON.stringify(json).slice(0, 200)}`);
+    return json.d;
+  };
+  const sum = (rows, key) => {
+    const acc = new Map();
+    for (const r of rows) {
+      const t = Number(/\d+/.exec(r.Date ?? "")?.[0] ?? 0);
+      if (t < since) continue;
+      const k = r.Query;
+      const a = acc.get(k) ?? { key: k, impressions: 0, clicks: 0, posWeighted: 0 };
+      a.impressions += r.Impressions ?? 0;
+      a.clicks += r.Clicks ?? 0;
+      a.posWeighted += (r.AvgImpressionPosition ?? 0) * (r.Impressions ?? 0);
+      acc.set(k, a);
+    }
+    return [...acc.values()]
+      .map(({ posWeighted, ...a }) => ({
+        [key]: key === "page" ? a.key.replace(SITE, "") : a.key,
+        impressions: a.impressions,
+        clicks: a.clicks,
+        position: a.impressions ? Math.round((posWeighted / a.impressions) * 10) / 10 : null,
+      }))
+      .sort((a, b) => b.clicks - a.clicks || b.impressions - a.impressions);
+  };
+  try {
+    const [q, p] = await Promise.all([call("GetQueryStats"), call("GetPageStats")]);
+    const queries = sum(q, "q");
+    const pages = sum(p, "page");
+    const totals = queries.reduce(
+      (t, r) => ({ impressions: t.impressions + r.impressions, clicks: t.clicks + r.clicks }),
+      { impressions: 0, clicks: 0 },
+    );
+    return { totals, queries, pages };
+  } catch (e) {
+    setupNeeded.push(`Bing: 조회 실패 — ${e.message}`);
+    return null;
+  }
+}
+
+// ---------------------------------------------------------------------------
 // Site health — no tokens needed, always runs
 // ---------------------------------------------------------------------------
 
@@ -451,18 +508,19 @@ async function main() {
   mkdirSync(TELEMETRY, { recursive: true });
   const prev = previousSnapshot();
 
-  const [gsc, usage, rum, health, referrers] = await Promise.all([
+  const [gsc, usage, rum, health, referrers, bing] = await Promise.all([
     collectGsc(),
     collectUsage(),
     collectRum(),
     collectHealth(),
     collectReferrers(),
+    collectBing(),
   ]);
 
   // Runs after GSC because it only inspects pages that earned no impressions.
   const index = await collectIndexStatus(gsc);
 
-  const snapshot = { date: today, gsc, usage, rum, health, index, referrers };
+  const snapshot = { date: today, gsc, usage, rum, health, index, referrers, bing };
   const insight = analyseGsc(gsc, prev);
   const ledger = loadLedger();
   const pending = checkLedger(ledger, snapshot);
@@ -609,6 +667,33 @@ async function main() {
       { h: "경로", f: (r) => r.path },
       { h: "방문", f: (r) => r.visits },
     ]));
+  }
+
+  if (bing) {
+    md.push(`## Bing 검색 (최근 28일)`, "");
+    md.push(
+      `> 노출 ${bing.totals.impressions} · 클릭 ${bing.totals.clicks}. 위 '유입 출처'의 Bing 계열 방문과 짝을 이루는 ` +
+      `검색 데이터다. GSC와 달리 Bing은 실제로 방문을 보낸다 — 클릭이 있는 검색어가 가장 강한 수요 신호다.`,
+      "",
+    );
+    if (bing.queries.length) {
+      md.push(`### 검색어`, "");
+      md.push(fmtRows(bing.queries.slice(0, 20), [
+        { h: "검색어", f: (r) => r.q },
+        { h: "노출", f: (r) => r.impressions },
+        { h: "클릭", f: (r) => r.clicks },
+        { h: "순위", f: (r) => r.position },
+      ]));
+      md.push(`### 페이지`, "");
+      md.push(fmtRows(bing.pages.slice(0, 20), [
+        { h: "페이지", f: (r) => r.page },
+        { h: "노출", f: (r) => r.impressions },
+        { h: "클릭", f: (r) => r.clicks },
+        { h: "순위", f: (r) => r.position },
+      ]));
+    } else {
+      md.push(`(아직 데이터 없음 — 2026-10-30 등록. 첫 주는 비어 있을 수 있다)`, "");
+    }
   }
 
   if (referrers) {
