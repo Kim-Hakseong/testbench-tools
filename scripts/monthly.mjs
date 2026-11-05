@@ -210,6 +210,49 @@ async function collectReferrers(months) {
   return out;
 }
 
+// --- Page visits per tool, by month -----------------------------------------
+
+// The beacon only fires on an input/select/button interaction. A reference-table
+// page (mil-1553-mode-codes, 2026-11-02 weekly finding) is read, not operated,
+// so its visitors never register as use. Removal judgment therefore also asks
+// whether anyone opened the page at all. This leaves the beacon (CLAUDE.md §4)
+// untouched — RUM page views already exist.
+async function collectToolVisits(months) {
+  if (!ENV.CF_API_TOKEN || !ENV.CF_RUM_SITE_TAG) return null;
+  const run = async (m) => {
+    const query = `{
+      viewer { accounts(filter: {accountTag: "${CF_ACCOUNT}"}) {
+        rumPageloadEventsAdaptiveGroups(
+          filter: {siteTag: "${ENV.CF_RUM_SITE_TAG}", datetime_geq: "${m.start}T00:00:00Z", datetime_leq: "${m.end}T23:59:59Z"},
+          limit: 1000, orderBy: [sum_visits_DESC]) {
+          sum { visits }
+          dimensions { requestPath }
+        }
+      } }
+    }`;
+    const res = await fetch("https://api.cloudflare.com/client/v4/graphql", {
+      method: "POST",
+      headers: { authorization: `Bearer ${ENV.CF_API_TOKEN}`, "content-type": "application/json" },
+      body: JSON.stringify({ query }),
+    });
+    const json = await res.json();
+    const groups = json?.data?.viewer?.accounts?.[0]?.rumPageloadEventsAdaptiveGroups;
+    if (!groups) throw new Error(JSON.stringify(json.errors ?? json).slice(0, 200));
+    const bySlug = {};
+    for (const g of groups) {
+      const slug = /\/tools\/([a-z0-9-]+)\/?$/.exec(g.dimensions.requestPath)?.[1];
+      if (slug) bySlug[slug] = (bySlug[slug] ?? 0) + g.sum.visits;
+    }
+    return bySlug;
+  };
+  const out = {};
+  for (const m of months) {
+    try { out[m.label] = await run(m); }
+    catch (e) { notes.push(`RUM 페이지 ${m.label}: 조회 실패 — ${e.message}`); out[m.label] = null; }
+  }
+  return out;
+}
+
 // --- Bing Webmaster Tools, by month -------------------------------------------
 
 // Registered 2026-10-30. The API returns weekly buckets stamped /Date(ms)/; each
@@ -305,10 +348,11 @@ const delta = (a, b) => (a == null || b == null) ? "?" : (a - b >= 0 ? `+${a - b
 
 async function main() {
   const cur = month(0), prev = month(1), prev2 = month(2);
-  const [gsc, usage, referrers, bing] = await Promise.all([
+  const [gsc, usage, referrers, visits, bing] = await Promise.all([
     collectGsc(cur, prev),
     collectUsage([cur, prev, prev2]),
     collectReferrers([cur, prev]),
+    collectToolVisits([cur, prev, prev2]),
     collectBing([cur, prev]),
   ]);
   const tools = liveTools();
@@ -414,10 +458,22 @@ async function main() {
       .map((r) => /\/tools\/([a-z0-9-]+)\/?$/.exec(r.page)?.[1])
       .filter(Boolean),
   );
+  for (const r of bing?.[cur.label]?.pages ?? []) {
+    const slug = /\/tools\/([a-z0-9-]+)\/?$/.exec(r.page)?.[1];
+    if (slug && r.impressions) impressed.add(slug);
+  }
   const used = new Set(Object.values(usage ?? {}).flat().map((r) => r.tool));
-  const silent = tools.filter((t) => !impressed.has(t) && !used.has(t));
-  md.push(`공개 툴 ${tools.length}개 중 **${silent.length}개**가 이 달 노출·사용 모두 0이다.`, "");
+  const visited = new Set(Object.values(visits ?? {}).flatMap((v) => Object.keys(v ?? {})));
+  const silent = tools.filter((t) => !impressed.has(t) && !used.has(t) && !visited.has(t));
+  const readOnly = tools.filter((t) => !used.has(t) && visited.has(t));
+  md.push(`공개 툴 ${tools.length}개 중 **${silent.length}개**가 이 달 검색 노출(Google·Bing)·사용·페이지 방문 모두 0이다.`, "");
   md.push(silent.length ? silent.map((t) => `\`${t}\``).join(" · ") : "_없음_", "");
+  if (readOnly.length) {
+    md.push(
+      `> **읽기만 된 툴 ${readOnly.length}개** — 비콘 사용은 0이지만 페이지 방문은 있다. 비콘은 입력 조작에만 ` +
+      `발사하므로 참조표형 페이지는 사용 0으로 보인다. 이 툴들은 '조용한 툴'이 아니며 제거 근거로 쓰지 않는다: ` +
+      readOnly.map((t) => `\`${t}\``).join(" · "), "");
+  }
 
   md.push("### 제거 후보 판정", "");
   if (!history) {
@@ -431,7 +487,7 @@ async function main() {
       `> 표본이 적을 때 조용한 툴을 지우면, 카탈로그 완결성(Tier 3 존치 결정)을 ` +
       `측정 부족과 맞바꾸는 것이 된다. 기다리는 편이 싸다.`, "");
   } else {
-    md.push(`비콘 이력 ${history.days}일 — 3주기 판정 가능. 위 목록 중 3개월 연속 0인 툴이 제거 제안 대상이다.`, "");
+    md.push(`비콘 이력 ${history.days}일 — 3주기 판정 가능. 위 목록 중 3개월 연속 사용·방문·노출 모두 0인 툴이 제거 제안 대상이다.`, "");
   }
 
   // Ledger
@@ -459,7 +515,7 @@ async function main() {
   }
 
   writeFileSync(join(TELEMETRY, `monthly-${cur.label}.json`),
-    JSON.stringify({ month: cur.label, gsc, usage, referrers, bing, tools, silent, history, ledger }, null, 2));
+    JSON.stringify({ month: cur.label, gsc, usage, referrers, visits, bing, tools, silent, history, ledger }, null, 2));
   writeFileSync(join(TELEMETRY, "monthly-latest.md"), md.join("\n"));
   console.log(`monthly: telemetry/monthly-${cur.label}.json + monthly-latest.md`);
   console.log(`  gsc ${gsc ? "ok" : "—"} · usage ${usage ? "ok" : "—"} · rum ${referrers ? "ok" : "—"} · bing ${bing ? "ok" : "—"} · 공개툴 ${tools.length} · 무신호 ${silent.length} · 예측 ${ledger.length}(만기미판정 ${overdue.length})`);
