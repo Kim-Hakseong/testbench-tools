@@ -166,6 +166,95 @@ async function collectUsage(months) {
   }
 }
 
+// --- Where visits came from, by month ----------------------------------------
+
+// Same grouping as pulse.mjs. On 2026-10-26 the visitors turned out to come from
+// Bing-fed engines while Google sent none, so a month judged on GSC alone reads
+// as "no search traffic" when there was some.
+const BING_FED = /(^|\.)(bing\.com|duckduckgo\.com|yahoo\.com|chatgpt\.com|ecosia\.org)$/;
+const GOOGLE = /(^|\.)google\./;
+
+async function collectReferrers(months) {
+  if (!ENV.CF_API_TOKEN || !ENV.CF_RUM_SITE_TAG) { notes.push("RUM: 토큰/사이트 태그 없음"); return null; }
+  const run = async (m) => {
+    const query = `{
+      viewer { accounts(filter: {accountTag: "${CF_ACCOUNT}"}) {
+        rumPageloadEventsAdaptiveGroups(
+          filter: {siteTag: "${ENV.CF_RUM_SITE_TAG}", datetime_geq: "${m.start}T00:00:00Z", datetime_leq: "${m.end}T23:59:59Z"},
+          limit: 100, orderBy: [sum_visits_DESC]) {
+          sum { visits }
+          dimensions { refererHost }
+        }
+      } }
+    }`;
+    const res = await fetch("https://api.cloudflare.com/client/v4/graphql", {
+      method: "POST",
+      headers: { authorization: `Bearer ${ENV.CF_API_TOKEN}`, "content-type": "application/json" },
+      body: JSON.stringify({ query }),
+    });
+    const json = await res.json();
+    const groups = json?.data?.viewer?.accounts?.[0]?.rumPageloadEventsAdaptiveGroups;
+    if (!groups) throw new Error(JSON.stringify(json.errors ?? json).slice(0, 200));
+    const rows = groups.map((g) => ({ host: g.dimensions.refererHost || "(direct/none)", visits: g.sum.visits }));
+    const sum = (re) => rows.filter((r) => re.test(r.host)).reduce((a, r) => a + r.visits, 0);
+    const total = rows.reduce((a, r) => a + r.visits, 0);
+    const direct = rows.find((r) => r.host === "(direct/none)")?.visits ?? 0;
+    const bing = sum(BING_FED), google = sum(GOOGLE);
+    return { total, bing, google, direct, other: total - bing - google - direct, rows };
+  };
+  const out = {};
+  for (const m of months) {
+    try { out[m.label] = await run(m); }
+    catch (e) { notes.push(`RUM 리퍼러 ${m.label}: 조회 실패 — ${e.message}`); out[m.label] = null; }
+  }
+  return out;
+}
+
+// --- Bing Webmaster Tools, by month -------------------------------------------
+
+// Registered 2026-10-30. The API returns weekly buckets stamped /Date(ms)/; each
+// bucket is assigned to the month its stamp falls in.
+async function collectBing(months) {
+  if (!ENV.BING_API_KEY) { notes.push("Bing: BING_API_KEY 없음"); return null; }
+  const base = "https://ssl.bing.com/webmaster/api.svc/json";
+  const site = encodeURIComponent("https://testbench.tools/");
+  const call = async (method) => {
+    const res = await fetch(`${base}/${method}?apikey=${ENV.BING_API_KEY}&siteUrl=${site}`);
+    const json = await res.json();
+    if (!Array.isArray(json?.d)) throw new Error(`${method}: ${JSON.stringify(json).slice(0, 200)}`);
+    return json.d;
+  };
+  const bucket = (rows, m, key) => {
+    const lo = Date.parse(`${m.start}T00:00:00Z`), hi = Date.parse(`${m.end}T23:59:59Z`);
+    const acc = new Map();
+    for (const r of rows) {
+      const t = Number(/\d+/.exec(r.Date ?? "")?.[0] ?? 0);
+      if (t < lo || t > hi) continue;
+      const a = acc.get(r.Query) ?? { [key]: r.Query.replace("https://testbench.tools", ""), impressions: 0, clicks: 0 };
+      a.impressions += r.Impressions ?? 0;
+      a.clicks += r.Clicks ?? 0;
+      acc.set(r.Query, a);
+    }
+    return [...acc.values()].sort((a, b) => b.clicks - a.clicks || b.impressions - a.impressions);
+  };
+  try {
+    const [q, p] = await Promise.all([call("GetQueryStats"), call("GetPageStats")]);
+    const out = {};
+    for (const m of months) {
+      const queries = bucket(q, m, "q");
+      out[m.label] = {
+        totals: queries.reduce((t, r) => ({ impressions: t.impressions + r.impressions, clicks: t.clicks + r.clicks }), { impressions: 0, clicks: 0 }),
+        queries,
+        pages: bucket(p, m, "page"),
+      };
+    }
+    return out;
+  } catch (e) {
+    notes.push(`Bing: 조회 실패 — ${e.message}`);
+    return null;
+  }
+}
+
 // --- Catalogue --------------------------------------------------------------
 
 /** Live, publicly listed tools, parsed from the catalogue the same way make-og.mjs does. */
@@ -216,9 +305,11 @@ const delta = (a, b) => (a == null || b == null) ? "?" : (a - b >= 0 ? `+${a - b
 
 async function main() {
   const cur = month(0), prev = month(1), prev2 = month(2);
-  const [gsc, usage] = await Promise.all([
+  const [gsc, usage, referrers, bing] = await Promise.all([
     collectGsc(cur, prev),
     collectUsage([cur, prev, prev2]),
+    collectReferrers([cur, prev]),
+    collectBing([cur, prev]),
   ]);
   const tools = liveTools();
   const history = beaconHistoryDays();
@@ -235,10 +326,51 @@ async function main() {
     "",
   ];
 
-  // Search, month over month
+  // Where visits came from — the primary search-side signal since 2026-11-05
+  // (AUTOPILOT.md '성과 지표의 우선순위'). Google is read after this, as secondary.
+  md.push("## 유입 출처 — 달 대 달 (RUM 리퍼러)", "");
+  const rc = referrers?.[cur.label], rp = referrers?.[prev.label];
+  if (rc) {
+    md.push(`| 출처 | ${cur.label} | ${prev.label} | 변화 |`, "|---|---|---|---|");
+    for (const [h, k] of [["전체 방문", "total"], ["Bing 색인 계열", "bing"], ["Google", "google"], ["직접(리퍼러 없음)", "direct"], ["기타", "other"]]) {
+      md.push(`| ${h} | ${rc[k]} | ${rp?.[k] ?? "?"} | ${delta(rc[k], rp?.[k])} |`);
+    }
+    md.push("", "> Bing 색인 계열 = Bing·DuckDuckGo·Yahoo·ChatGPT·Ecosia. RUM은 표본 추출이라 정확한 수가 아니라 비율로 읽을 것.", "");
+    md.push(...fmt(rc.rows.slice(0, 12), [
+      { h: "리퍼러", f: (r) => r.host },
+      { h: cur.label, f: (r) => r.visits },
+      { h: prev.label, f: (r) => rp?.rows.find((x) => x.host === r.host)?.visits ?? 0 },
+    ]));
+  } else md.push("_수집 실패_", "");
+
+  md.push("## Bing 검색 — 달 대 달", "");
+  const bc = bing?.[cur.label], bp = bing?.[prev.label];
+  if (!bing) {
+    md.push("_수집 실패_", "");
+  } else if (!bc.totals.impressions && !bp?.totals.impressions) {
+    md.push("_아직 데이터 없음 — Bing Webmaster Tools 등록 2026-10-30. 첫 비교 가능 월은 2026-11(12-04 리뷰)이다._", "");
+  } else {
+    md.push(`| 지표 | ${cur.label} | ${prev.label} | 변화 |`, "|---|---|---|---|");
+    md.push(`| 노출 | ${bc.totals.impressions} | ${bp?.totals.impressions ?? "?"} | ${delta(bc.totals.impressions, bp?.totals.impressions)} |`);
+    md.push(`| 클릭 | ${bc.totals.clicks} | ${bp?.totals.clicks ?? "?"} | ${delta(bc.totals.clicks, bp?.totals.clicks)} |`, "");
+    md.push("### 검색어 (클릭 순)", "");
+    md.push(...fmt(bc.queries.slice(0, 15), [
+      { h: "검색어", f: (r) => r.q },
+      { h: "노출", f: (r) => r.impressions },
+      { h: "클릭", f: (r) => r.clicks },
+    ]));
+    md.push("### 페이지 (클릭 순)", "");
+    md.push(...fmt(bc.pages.slice(0, 15), [
+      { h: "페이지", f: (r) => r.page },
+      { h: "노출", f: (r) => r.impressions },
+      { h: "클릭", f: (r) => r.clicks },
+    ]));
+  }
+
+  // Google search, month over month — secondary since 2026-11-05
   if (gsc?.cur?.totals) {
     const c = gsc.cur.totals, p = gsc.prev?.totals;
-    md.push("## 검색 — 달 대 달", "");
+    md.push("## Google 검색 — 달 대 달 (보조 지표)", "");
     md.push(`| 지표 | ${cur.label} | ${prev.label} | 변화 |`, "|---|---|---|---|");
     md.push(`| 노출 | ${c.impressions} | ${p?.impressions ?? "?"} | ${delta(c.impressions, p?.impressions)} |`);
     md.push(`| 클릭 | ${c.clicks} | ${p?.clicks ?? "?"} | ${delta(c.clicks, p?.clicks)} |`);
@@ -327,10 +459,10 @@ async function main() {
   }
 
   writeFileSync(join(TELEMETRY, `monthly-${cur.label}.json`),
-    JSON.stringify({ month: cur.label, gsc, usage, tools, silent, history, ledger }, null, 2));
+    JSON.stringify({ month: cur.label, gsc, usage, referrers, bing, tools, silent, history, ledger }, null, 2));
   writeFileSync(join(TELEMETRY, "monthly-latest.md"), md.join("\n"));
   console.log(`monthly: telemetry/monthly-${cur.label}.json + monthly-latest.md`);
-  console.log(`  gsc ${gsc ? "ok" : "—"} · usage ${usage ? "ok" : "—"} · 공개툴 ${tools.length} · 무신호 ${silent.length} · 예측 ${ledger.length}(만기미판정 ${overdue.length})`);
+  console.log(`  gsc ${gsc ? "ok" : "—"} · usage ${usage ? "ok" : "—"} · rum ${referrers ? "ok" : "—"} · bing ${bing ? "ok" : "—"} · 공개툴 ${tools.length} · 무신호 ${silent.length} · 예측 ${ledger.length}(만기미판정 ${overdue.length})`);
 }
 
 await main();
