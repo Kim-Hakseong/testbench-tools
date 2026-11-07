@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { buildXgtFrame, type XgtBuildInput, type XgtRequestCommand } from "@testbench/engine";
+import { buildXgtFrame, type XgtBuildInput, type XgtRequestCommand } from "@testbench/bench-core";
 import { ResultCard } from "@/components/tool/ResultCard";
 import { useToolText } from "@/components/tool/useToolText";
 

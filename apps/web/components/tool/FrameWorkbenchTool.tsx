@@ -16,7 +16,7 @@ import {
   type FrameEndian,
   type FrameFieldType,
   type FrameLayout,
-} from "@testbench/engine";
+} from "@testbench/bench-core";
 import { CopyButton } from "@/components/CopyButton";
 import { useToolText } from "@/components/tool/useToolText";
 

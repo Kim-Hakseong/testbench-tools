@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import { ANALOG_PRESETS, scale } from "@testbench/engine";
+import { ANALOG_PRESETS, scale } from "@testbench/bench-core";
 import { ResultCard } from "@/components/tool/ResultCard";
 import { useToolText } from "@/components/tool/useToolText";
 

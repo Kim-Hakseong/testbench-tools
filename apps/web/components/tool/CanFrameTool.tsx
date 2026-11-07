@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import { analyzeCanFrame, bytesToHex, parseHex } from "@testbench/engine";
+import { analyzeCanFrame, bytesToHex, parseHex } from "@testbench/bench-core";
 import { ResultCard } from "@/components/tool/ResultCard";
 import { useToolText } from "@/components/tool/useToolText";
 

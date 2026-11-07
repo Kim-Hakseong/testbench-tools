@@ -8,7 +8,7 @@ import {
   parseHex,
   type CrcParams,
   type CrcSample,
-} from "@testbench/engine";
+} from "@testbench/bench-core";
 import { useToolText } from "@/components/tool/useToolText";
 import type { SearchEvent, SearchRequest } from "@/workers/crc-search.worker";
 

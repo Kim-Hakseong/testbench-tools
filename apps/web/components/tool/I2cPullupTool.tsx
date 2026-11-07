@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import { i2cPullup, nearestValue, type I2cMode } from "@testbench/engine";
+import { i2cPullup, nearestValue, type I2cMode } from "@testbench/bench-core";
 import { ResultCard } from "@/components/tool/ResultCard";
 import { useToolText } from "@/components/tool/useToolText";
 

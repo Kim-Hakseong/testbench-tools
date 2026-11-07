@@ -7,7 +7,7 @@ import {
   parseHex,
   sniff,
   type ModbusProtocol,
-} from "@testbench/engine";
+} from "@testbench/bench-core";
 import { HexInput } from "@/components/tool/HexInput";
 import { useToolText } from "@/components/tool/useToolText";
 

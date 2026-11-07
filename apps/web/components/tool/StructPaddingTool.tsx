@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import { layoutStruct, parseStructBody, type Arch } from "@testbench/engine";
+import { layoutStruct, parseStructBody, type Arch } from "@testbench/bench-core";
 import { useToolText } from "@/components/tool/useToolText";
 
 const DEFAULT_SRC = `uint8_t  flags;

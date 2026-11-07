@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useRef, useState } from "react";
-import { TdmsParser, tdmsToCsv, tdmsTypeName, type TdmsFile } from "@testbench/engine";
+import { TdmsParser, tdmsToCsv, tdmsTypeName, type TdmsFile } from "@testbench/bench-core";
 import { useToolText } from "@/components/tool/useToolText";
 
 const CHUNK_SIZE = 4 * 1024 * 1024; // 4 MB slices — the file is never fully loaded

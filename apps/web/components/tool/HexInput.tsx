@@ -1,6 +1,6 @@
 "use client";
 
-import type { HexParseError } from "@testbench/engine";
+import type { HexParseError } from "@testbench/bench-core";
 import { useToolText } from "@/components/tool/useToolText";
 
 export type InputMode = "hex" | "ascii";

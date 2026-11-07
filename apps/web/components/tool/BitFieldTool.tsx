@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import { extractFields, type BitField } from "@testbench/engine";
+import { extractFields, type BitField } from "@testbench/bench-core";
 import { useToolText } from "@/components/tool/useToolText";
 
 const FIELD_COLORS = ["#7dd3fc", "#5eead4", "#fcd34d", "#fda4af", "#bef264", "#93c5fd", "#fdba74", "#f9a8d4"];

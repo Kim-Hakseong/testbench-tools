@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useRef, useState } from "react";
-import { hexDumpLines } from "@testbench/engine";
+import { hexDumpLines } from "@testbench/bench-core";
 import { useToolText } from "@/components/tool/useToolText";
 
 const PAGE = 16 * 1024; // bytes rendered per "load more"

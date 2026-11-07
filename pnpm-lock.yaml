@@ -10,9 +10,9 @@ importers:
 
   apps/web:
     dependencies:
-      '@testbench/engine':
+      '@testbench/bench-core':
         specifier: workspace:*
-        version: link:../../packages/engine
+        version: link:../../packages/bench-core
       next:
         specifier: 14.2.30
         version: 14.2.30(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -44,6 +44,49 @@ importers:
       typescript:
         specifier: ^5.5.4
         version: 5.9.3
+
+  packages/bench-core:
+    dependencies:
+      '@testbench/engine':
+        specifier: workspace:*
+        version: link:../engine
+    devDependencies:
+      typescript:
+        specifier: ^5.5.4
+        version: 5.9.3
+      vitest:
+        specifier: ^2.1.9
+        version: 2.1.9(@types/node@20.19.43)
+
+  packages/bench-mcp-local:
+    devDependencies:
+      '@testbench/bench-core':
+        specifier: workspace:*
+        version: link:../bench-core
+      '@testbench/engine':
+        specifier: workspace:*
+        version: link:../engine
+      '@types/node':
+        specifier: ^20.14.0
+        version: 20.19.43
+      typescript:
+        specifier: ^5.5.4
+        version: 5.9.3
+      vitest:
+        specifier: ^2.1.9
+        version: 2.1.9(@types/node@20.19.43)
+
+  packages/bench-mcp-remote:
+    devDependencies:
+      '@testbench/bench-core':
+        specifier: workspace:*
+        version: link:../bench-core
+      typescript:
+        specifier: ^5.5.4
+        version: 5.9.3
+      vitest:
+        specifier: ^2.1.9
+        version: 2.1.9(@types/node@20.19.43)
 
   packages/engine:
     devDependencies:

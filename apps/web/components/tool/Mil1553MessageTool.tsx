@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import { decodeMessage } from "@testbench/engine";
+import { decodeMessage } from "@testbench/bench-core";
 import { useToolText } from "@/components/tool/useToolText";
 
 function parseWords(

@@ -7,7 +7,7 @@ import {
   reverseBytes,
   swapBytesInWords,
   swapWords,
-} from "@testbench/engine";
+} from "@testbench/bench-core";
 import { HexInput } from "@/components/tool/HexInput";
 import { ResultCard } from "@/components/tool/ResultCard";
 import { useToolText } from "@/components/tool/useToolText";

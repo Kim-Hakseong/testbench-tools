@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import { dividerOptions, dividerVout, type ESeriesName } from "@testbench/engine";
+import { dividerOptions, dividerVout, type ESeriesName } from "@testbench/bench-core";
 import { ResultCard } from "@/components/tool/ResultCard";
 import { useToolText } from "@/components/tool/useToolText";
 

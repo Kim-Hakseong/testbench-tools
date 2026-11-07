@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import { checksumHex, NMEA_FIELD_LABELS, parseNmea } from "@testbench/engine";
+import { checksumHex, NMEA_FIELD_LABELS, parseNmea } from "@testbench/bench-core";
 import { useToolText } from "@/components/tool/useToolText";
 
 export function NmeaDecoderTool() {

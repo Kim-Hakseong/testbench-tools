@@ -6,7 +6,7 @@ import {
   defaultDeepSearchSpace,
   type CrcParams,
   type CrcSample,
-} from "@testbench/engine";
+} from "@testbench/bench-core";
 
 export interface SearchRequest {
   samples: { data: number[]; checksum: number }[];

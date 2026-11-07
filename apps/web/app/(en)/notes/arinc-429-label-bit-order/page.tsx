@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Callout, H2, NoteShell, P, Quoted } from "@/components/notes/NoteShell";
 import { Figure, WordLayout } from "@/components/notes/Figure";
-import { parseArinc429 } from "@testbench/engine";
+import { parseArinc429 } from "@testbench/bench-core";
 import { JsonLd, noteJsonLd } from "@/lib/jsonld";
 import { noteBySlug } from "@/content/notes";
 

@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import { timerSolutions } from "@testbench/engine";
+import { timerSolutions } from "@testbench/bench-core";
 import { useToolText } from "@/components/tool/useToolText";
 
 const fieldCls =

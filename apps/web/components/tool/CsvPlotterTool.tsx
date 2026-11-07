@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
-import { parseCsvNumeric, type CsvNumeric } from "@testbench/engine";
+import { parseCsvNumeric, type CsvNumeric } from "@testbench/bench-core";
 import { useToolText } from "@/components/tool/useToolText";
 
 const COLORS = ["#7dd3fc", "#5eead4", "#fcd34d", "#fda4af", "#bef264", "#93c5fd", "#fdba74", "#f9a8d4"];

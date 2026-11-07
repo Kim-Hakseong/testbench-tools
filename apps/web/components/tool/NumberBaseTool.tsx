@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { formatInBase, parseInBase, type NumberBase } from "@testbench/engine";
+import { formatInBase, parseInBase, type NumberBase } from "@testbench/bench-core";
 import { CopyButton } from "@/components/CopyButton";
 import { useToolText } from "@/components/tool/useToolText";
 

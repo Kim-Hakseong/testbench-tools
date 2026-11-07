@@ -9,7 +9,7 @@ import {
   getPreset,
   parseHex,
   type HexParseError,
-} from "@testbench/engine";
+} from "@testbench/bench-core";
 import { HexInput, type InputMode } from "@/components/tool/HexInput";
 import { ResultCard } from "@/components/tool/ResultCard";
 import { useToolText } from "@/components/tool/useToolText";

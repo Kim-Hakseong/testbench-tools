@@ -8,7 +8,7 @@ import {
   toIntelHex,
   toSrec,
   type FirmwareImage,
-} from "@testbench/engine";
+} from "@testbench/bench-core";
 import { useToolText } from "@/components/tool/useToolText";
 
 function download(name: string, data: Uint8Array | string, mime: string) {

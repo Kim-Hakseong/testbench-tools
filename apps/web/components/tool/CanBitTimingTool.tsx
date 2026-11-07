@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import { canBitTiming } from "@testbench/engine";
+import { canBitTiming } from "@testbench/bench-core";
 import { useToolText } from "@/components/tool/useToolText";
 
 const fieldCls =

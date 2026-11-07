@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Callout, H2, NoteShell, P, Quoted } from "@/components/notes/NoteShell";
 import { Figure, LinePlot } from "@/components/notes/Figure";
-import { ntcBetaTemperature, NTC_REFERENCE_CURVES } from "@testbench/engine";
+import { ntcBetaTemperature, NTC_REFERENCE_CURVES } from "@testbench/bench-core";
 import { JsonLd, noteJsonLd } from "@/lib/jsonld";
 import { noteBySlug } from "@/content/notes";
 

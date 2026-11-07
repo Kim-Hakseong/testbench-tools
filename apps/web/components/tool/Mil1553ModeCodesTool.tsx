@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { MODE_CODES } from "@testbench/engine";
+import { MODE_CODES } from "@testbench/bench-core";
 import { useToolText } from "@/components/tool/useToolText";
 
 export function Mil1553ModeCodesTool() {

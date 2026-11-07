@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import { asciiToBytes, bytesToAscii, bytesToHex, parseHex } from "@testbench/engine";
+import { asciiToBytes, bytesToAscii, bytesToHex, parseHex } from "@testbench/bench-core";
 import { CopyButton } from "@/components/CopyButton";
 import { useToolText } from "@/components/tool/useToolText";
 

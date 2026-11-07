@@ -2,7 +2,7 @@
 
 import { useCallback, useRef, useState } from "react";
 import Link from "next/link";
-import { TdmsParser, tdmsTypeName, type TdmsFile } from "@testbench/engine";
+import { TdmsParser, tdmsTypeName, type TdmsFile } from "@testbench/bench-core";
 import { useToolText } from "@/components/tool/useToolText";
 
 const CHUNK_SIZE = 4 * 1024 * 1024;
