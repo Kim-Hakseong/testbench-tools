@@ -32,6 +32,9 @@
     font-family: var(--tb-font-sans);
     -webkit-font-smoothing: antialiased;
     transition: background-color 0.35s ease, color 0.35s ease;
+    /* Sentences, frames and register dumps are long unbroken tokens; without
+       this they push a 390px phone page sideways (2026-11-07: five tool pages). */
+    overflow-wrap: break-word;
   }
 
   /* Focus ring for data inputs — visible in both themes, no drop shadows elsewhere */

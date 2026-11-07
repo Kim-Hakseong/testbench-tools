@@ -41,23 +41,31 @@ export function BitFieldTool() {
     return /^[0-9a-fA-F]+$/.test(raw) ? raw.length * 4 : 32;
   }, [d.valText]);
 
-  const fields: BitField[] = useMemo(
+  // Row index → its field, or null when the row is invalid. Kept per row so an
+  // invalid row shows "—" in place instead of shifting every later row's result
+  // up a line (the filtered list used to be indexed by row number).
+  const rowFields: (BitField | null)[] = useMemo(
     () =>
-      d.rows
-        .map((r) => ({ name: r.name || "field", lsb: Number(r.lsb), width: Number(r.width) }))
-        .filter((f) => Number.isInteger(f.lsb) && Number.isInteger(f.width) && f.lsb >= 0 && f.width >= 1 && f.lsb + f.width <= 64),
+      d.rows.map((r) => {
+        const f = { name: r.name || "field", lsb: Number(r.lsb), width: Number(r.width) };
+        return Number.isInteger(f.lsb) && Number.isInteger(f.width) && f.lsb >= 0 && f.width >= 1 && f.lsb + f.width <= 64 ? f : null;
+      }),
     [d.rows],
   );
+  const fields = useMemo(() => rowFields.filter((f): f is BitField => f !== null), [rowFields]);
 
-  const extracted = value !== null ? extractFields(value, fields) : [];
+  const extractedValid = value !== null ? extractFields(value, fields) : [];
+  let next = 0;
+  const extracted = rowFields.map((f) => (f ? extractedValid[next++] : undefined));
 
   const bitOwner = useMemo(() => {
     const map = new Map<number, number>();
-    fields.forEach((f, i) => {
+    rowFields.forEach((f, i) => {
+      if (!f) return;
       for (let b = f.lsb; b < f.lsb + f.width; b++) if (!map.has(b)) map.set(b, i);
     });
     return map;
-  }, [fields]);
+  }, [rowFields]);
 
   function setRow(i: number, patch: Partial<Row>) {
     setRows((r) => r.map((row, idx) => (idx === i ? { ...row, ...patch } : row)));
@@ -108,13 +116,13 @@ export function BitFieldTool() {
 
       {/* field rows */}
       <div className="mt-4 space-y-2">
-        <div className="grid grid-cols-[1fr_5rem_5rem_7rem_7rem_auto] items-center gap-2 font-mono text-[10px] uppercase tracking-wide text-mute">
+        <div className="grid grid-cols-[minmax(3.5rem,1fr)_2.75rem_2.75rem_4.5rem_4.75rem_auto] sm:grid-cols-[1fr_5rem_5rem_7rem_7rem_auto] items-center gap-2 font-mono text-[10px] uppercase tracking-wide text-mute">
           <span>{t("Field")}</span><span>LSB</span><span>{t("Width")}</span><span>{t("Value")}</span><span>{t("Hex")}</span><span />
         </div>
         {rows.map((row, i) => {
           const ex = extracted[i];
           return (
-            <div key={i} className="grid grid-cols-[1fr_5rem_5rem_7rem_7rem_auto] items-center gap-2">
+            <div key={i} className="grid grid-cols-[minmax(3.5rem,1fr)_2.75rem_2.75rem_4.5rem_4.75rem_auto] sm:grid-cols-[1fr_5rem_5rem_7rem_7rem_auto] items-center gap-2">
               <input value={row.name} onChange={(e) => setRow(i, { name: e.target.value })} spellCheck={false} aria-label={t("Field {n} name").replace("{n}", String(i + 1))} className={fieldCls}
                 style={{ borderLeftColor: FIELD_COLORS[i % FIELD_COLORS.length], borderLeftWidth: 3 }} />
               <input value={row.lsb} onChange={(e) => setRow(i, { lsb: e.target.value })} spellCheck={false} aria-label={t("Field {n} LSB").replace("{n}", String(i + 1))} className={fieldCls} />

@@ -91,7 +91,7 @@ export function AppsBody({ locale }: { locale: SiteLocale }) {
       {/* Unsigned binaries stop most people at the SmartScreen dialog. Saying
           why it appears, and giving a checksum to check instead, is the only
           honest substitute for a signing certificate. */}
-      <section className="mt-12 grid gap-6 border-t border-line-soft pt-8 md:grid-cols-2">
+      <section className="mt-12 grid grid-cols-[minmax(0,1fr)] gap-6 border-t border-line-soft pt-8 md:grid-cols-2">
         <div>
           <h2 className="text-lg text-ink">{t.verifyHeading}</h2>
           <p className="mt-2 text-sm leading-6 text-mute">{t.verifyBefore}</p>
