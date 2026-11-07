@@ -41,6 +41,8 @@ export function NoteShell({
 
         <div className="mt-8">{children}</div>
 
+        <VerifyRequest title={note.title} />
+
         <NoteTools slugs={note.tools} />
       </div>
     </article>
@@ -102,5 +104,23 @@ function NoteTools({ slugs }: { slugs: string[] }) {
         ))}
       </ul>
     </aside>
+  );
+}
+
+/**
+ * One line at the end of every note: the same kind of check, done for the
+ * reader's own manual or instrument. Goes to the existing contact address with
+ * the note named in the subject — no form, no new service.
+ */
+export function VerifyRequest({ title }: { title: string }) {
+  const subject = encodeURIComponent(`Verification request — ${title}`);
+  return (
+    <p className="mt-10 border-t border-line-soft pt-5 text-[14px] leading-relaxed text-body" data-verify-request>
+      Have a manual, datasheet or instrument reading that disagrees with itself like this one?{" "}
+      <a href={`mailto:contact@testbench.tools?subject=${subject}`} className="font-medium text-ink underline decoration-line-strong underline-offset-4 hover:decoration-ink">
+        Send it for verification
+      </a>{" "}
+      or see <Link href="/contact/" className="underline decoration-line-strong underline-offset-4 hover:text-ink">contact</Link>.
+    </p>
   );
 }
