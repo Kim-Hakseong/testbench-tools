@@ -104,3 +104,18 @@ describe("§9.4 BCD golden vectors", () => {
     }
   });
 });
+
+describe("toSigned at 32 bits (2026-11-07 regression: the sign was subtracted twice)", () => {
+  // Hand-computed: 0x80000000 = -2^31, 0xFFFFFFFF = -1, 0x7FFFFFFF = 2^31 - 1, 0xFFFFFF85 = -123.
+  it.each([
+    [0x80000000, -2147483648],
+    [0xffffffff, -1],
+    [0x7fffffff, 2147483647],
+    [0xffffff85, -123],
+    [0, 0],
+  ])("0x%s → %s", (raw, want) => {
+    expect(toSigned(raw, 32)).toBe(want);
+    expect(fromSigned(want, 32)).toBe(raw);
+  });
+});
+

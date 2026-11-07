@@ -119,8 +119,10 @@ export function registersToFloat32(regs: [number, number], order: WordOrder): nu
 
 /** Interpret `value` (unsigned) as a two's-complement signed integer of `bits` width. */
 export function toSigned(value: number, bits: 8 | 16 | 32): number {
-  const mask = bits === 32 ? 0xffffffff : (1 << bits) - 1;
-  const v = value & mask;
+  // `& 0xffffffff` would already yield a signed 32-bit number in JS and the
+  // subtraction below would then apply twice (0x80000000 → -6442450944), so the
+  // 32-bit case is made unsigned with >>> first.
+  const v = bits === 32 ? value >>> 0 : value & ((1 << bits) - 1);
   const sign = bits === 32 ? 0x80000000 : 1 << (bits - 1);
   return (v & sign) !== 0 ? v - (bits === 32 ? 0x100000000 : (1 << bits)) : v;
 }
