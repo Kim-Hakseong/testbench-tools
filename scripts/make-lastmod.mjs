@@ -18,6 +18,22 @@
 import { execFileSync } from "node:child_process";
 import { existsSync, readFileSync, writeFileSync } from "node:fs";
 
+// A shallow clone (the Cloudflare build checks out one commit) has no history,
+// so every file's last commit is HEAD and every page would be dated today. That
+// shipped: on 2026-11-07 the live sitemap had all 99 dated entries on the
+// deploy day, and IndexNow resubmitted every URL. In a shallow clone, keep the
+// committed lastmod.json — it was generated locally with full history.
+try {
+  const shallow = execFileSync("git", ["rev-parse", "--is-shallow-repository"], { encoding: "utf8" }).trim();
+  if (shallow === "true") {
+    console.log("make-lastmod: shallow clone — keeping the committed lastmod.json");
+    process.exit(0);
+  }
+} catch {
+  console.log("make-lastmod: no git — keeping the committed lastmod.json");
+  process.exit(0);
+}
+
 const gitDate = (path) => {
   try {
     const out = execFileSync("git", ["log", "-1", "--format=%cI", "--", path], {
