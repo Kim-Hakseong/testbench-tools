@@ -1,0 +1,11 @@
+// Remote MCP server for TestBench.tools — a separate Worker from the site.
+// No bindings on purpose: the server cannot store anything.
+// Deploy (a person runs this; see docs/run-tb1/DEPLOY.md): wrangler deploy
+{
+  "name": "testbench-mcp",
+  "main": "src/worker.ts",
+  "compatibility_date": "2026-07-26",
+  "workers_dev": true
+  // Custom domain is added at deploy time, e.g.
+  // "routes": [{ "pattern": "mcp.testbench.tools", "custom_domain": true }]
+}

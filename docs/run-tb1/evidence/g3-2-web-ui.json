@@ -1,0 +1,65 @@
+{
+  "note": "RUN-TB1 G3-2 supplement: the same inputs typed into the built web pages (headless Chrome via DevTools protocol, apps/web/out served locally) versus the MCP tool results.",
+  "cases": [
+    {
+      "page": "/tools/crc-16-modbus/",
+      "input": "HEX 01 03 00 00 00 0A",
+      "web": [
+        "0xCDC5",
+        "C5 CD",
+        "CD C5",
+        "52677"
+      ],
+      "mcpTool": "crc.modbus16",
+      "mcp": {
+        "crc": "0xCDC5",
+        "bytesLittleEndian": "C5 CD",
+        "bytesBigEndian": "CD C5",
+        "decimal": 52677
+      },
+      "match": true
+    },
+    {
+      "page": "/tools/mil-1553-command-word/",
+      "input": "0C22",
+      "web": {
+        "rt": "1",
+        "tr": "1 — Transmit (RT → BC)",
+        "subaddress": "1",
+        "wordCount": "2 data words",
+        "parity": "1"
+      },
+      "mcpTool": "mil1553.decode_command",
+      "mcp": {
+        "rtAddress": 1,
+        "direction": "Transmit (RT → BC)",
+        "subaddress": 1,
+        "wordCount": 2,
+        "parity": 1
+      },
+      "match": true
+    },
+    {
+      "page": "/tools/ls-xgt-address-converter/",
+      "input": "P00105",
+      "web": {
+        "canonical": "P00105",
+        "device": "P — I/O relay (bit device)",
+        "word": "10",
+        "bit": "5",
+        "fromStart": "165",
+        "wordAddress": "P0010"
+      },
+      "mcpTool": "plc.xgt_address",
+      "mcp": {
+        "canonical": "P00105",
+        "deviceName": "I/O relay",
+        "word": 10,
+        "bit": 5,
+        "bitFromStartOfArea": 165,
+        "wordAddress": "P0010"
+      },
+      "match": true
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "CommonJS",
+    "moduleResolution": "Node10",
+    "strict": true,
+    "noUncheckedIndexedAccess": true,
+    "skipLibCheck": true,
+    "rootDir": "..",
+    "outDir": "dist",
+    "types": ["node"],
+    "paths": {
+      "@testbench/engine": ["../engine/src/index.ts"],
+      "@testbench/bench-core": ["../bench-core/src/index.ts"]
+    }
+  },
+  "include": ["src", "../bench-core/src", "../engine/src"],
+  "exclude": ["../**/*.test.ts", "../engine/src/testutil"]
+}

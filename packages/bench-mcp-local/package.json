@@ -1,0 +1,22 @@
+{
+  "name": "@testbench/mcp",
+  "version": "0.1.0",
+  "description": "TestBench.tools engineering calculators as an MCP server (stdio). Stateless; inputs are never stored.",
+  "license": "MIT",
+  "private": true,
+  "bin": { "testbench-mcp": "bin/testbench-mcp.cjs" },
+  "files": ["bin", "dist"],
+  "engines": { "node": ">=18" },
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "test": "vitest run"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@testbench/bench-core": "workspace:*",
+    "@testbench/engine": "workspace:*",
+    "@types/node": "^20.14.0",
+    "typescript": "^5.5.4",
+    "vitest": "^2.1.9"
+  }
+}
