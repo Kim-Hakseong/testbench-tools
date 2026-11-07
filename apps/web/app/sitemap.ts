@@ -3,6 +3,7 @@ import { TOOLS } from "@/content/tools-meta";
 import { LOCALE_PREFIX, SITE_LOCALES } from "@/content/i18n";
 import links from "@/content/links.json";
 import { NOTES } from "@/content/notes";
+import { NOCTRA_WAITLIST } from "@/content/noctra";
 import lastmod from "@/content/lastmod.json";
 
 const SITE = "https://testbench.tools";
@@ -38,6 +39,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     urls.push({ url: `${SITE}${p}about/`, priority: 0.3 });
     urls.push({ url: `${SITE}${p}contact/`, priority: 0.3 });
     urls.push({ url: `${SITE}${p}privacy/`, priority: 0.3 });
+    urls.push({ url: `${SITE}${p}mcp/`, priority: 0.6, lastModified: when("__mcp") });
     for (const app of links.apps) {
       urls.push({ url: `${SITE}${p}apps/${app.slug}/`, priority: 0.5, lastModified: appsWhen });
     }
@@ -58,6 +60,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
   urls.push({ url: `${SITE}/notes/`, priority: 0.6, lastModified: notesWhen });
   for (const note of NOTES) {
     urls.push({ url: `${SITE}/notes/${note.slug}/`, priority: 0.7, lastModified: notesWhen });
+  }
+
+  // Noctra pages are English-only.
+  urls.push({ url: `${SITE}/noctra/`, priority: 0.5, lastModified: when("__noctra") });
+  for (const p of NOCTRA_WAITLIST) {
+    urls.push({ url: `${SITE}/noctra/${p.slug}/`, priority: 0.4, lastModified: when("__noctra") });
   }
 
   return urls;
