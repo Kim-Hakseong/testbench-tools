@@ -4,7 +4,7 @@ import Link from "next/link";
 import { ABOUT, CHROME, CONTACT, LOCALE_PREFIX, PRIVACY, type SiteLocale } from "@/content/i18n";
 import { LangSwitch } from "@/components/LangSwitch";
 import { useActiveLang } from "@/components/useActiveLang";
-import { NOKTRA_BASE } from "@/content/noktra-links";
+import { MCP_PAGE } from "@/content/mcp-i18n";
 
 /**
  * Header nav, badge and language selector. Client-side so that an English-only
@@ -23,19 +23,20 @@ export function HeaderNav({ routeLang }: { routeLang: SiteLocale }) {
           rather than a destination — it reads as one only when it looks like
           the links beside it. */}
       <nav className="hidden items-center gap-4 md:flex" aria-label="Site">
-        {/* 자매 브랜드 칩 — 보더+브랜드 도트+↗로 '눌리는 제휴 링크'임을 드러낸다 */}
-        <a
-          href={`${NOKTRA_BASE}${lang === "ko" ? "/ko/" : "/"}`}
-          target="_blank"
-          rel="noopener"
-          aria-label="NOKTRA — verification instruments for air-gapped environments"
-          title={lang === "ko" ? "자매 사이트 — 오프라인 데스크톱 검증 도구" : "Sister site — offline desktop instruments"}
+        {/* 자매 브랜드 칩 — 보더+브랜드 도트로 '눌리는 링크'임을 드러낸다. 외부 사이트 대신
+            사이트 안의 /noctra/ 로 간다(RUN-TB1 §6). */}
+        <Link
+          href="/noctra/"
+          aria-label="Noctra — verification instruments for air-gapped environments"
+          title={lang === "ko" ? "Noctra — 폐쇄망용 오프라인 데스크톱 검증 도구" : "Noctra — offline desktop instruments for air-gapped benches"}
           className="inline-flex items-center gap-1.5 rounded-md border border-line-strong px-2.5 py-1 font-serif text-[13px] tracking-[0.12em] text-body transition-colors hover:border-ink hover:text-ink"
         >
           <span aria-hidden="true" className="h-1.5 w-1.5 flex-none" style={{ background: "#31A9BC" }} />
-          NOKTRA
-          <span aria-hidden="true" className="font-mono text-[10px] text-mute">↗</span>
-        </a>
+          Noctra
+        </Link>
+        <Link href={`${p}mcp/`} className="text-sm font-medium text-ink transition-colors hover:text-mute">
+          {MCP_PAGE[lang].nav}
+        </Link>
         <Link
           href={`${p}apps/`}
           className="group inline-flex items-center gap-1.5 text-sm font-medium text-ink transition-colors hover:text-mute"
