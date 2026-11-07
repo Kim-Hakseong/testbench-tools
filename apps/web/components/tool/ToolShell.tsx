@@ -2,7 +2,7 @@ import Link from "next/link";
 import { CATEGORIES, TOOLS } from "@/content/tools-meta";
 import { CATEGORY_ACCENT, CATEGORY_GLOW } from "@/lib/category-style";
 import { UsageBeacon } from "@/components/tool/UsageBeacon";
-import { NoktraBanner } from "./NoktraBanner";
+import { NextStep } from "./NextStep";
 
 type ShellLocale = "en" | "ko";
 
@@ -47,7 +47,7 @@ export function ToolShell({
         <div className="mt-8">
           <UsageBeacon slug={slug}>{children}</UsageBeacon>
         </div>
-        <NoktraBanner slug={slug} locale={locale} />
+        <NextStep slug={slug} locale={locale} />
       </div>
     </article>
   );
