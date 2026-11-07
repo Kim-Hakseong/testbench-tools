@@ -29,3 +29,4 @@ export * from "./arinc429";
 export * from "./thermocouple";
 export * from "./thermistor";
 export * from "./accuracy";
+export * from "./frame";

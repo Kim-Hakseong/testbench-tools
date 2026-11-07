@@ -65,6 +65,7 @@ const TOOL_TO_PRODUCT: Record<string, string> = {
   "endianness-converter": "icd-refinery",
   "bit-field-extractor": "icd-refinery",
   "struct-padding": "icd-refinery",
+  "frame-workbench": "icd-refinery",
 };
 
 export function noktraFor(toolSlug: string): NoktraProduct | undefined {
