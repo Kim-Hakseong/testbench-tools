@@ -13,7 +13,7 @@ testbench-frameterm, -modbus-workbench, -tdms-converter, -linktap README의 제�
 > # remote, nothing to install
 > claude mcp add --transport http testbench https://mcp.testbench.tools/mcp
 > # or local and offline (Node 18+)
-> claude mcp add testbench -- npx -y @testbench/mcp
+> claude mcp add testbench -- npx -y @testbench-tools/mcp
 > ```
 >
 > Stateless: inputs are computed and discarded, never stored. Each tool is regression-tested against the

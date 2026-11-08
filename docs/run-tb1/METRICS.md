@@ -8,7 +8,7 @@
 |---|---|---|---|
 | GitHub 스타 | 100 | GitHub 저장소 Insights → Stargazers. CLI: `gh api repos/Kim-Hakseong/<repo> --jq .stargazers_count` (testbench-frameterm, -modbus-workbench, -tdms-converter, -linktap, 그리고 MCP를 공개 저장소로 낼 경우 그 저장소) | 예 |
 | 앱 다운로드 | 50/월 | GitHub Releases 자산 download_count: `gh api repos/Kim-Hakseong/<repo>/releases --jq '[.[].assets[].download_count]|add'`. 월별 값은 직전 달 값과의 차이 | 예. 누적값만 있으므로 매월 1회 기록해 차분을 낸다 |
-| MCP 설치 | 30 | ① 원격: Cloudflare 대시보드 → Workers → `testbench-mcp` → Metrics의 요청 수. `initialize` 호출 수가 설치·세션 수에 가깝지만, 무상태 설계라 메서드별 집계를 남기지 않는다(아래 BLOCKERS 참조) ② 로컬: npm 퍼블리시 후 `https://api.npmjs.org/downloads/point/last-month/@testbench/mcp` | 부분적. 원격은 총 요청 수만 읽힌다. 로컬은 퍼블리시 후에 읽힌다 |
+| MCP 설치 | 30 | ① 원격: Cloudflare 대시보드 → Workers → `testbench-mcp` → Metrics의 요청 수. `initialize` 호출 수가 설치·세션 수에 가깝지만, 무상태 설계라 메서드별 집계를 남기지 않는다(아래 BLOCKERS 참조) ② 로컬: npm 퍼블리시 후 `https://api.npmjs.org/downloads/point/last-month/@testbench-tools/mcp` | 부분적. 원격은 총 요청 수만 읽힌다. 로컬은 퍼블리시 후에 읽힌다 |
 | 문의 | 2/월 | contact@testbench.tools 받은편지함. 제목 규칙으로 분류: `… — waitlist`(Noctra 대기 명단), `Verification request — …`(노트 검증 의뢰) | 예. mailto 제목이 자동으로 들어가므로 메일 검색으로 센다 |
 
 ## 이번 런이 추가한 퍼널 지점

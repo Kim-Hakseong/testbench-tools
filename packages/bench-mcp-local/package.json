@@ -1,5 +1,5 @@
 {
-  "name": "@testbench/mcp",
+  "name": "@testbench-tools/mcp",
   "version": "0.1.0",
   "description": "TestBench.tools engineering calculators as an MCP server (stdio). Stateless; inputs are never stored.",
   "license": "MIT",

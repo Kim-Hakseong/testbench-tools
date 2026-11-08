@@ -4,6 +4,8 @@ RUN-TB1은 "질문 금지, 막히면 여기 기록하고 다음으로" 조건이
 
 ## B-1. CTA 클릭·대기 명단 클릭 이벤트 — 미구현 (§8)
 
+> **RUN-TB2 (2026-11-08): 후보 1 적용으로 닫음.** `scripts/pulse.mjs`의 `collectCtaArrivals()`가 툴 페이지 리퍼러로 도착한 페이지로드를 센다. 사이트 내부 이동은 CF의 visits가 0이라 `count`(페이지로드)를 쓴다. 클라이언트 코드 변경 없음.
+
 **상황.** 분석 도구는 있다. Cloudflare Web Analytics(쿠키 없는 RUM)와 1st-party 사용 카운터(`/hit` 비콘)다. 하지만 둘 다 클릭 이벤트에 이름을 붙이는 기능이 없다.
 - CF Web Analytics는 커스텀 이벤트를 받지 않는다.
 - 비콘은 CLAUDE.md §4 결정(2026-08-20)으로 "본문은 툴 이름뿐"이다. 여기에 이벤트 이름을 실으면 그 결정을 바꾸는 것이고, 하쿠 님 승인이 필요하다.
@@ -24,14 +26,20 @@ RUN-TB1은 "질문 금지, 막히면 여기 기록하고 다음으로" 조건이
 
 ## B-2. Noctra 대기 페이지의 스크린샷 자리 — 빈 슬롯으로 구현 (§6)
 
+> **RUN-TB2: 비움 유지(열림, 사람 작업).**
+
 RUN-TB1은 "스크린샷 자리(플레이스홀더, 사람이 교체)"를 요구한다. 하지만 CLAUDE.md §5.4는 placeholder 콘텐츠를 금지한다. 그래서 광고 슬롯과 같은 규칙으로 구현했다. `apps/web/content/noctra.ts`의 `screenshot` 값이 비어 있으면 아무것도 그리지 않는다.
 - 교체 방법: 이미지를 `apps/web/public/noctra/<slug>.png`에 넣고, 해당 항목의 `screenshot`에 `"/noctra/<slug>.png"`를 적는다.
 
 ## B-3. Noctra 제품 이름 — 임시 (§6)
 
+> **RUN-TB2 (2026-11-08): 닫음.** Haku 확정 — Noctra Bus / Noctra View / Noctra OneShot. 코드의 표기가 이미 일치해 변경 없음.
+
 RUN-TB1은 페이지 경로(`/noctra/bus`, `/view`, `/oneshot`)와 한 줄 정의만 준다. 페이지 제목에는 "Noctra Bus", "Noctra View", "Noctra OneShot"을 임시로 썼다. 정식 이름과 브랜드 철자(Noctra) 확정은 사람이 결정한다. 수정할 곳은 `apps/web/content/noctra.ts` 한 곳과 `apps/web/components/tool/NextStep.tsx`의 `label` 세 개다.
 
 ## B-4. Noctra 페이지와 노트 문구는 영어만 (§6, §7)
+
+> **RUN-TB2 (2026-11-08): 닫음.** Noctra 페이지 4장을 한국어로 추가(`/ko/noctra/…`). hreflang은 en·ko 쌍만. 노트 하단 줄은 노트가 영어 전용이라 그대로.
 
 RUN-TB1은 5개 언어를 `/mcp`와 내비게이션에만 요구한다. Noctra 페이지 4장과 노트 하단 검증 의뢰 줄은 영어로만 만들었다. 노트 자체가 영어 전용(content/notes.ts의 원칙)이고, Noctra 제품 문구는 정식 이름이 정해지면 한 번에 번역하는 편이 낫다고 판단했다.
 

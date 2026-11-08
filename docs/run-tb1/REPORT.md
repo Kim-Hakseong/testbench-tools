@@ -63,7 +63,7 @@ RUN-TB1 작업을 하다 발견한 **기존 결함**이다. 이건 런의 산출
 
 1. **배포 명령 실행**: 위 1→2(→3) 순서
 2. **Cloudflare**: `testbench-mcp` Worker 생성(첫 `wrangler deploy`), `mcp.testbench.tools` 커스텀 도메인 연결 여부. workers.dev 주소를 그대로 쓰면 `MCP_REMOTE_URL` 한 줄을 바꾼다
-3. **npm 스코프·패키지 이름**: `@testbench/mcp`를 쓸 수 있는지. 못 쓰면 `package.json`의 `name`과 `MCP_LOCAL_PACKAGE`를 함께 바꾼다
+3. **npm 스코프·패키지 이름**: → RUN-TB2에서 `@testbench-tools/mcp`로 확정·반영
 4. **스크린샷 교체**: Noctra 페이지 3장. `content/noctra.ts`의 `screenshot` 경로를 채우기 전에는 이미지 영역이 아예 렌더되지 않는다(B-2)
 5. **Noctra 개명 확정**: 철자 "Noctra"와 제품명 Bus / View / OneShot(B-3). 확정되면 Noctra 페이지 번역 여부도 정한다(B-4)
 6. **계측**: B-1 후보 1(코드 변경 없음, pulse.mjs 수집 추가)과 후보 2(CLAUDE.md §4 개정) 중 선택

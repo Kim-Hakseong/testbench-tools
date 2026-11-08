@@ -193,13 +193,18 @@ async function collectUsage() {
 // ---------------------------------------------------------------------------
 
 async function rumGroups(dimension, days) {
+  return (await rumRows([dimension], days)).map((g) => ({ key: g.dims[dimension], visits: g.visits }));
+}
+
+async function rumRows(dimensions, days, extraFilter = "", limit = 100, orderBy = "sum_visits_DESC") {
   const query = `{
     viewer { accounts(filter: {accountTag: "${CF_ACCOUNT}"}) {
       rumPageloadEventsAdaptiveGroups(
-        filter: {siteTag: "${ENV.CF_RUM_SITE_TAG}", datetime_geq: "${daysAgo(days)}T00:00:00Z"},
-        limit: 100, orderBy: [sum_visits_DESC]) {
+        filter: {siteTag: "${ENV.CF_RUM_SITE_TAG}", datetime_geq: "${daysAgo(days)}T00:00:00Z"${extraFilter}},
+        limit: ${limit}, orderBy: [${orderBy}]) {
+        count
         sum { visits }
-        dimensions { ${dimension} }
+        dimensions { ${dimensions.join(" ")} }
       }
     } }
   }`;
@@ -211,7 +216,7 @@ async function rumGroups(dimension, days) {
   const json = await res.json();
   const groups = json?.data?.viewer?.accounts?.[0]?.rumPageloadEventsAdaptiveGroups;
   if (!groups) throw new Error(JSON.stringify(json.errors ?? json).slice(0, 300));
-  return groups.map((g) => ({ key: g.dimensions[dimension], visits: g.sum.visits }));
+  return groups.map((g) => ({ dims: g.dimensions, visits: g.sum.visits, pageloads: g.count }));
 }
 
 async function collectRum() {
@@ -238,6 +243,36 @@ async function collectReferrers() {
     return (await rumGroups("refererHost", 28)).map((g) => ({ host: g.key || "(direct/none)", visits: g.visits }));
   } catch (e) {
     setupNeeded.push(`RUM referrer: 조회 실패 — ${e.message}`);
+    return null;
+  }
+}
+
+// The "next step" CTA at the foot of every tool page has no click event — the
+// beacon carries tool names only (CLAUDE.md §4) and no client tracking is
+// added (RUN-TB2, BLOCKERS B-1 option 1). Instead count arrivals on the CTA
+// destinations whose referrer is a tool page on this site. Other links on the
+// tool page (nav, related tools) land in the same bucket, so read it per
+// destination and as a sampled ratio — estimated, not a click count.
+// CF counts a "visit" only when the referrer is another site, so a click from
+// one page here to another is always 0 visits — count page loads instead.
+const CTA_DEST = /^(\/(ko|ja|de|zh))?\/(noctra|apps|mcp)(\/|$)/;
+
+async function collectCtaArrivals() {
+  if (!ENV.CF_API_TOKEN || !ENV.CF_RUM_SITE_TAG) return null;
+  try {
+    const rows = await rumRows(["requestPath", "refererPath"], 28, `, refererHost: "testbench.tools"`, 1000, "count_DESC");
+    const byDest = new Map();
+    for (const r of rows) {
+      const dest = r.dims.requestPath;
+      if (!CTA_DEST.test(dest) || !/^(\/ko)?\/tools\//.test(r.dims.refererPath ?? "")) continue;
+      const d = byDest.get(dest) ?? { dest, pageloads: 0, tools: 0 };
+      d.pageloads += r.pageloads;
+      d.tools += 1;
+      byDest.set(dest, d);
+    }
+    return [...byDest.values()].sort((a, b) => b.pageloads - a.pageloads);
+  } catch (e) {
+    setupNeeded.push(`RUM CTA 도착: 조회 실패 — ${e.message}`);
     return null;
   }
 }
@@ -508,19 +543,20 @@ async function main() {
   mkdirSync(TELEMETRY, { recursive: true });
   const prev = previousSnapshot();
 
-  const [gsc, usage, rum, health, referrers, bing] = await Promise.all([
+  const [gsc, usage, rum, health, referrers, bing, ctaArrivals] = await Promise.all([
     collectGsc(),
     collectUsage(),
     collectRum(),
     collectHealth(),
     collectReferrers(),
     collectBing(),
+    collectCtaArrivals(),
   ]);
 
   // Runs after GSC because it only inspects pages that earned no impressions.
   const index = await collectIndexStatus(gsc);
 
-  const snapshot = { date: today, gsc, usage, rum, health, index, referrers, bing };
+  const snapshot = { date: today, gsc, usage, rum, health, index, referrers, bing, ctaArrivals };
   const insight = analyseGsc(gsc, prev);
   const ledger = loadLedger();
   const pending = checkLedger(ledger, snapshot);
@@ -711,6 +747,20 @@ async function main() {
     md.push(fmtRows(referrers.slice(0, 15), [
       { h: "리퍼러", f: (r) => r.host },
       { h: "방문", f: (r) => r.visits },
+    ]));
+  }
+
+  if (ctaArrivals) {
+    md.push(`## 다음 단계 CTA 도착 (툴 페이지에서 넘어온 페이지로드, 최근 28일)`, "");
+    md.push(
+      `> 클릭 이벤트가 아니라 리퍼러 근사치다(estimated): 툴 페이지의 다른 링크(내비·관련 툴)로 넘어온 것도 섞인다. ` +
+      `도착 페이지별로, 비율로 읽을 것.`,
+      "",
+    );
+    md.push(fmtRows(ctaArrivals, [
+      { h: "도착 페이지", f: (r) => r.dest },
+      { h: "페이지로드", f: (r) => r.pageloads },
+      { h: "출발 툴 수", f: (r) => r.tools },
     ]));
   }
 

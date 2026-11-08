@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { NoctraWaitlistPage } from "@/components/noctra/NoctraPages";
-import { NOCTRA_WAITLIST } from "@/content/noctra";
+import { NOCTRA_WAITLIST, noctraAlternates } from "@/content/noctra";
 
 interface Props { params: { product: string } }
 
@@ -15,7 +15,7 @@ export function generateMetadata({ params }: Props): Metadata {
   return {
     title: `${p.name} — ${p.line.replace(/\.$/, "")}`,
     description: `${p.line} Air-gapped, installed, offline. Join the waitlist.`,
-    alternates: { canonical: `/noctra/${p.slug}/` },
+    alternates: noctraAlternates("en", p.slug),
     openGraph: { url: `/noctra/${p.slug}/`, images: ["/og/default.png"], siteName: "TestBench.tools" },
   };
 }

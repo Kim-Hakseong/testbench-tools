@@ -30,9 +30,9 @@ cd ~/Projects/testbench-tools/packages/bench-mcp-remote && wrangler deploy
   `"crc": "0xCDC5"`가 나오면 정상이다.
 - 비용: Workers 무료 티어는 하루 요청 10만 건까지다. 계산은 순수 함수라 CPU 시간이 짧다.
 
-## 2. 로컬 MCP 서버 (npm 패키지 `@testbench/mcp`)
+## 2. 로컬 MCP 서버 (npm 패키지 `@testbench-tools/mcp`)
 
-npm 퍼블리시는 이번 런의 금지 항목이라 하지 않았다. 퍼블리시하기 전까지 /mcp 페이지의 `npx -y @testbench/mcp` 명령은 동작하지 않는다.
+npm 퍼블리시는 이번 런의 금지 항목이라 하지 않았다. 퍼블리시하기 전까지 /mcp 페이지의 `npx -y @testbench-tools/mcp` 명령은 동작하지 않는다.
 
 ```bash
 cd ~/Projects/testbench-tools/packages/bench-mcp-local && pnpm build && npm publish --access public

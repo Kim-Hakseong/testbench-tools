@@ -62,10 +62,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
     urls.push({ url: `${SITE}/notes/${note.slug}/`, priority: 0.7, lastModified: notesWhen });
   }
 
-  // Noctra pages are English-only.
-  urls.push({ url: `${SITE}/noctra/`, priority: 0.5, lastModified: when("__noctra") });
-  for (const p of NOCTRA_WAITLIST) {
-    urls.push({ url: `${SITE}/noctra/${p.slug}/`, priority: 0.4, lastModified: when("__noctra") });
+  // Noctra pages exist in English and Korean only.
+  for (const prefix of ["", "/ko"]) {
+    urls.push({ url: `${SITE}${prefix}/noctra/`, priority: 0.5, lastModified: when("__noctra") });
+    for (const p of NOCTRA_WAITLIST) {
+      urls.push({ url: `${SITE}${prefix}/noctra/${p.slug}/`, priority: 0.4, lastModified: when("__noctra") });
+    }
   }
 
   return urls;

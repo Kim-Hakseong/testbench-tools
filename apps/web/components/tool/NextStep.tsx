@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { TOOLS, type CategoryId } from "@/content/tools-meta";
+import { noctraPath } from "@/content/noctra";
 
 // "Next step" — one sentence and one link at the foot of every tool page,
 // pointing to the bigger version of the same problem (RUN-TB1 §5). Not an ad:
@@ -17,9 +18,9 @@ interface Step {
 const app = (slug: string) => (l: Locale) => (l === "ko" ? `/ko/apps/${slug}/` : `/apps/${slug}/`);
 
 const STEPS = {
-  bus: { href: () => "/noctra/bus/", label: "Noctra Bus", en: "To watch hundreds of messages on a live 1553 or 429 bus instead of one word at a time:", ko: "한 워드씩이 아니라 실물 1553·429 버스에서 수백 개 메시지를 보려면:" },
-  view: { href: () => "/noctra/view/", label: "Noctra View", en: "For multi-gigabyte measurement files, explored the way DIAdem does:", ko: "수 GB 측정 파일을 DIAdem처럼 탐색하려면:" },
-  oneshot: { href: () => "/noctra/oneshot/", label: "Noctra OneShot", en: "To go from the drawing to an XG5000 ladder program automatically:", ko: "도면에서 XG5000 래더까지 자동으로 생성하려면:" },
+  bus: { href: (l) => noctraPath(l, "bus"), label: "Noctra Bus", en: "To watch hundreds of messages on a live 1553 or 429 bus instead of one word at a time:", ko: "한 워드씩이 아니라 실물 1553·429 버스에서 수백 개 메시지를 보려면:" },
+  view: { href: (l) => noctraPath(l, "view"), label: "Noctra View", en: "For multi-gigabyte measurement files, explored the way DIAdem does:", ko: "수 GB 측정 파일을 DIAdem처럼 탐색하려면:" },
+  oneshot: { href: (l) => noctraPath(l, "oneshot"), label: "Noctra OneShot", en: "To go from the drawing to an XG5000 ladder program automatically:", ko: "도면에서 XG5000 래더까지 자동으로 생성하려면:" },
   modbus: { href: app("modbus-workbench"), label: "Modbus Workbench", en: "To poll and write a real device, with a built-in simulator:", ko: "실제 장비를 폴링·쓰기하고 내장 시뮬레이터로 시험하려면:" },
   frameterm: { href: app("frameterm"), label: "FrameTerm", en: "To run this on live serial or TCP traffic, every frame parsed as it arrives:", ko: "실시간 시리얼·TCP 트래픽에서 들어오는 프레임마다 해석하려면:" },
   linktap: { href: app("linktap"), label: "LinkTap", en: "To capture a live serial or TCP link and decode NMEA as it passes:", ko: "실시간 시리얼·TCP 링크를 캡처하면서 NMEA를 바로 디코딩하려면:" },

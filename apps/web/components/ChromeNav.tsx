@@ -26,7 +26,7 @@ export function HeaderNav({ routeLang }: { routeLang: SiteLocale }) {
         {/* 자매 브랜드 칩 — 보더+브랜드 도트로 '눌리는 링크'임을 드러낸다. 외부 사이트 대신
             사이트 안의 /noctra/ 로 간다(RUN-TB1 §6). */}
         <Link
-          href="/noctra/"
+          href={lang === "ko" ? "/ko/noctra/" : "/noctra/"}
           aria-label="Noctra — verification instruments for air-gapped environments"
           title={lang === "ko" ? "Noctra — 폐쇄망용 오프라인 데스크톱 검증 도구" : "Noctra — offline desktop instruments for air-gapped benches"}
           className="inline-flex items-center gap-1.5 rounded-md border border-line-strong px-2.5 py-1 font-serif text-[13px] tracking-[0.12em] text-body transition-colors hover:border-ink hover:text-ink"

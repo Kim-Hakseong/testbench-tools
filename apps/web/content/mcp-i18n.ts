@@ -136,4 +136,4 @@ export const MCP_PAGE: Record<SiteLocale, McpStrings> = {
 
 /** Where the remote server will live. Replaced at deploy time — see docs/run-tb1/DEPLOY.md. */
 export const MCP_REMOTE_URL = "https://mcp.testbench.tools/mcp";
-export const MCP_LOCAL_PACKAGE = "@testbench/mcp";
+export const MCP_LOCAL_PACKAGE = "@testbench-tools/mcp";

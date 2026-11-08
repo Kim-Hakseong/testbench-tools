@@ -1,0 +1,13 @@
+# RUN-TB2 G1 grep — 2026-11-08T10:57:38Z, branch run-tb1 working tree
+# scope: git ls-files + untracked, minus RUN-TB*.md (the run instructions, which quote the old spelling as the rule); plus the build output apps/web/out
+# VIEW is matched as a whole uppercase word (the product-name form); NOCTRA_* code identifiers are not brand text and are not counted
+pattern /[Nn][Oo][Kk][Tt][Rr][Aa]/  source hits: 0  build-output files: 0
+pattern /VIEW/  source hits: 0  build-output files: 0
+pattern /@testbench/mcp/  source hits: 0  build-output files: 0
+# product names in build output:
+  "Noctra Bus": 10 pages
+  "Noctra View": 9 pages
+  "Noctra OneShot": 7 pages
+# package name in build output: "@testbench-tools/mcp": 5 pages
+# build: pnpm build OK; tests: engine 702, bench-core 81, bench-mcp-remote 7, bench-mcp-local 2 — all passed
+# links: {"pages":129,"internalLinks":3114,"broken":0,"sample":[]}

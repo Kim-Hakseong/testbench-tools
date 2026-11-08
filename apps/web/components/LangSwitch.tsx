@@ -2,6 +2,7 @@
 
 import { usePathname, useRouter } from "next/navigation";
 import { TOOLS } from "@/content/tools-meta";
+import { NOCTRA_WAITLIST, noctraPath } from "@/content/noctra";
 import {
   LOCALE_LABEL,
   LOCALE_PREFIX,
@@ -10,12 +11,14 @@ import {
   type SiteLocale,
 } from "@/content/i18n";
 
-// Tool paths that also exist under /ko/
-const KO_PATHS = new Set<string>(
-  TOOLS.filter((t) => t.locale !== "en" && t.status === "live").map(
+// Tool and Noctra paths that also exist under /ko/
+const KO_PATHS = new Set<string>([
+  ...TOOLS.filter((t) => t.locale !== "en" && t.status === "live").map(
     (t) => `/tools/${t.slug}/`,
   ),
-);
+  noctraPath("en"),
+  ...NOCTRA_WAITLIST.map((p) => noctraPath("en", p.slug)),
+]);
 
 /**
  * Language selector. Remembers the choice (localStorage "lang") so the
