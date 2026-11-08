@@ -2,6 +2,14 @@
 
 이 런에서는 아무것도 배포하지 않았다. 브랜치 `run-tb1`은 원격에 올리지 않았다. main에 푸시하면 Cloudflare가 사이트를 자동 배포하므로, 아래 순서대로 한 번에 하나씩 진행한다.
 
+## 상태 (RUN-TB2)
+
+| 단계 | 상태 | 실제 주소 |
+|---|---|---|
+| 0. 사이트 | **완료 2026-11-08** (main b53d9eb, 푸시 후 약 1분 30초 만에 라이브) | https://testbench.tools/mcp/ · https://testbench.tools/noctra/ |
+| 1. 원격 MCP Worker | **미완 — 토큰 없음** (`CLOUDFLARE_API_TOKEN` 미설정, wrangler OAuth 만료. docs/run-tb2/BLOCKERS.md R-1). `wrangler deploy --dry-run`은 통과: 340 KiB, 바인딩 0 | 예정: https://mcp.testbench.tools/mcp (커스텀 도메인 설정은 wrangler.jsonc에 켜 둠) |
+| 2. npm `@testbench-tools/mcp` | **미완 — 토큰 없음** (`NPM_TOKEN` 미설정, R-2). `private` 제거·0.1.0·빌드는 끝남. 팩 tarball을 `npx`로 띄우면 tools/list 58개 | 예정: https://www.npmjs.com/package/@testbench-tools/mcp |
+
 ## 0. 사이트 반영 (/mcp, Noctra 페이지, 다음 단계 CTA, 노트 검증 의뢰)
 
 ```bash
@@ -20,7 +28,7 @@ cd ~/Projects/testbench-tools/packages/bench-mcp-remote && wrangler deploy
 
 - 필요한 것: 사이트와 같은 Cloudflare 계정에 `wrangler login`(이미 로그인돼 있으면 생략). 환경변수·시크릿·바인딩은 **없다**(무상태 설계라 저장소를 붙이지 않는다).
 - 결과: `https://testbench-mcp.<계정 서브도메인>.workers.dev/mcp` 가 바로 동작한다.
-- 커스텀 도메인 `mcp.testbench.tools`를 쓰려면 `packages/bench-mcp-remote/wrangler.jsonc`의 주석 처리된 `routes` 줄을 살리고 다시 `wrangler deploy` 한다. testbench.tools 존이 같은 계정에 있으면 DNS 레코드는 wrangler가 만든다.
+- 커스텀 도메인 `mcp.testbench.tools`는 RUN-TB2에서 `packages/bench-mcp-remote/wrangler.jsonc`의 `routes`로 켜 두었다. 첫 `wrangler deploy` 한 번으로 workers.dev와 커스텀 도메인이 함께 붙는다. testbench.tools 존이 같은 계정에 있으면 DNS 레코드는 wrangler가 만든다. 토큰에는 Workers Scripts 편집과 해당 존의 Workers Routes·DNS 편집 권한이 필요하다.
 - **URL을 바꾸는 경우**(workers.dev 주소를 그대로 쓰기로 할 때): `apps/web/content/mcp-i18n.ts`의 `MCP_REMOTE_URL` 한 줄을 바꾸고 0번을 다시 한다.
 - 확인 명령:
   ```bash

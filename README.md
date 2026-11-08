@@ -23,6 +23,20 @@
   <img src="https://img.shields.io/badge/License-MIT-lightgrey" alt="MIT" />
 </p>
 
+> **Use these calculators from Claude Code.** Every tool on [TestBench.tools](https://testbench.tools) is also an
+> [MCP](https://modelcontextprotocol.io) server — 58 tools for CRCs, Modbus/NMEA/CAN frames, MIL-STD-1553,
+> ARINC 429, PLC addresses, RTD/thermocouple maths and embedded timing.
+>
+> ```bash
+> # remote, nothing to install
+> claude mcp add --transport http testbench https://mcp.testbench.tools/mcp
+> # or local and offline (Node 18+)
+> claude mcp add testbench -- npx -y @testbench-tools/mcp
+> ```
+>
+> Stateless: inputs are computed and discarded, never stored. Each tool is regression-tested against the
+> website's own page logic. → [testbench.tools/mcp](https://testbench.tools/mcp/)
+
 ---
 
 Every calculation runs in the browser. The site is a static export — there is no

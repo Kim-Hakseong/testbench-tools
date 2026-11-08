@@ -1,0 +1,39 @@
+# RUN-TB2 G3 — live https://testbench.tools, 2026-11-08T11:00:27Z, main b53d9eb
+## G3-1 /mcp in 5 locales (no-slash form follows the redirect)
+  /mcp 200
+  /mcp/ 200
+  /ko/mcp/ 200
+  /ja/mcp/ 200
+  /de/mcp/ 200
+  /zh/mcp/ 200
+## G3-2a Noctra pages
+  /noctra/ 200
+  /noctra/bus/ 200
+  /noctra/view/ 200
+  /noctra/oneshot/ 200
+  /ko/noctra/ 200
+  /ko/noctra/bus/ 200
+  /ko/noctra/view/ 200
+  /ko/noctra/oneshot/ 200
+## G3-2b CTA block on 10 random live tool pages (seed: shuf of sitemap tool URLs)
+  https://testbench.tools/tools/ab-slc-address-converter/  data-next-step="modbus"
+  https://testbench.tools/tools/ieee-754-float/  data-next-step="mcp"
+  https://testbench.tools/tools/nmea-0183-generator/  data-next-step="linktap"
+  https://testbench.tools/tools/frame-workbench/  data-next-step="frameterm"
+  https://testbench.tools/tools/4-20ma-scaling/  data-next-step="modbus"
+  https://testbench.tools/tools/stm32-timer/  data-next-step="mcp"
+  https://testbench.tools/tools/loop-burden/  data-next-step="modbus"
+  https://testbench.tools/tools/rms-peak/  data-next-step="mcp"
+  https://testbench.tools/tools/adc-calculator/  data-next-step="mcp"
+  https://testbench.tools/ko/tools/adc-calculator/  data-next-step="mcp"
+  CTA present: 10/10
+## G3-3 sitemap lastmod
+  urls: 127  distinct lastmod dates: 7
+     60 2026-08-21
+     27 2026-08-31
+      6 2026-07-29
+      3 2026-10-05
+      1 2026-11-07
+      1 2026-10-19
+      1 2026-08-24
+## sitemap includes ko noctra: 4

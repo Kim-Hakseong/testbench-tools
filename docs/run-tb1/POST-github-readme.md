@@ -1,6 +1,6 @@
 # 공개 저장소 README 상단 MCP 블록 (초안)
 
-testbench-frameterm, -modbus-workbench, -tdms-converter, -linktap README의 제목 바로 아래, 또는 MCP 서버를 공개 저장소로 낼 경우 그 README 맨 위에 붙인다. 원격 URL은 DEPLOY.md 1번이 끝난 뒤 실제 주소로 맞춘다.
+testbench-frameterm, -modbus-workbench, -tdms-converter, -linktap README의 제목 바로 아래, 또는 MCP 서버를 공개 저장소로 낼 경우 그 README 맨 위에 붙인다. 원격 URL(`https://mcp.testbench.tools/mcp`)과 패키지명(`@testbench-tools/mcp`)은 RUN-TB2에서 확정값으로 맞췄다. 이 저장소(testbench-tools) README에는 RUN-TB2에서 삽입했다.
 
 ---
 

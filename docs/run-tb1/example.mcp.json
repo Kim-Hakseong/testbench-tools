@@ -2,7 +2,11 @@
   "mcpServers": {
     "testbench": {
       "type": "stdio",
-      "command": "testbench-mcp"
+      "command": "npx",
+      "args": [
+        "-y",
+        "@testbench-tools/mcp"
+      ]
     }
   }
 }

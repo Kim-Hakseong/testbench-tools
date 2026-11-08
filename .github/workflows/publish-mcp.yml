@@ -1,0 +1,53 @@
+# Publish @testbench-tools/mcp to npm when a tag mcp-v<version> is pushed.
+#
+# Trusted Publishing: npm accepts this workflow's OIDC token in place of a
+# stored secret, so the repository holds no npm credential at all. It works
+# only after the package's settings page on npmjs.com names this repository
+# and this file (docs/run-tb2/TRUSTED-PUBLISHING.md). --provenance links the
+# published tarball to the commit and run that built it.
+#
+#   git tag mcp-v0.1.1 && git push origin mcp-v0.1.1
+
+name: publish-mcp
+
+on:
+  push:
+    tags: ["mcp-v*"]
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          registry-url: https://registry.npmjs.org
+
+      - name: Tag matches package version
+        working-directory: packages/bench-mcp-local
+        run: |
+          want="mcp-v$(node -p "require('./package.json').version")"
+          [ "$GITHUB_REF_NAME" = "$want" ] || { echo "tag $GITHUB_REF_NAME != $want"; exit 1; }
+
+      - run: pnpm install --frozen-lockfile
+
+      - name: Test the engine, the tool layer and the stdio server
+        run: pnpm --filter @testbench/engine --filter @testbench/bench-core --filter @testbench-tools/mcp test
+
+      - name: Build
+        run: pnpm --filter @testbench-tools/mcp build
+
+      # Trusted Publishing needs npm 11.5.1 or later.
+      - run: npm install -g npm@11
+
+      - name: Publish
+        working-directory: packages/bench-mcp-local
+        run: npm publish --provenance --access public
