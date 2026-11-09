@@ -9,7 +9,7 @@ export const metadata: Metadata = {
   alternates: { canonical: "/tools/arinc-429-decoder/" },
   title: "ARINC 429 Word Decoder — label, SDI, SSM, BNR/BCD, parity",
   description:
-    "Free ARINC 429 word decoder: octal label with both bit-order readings, SDI, SSM, BNR and BCD data and an odd-parity check. 100% in your browser.",
+    "Free ARINC 429 word decoder: octal label with both bit-order readings, SDI, SSM, BNR and BCD data and an odd-parity check, plus the SSM code table for BNR, BCD and discrete words and the BCD subfield map. 100% in your browser.",
   openGraph: { url: "/tools/arinc-429-decoder/",
     images: ["/og/arinc-429-decoder.png"], siteName: "TestBench.tools",
     title: "ARINC 429 Word Decoder",
@@ -29,7 +29,15 @@ const FAQS: FaqItem[] = [
   },
   {
     q: "What does the SSM mean?",
-    a: "It depends on the data format, which is why there is no single table. For BNR it reports failure warning, no computed data, functional test or normal operation; for BCD it carries sign and direction (plus/north/east versus minus/south/west) alongside the same failure states; discrete words use their own reading. Tell the tool which format your parameter uses and it shows that one, otherwise it shows the alternatives rather than guessing.",
+    a: "It depends on the data format, which is why no single format-independent table exists. For BNR it reports failure warning, no computed data, functional test or normal operation; for BCD it carries sign and direction (plus/north/east versus minus/south/west) alongside the same failure states; discrete words use their own reading. Tell the tool which format your parameter uses and it shows that one, otherwise it shows the alternatives rather than guessing. All four codes under all three readings are tabulated on this page.",
+  },
+  {
+    q: "What does SSM 11 mean on an ARINC 429 word?",
+    a: "Nothing, until you know the data format — and the three readings of 11 disagree about whether the word is good. On a BNR parameter it is Normal Operation; on a BCD parameter it is the negative sign (Minus, South, West, Left, From, Below); on a discrete word it is Failure Warning. Code 00 inverts the same trap: Failure Warning for BNR, the positive sign for BCD, Verified Data for discrete. Only codes 01 (No Computed Data) and 10 (Functional Test) read the same in all three.",
+  },
+  {
+    q: "How does a BCD data field differ from a BNR one?",
+    a: "Both occupy the same bits, but they are read differently. BNR treats bits 11-29 as one signed two's-complement number with bit 29 as the sign, so its meaning needs a full-scale range to become units. BCD splits the same span into five digit subfields — bits 29-27 (3 bits, 0-7), then 26-23, 22-19, 18-15 and 14-11 (4 bits, 0-9) — so the largest BCD value is 79999 and the sign lives in the SSM instead of the data field. A nibble above 9 in any of the lower four subfields means the word is not valid BCD; the 3-bit top digit cannot overflow that way.",
   },
   {
     q: "Why do I have to enter the full-scale range myself?",
@@ -59,7 +67,9 @@ export default function Page() {
           published sources disagree — plus the SDI, the SSM read for your data
           format, the BNR and BCD views of the data field, and an odd-parity
           check on bit 32. Reference: <code>0xE00640A1</code> decodes field by
-          field with valid parity.
+          field with valid parity. Below the tool, the SSM table lists all four
+          codes under the BNR, BCD and discrete readings, and the BCD subfield
+          map shows which bits hold which digit.
         </AnswerBox>
 
         <Section title="How it works">
@@ -119,6 +129,76 @@ export default function Page() {
             the Holt HI-35850 datasheet. Label assignments and equipment IDs are
             deliberately not published here — they live in the paid specification
             and in per-aircraft interface control documents.
+          </p>
+        </Section>
+
+        <Section title="SSM codes for BNR, BCD and discrete words">
+          <p>
+            The sign/status matrix is two bits, and the decoder indexes them as
+            <code> (bit 31 &lt;&lt; 1) | bit 30</code> — so the pair written
+            below as <code>01</code> is bit 31 = 0, bit 30 = 1. The same two
+            bits carry three different vocabularies, and they do not merely
+            differ in wording: code 11 is a healthy BNR word but a failed
+            discrete one, and code 00 is the reverse. Reading the SSM without
+            knowing the parameter&apos;s format is how a failure warning gets
+            logged as normal operation.
+          </p>
+          <ParamsTable
+            rows={[
+              { name: "SSM 00", value: "BNR · Failure Warning", note: "BCD · Plus, North, East, Right, To, Above — discrete · Verified Data, Normal Operation" },
+              { name: "SSM 01", value: "BNR · No Computed Data", note: "BCD · No Computed Data — discrete · No Computed Data" },
+              { name: "SSM 10", value: "BNR · Functional Test", note: "BCD · Functional Test — discrete · Functional Test" },
+              { name: "SSM 11", value: "BNR · Normal Operation", note: "BCD · Minus, South, West, Left, From, Below — discrete · Failure Warning" },
+            ]}
+          />
+          <p className="mt-3">
+            Two codes are therefore unambiguous whatever the format: 01 always
+            means no computed data and 10 always means functional test. Only 00
+            and 11 need the format, because that is where BCD spends the field
+            on a sign and discrete words invert the health reading. In the
+            worked example above, SSM 11 on a BNR parameter is Normal
+            Operation; the same word declared discrete would read Failure
+            Warning.
+          </p>
+          <p className="mt-3 text-sm text-mute">
+            The three readings above are the tables this site&apos;s engine is
+            tested against, taken from the AIM tutorial (p. 12), the GE
+            Intelligent Platforms tutorial (Tables 4 and 5), the MaxT
+            tutorial and Wikipedia. GE publishes only the BNR and BCD columns;
+            the discrete column comes from AIM and Wikipedia, which agree.
+          </p>
+        </Section>
+
+        <Section title="BCD data field — subfield map">
+          <p>
+            A BCD parameter does not use bits 11–29 as a number. It splits them
+            into five digit subfields, with the most significant digit in bits
+            29–27 — only three bits wide, so that digit runs 0–7 while the four
+            below it hold 0–9. The largest value a BCD word can carry is
+            therefore 79999, and because the sign has moved into the SSM, the
+            data field itself is unsigned.
+          </p>
+          <ParamsTable
+            rows={[
+              { name: "Bits 29–27", value: "digit 1 (MSD)", note: "3 bits · 0–7" },
+              { name: "Bits 26–23", value: "digit 2", note: "4 bits · 0–9" },
+              { name: "Bits 22–19", value: "digit 3", note: "4 bits · 0–9" },
+              { name: "Bits 18–15", value: "digit 4", note: "4 bits · 0–9" },
+              { name: "Bits 14–11", value: "digit 5 (LSD)", note: "4 bits · 0–9" },
+            ]}
+          />
+          <DataWell>
+            data field 0x25786 → digits 2 5 7 8 6 → <span className="text-ok">25786</span> (GE Figure 5, SSM 00 = plus)
+            <br />
+            data field 0x75839 → digits 7 5 8 3 9 → <span className="text-ok">75839</span>
+            <br />
+            data field 0x2578A → last nibble 0xA → <span className="text-err">not valid BCD</span>
+          </DataWell>
+          <p className="mt-3">
+            Validity is checked on the lower four subfields only. A three-bit
+            digit cannot exceed 7, so it can never be an illegal decimal digit;
+            a four-bit one can, and a nibble of 0xA–0xF is the usual sign that
+            the word was BNR all along or that the capture slipped a bit.
           </p>
         </Section>
 
