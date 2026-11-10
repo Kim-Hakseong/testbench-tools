@@ -1,0 +1,9 @@
+# RUN-TB2 G2 — 2026-11-10T12:31:35Z, Worker testbench-mcp version 6a8684e3
+## G2-1 workers.dev tools/list: 58
+## G2-2 custom domain reachable 12:31:36: 200
+  tools/list: 58
+## G2-2 tools/call vs RUN-TB1 evidence (g3-3-claude-code.jsonl), https://mcp.testbench.tools/mcp
+  crc.modbus16 {"data": "01 03 00 00 00 0A"}: MATCH
+  mil1553.decode_command {"word": "0C22"}: MATCH
+  plc.xgt_address {"address": "P00105"}: MATCH
+  result: 3/3

@@ -1,0 +1,375 @@
+{
+  "when": "2026-11-10T12:32:01.877Z",
+  "seed": 20261107,
+  "benchCoreTools": 58,
+  "transports": {
+    "stdio": {
+      "protocolVersion": "2025-06-18",
+      "toolsListed": 58,
+      "missingFromList": [],
+      "G3_1": "PASS",
+      "calls": [
+        {
+          "tool": "nmea.generate",
+          "args": {
+            "kind": "custom",
+            "body": "PTBT,1,hello"
+          },
+          "match": true
+        },
+        {
+          "tool": "mcu.can_bit_timing",
+          "args": {
+            "clockHz": 80000000,
+            "bitrate": 500000
+          },
+          "match": true
+        },
+        {
+          "tool": "mil1553.decode_status",
+          "args": {
+            "word": "0x1C08"
+          },
+          "match": true
+        },
+        {
+          "tool": "nmea.checksum",
+          "args": {
+            "sentence": "$GPRMC,023000.00,A,3733.9900,N,12658.6800,E,12.5,084.4,051026,,,A*63"
+          },
+          "match": true
+        },
+        {
+          "tool": "crc.ccitt16",
+          "args": {
+            "data": "123456789",
+            "encoding": "ascii",
+            "variant": "CRC-16/XMODEM"
+          },
+          "match": true
+        },
+        {
+          "tool": "frame.decode",
+          "args": {
+            "checksum": {
+              "preset": "XOR8",
+              "offsetFromEnd": 1,
+              "coverageStart": 1,
+              "coverageEndOffsetFromEnd": 1
+            },
+            "fields": [
+              {
+                "name": "cmd",
+                "offset": 1,
+                "type": "s8"
+              }
+            ],
+            "frames": [
+              "02 41 42 03",
+              "02 FF 00 FF",
+              "02 GG"
+            ]
+          },
+          "match": true
+        },
+        {
+          "tool": "sensor.adc",
+          "args": {
+            "count": 4095
+          },
+          "match": true
+        },
+        {
+          "tool": "mcu.uart_baud_error",
+          "args": {
+            "clockHz": 48000000,
+            "baud": 1000000,
+            "oversampling": 16
+          },
+          "match": true
+        },
+        {
+          "tool": "can.decode_frame",
+          "args": {
+            "id": "18FEF100",
+            "extended": true,
+            "data": "FF FF FF FF 12 34 56 78"
+          },
+          "match": true
+        },
+        {
+          "tool": "mil1553.decode_command",
+          "args": {
+            "word": "FC02"
+          },
+          "match": true
+        },
+        {
+          "tool": "crc.modbus16",
+          "args": {
+            "data": ""
+          },
+          "match": true
+        },
+        {
+          "tool": "mcu.i2c_pullup",
+          "args": {
+            "mode": "standard",
+            "vddV": 5,
+            "busCapacitancePf": 400
+          },
+          "match": true
+        },
+        {
+          "tool": "plc.two_point_cal",
+          "args": {
+            "x1": 1,
+            "y1": 5,
+            "x2": 3,
+            "y2": 5,
+            "value": 5
+          },
+          "match": true
+        },
+        {
+          "tool": "plc.xgt_cnet_build",
+          "args": {
+            "command": "WSS",
+            "devices": [
+              "%MW100"
+            ],
+            "data": "00FF"
+          },
+          "match": true
+        },
+        {
+          "tool": "plc.loop_burden",
+          "args": {},
+          "match": true
+        },
+        {
+          "tool": "convert.number_base",
+          "args": {
+            "value": "18446744073709551615"
+          },
+          "match": true
+        },
+        {
+          "tool": "mc.decode_frame",
+          "args": {
+            "frame": "D00000FF03FF000016C05100FF03FF0004010000"
+          },
+          "match": true
+        },
+        {
+          "tool": "plc.signal_convert",
+          "args": {
+            "value": 12
+          },
+          "match": true
+        },
+        {
+          "tool": "modbus.decode_frame",
+          "args": {
+            "data": "11 03 00 6B 00 03 76 87"
+          },
+          "match": true
+        },
+        {
+          "tool": "plc.s7_address",
+          "args": {
+            "address": "EB0",
+            "compareWith": "%QB0"
+          },
+          "match": true
+        }
+      ],
+      "matched": 20,
+      "G3_2": "PASS"
+    },
+    "http": {
+      "protocolVersion": "2025-06-18",
+      "toolsListed": 58,
+      "missingFromList": [],
+      "G3_1": "PASS",
+      "calls": [
+        {
+          "tool": "nmea.generate",
+          "args": {
+            "kind": "custom",
+            "body": "PTBT,1,hello"
+          },
+          "match": true
+        },
+        {
+          "tool": "mcu.can_bit_timing",
+          "args": {
+            "clockHz": 80000000,
+            "bitrate": 500000
+          },
+          "match": true
+        },
+        {
+          "tool": "mil1553.decode_status",
+          "args": {
+            "word": "0x1C08"
+          },
+          "match": true
+        },
+        {
+          "tool": "nmea.checksum",
+          "args": {
+            "sentence": "$GPRMC,023000.00,A,3733.9900,N,12658.6800,E,12.5,084.4,051026,,,A*63"
+          },
+          "match": true
+        },
+        {
+          "tool": "crc.ccitt16",
+          "args": {
+            "data": "123456789",
+            "encoding": "ascii",
+            "variant": "CRC-16/XMODEM"
+          },
+          "match": true
+        },
+        {
+          "tool": "frame.decode",
+          "args": {
+            "checksum": {
+              "preset": "XOR8",
+              "offsetFromEnd": 1,
+              "coverageStart": 1,
+              "coverageEndOffsetFromEnd": 1
+            },
+            "fields": [
+              {
+                "name": "cmd",
+                "offset": 1,
+                "type": "s8"
+              }
+            ],
+            "frames": [
+              "02 41 42 03",
+              "02 FF 00 FF",
+              "02 GG"
+            ]
+          },
+          "match": true
+        },
+        {
+          "tool": "sensor.adc",
+          "args": {
+            "count": 4095
+          },
+          "match": true
+        },
+        {
+          "tool": "mcu.uart_baud_error",
+          "args": {
+            "clockHz": 48000000,
+            "baud": 1000000,
+            "oversampling": 16
+          },
+          "match": true
+        },
+        {
+          "tool": "can.decode_frame",
+          "args": {
+            "id": "18FEF100",
+            "extended": true,
+            "data": "FF FF FF FF 12 34 56 78"
+          },
+          "match": true
+        },
+        {
+          "tool": "mil1553.decode_command",
+          "args": {
+            "word": "FC02"
+          },
+          "match": true
+        },
+        {
+          "tool": "crc.modbus16",
+          "args": {
+            "data": ""
+          },
+          "match": true
+        },
+        {
+          "tool": "mcu.i2c_pullup",
+          "args": {
+            "mode": "standard",
+            "vddV": 5,
+            "busCapacitancePf": 400
+          },
+          "match": true
+        },
+        {
+          "tool": "plc.two_point_cal",
+          "args": {
+            "x1": 1,
+            "y1": 5,
+            "x2": 3,
+            "y2": 5,
+            "value": 5
+          },
+          "match": true
+        },
+        {
+          "tool": "plc.xgt_cnet_build",
+          "args": {
+            "command": "WSS",
+            "devices": [
+              "%MW100"
+            ],
+            "data": "00FF"
+          },
+          "match": true
+        },
+        {
+          "tool": "plc.loop_burden",
+          "args": {},
+          "match": true
+        },
+        {
+          "tool": "convert.number_base",
+          "args": {
+            "value": "18446744073709551615"
+          },
+          "match": true
+        },
+        {
+          "tool": "mc.decode_frame",
+          "args": {
+            "frame": "D00000FF03FF000016C05100FF03FF0004010000"
+          },
+          "match": true
+        },
+        {
+          "tool": "plc.signal_convert",
+          "args": {
+            "value": 12
+          },
+          "match": true
+        },
+        {
+          "tool": "modbus.decode_frame",
+          "args": {
+            "data": "11 03 00 6B 00 03 76 87"
+          },
+          "match": true
+        },
+        {
+          "tool": "plc.s7_address",
+          "args": {
+            "address": "EB0",
+            "compareWith": "%QB0"
+          },
+          "match": true
+        }
+      ],
+      "matched": 20,
+      "G3_2": "PASS"
+    }
+  }
+}

@@ -1,7 +1,7 @@
 # Reddit 초안 (게시 전 사람 검토)
 
 본문은 두 글 모두 150단어 이내다(제목 포함 122·118단어). URL은 RUN-TB2 확정값(`https://mcp.testbench.tools/mcp`, `https://testbench.tools/mcp/`)이다. 게시 순서: r/ClaudeAI 먼저, 3~4일 뒤 r/embedded. 게시 전 확인할 것:
-- DEPLOY.md 1번(원격 서버)이 끝나 `https://mcp.testbench.tools/mcp`가 응답하는지
+- ~~DEPLOY.md 1번(원격 서버)이 끝나 `https://mcp.testbench.tools/mcp`가 응답하는지~~ — 2026-11-10 확인
 - 각 서브레딧의 자기 홍보 규칙. r/embedded는 자기 홍보 비율 규칙이 엄격하므로, 평소 활동 없이 링크만 올리면 삭제될 수 있다
 
 ---

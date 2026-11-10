@@ -4,6 +4,8 @@ RUN-TB2는 "질문 금지, 막히면 여기 기록하고 다음으로" 조건이
 
 ## R-1. 원격 MCP Worker 배포 — 토큰 없음 (§2, G2-1·G2-2 FAIL)
 
+> **2026-11-10 해결.** 토큰을 넣은 셸에서 `wrangler deploy` → workers.dev와 mcp.testbench.tools가 함께 붙었다. G2-1·G2-2 PASS.
+
 - **상황.** RUN-TB2는 `CLOUDFLARE_API_TOKEN` 환경변수로만 인증하고 브라우저 로그인은 시도하지 말라고 한다. 실행 셸에 이 변수가 없었다(launchd 환경도 비어 있음). wrangler에 남아 있던 OAuth 토큰은 만료됐다("Your auth token has expired and could not be refreshed").
 - `~/.config/testbench/telemetry.env`에 `CF_API_TOKEN`이 있지만 쓰지 않았다. 이 토큰은 분석 조회(RUM GraphQL)용이고, RUN-TB2는 지정된 변수만 쓰라고 한다.
 - **한 것.** `wrangler deploy --dry-run` 통과(340.02 KiB, gzip 88.94 KiB, 바인딩 없음). 커스텀 도메인 `routes`는 wrangler.jsonc에서 켜 두었다. 2026-11-08 11:00Z 기준 `mcp.testbench.tools`는 DNS 레코드가 없다.
@@ -14,6 +16,8 @@ RUN-TB2는 "질문 금지, 막히면 여기 기록하고 다음으로" 조건이
   확인 명령은 docs/run-tb1/DEPLOY.md 1번에 있다(`"crc": "0xCDC5"`).
 
 ## R-2. npm 퍼블리시 — 토큰 없음 (§4, G4-1·G4-2 FAIL)
+
+> **2026-11-10 해결.** 위 `env` 형태로 0.1.0 퍼블리시. G4-1·G4-2 PASS.
 
 - **상황.** `NPM_TOKEN`이 실행 셸에 없었다. `npm whoami`는 ENEEDAUTH다. `.npmrc` 생성은 금지 항목이라 다른 경로도 없다.
 - **한 것.** `private` 제거, version 0.1.0, `repository`·`homepage` 추가(provenance에 `repository`가 필요), `pnpm build`, `npm pack --dry-run`(43개 파일, 125.9 kB). 팩한 tarball을 `npx -y --package=./testbench-tools-mcp-0.1.0.tgz testbench-mcp`로 띄워 **tools/list 58개**를 확인했다. 레지스트리를 거치지 않은 대체 검증이라 라벨은 unverified다.
@@ -26,6 +30,8 @@ RUN-TB2는 "질문 금지, 막히면 여기 기록하고 다음으로" 조건이
   변수 이름에 `/`가 있어서 zsh에서는 `VAR=값 명령` 형태가 안 된다. 반드시 `env "이름=값"` 형태로 쓴다. 가짜 값으로 `npm whoami`를 돌리면 401이 나오는 것으로, npm이 이 변수를 읽는 것을 확인했다. 이 첫 퍼블리시가 Trusted Publishing 연결의 전제다(TRUSTED-PUBLISHING.md 1번).
 
 ## R-3. 사이트 머지를 Worker 없이 진행한 판단 (§3)
+
+> **2026-11-10 해소.** 라이브 /mcp의 설치 명령 2개가 모두 동작한다(REPORT 게이트 표).
 
 - RUN-TB2 §0은 되돌릴 수 없는 작업을 직전 게이트 PASS 때만 하라고 한다. §2는 "G2-2가 FAIL이어도 중단하지 말고 사이트 머지는 §3로 계속(사이트는 URL 문자열만 참조)"이라고 명시한다.
 - G1(사이트 내용의 게이트)은 PASS였다. 그래서 §2의 명시 조항에 따라 머지·푸시했다.

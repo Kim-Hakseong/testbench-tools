@@ -7,8 +7,8 @@
 | 단계 | 상태 | 실제 주소 |
 |---|---|---|
 | 0. 사이트 | **완료 2026-11-08** (main b53d9eb, 푸시 후 약 1분 30초 만에 라이브) | https://testbench.tools/mcp/ · https://testbench.tools/noctra/ |
-| 1. 원격 MCP Worker | **미완 — 토큰 없음** (`CLOUDFLARE_API_TOKEN` 미설정, wrangler OAuth 만료. docs/run-tb2/BLOCKERS.md R-1). `wrangler deploy --dry-run`은 통과: 340 KiB, 바인딩 0 | 예정: https://mcp.testbench.tools/mcp (커스텀 도메인 설정은 wrangler.jsonc에 켜 둠) |
-| 2. npm `@testbench-tools/mcp` | **미완 — 토큰 없음** (`NPM_TOKEN` 미설정, R-2). `private` 제거·0.1.0·빌드는 끝남. 팩 tarball을 `npx`로 띄우면 tools/list 58개 | 예정: https://www.npmjs.com/package/@testbench-tools/mcp |
+| 1. 원격 MCP Worker | **완료 2026-11-10** (버전 6a8684e3) | https://mcp.testbench.tools/mcp · https://testbench-mcp.makseong.workers.dev/mcp |
+| 2. npm `@testbench-tools/mcp` | **완료 2026-11-10** (0.1.0) | https://www.npmjs.com/package/@testbench-tools/mcp |
 
 ## 0. 사이트 반영 (/mcp, Noctra 페이지, 다음 단계 CTA, 노트 검증 의뢰)
 

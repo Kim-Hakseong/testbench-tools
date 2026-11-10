@@ -1,0 +1,4 @@
+{"event": "init", "claude_code_version": "2.1.322", "mcp_servers": [{"name": "testbench", "status": "connected", "source": "dynamic"}], "testbench_tools_visible": 58, "config": ".mcp.json = docs/run-tb1/example.mcp.json (npx -y @testbench-tools/mcp)"}
+{"event": "tool_call", "tool": "mcp__testbench__crc_modbus16", "input": {"data": "01 03 00 00 00 0A"}}
+{"event": "tool_result", "is_error": false, "content": "{\"algorithm\":\"CRC-16/MODBUS\",\"byteCount\":6,\"crc\":\"0xCDC5\",\"decimal\":52677,\"bytesLittleEndian\":\"C5 CD\",\"bytesBigEndian\":\"CD C5\"}", "source": "transcribed from the run console output; the raw stream log was not kept"}
+{"event": "final", "result": "0xCDC5", "total_cost_usd": 0.1245}

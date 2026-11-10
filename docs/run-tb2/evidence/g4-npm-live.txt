@@ -1,0 +1,8 @@
+# RUN-TB2 G4 + live /mcp install commands — 2026-11-10T12:38:50Z
+## G4-1 registry: @testbench-tools/mcp 0.1.0, tarball https://registry.npmjs.org/@testbench-tools/mcp/-/mcp-0.1.0.tgz (published 12:35Z, visible 12:37:30Z)
+  npx -y @testbench-tools/mcp (fresh npm cache, empty dir): serverInfo testbench-tools 0.1.0, tools/list 58
+## G4-2 Claude Code, .mcp.json npx form: see g4-2-claude-code.jsonl — crc_modbus16 → 0xCDC5
+## Live https://testbench.tools/mcp/ install commands, copied from the page HTML and run verbatim in empty dirs:
+  [1] claude mcp add --transport http testbench https://mcp.testbench.tools/mcp → claude mcp list: ✔ Connected
+  [2] claude mcp add testbench -- npx -y @testbench-tools/mcp → claude mcp list: ✔ Connected
+  both test registrations removed afterwards (claude mcp remove testbench)
