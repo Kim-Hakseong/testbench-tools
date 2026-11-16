@@ -50,7 +50,7 @@
   "mil-1553-status-word": "2026-08-21",
   "mil-1553-mode-codes": "2026-08-24",
   "mil-1553-message-decoder": "2026-08-31",
-  "arinc-429-decoder": "2026-08-21",
+  "arinc-429-decoder": "2026-11-09",
   "arinc-429-builder": "2026-08-21",
   "tdms-to-csv": "2026-08-21",
   "tdms-viewer": "2026-08-21",
