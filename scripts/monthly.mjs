@@ -298,6 +298,153 @@ async function collectBing(months) {
   }
 }
 
+// --- Demand scan (2026-11-17) ------------------------------------------------
+// GSC and Bing query stats only list searches where a page of ours already
+// appeared, so demand for things we have no page about never reaches a report.
+// Bing's keyword research (GetRelatedKeywords) is site-independent: it expands
+// a seed into what people searched across Bing, with impressions. This turns
+// "new tool" from guesswork into a measured candidate list. Analysis only —
+// building anything from it is T2 (AUTOPILOT.md).
+
+const TOOL_INTENT = /\b(calculator|calc|converter|convert|conversion|decoder|decode|encoder|encode|generator|checker|check|checksum|table|chart|formula|online|tool|viewer|parser|simulator|tester|analyzer|lookup|to)\b/;
+const INFO_INTENT = /^(what|how|why|when|where|which|is|are|can i|does)\b|\b(vs|versus|meaning|definition|tutorial|pdf|course|salary|jobs?)\b/;
+const GENERIC = new Set(["calculator", "converter", "decoder", "builder", "generator", "viewer", "to", "and", "the", "a", "of", "for", "online", "tool", "table"]);
+
+/** Distinctive words per live tool (slug + tags + name), for a "does something already answer this" hint. */
+function toolVocabulary() {
+  const src = readFileSync(join(ROOT, "apps/web/content/tools-meta.ts"), "utf8");
+  const out = [];
+  for (const [, slug, body] of src.matchAll(/\{\s*slug:\s*"([a-z0-9-]+)"(.*?)\}/gs)) {
+    if (!/status:\s*"live"/.test(body) || /locale:\s*"ko"/.test(body)) continue;
+    const name = /name:\s*"([^"]+)"/.exec(body)?.[1] ?? "";
+    const tags = [...(/tags:\s*\[([^\]]*)\]/.exec(body)?.[1] ?? "").matchAll(/"([^"]+)"/g)].map((m) => m[1]);
+    const words = `${slug.replaceAll("-", " ")} ${name} ${tags.join(" ")}`.toLowerCase().split(/[^a-z0-9.]+/)
+      .filter((w) => w.length > 1 && !GENERIC.has(w));
+    out.push({ slug, words: new Set(words) });
+  }
+  return out;
+}
+
+function nearestTool(query, vocab) {
+  const q = query.toLowerCase().split(/[^a-z0-9.]+/).filter((w) => w.length > 1 && !GENERIC.has(w));
+  if (!q.length) return null;
+  let best = null;
+  for (const t of vocab) {
+    const hit = q.filter((w) => t.words.has(w)).length;
+    if (hit && (!best || hit > best.hit)) best = { slug: t.slug, hit, share: hit / q.length };
+  }
+  return best && best.share >= 0.5 ? best.slug : null;
+}
+
+const compact = (w) => w.toLowerCase().replace(/[^a-z0-9]/g, "");
+
+/**
+ * Does the query contain every required word? Matched on whole tokens (or two
+ * or three adjacent tokens joined, so "4-20" finds "4 20ma"), never on raw
+ * substrings: "adc" must not match "roadclosure".
+ */
+function mentions(query, must) {
+  const t = query.split(/[^a-z0-9]+/).filter(Boolean);
+  const grams = [...t, ...t.slice(1).map((w, i) => t[i] + w), ...t.slice(2).map((w, i) => t[i] + t[i + 1] + w)];
+  return must.every((m) => grams.some((g) => g.startsWith(m)));
+}
+
+async function collectDemand(m, bing) {
+  if (!ENV.BING_API_KEY) { notes.push("수요 탐색: BING_API_KEY 없음"); return null; }
+  const seedsPath = join(ROOT, "scripts/demand-seeds.json");
+  if (!existsSync(seedsPath)) { notes.push("수요 탐색: scripts/demand-seeds.json 없음"); return null; }
+  const cfg = JSON.parse(readFileSync(seedsPath, "utf8"));
+  const norm = (x, kind) => {
+    const q = typeof x === "string" ? x : x.q;
+    return { s: q, kind, must: (typeof x === "string" ? q.split(/\s+/) : x.must).map(compact) };
+  };
+  const seeds = [...cfg.covered.map((x) => norm(x, "covered")), ...cfg.adjacent.map((x) => norm(x, "adjacent"))];
+  const block = (cfg.block ?? []).map((b) => new RegExp(`\\b${b}\\b`));
+  const base = "https://ssl.bing.com/webmaster/api.svc/json/GetRelatedKeywords";
+
+  // Queries our site already showed for in Bing: those are visible to the
+  // weekly loop already, so the scan reports only what it cannot see.
+  const seen = new Set();
+  for (const mm of Object.values(bing ?? {})) for (const r of mm.queries) seen.add(r.q.toLowerCase());
+
+  const found = new Map();
+  let failed = 0;
+  for (const { s, kind, must } of seeds) {
+    const qs = `apikey=${ENV.BING_API_KEY}&q=${encodeURIComponent(s)}&country=${cfg.country}&language=${cfg.language}&startDate=${m.start}&endDate=${m.end}`;
+    try {
+      const res = await fetch(`${base}?${qs}`);
+      const json = await res.json();
+      if (!Array.isArray(json?.d)) throw new Error(`HTTP ${res.status}`);
+      for (const k of json.d) {
+        const q = (k.Query ?? "").toLowerCase().trim();
+        // GetRelatedKeywords expands semantically ("crc" -> "crc to usd", "bacnet" -> "marine online").
+        if (!q || seen.has(q) || !mentions(q, must) || block.some((b) => b.test(q))) continue;
+        const prev = found.get(q);
+        if (!prev || (k.Impressions ?? 0) > prev.impressions) {
+          found.set(q, { q, impressions: k.Impressions ?? 0, seed: s, kind });
+        }
+      }
+    } catch (e) {
+      failed += 1;
+      // Never echo the URL: it carries the API key.
+      notes.push(`수요 탐색: '${s}' 조회 실패 — ${e.message}`);
+    }
+    await new Promise((r) => setTimeout(r, 250));
+  }
+  if (failed === seeds.length) return null;
+
+  const vocab = toolVocabulary();
+  const rows = [...found.values()].map((r) => ({
+    ...r,
+    intent: INFO_INTENT.test(r.q) ? "정보" : TOOL_INTENT.test(r.q) ? "툴" : "중립",
+    near: nearestTool(r.q, vocab),
+  }));
+  return {
+    window: `${m.start}~${m.end}`, country: cfg.country, language: cfg.language,
+    seeds: seeds.length, failed,
+    // Tool-intent queries with no existing tool behind them are the candidates.
+    candidates: rows.filter((r) => r.intent === "툴" && !r.near).sort((a, b) => b.impressions - a.impressions).slice(0, 25),
+    // Tool-intent queries an existing tool should answer but we are not shown for: page work, not new tools.
+    gaps: rows.filter((r) => r.intent === "툴" && r.near).sort((a, b) => b.impressions - a.impressions).slice(0, 15),
+    adjacentTotals: seeds.filter((x) => x.kind === "adjacent").map(({ s }) => ({
+      seed: s,
+      impressions: rows.filter((r) => r.seed === s).reduce((a, r) => a + r.impressions, 0),
+      toolIntent: rows.filter((r) => r.seed === s && r.intent === "툴").reduce((a, r) => a + r.impressions, 0),
+    })).sort((a, b) => b.toolIntent - a.toolIntent),
+  };
+}
+
+function demandSection(demand) {
+  const md = ["## 신규 후보 — 수요 탐색 (Bing 키워드 조사)", ""];
+  if (!demand) return [...md, "_수집 실패 — 아래 '수집 참고'_", ""];
+  md.push(
+    `> 우리 사이트와 무관한 Bing 전체 검색 수요다(${demand.country}/${demand.language}, ${demand.window}, 씨앗 ${demand.seeds}개` +
+      `${demand.failed ? `, 실패 ${demand.failed}` : ""}). 우리가 이미 Bing에 노출된 검색어는 뺐다 — 주간 루프가 이미 보는 것이기 때문이다.`,
+    "> '가까운 기존 툴'은 단어 겹침으로 찍은 힌트일 뿐이다. 신설 제안 전에 tools-meta.ts 확인(AUTOPILOT.md '제안 전 필수 확인')은 그대로 해야 한다.",
+    "",
+    "### 툴 의도 검색어 중 답하는 툴이 없는 것 (신설 후보)",
+    "",
+  );
+  md.push(...fmt(demand.candidates, [
+    { h: "검색어", f: (r) => `\`${r.q}\`` },
+    { h: "노출", f: (r) => r.impressions },
+    { h: "씨앗", f: (r) => `${r.seed}${r.kind === "adjacent" ? " (인접)" : ""}` },
+  ]));
+  md.push("### 기존 툴이 받아야 하는데 우리가 노출되지 않는 것 (페이지 개선 후보, 주간 T1 입력)", "");
+  md.push(...fmt(demand.gaps, [
+    { h: "검색어", f: (r) => `\`${r.q}\`` },
+    { h: "노출", f: (r) => r.impressions },
+    { h: "가까운 기존 툴", f: (r) => `\`${r.near}\`` },
+  ]));
+  md.push("### 인접 분야별 수요 합 (카탈로그에 없는 분야)", "");
+  md.push(...fmt(demand.adjacentTotals.filter((r) => r.impressions > 0), [
+    { h: "분야", f: (r) => r.seed },
+    { h: "툴 의도 노출", f: (r) => r.toolIntent },
+    { h: "전체 노출", f: (r) => r.impressions },
+  ]));
+  return md;
+}
+
 // --- Catalogue --------------------------------------------------------------
 
 /** Live, publicly listed tools, parsed from the catalogue the same way make-og.mjs does. */
@@ -355,6 +502,12 @@ async function main() {
     collectToolVisits([cur, prev, prev2]),
     collectBing([cur, prev]),
   ]);
+  const demand = await collectDemand(cur, bing);
+  // `--demand-only` prints just the scan, without rewriting the monthly files.
+  if (process.argv.includes("--demand-only")) {
+    console.log([...demandSection(demand), ...notes.map((n) => `- ${n}`)].join("\n"));
+    return;
+  }
   const tools = liveTools();
   const history = beaconHistoryDays();
   const ledger = ledgerStatus();
@@ -490,6 +643,8 @@ async function main() {
     md.push(`비콘 이력 ${history.days}일 — 3주기 판정 가능. 위 목록 중 3개월 연속 사용·방문·노출 모두 0인 툴이 제거 제안 대상이다.`, "");
   }
 
+  md.push(...demandSection(demand));
+
   // Ledger
   md.push("## 예측 원장", "");
   md.push(...fmt(ledger, [
@@ -515,10 +670,10 @@ async function main() {
   }
 
   writeFileSync(join(TELEMETRY, `monthly-${cur.label}.json`),
-    JSON.stringify({ month: cur.label, gsc, usage, referrers, visits, bing, tools, silent, history, ledger }, null, 2));
+    JSON.stringify({ month: cur.label, gsc, usage, referrers, visits, bing, demand, tools, silent, history, ledger }, null, 2));
   writeFileSync(join(TELEMETRY, "monthly-latest.md"), md.join("\n"));
   console.log(`monthly: telemetry/monthly-${cur.label}.json + monthly-latest.md`);
-  console.log(`  gsc ${gsc ? "ok" : "—"} · usage ${usage ? "ok" : "—"} · rum ${referrers ? "ok" : "—"} · bing ${bing ? "ok" : "—"} · 공개툴 ${tools.length} · 무신호 ${silent.length} · 예측 ${ledger.length}(만기미판정 ${overdue.length})`);
+  console.log(`  gsc ${gsc ? "ok" : "—"} · usage ${usage ? "ok" : "—"} · rum ${referrers ? "ok" : "—"} · bing ${bing ? "ok" : "—"} · 수요 ${demand ? demand.candidates.length : "—"} · 공개툴 ${tools.length} · 무신호 ${silent.length} · 예측 ${ledger.length}(만기미판정 ${overdue.length})`);
 }
 
 await main();

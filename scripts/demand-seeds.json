@@ -1,0 +1,23 @@
+{
+  "_comment": "Seed terms for the monthly demand scan (monthly.mjs collectDemand). Bing's GetRelatedKeywords expands each seed into queries people actually searched, with Bing-wide impressions. It expands semantically, so a result is kept only if it contains every word in the seed's `must` list (default: every word of the seed). `block` drops look-alikes (currency codes, logins, other products). Seeds stay inside the CLAUDE.md §2 niche: T&M, embedded, industrial automation. 'covered' = areas the catalogue already serves (find adjacent gaps); 'adjacent' = niche areas with no tool yet (find new demand). Editing this list is T1; building anything it surfaces is T2.",
+  "country": "us",
+  "language": "en-US",
+  "block": ["usd", "eur", "login", "sign in", "citation", "stock", "price", "near me", "jobs", "salary", "lyrics", "movie", "watch", "inmate", "payment", "arc raiders"],
+  "covered": [
+    "modbus", "can bus", {"q": "crc calculator", "must": ["crc"]}, {"q": "arinc 429", "must": ["arinc"]},
+    {"q": "mil-std-1553", "must": ["1553"]}, {"q": "nmea 0183", "must": ["nmea"]},
+    "thermocouple", {"q": "pt100", "must": ["pt100"]}, "thermistor", {"q": "4-20ma", "must": ["4-20"]},
+    {"q": "plc address", "must": ["plc"]}, {"q": "siemens s7", "must": ["s7"]},
+    {"q": "stm32 timer", "must": ["stm32"]}, {"q": "uart baud rate", "must": ["baud"]},
+    {"q": "i2c pull up", "must": ["i2c"]}, {"q": "adc resolution", "must": ["adc"]},
+    {"q": "ieee 754", "must": ["754"]}, "intel hex", "tdms", "voltage divider"
+  ],
+  "adjacent": [
+    "canopen", "j1939", "ethercat", "profibus", "profinet", {"q": "hart protocol", "must": ["hart", "protocol"]},
+    {"q": "rs-485", "must": ["485"]}, "lin bus", {"q": "spi protocol", "must": ["spi"]},
+    {"q": "iec 61131", "must": ["61131"]}, {"q": "s-record", "must": ["srec"]}, "strain gauge", "load cell",
+    {"q": "rtd temperature", "must": ["rtd"]}, "pid tuning", "rotary encoder", {"q": "dac resolution", "must": ["dac"]},
+    "oscilloscope", "sampling rate", "labview", "bacnet", "dnp3", {"q": "iec 60870", "must": ["60870"]},
+    "opc ua", "rs-232", "gpib", "scpi", "ladder logic", "bit error rate", "sensor calibration"
+  ]
+}
