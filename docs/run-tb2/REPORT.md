@@ -55,8 +55,8 @@
 
 1. ~~Cloudflare 토큰 → `wrangler deploy`~~ — 완료 2026-11-10
 2. ~~npm 첫 퍼블리시~~ — 완료 2026-11-10
-3. **Trusted Publishing 연결** (이제 패키지가 있으니 가능): npm 패키지 설정 페이지에서 저장소 `Kim-Hakseong/testbench-tools`, 워크플로 `publish-mcp.yml`을 입력한다(TRUSTED-PUBLISHING.md).
-4. **스크린샷 교체**: Noctra 대기 페이지의 이미지 자리. 지금은 비어 있어서 렌더되지 않는다(B-2). 넣을 곳은 `apps/web/content/noctra.ts`의 `screenshot`이다.
+3. ~~**Trusted Publishing 연결**~~ — 완료 2026-11-17. `Allow npm publish` 켬, Publishing access는 bypass-2FA 토큰 금지, 퍼블리시 토큰 삭제. 첫 실동작 확인은 다음 `mcp-v*` 태그 때 한다.
+4. ~~**스크린샷 교체**~~ — **제품 개발 대기로 전환(2026-11-17, Haku 결정).** Bus·View·OneShot에 해당하는 동작하는 앱이 아직 없다. 다른 앱 화면을 쓰면 없는 기능을 보여 주게 되므로 비워 둔다. 이미지 영역은 비어 있으면 렌더되지 않는다(B-2). 제품 화면이 생기면 `apps/web/content/noctra.ts`의 `screenshot`에 넣는다.
 5. **Reddit 게시 2건**: r/ClaudeAI를 먼저 올리고, 3~4일 뒤 r/embedded. 설치 명령 두 개가 실제로 동작하는 것을 확인했으니, 이제 올려도 된다.
 6. (선택) npm 메인테이너 표기 정리 — 위 "npm 패키지"의 주의 항목.
 
