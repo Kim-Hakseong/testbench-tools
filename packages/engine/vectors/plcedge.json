@@ -1,0 +1,47 @@
+{
+  "_comment": "Golden vectors for packages/engine/src/plcedge.ts, worked by hand from spec/plc-edge-semantics.md one scan at a time (not taken from the engine). pulses = scan times (ms) at which Q / ONS rung-out / OSR or OSF output bit is TRUE.",
+  "cases": [
+    {
+      "name": "rising: input already TRUE at power-up, a short gap, and a pulse shorter than one scan",
+      "input": { "scanMs": 10, "durationMs": 100, "inToggles": [0, 30, 50, 52, 70, 112, 118] },
+      "expect": {
+        "iec-rising|memInit=false": [0, 50, 70],
+        "iec-rising|memInit=true": [50, 70],
+        "ab-ons": [50, 70],
+        "ab-osr": [50, 70]
+      }
+    },
+    {
+      "name": "rising: a pulse between two scans is never seen",
+      "input": { "scanMs": 10, "durationMs": 40, "inToggles": [12, 18] },
+      "expect": {
+        "iec-rising|memInit=false": [],
+        "ab-ons": [],
+        "ab-osr": []
+      }
+    },
+    {
+      "name": "falling: input TRUE at power-up, then off, then on again",
+      "input": { "scanMs": 10, "durationMs": 100, "inToggles": [0, 30, 60] },
+      "expect": {
+        "iec-falling|memInit=false": [30],
+        "iec-falling|memInit=true": [30],
+        "ab-osf": [30]
+      }
+    },
+    {
+      "name": "falling: input FALSE at power-up — only a TRUE memory bit fires on the first scan",
+      "input": { "scanMs": 10, "durationMs": 60, "inToggles": [40] },
+      "expect": {
+        "iec-falling|memInit=false": [],
+        "iec-falling|memInit=true": [0],
+        "ab-osf": []
+      }
+    }
+  ],
+  "rungOut": {
+    "_comment": "OSR passes rung-condition-in through; ONS's rung-out is the pulse itself. Same input as case 1.",
+    "ab-osr": [0, 10, 20, 50, 70, 80, 90, 100],
+    "ab-ons": [50, 70]
+  }
+}

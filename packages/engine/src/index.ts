@@ -31,3 +31,4 @@ export * from "./thermistor";
 export * from "./accuracy";
 export * from "./frame";
 export * from "./plctimer";
+export * from "./plcedge";

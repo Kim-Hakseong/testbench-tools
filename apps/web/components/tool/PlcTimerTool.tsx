@@ -8,7 +8,10 @@ import {
   type TimerSample,
   type TimerSimResult,
 } from "@testbench/bench-core";
+import { TimingDiagram, type Trace as TraceOf } from "@/components/tool/TimingDiagram";
 import { useToolText } from "@/components/tool/useToolText";
+
+type Trace = TraceOf<TimerSample>;
 
 const fieldCls =
   "mt-1.5 w-full rounded-btn border bg-well px-3 py-2 font-mono text-sm text-ink outline-none transition-colors focus:border-mute";
@@ -51,76 +54,6 @@ function writeHash(f: Form) {
 function int(s: string): number | null {
   const v = Number(s.trim());
   return s.trim() === "" || !Number.isInteger(v) ? null : v;
-}
-
-// --- Timing diagram -----------------------------------------------------------
-
-const W = 640;
-const LABEL = 56;
-const ROW = 22;
-const ANALOG = 64;
-
-type Trace =
-  | { kind: "bit"; label: string; get: (s: TimerSample) => boolean }
-  | { kind: "ramp"; label: string; get: (s: TimerSample) => number };
-
-function Diagram({ samples, traces, preset, duration, title }: {
-  samples: TimerSample[];
-  traces: Trace[];
-  preset: number;
-  duration: number;
-  title: string;
-}) {
-  const x = (t: number) => LABEL + ((W - LABEL - 8) * t) / duration;
-  const rampMax = Math.max(preset, ...traces.flatMap((tr) => (tr.kind === "ramp" ? samples.map(tr.get) : [0])), 1);
-  let y = 6;
-  const rows = traces.map((tr) => {
-    const top = y;
-    const h = tr.kind === "bit" ? ROW : ANALOG;
-    y += h + 8;
-    return { tr, top, h };
-  });
-  const height = y + 14;
-
-  const step = (val: (s: TimerSample) => number) => {
-    let d = "";
-    samples.forEach((s, i) => {
-      const next = i + 1 < samples.length ? samples[i + 1]!.t : duration;
-      d += `${i === 0 ? "M" : "L"}${x(s.t).toFixed(1)},${val(s).toFixed(1)}H${x(next).toFixed(1)}`;
-    });
-    return d;
-  };
-
-  return (
-    <figure className="mt-3">
-      <figcaption className="font-mono text-xs text-mute">{title}</figcaption>
-      {/* Below ~560 px the labels would shrink past legibility, so the diagram scrolls inside the card instead. */}
-      <div className="overflow-x-auto">
-      <svg viewBox={`0 0 ${W} ${height}`} style={{ minWidth: 560 }} className="mt-1 w-full text-ink" role="img" aria-label={title}>
-        {rows.map(({ tr, top, h }) => (
-          <g key={tr.label}>
-            <text x={0} y={top + h / 2 + 4} className="fill-current font-mono" fontSize="11">{tr.label}</text>
-            <line x1={LABEL} x2={W - 8} y1={top + h} y2={top + h} stroke="currentColor" strokeOpacity="0.15" />
-            {tr.kind === "bit" ? (
-              <path d={step((s) => (tr.get(s) ? top + 2 : top + h))} fill="none" stroke="currentColor" strokeWidth="1.5" />
-            ) : (
-              <>
-                <line x1={LABEL} x2={W - 8} y1={top + h - (h * preset) / rampMax} y2={top + h - (h * preset) / rampMax} stroke="currentColor" strokeOpacity="0.45" strokeDasharray="4 3" />
-                <text x={W - 8} y={top + h - (h * preset) / rampMax + 11} textAnchor="end" className="fill-current font-mono" fontSize="10" opacity="0.6">{preset}</text>
-                <path d={step((s) => top + h - (h * tr.get(s)) / rampMax)} fill="none" stroke="currentColor" strokeWidth="1.5" />
-              </>
-            )}
-          </g>
-        ))}
-        {[0, 0.25, 0.5, 0.75, 1].map((f) => (
-          <text key={f} x={x(duration * f)} y={height - 2} textAnchor={f === 0 ? "start" : f === 1 ? "end" : "middle"} className="fill-current font-mono" fontSize="10" opacity="0.6">
-            {Math.round(duration * f)}
-          </text>
-        ))}
-      </svg>
-      </div>
-    </figure>
-  );
 }
 
 function iecTraces(model: TimerModel): Trace[] {
@@ -267,7 +200,7 @@ export function PlcTimerTool() {
                 <li key={f} className="rounded-btn border border-line-soft bg-elevated px-3 py-2">{f}</li>
               ))}
             </ul>
-            <Diagram
+            <TimingDiagram
               samples={run.iec.ok ? run.iec.samples : []}
               traces={iecTraces(pair.iec)}
               preset={pre!}
@@ -275,7 +208,7 @@ export function PlcTimerTool() {
               title={d.pair === "ret" ? t("Siemens TONR (IEC-style, S7-1200)") : t("IEC 61131-3 {fb} (Beckhoff, CODESYS, Siemens)").replace("{fb}", pair.iec.slice(4).toUpperCase())}
             />
             {run.ab && run.ab.ok && (
-              <Diagram
+              <TimingDiagram
                 samples={run.ab.samples}
                 traces={abTraces(pair.ab!)}
                 preset={pre!}
