@@ -42,7 +42,7 @@
   "db-dbm": "2026-08-21",
   "can-bit-timing": "2026-08-21",
   "i2c-pullup": "2026-08-21",
-  "stm32-timer": "2026-08-21",
+  "stm32-timer": "2026-11-16",
   "uart-baud-error": "2026-08-21",
   "struct-padding": "2026-08-21",
   "bit-field-extractor": "2026-08-21",
