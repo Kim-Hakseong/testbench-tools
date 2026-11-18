@@ -1,0 +1,34 @@
+{
+  "_comment": "Golden vectors for packages/engine/src/plcscan.ts, worked by hand from spec/plc-scan-order-semantics.md one scan at a time (not taken from the engine). Each list is the scan times (ms) at which the signal is TRUE.",
+  "cases": [
+    {
+      "name": "double coil: Z follows rung 1's write, the output follows rung 3's",
+      "input": { "scenario": "double-coil", "scanMs": 10, "durationMs": 80, "aToggles": [10, 50], "bToggles": [30, 70] },
+      "on": {
+        "Y after rung 1": [10, 20, 30, 40],
+        "Z": [10, 20, 30, 40],
+        "Y at end of scan": [30, 40, 50, 60]
+      }
+    },
+    {
+      "name": "one-shot bit: the rung below sees it in the edge scan, the rung above one scan later",
+      "input": { "scenario": "one-shot-order", "scanMs": 10, "durationMs": 60, "aToggles": [20] },
+      "on": {
+        "P": [20],
+        "Below": [20],
+        "Above": [30]
+      }
+    },
+    {
+      "name": "set and reset TRUE together for one scan",
+      "input": { "scenario": "set-reset", "scanMs": 10, "durationMs": 60, "aToggles": [10, 40], "bToggles": [20, 30] },
+      "on": {
+        "SR": [10, 20, 30, 40, 50, 60],
+        "RS": [10, 30, 40, 50, 60],
+        "OTL→OTU": [10, 30, 40, 50, 60],
+        "OTU→OTL": [10, 20, 30, 40, 50, 60],
+        "seal-in": [10, 30, 40, 50, 60]
+      }
+    }
+  ]
+}
