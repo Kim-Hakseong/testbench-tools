@@ -2,7 +2,7 @@
   "_comment": "Seed terms for the monthly demand scan (monthly.mjs collectDemand). Bing's GetRelatedKeywords expands each seed into queries people actually searched, with Bing-wide impressions. It expands semantically, so a result is kept only if it contains every word in the seed's `must` list (default: every word of the seed). `block` drops look-alikes (currency codes, logins, other products). Seeds stay inside the CLAUDE.md §2 niche: T&M, embedded, industrial automation. 'covered' = areas the catalogue already serves (find adjacent gaps); 'adjacent' = niche areas with no tool yet (find new demand). Editing this list is T1; building anything it surfaces is T2.",
   "country": "us",
   "language": "en-US",
-  "block": ["usd", "eur", "login", "sign in", "citation", "stock", "price", "near me", "jobs", "salary", "lyrics", "movie", "watch", "inmate", "payment", "arc raiders"],
+  "block": ["usd", "eur", "login", "sign in", "citation", "stock", "price", "near me", "jobs", "salary", "lyrics", "movie", "watch", "inmate", "payment", "arc raiders", "1 crc", "crc to crc", "arc plc"],
   "covered": [
     "modbus", "can bus", {"q": "crc calculator", "must": ["crc"]}, {"q": "arinc 429", "must": ["arinc"]},
     {"q": "mil-std-1553", "must": ["1553"]}, {"q": "nmea 0183", "must": ["nmea"]},

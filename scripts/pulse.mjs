@@ -16,6 +16,7 @@ import { createSign } from "node:crypto";
 import { mkdirSync, readFileSync, readdirSync, writeFileSync, existsSync } from "node:fs";
 import { homedir } from "node:os";
 import { join, resolve } from "node:path";
+import { collectDemand, demandSection } from "./demand.mjs";
 
 const ROOT = resolve(import.meta.dirname, "..");
 const TELEMETRY = join(ROOT, "telemetry");
@@ -556,7 +557,15 @@ async function main() {
   // Runs after GSC because it only inspects pages that earned no impressions.
   const index = await collectIndexStatus(gsc);
 
-  const snapshot = { date: today, gsc, usage, rum, health, index, referrers, bing, ctaArrivals };
+  // Runs after Bing: queries we already show for are excluded from the scan.
+  const demandNotes = [];
+  const demand = await collectDemand({
+    apiKey: ENV.BING_API_KEY, root: ROOT, start: daysAgo(29), end: daysAgo(1),
+    seen: new Set((bing?.queries ?? []).map((r) => r.q.toLowerCase())), notes: demandNotes,
+  });
+  for (const n of demandNotes) setupNeeded.push(n);
+
+  const snapshot = { date: today, gsc, usage, rum, health, index, referrers, bing, ctaArrivals, demand };
   const insight = analyseGsc(gsc, prev);
   const ledger = loadLedger();
   const pending = checkLedger(ledger, snapshot);
@@ -731,6 +740,8 @@ async function main() {
       md.push(`(아직 데이터 없음 — 2026-10-30 등록. 첫 주는 비어 있을 수 있다)`, "");
     }
   }
+
+  md.push(...demandSection(demand));
 
   if (referrers) {
     const total = referrers.reduce((a, r) => a + r.visits, 0);
