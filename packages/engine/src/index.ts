@@ -30,3 +30,4 @@ export * from "./thermocouple";
 export * from "./thermistor";
 export * from "./accuracy";
 export * from "./frame";
+export * from "./plctimer";

@@ -1,0 +1,71 @@
+{
+  "_comment": "Golden vectors for packages/engine/src/plctimer.ts. Each case was worked out by hand from the rules in spec/plc-timer-semantics.md (one scan at a time), not by running the engine. events lists every Boolean output change as [t, signal, to, ET-or-ACC]. checks pins individual scans as [t, field, value].",
+  "cases": [
+    {
+      "name": "on-delay, 10 ms scan divides the preset: both families finish on the same scan",
+      "input": { "presetMs": 100, "scanMs": 10, "durationMs": 400, "inToggles": [20, 300] },
+      "models": {
+        "iec-ton": {
+          "events": [[120, "Q", true, 100], [300, "Q", false, 0]],
+          "checks": [[110, "et", 90], [120, "et", 100], [290, "et", 100], [300, "et", 0]]
+        },
+        "ab-ton": {
+          "events": [[20, "EN", true, 0], [20, "TT", true, 0], [120, "TT", false, 100], [120, "DN", true, 100], [300, "EN", false, 0], [300, "DN", false, 0]],
+          "checks": [[20, "acc", 0], [30, "acc", 10], [120, "acc", 100], [290, "acc", 100], [300, "acc", 0]]
+        }
+      }
+    },
+    {
+      "name": "on-delay, 30 ms scan does not divide 100 ms: IEC ET stops at PT, Logix ACC overshoots by 20",
+      "input": { "presetMs": 100, "scanMs": 30, "durationMs": 300, "inToggles": [30] },
+      "models": {
+        "iec-ton": {
+          "events": [[150, "Q", true, 100]],
+          "checks": [[120, "et", 90], [150, "et", 100], [180, "et", 100]]
+        },
+        "ab-ton": {
+          "events": [[30, "EN", true, 0], [30, "TT", true, 0], [150, "TT", false, 120], [150, "DN", true, 120]],
+          "checks": [[120, "acc", 90], [150, "acc", 120], [180, "acc", 120]]
+        }
+      }
+    },
+    {
+      "name": "off-delay: Logix powers up with ACC = PRE and DN FALSE, IEC with Q FALSE",
+      "input": { "presetMs": 100, "scanMs": 10, "durationMs": 400, "inToggles": [20, 200] },
+      "models": {
+        "iec-tof": {
+          "events": [[20, "Q", true, 0], [300, "Q", false, 100]],
+          "checks": [[0, "et", 0], [200, "et", 0], [210, "et", 10], [300, "et", 100], [400, "et", 100]]
+        },
+        "ab-tof": {
+          "events": [[20, "EN", true, 0], [20, "DN", true, 0], [200, "EN", false, 0], [200, "TT", true, 0], [300, "TT", false, 100], [300, "DN", false, 100]],
+          "checks": [[0, "acc", 100], [10, "acc", 100], [20, "acc", 0], [210, "acc", 10], [300, "acc", 100]]
+        }
+      }
+    },
+    {
+      "name": "pulse: a second rising edge during the pulse is ignored; ET holds PT until IN falls",
+      "input": { "presetMs": 100, "scanMs": 10, "durationMs": 500, "inToggles": [20, 50, 60, 400] },
+      "models": {
+        "iec-tp": {
+          "events": [[20, "Q", true, 0], [120, "Q", false, 100]],
+          "checks": [[50, "et", 30], [60, "et", 40], [110, "et", 90], [120, "et", 100], [390, "et", 100], [400, "et", 0]]
+        }
+      }
+    },
+    {
+      "name": "retentive: time accumulates across two IN periods; output stays on after IN drops until reset",
+      "input": { "presetMs": 100, "scanMs": 10, "durationMs": 400, "inToggles": [0, 50, 100, 200], "resetToggles": [300, 320] },
+      "models": {
+        "s7-tonr": {
+          "events": [[160, "Q", true, 100], [300, "Q", false, 0]],
+          "checks": [[40, "et", 40], [50, "et", 40], [100, "et", 40], [110, "et", 50], [160, "et", 100], [250, "et", 100], [300, "et", 0], [330, "et", 0]]
+        },
+        "ab-rto": {
+          "events": [[0, "EN", true, 0], [0, "TT", true, 0], [50, "EN", false, 40], [50, "TT", false, 40], [100, "EN", true, 40], [100, "TT", true, 40], [160, "TT", false, 100], [160, "DN", true, 100], [200, "EN", false, 100], [300, "DN", false, 0]],
+          "checks": [[40, "acc", 40], [50, "acc", 40], [100, "acc", 40], [110, "acc", 50], [160, "acc", 100], [250, "acc", 100], [300, "acc", 0]]
+        }
+      }
+    }
+  ]
+}
