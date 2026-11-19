@@ -15,7 +15,7 @@
 ## 1. 실행 순서
 - "The black vertical line represents the bus bar. It connects the numbered networks to form an interconnected ladder diagram. The networks are processed in order along the bus bar from top to bottom." (S7)
 - "The signal flow in the network runs from left to right. The signal flow in the editor runs from top to bottom, starting with network 1." (S8)
-- Rockwell RM003에는 렁 실행 순서를 직접 적은 문장이 없다. JMP 설명이 순차 실행을 전제한다: "When true, the JMP instruction skips to the referenced LBL instruction and the controller continues executing from there. … Jumping forward to a label saves program scan time by omitting a logic segment until it is needed. Jumping backward lets the controller repeat iterations of logic." (S6 p.640)
+- Rockwell RM003에는 렁 실행 순서를 직접 적은 문장이 없다. JMP 설명이 순차 실행을 전제한다: "When true, the JMP instruction skips to the referenced LBL instruction and the controller continues executing from there. … Jumping forward to a label saves program scan time by omitting a logic segment until it is needed. Jumping backward lets the controller repeat iterations of logic." (S6 p.620)
 
 **가정 C1.** Logix 래더 루틴도 위에서 아래로 렁을 한 번씩 실행한다(위 JMP 설명이 전제하는 순서). 툴의 시나리오는 JMP·서브루틴·인터럽트 없이 렁만 나열한다.
 
@@ -50,7 +50,7 @@
 
 ## 6. 구현하지 않는 것
 - 인터럽트·이벤트 태스크가 스캔 중간에 비트를 바꾸는 경우, 즉시 I/O(`:P`), Logix 비동기 I/O — 출처 범위 밖 [미정].
-- MCR 영역, JMP로 건너뛴 코일(건너뛰면 쓰지 않음) — 다음 후보.
+- MCR 영역, JMP로 건너뛴 코일 — `plc-jmp-mcr-semantics.md`(PLC JMP vs MCR 툴).
 
 ## 7. 골든 벡터
 `packages/engine/vectors/plcscan.json` — 위 규칙으로 스캔을 손으로 따라가 계산한 값.

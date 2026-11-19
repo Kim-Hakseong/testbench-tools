@@ -33,3 +33,4 @@ export * from "./frame";
 export * from "./plctimer";
 export * from "./plcedge";
 export * from "./plcscan";
+export * from "./plcjmp";

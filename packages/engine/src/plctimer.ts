@@ -310,6 +310,16 @@ const STEPPERS: Record<TimerModel, (pt: number) => Stepper> = {
   },
 };
 
+/**
+ * One Logix timer instruction, executed only when the caller says so — for
+ * logic that is sometimes skipped (plcjmp.ts). Call it with the scan time and
+ * the instruction's rung-condition-in each time the instruction runs.
+ */
+export function logixTimer(model: "ab-ton" | "ab-tof" | "ab-rto", preMs: number): (t: number, rung: boolean) => TimerSample {
+  const step = STEPPERS[model](preMs);
+  return (t, rung) => step(t, rung, false);
+}
+
 /** Parse "100, 400 900" into sorted toggle times. */
 export function parseToggles(text: string): { ok: true; value: number[] } | { ok: false; error: string } {
   const parts = text.split(/[\s,;]+/).filter(Boolean);

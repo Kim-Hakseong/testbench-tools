@@ -49,7 +49,8 @@ export function PlcScanTool() {
     const p = new URLSearchParams(window.location.hash.slice(1));
     const sc = p.get("sc") as ScanScenario | null;
     if (!sc || !(sc in SCENARIOS)) return;
-    const f = { sc, scan: p.get("scan") ?? "", dur: p.get("dur") ?? "", a: p.get("a") ?? "", b: p.get("b") ?? "" };
+    const st = SCENARIOS[sc].start; // a link may carry only some settings
+    const f = { sc, scan: p.get("scan") ?? st.scan, dur: p.get("dur") ?? st.dur, a: p.get("a") ?? st.a, b: p.get("b") ?? st.b };
     setForm(f);
     setD(f);
   }, []);
