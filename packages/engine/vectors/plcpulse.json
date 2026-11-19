@@ -1,0 +1,178 @@
+{
+  "_comment": "Golden vectors for packages/engine/src/plcpulse.ts, worked by hand from spec/plc-pulse-semantics.md one scan at a time (not taken from the engine). 'on' lists scan times (ms) at which a signal is TRUE; 'lost' lists rising input samples that never produced a pulse.",
+  "cases": [
+    {
+      "name": "one press: contact and coil pulses agree; the rung above sees the coil one scan late",
+      "input": {
+        "scenario": "pulse-basics",
+        "scanMs": 10,
+        "durationMs": 100,
+        "xToggles": [
+          20,
+          50
+        ]
+      },
+      "on": {
+        "M1": [
+          20
+        ],
+        "M0": [
+          20
+        ],
+        "M3": [
+          50
+        ],
+        "M2": [
+          50
+        ],
+        "Y1": [
+          30
+        ],
+        "Y2": [
+          20
+        ]
+      }
+    },
+    {
+      "name": "first scan with X already ON, memory OFF: rising pulses fire on scan 0",
+      "input": {
+        "scenario": "pulse-basics",
+        "scanMs": 10,
+        "durationMs": 30,
+        "xToggles": [
+          0
+        ],
+        "memoryInit": false
+      },
+      "on": {
+        "M1": [
+          0
+        ],
+        "M0": [
+          0
+        ],
+        "M3": [],
+        "M2": [],
+        "Y1": [
+          10
+        ],
+        "Y2": [
+          0
+        ]
+      }
+    },
+    {
+      "name": "first scan with X already ON, memory ON: nothing fires",
+      "input": {
+        "scenario": "pulse-basics",
+        "scanMs": 10,
+        "durationMs": 30,
+        "xToggles": [
+          0
+        ],
+        "memoryInit": true
+      },
+      "on": {
+        "M1": [],
+        "M0": [],
+        "M3": [],
+        "M2": [],
+        "Y1": [],
+        "Y2": []
+      }
+    },
+    {
+      "name": "first scan with X OFF, memory ON: falling pulses fire on scan 0",
+      "input": {
+        "scenario": "pulse-basics",
+        "scanMs": 10,
+        "durationMs": 30,
+        "xToggles": [],
+        "memoryInit": true
+      },
+      "on": {
+        "M1": [],
+        "M0": [],
+        "M3": [
+          0
+        ],
+        "M2": [
+          0
+        ],
+        "Y1": [],
+        "Y2": []
+      }
+    },
+    {
+      "name": "jump right after the pulse: M0 stays ON until the PLS runs again, and the re-press during the jump is lost",
+      "input": {
+        "scenario": "jumped-pulse",
+        "scanMs": 10,
+        "durationMs": 150,
+        "xToggles": [
+          20,
+          60,
+          80
+        ],
+        "jToggles": [
+          30,
+          100
+        ]
+      },
+      "on": {
+        "M0": [
+          20,
+          30,
+          40,
+          50,
+          60,
+          70,
+          80,
+          90
+        ],
+        "skipped": [
+          30,
+          40,
+          50,
+          60,
+          70,
+          80,
+          90
+        ]
+      },
+      "lost": [
+        80
+      ]
+    },
+    {
+      "name": "jump released after X fell: M0 stuck through the jump, no edge lost",
+      "input": {
+        "scenario": "jumped-pulse",
+        "scanMs": 10,
+        "durationMs": 80,
+        "xToggles": [
+          20,
+          40
+        ],
+        "jToggles": [
+          30,
+          60
+        ]
+      },
+      "on": {
+        "M0": [
+          20,
+          30,
+          40,
+          50
+        ],
+        "skipped": [
+          30,
+          40,
+          50
+        ]
+      },
+      "lost": []
+    }
+  ]
+}
