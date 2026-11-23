@@ -71,7 +71,7 @@ export const TOOLS: ToolMeta[] = [
   { slug: "mc-protocol-decoder", name: "Mitsubishi MC Protocol Decoder", description: "Decode MC Protocol 3E frames — ASCII or binary, command, device, end code.", category: "protocol-decoders", p0: false, locale: "en", status: "live", tags: ["mitsubishi", "mc", "melsec", "slmp", "plc", "decoder", "3e"] },
 
   // 3) Data Converters
-  { slug: "ieee-754-float", name: "IEEE 754 Float Converter", description: "Float ↔ hex/registers with Modbus word orders ABCD/CDAB/BADC/DCBA.", category: "data-converters", p0: true, locale: "en", status: "live", tags: ["float", "ieee754", "modbus", "register", "word order"] },
+  { slug: "ieee-754-float", name: "IEEE 754 Float Converter", description: "Float ↔ hex/registers in all four Modbus word orders, with the float32 bit layout and the Inf/NaN/subnormal patterns.", category: "data-converters", p0: true, locale: "en", status: "live", tags: ["float", "ieee754", "modbus", "register", "word order", "bit layout", "exponent", "nan", "hex"] },
   { slug: "hex-to-ascii", name: "Hex to ASCII Converter", description: "Convert hex byte strings to readable ASCII text.", category: "data-converters", p0: true, locale: "en", status: "live", tags: ["hex", "ascii", "text", "bytes"] },
   { slug: "ascii-to-hex", name: "ASCII to Hex Converter", description: "Convert ASCII text to hex byte strings.", category: "data-converters", p0: true, locale: "en", status: "live", tags: ["ascii", "hex", "text", "bytes"], hubHidden: true },
   { slug: "number-base-converter", name: "Number Base Converter", description: "Convert between binary, octal, decimal and hexadecimal.", category: "data-converters", p0: true, locale: "en", status: "live", tags: ["binary", "hex", "decimal", "base"] },
